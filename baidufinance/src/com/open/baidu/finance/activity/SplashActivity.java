@@ -43,10 +43,10 @@ public class SplashActivity extends CommonCommonFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		requestWindowFeature(Window.FEATURE_NO_TITLE);    
-        //全屏    
-       getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,      
-                      WindowManager.LayoutParams. FLAG_FULLSCREEN);   
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);    
+//        //全屏    
+//       getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,      
+//                      WindowManager.LayoutParams. FLAG_FULLSCREEN);   
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_common_common_f);
 		init();

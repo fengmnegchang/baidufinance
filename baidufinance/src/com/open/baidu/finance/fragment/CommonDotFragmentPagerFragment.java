@@ -137,8 +137,10 @@ public class CommonDotFragmentPagerFragment extends BaseV4Fragment<CommonJson, C
 			case 1:
 				listFragment.add(StartFragment1.newInstance(null,false,R.layout.fragment_start2));
 				break;
+			case 2:
+				listFragment.add(StartLoginFragment.newInstance(null,false));
+				break;
 			default:
-				listFragment.add(StartFragment1.newInstance(null,true,R.layout.fragment_start1));
 				break;
 			}
 			

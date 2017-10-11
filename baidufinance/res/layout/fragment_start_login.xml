@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.9"
+    android:background="#ffffff"
+    android:fitsSystemWindows="true" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/splash4_title" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_use"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="30dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/blue_btn_shape"
+        android:layout_marginRight="30dp"
+        android:text="登陆/注册" />
+
+    <Button
+        android:id="@+id/btn_use"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:textColor="#ff1a79ff"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/blue_bounds_shape"
+        android:layout_marginRight="30dp"
+        android:text="立即体验" />
+
+</RelativeLayout>
