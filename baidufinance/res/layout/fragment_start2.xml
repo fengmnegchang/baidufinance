@@ -1,0 +1,168 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.9"
+    android:background="#ffffff"
+    android:fitsSystemWindows="true" >
+
+    <ImageView
+        android:id="@+id/splash3_title1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/splash3_title1" />
+
+    <ImageView
+        android:id="@+id/splash3_title2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/splash3_title1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/splash3_title2" />
+
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_star1"
+        android:layout_toLeftOf="@+id/splash_purse2"
+        android:layout_alignTop="@+id/splash_purse2"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/splash_star1"
+        />
+    
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_star2"
+        android:layout_toLeftOf="@+id/splash_purse2"
+        android:layout_alignTop="@+id/splash_purse2"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="25dp"
+        android:id="@+id/splash_star2"
+        />
+    
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_star1"
+        android:layout_toRightOf="@+id/splash_purse2"
+        android:layout_alignTop="@+id/splash_purse2"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/splash_star3"
+        />
+    
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_money"
+        android:layout_toLeftOf="@+id/splash_purse2"
+        android:layout_above="@+id/splash_purse2"
+        android:layout_marginRight="20dp"
+        android:id="@+id/splash_money"
+        />
+    
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_money"
+        android:layout_above="@+id/splash_purse2"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignRight="@+id/splash_purse2"
+        android:id="@+id/splash_money2"
+        />
+    
+    <ImageView
+        android:id="@+id/splash_purse2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/splash_purse2" />
+
+    <RelativeLayout
+        android:id="@+id/layout_purse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/splash_purse2"
+        android:layout_alignLeft="@+id/splash_purse2"
+        android:layout_alignRight="@+id/splash_purse2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-40dp"
+        >
+        
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/splash_money1"
+            android:id="@+id/splash_money1"
+            />
+        
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/splash_money2"
+            android:id="@+id/splash_money20"
+            android:layout_toRightOf="@+id/splash_money3"
+            android:layout_marginLeft="-40dp"
+            />
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/splash_money3"
+            android:id="@+id/splash_money3"
+            android:layout_toRightOf="@+id/splash_money1"
+            android:layout_marginLeft="-70dp"
+            />
+        
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/splash_money4"
+            android:id="@+id/splash_money4"
+            android:layout_marginTop="20dp"
+            />
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/splash_money5"
+            android:id="@+id/splash_money5"
+            android:layout_toRightOf="@+id/splash_money6"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginTop="30dp"
+            />
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/splash_money6"
+            android:id="@+id/splash_money6"
+            android:layout_toRightOf="@+id/splash_money4"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginTop="20dp"
+            />
+        
+    </RelativeLayout>
+<ImageView
+        android:id="@+id/splash_purse1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/splash_purse1" />
+    <ImageView
+        android:id="@+id/splash3_title3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/splash3_title3" />
+
+</RelativeLayout>

@@ -29,6 +29,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_dot_viewpager_desp" >
         </activity>
+        <!-- dot viewpager fragment  -->
+        <activity
+            android:name=".activity.CommonDotPagerFragmentFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_dot_viewpager_fragment_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

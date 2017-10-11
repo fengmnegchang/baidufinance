@@ -4,5 +4,5 @@
     <string name="app_name">百度股市通+</string>
     <string name="app_all_desp">百度股市通+ all</string>
     <string name="app_dot_viewpager_desp">dot viewpager</string>
-
+    <string name="app_dot_viewpager_fragment_desp">dot viewpager fragment</string>
 </resources>
