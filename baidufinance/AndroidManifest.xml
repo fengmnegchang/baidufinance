@@ -3,7 +3,20 @@
     package="com.open.baidu.finance"
     android:versionCode="1"
     android:versionName="1.0" >
-
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_TOP_ACTIVITY_INFO" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="22" />
@@ -43,6 +56,12 @@
             android:description="@string/app_main_tab_desp"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <!-- MyStock  -->
+        <activity
+            android:name=".activity.mystock.MyStockPullToRefreshPinnedSectionListViewActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_mystock_desp" >
         </activity>
         <!-- 所有类列表 -->
         <activity

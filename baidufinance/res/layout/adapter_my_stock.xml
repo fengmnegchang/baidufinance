@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/txt_exchange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#f69"
+        android:padding="1dp"
+        android:text="HK"
+        android:textColor="#ffffff"
+        android:textSize="9dp" />
+
+    <TextView
+        android:id="@+id/txt_stock_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_toRightOf="@+id/txt_exchange"
+        android:text="上证指数"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_stock_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_stock_name"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/txt_exchange"
+        android:text="000001"
+        android:textSize="9dp" />
+
+    <TextView
+        android:id="@+id/txt_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="30dp"
+        android:layout_toLeftOf="@+id/txt_netChangeRatio"
+        android:padding="3dp"
+        android:text="3382.58"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_netChangeRatio"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/selector_green_stock_shape"
+        android:paddingBottom="4dp"
+        android:gravity="center"
+        android:paddingLeft="8dp"
+        android:textColor="#ffffff"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:text="-0.17%"
+        android:textSize="14dp" />
+
+</RelativeLayout>
