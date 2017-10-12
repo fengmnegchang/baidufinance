@@ -4,27 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffff"
-    android:paddingLeft="3dp"
-    android:paddingRight="3dp" >
-
-    <View
-        android:id="@+id/div_top"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:background="#f6f6f6" />
+    >
 
     <TextView
         android:id="@+id/txt_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/div_top"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:padding="3dp"
         android:textColor="@color/blue_color"
         android:text="全部"
+        android:layout_marginTop="5dp"
         android:drawableRight="@drawable/portfolio_market"
         android:textSize="16dp" />
 
@@ -32,7 +23,6 @@
         android:id="@+id/txt_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/div_top"
         android:layout_centerVertical="true"
         android:layout_marginLeft="3dp"
         android:textColor="@color/blue_color"
@@ -41,6 +31,7 @@
         android:padding="3dp"
         android:drawableRight="@drawable/portfolio_market"
         android:text="最新价"
+        android:layout_marginTop="5dp"
         android:textSize="16dp" />
 
     <TextView
@@ -48,7 +39,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/div_top"
         android:layout_centerVertical="true"
         android:textColor="@color/blue_color"
         android:layout_marginBottom="5dp"
@@ -57,6 +47,7 @@
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
         android:paddingTop="2dp"
         android:text="涨跌幅"
         android:drawableRight="@drawable/portfolio_market"

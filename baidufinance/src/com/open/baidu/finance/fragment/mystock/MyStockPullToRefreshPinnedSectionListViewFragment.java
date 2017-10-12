@@ -12,6 +12,7 @@
 package com.open.baidu.finance.fragment.mystock;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,8 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.mystock.MyStockAdapter;
 import com.open.baidu.finance.bean.mystock.StockBean;
 import com.open.baidu.finance.json.mystock.StockJson;
+import com.open.baidu.finance.utils.ComparatorCloseType;
+import com.open.baidu.finance.utils.ComparatorNetRatioType;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -55,6 +58,7 @@ public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fra
 	public PullToRefreshPinnedSectionListView mPullToRefreshPinnedSectionListView;
 	public MyStockAdapter mMyStockAdapter;
 	public List<StockBean> list = new ArrayList<StockBean>();
+	public List<StockBean> temptlist = new ArrayList<StockBean>();
 
 	public static MyStockPullToRefreshPinnedSectionListViewFragment newInstance(String url, boolean isVisibleToUser) {
 		MyStockPullToRefreshPinnedSectionListViewFragment fragment = new MyStockPullToRefreshPinnedSectionListViewFragment();
@@ -84,7 +88,7 @@ public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fra
 		StockBean bean = new StockBean();
 		bean.setViewType(1);
 		list.add(bean);
-		mMyStockAdapter = new MyStockAdapter(getActivity(), list);
+		mMyStockAdapter = new MyStockAdapter(getActivity(),weakReferenceHandler, list);
 		mPullToRefreshPinnedSectionListView.setAdapter(mMyStockAdapter);
 		mPullToRefreshPinnedSectionListView.setMode(Mode.BOTH);
 	}
@@ -99,6 +103,17 @@ public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fra
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
 			volleyJson(url);
+			break;
+		case 1:
+			//最新价
+			closeType(msg.arg1);
+			break;
+		case 2:
+			//涨跌幅
+			netRatioType(msg.arg1);
+			break;
+		case 0:
+			allType(msg.arg1);
 			break;
 		}
 	}
@@ -148,14 +163,180 @@ public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fra
 		if(result!=null){
 			try {
 				list.clear();
+				temptlist.clear();
 				StockBean bean = new StockBean();
 				bean.setViewType(1);
 				list.add(bean);
 				list.addAll(result.getData().get(0).getData().getGroupList().get(0).getStock());
+				temptlist.addAll(result.getData().get(0).getData().getGroupList().get(0).getStock());
 				mMyStockAdapter.notifyDataSetChanged();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	/***
+	 * 最新价
+	 */
+	public void closeType(int type){
+		switch (type) {
+		case 0:
+			try {
+				StockBean bean = list.get(0);
+				bean.setClosetype(type);
+				list.clear();
+				
+				list.add(bean);
+				list.addAll(temptlist);
+				
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case -1:
+			//降序
+		case 1:
+			//升序
+			try {
+				StockBean bean = list.get(0);
+				bean.setClosetype(type);
+				
+				list.clear();
+				list.addAll(temptlist);
+				ComparatorCloseType comparator = new ComparatorCloseType(type);
+				Collections.sort(list, comparator);
+				
+				list.add(0,bean);
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	/***
+	 * 涨跌幅
+	 */
+	public void netRatioType(int type){
+		switch (type) {
+		case 0:
+			try {
+				StockBean bean = list.get(0);
+				bean.setNetRatioType(type);
+				list.clear();
+				
+				list.add(bean);
+				list.addAll(temptlist);
+				
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case -1:
+			//降序
+		case 1:
+			//升序
+			try {
+				StockBean bean = list.get(0);
+				bean.setNetRatioType(type);
+				
+				list.clear();
+				list.addAll(temptlist);
+				ComparatorNetRatioType comparator = new ComparatorNetRatioType(type);
+				Collections.sort(list, comparator);
+				
+				list.add(0,bean);
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	public void allType(int type){
+		switch (type) {
+		case 0:
+			try {
+				StockBean bean = list.get(0);
+				bean.setAlltype(type);
+				list.clear();
+				
+				list.add(bean);
+				list.addAll(temptlist);
+				
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case 1:
+			try {
+				StockBean bean = list.get(0);
+				bean.setAlltype(type);
+				
+				list.clear();
+				//去除非沪深股
+				for(StockBean tbean :temptlist){
+					if(tbean.getExchange().equalsIgnoreCase("sz") ||
+							tbean.getExchange().equalsIgnoreCase("sh")){
+						list.add(tbean);
+					}
+				}
+				list.add(0,bean);
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			//港股
+			try {
+				StockBean bean = list.get(0);
+				bean.setAlltype(type);
+				
+				list.clear();
+				for(StockBean tbean :temptlist){
+					if(tbean.getExchange().equalsIgnoreCase("hk")){
+						list.add(tbean);
+					}
+				}
+				list.add(0,bean);
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			//美股
+			try {
+				StockBean bean = list.get(0);
+				bean.setAlltype(type);
+				
+				list.clear();
+				for(StockBean tbean :temptlist){
+					if(tbean.getExchange().equalsIgnoreCase("us")){
+						list.add(tbean);
+					}
+				}
+				list.add(0,bean);
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		default:
+			break;
 		}
 	}
 }

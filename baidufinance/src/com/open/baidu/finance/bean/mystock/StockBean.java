@@ -30,14 +30,20 @@ public class StockBean extends CommonBean {
 	private String exchange;// sh,
 	private int asset;// 4,
 	private int stockStatus;// 2,
-	private double close;// 3378.8334960938,
+	private Double close;// 3378.8334960938,
 	private double capitalization;// null,
 	private double netChange;// -9.4501953125,
-	private double netChangeRatio;// -0.27890804409981,
+	private Double netChangeRatio;// -0.27890804409981,
 	private int delayFlag;// 1,
 	private int smartStockPick;// 0,
 	private int isAlert;// 1
 	private int viewType;
+	/**0:全部；1：沪深；2：港股;3:美股**/
+	private int alltype;
+	/**0:最新价；-1：大到小；1：小到大;**/
+	private int closetype;
+	/**0:涨跌幅；1：涨幅榜；-1：跌幅榜;**/
+	private int netRatioType;
 
 	public String getStockCode() {
 		return stockCode;
@@ -79,11 +85,11 @@ public class StockBean extends CommonBean {
 		this.stockStatus = stockStatus;
 	}
 
-	public double getClose() {
+	public Double getClose() {
 		return close;
 	}
 
-	public void setClose(double close) {
+	public void setClose(Double close) {
 		this.close = close;
 	}
 
@@ -103,11 +109,11 @@ public class StockBean extends CommonBean {
 		this.netChange = netChange;
 	}
 
-	public double getNetChangeRatio() {
+	public Double getNetChangeRatio() {
 		return netChangeRatio;
 	}
 
-	public void setNetChangeRatio(double netChangeRatio) {
+	public void setNetChangeRatio(Double netChangeRatio) {
 		this.netChangeRatio = netChangeRatio;
 	}
 
@@ -141,6 +147,31 @@ public class StockBean extends CommonBean {
 
 	public void setViewType(int viewType) {
 		this.viewType = viewType;
+	}
+
+	/**0:全部；1：沪深；2：港股;3:美股**/
+	public int getAlltype() {
+		return alltype;
+	}
+
+	public void setAlltype(int alltype) {
+		this.alltype = alltype;
+	}
+	/**0:最新价；1：大到小；2：小到大;**/
+	public int getClosetype() {
+		return closetype;
+	}
+
+	public void setClosetype(int closetype) {
+		this.closetype = closetype;
+	}
+	/**0:涨跌幅；1：涨幅榜；2：跌幅榜;**/
+	public int getNetRatioType() {
+		return netRatioType;
+	}
+
+	public void setNetRatioType(int netRatioType) {
+		this.netRatioType = netRatioType;
 	}
 
 }

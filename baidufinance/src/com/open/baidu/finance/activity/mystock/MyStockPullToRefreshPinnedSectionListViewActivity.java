@@ -45,7 +45,8 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 		} else {
 			url = UrlUtils.GATHERMYSTOCK;
 		}
-		setCenterTextValue(getResources().getString(R.string.app_name));
+		setCenterTextValue(getResources().getString(R.string.app_mystock_desp));
+		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
 		addfragment();
 	}
 	/*
