@@ -35,6 +35,15 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_dot_viewpager_fragment_desp" >
         </activity>
+         <!-- 动态主tab页面 -->
+        <activity
+            android:name=".activity.DynamicMainTabActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:description="@string/app_main_tab_desp"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

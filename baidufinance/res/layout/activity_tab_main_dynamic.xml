@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff1a79ff"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true" >
+
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp" >
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff" >
+        </FrameLayout>
+    </TabHost>
+
+    <!--
+        <HorizontalScrollView 
+       android:layout_alignParentBottom="true"
+       android:scrollbars="horizontal"
+       android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+       >
+    -->
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ff92a0ad"
+            
+            />
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal" >
+        </RadioGroup>
+    </RelativeLayout>
+    <!-- </HorizontalScrollView> -->
+
+</RelativeLayout>

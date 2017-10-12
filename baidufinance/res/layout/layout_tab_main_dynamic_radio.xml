@@ -1,0 +1,7 @@
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/radio_item"
+    style="@style/tab_child"
+    android:checked="false"
+    android:drawableTop="@drawable/selector_tab_mystock"
+    android:text="自选股" />
