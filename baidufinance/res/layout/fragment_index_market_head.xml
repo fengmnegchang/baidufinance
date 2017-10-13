@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp" >
+    android:padding="6dp" >
 
     <TextView
         android:id="@+id/txt_index_name"
@@ -12,33 +12,39 @@
         android:drawableRight="@drawable/portfolio_market"
         android:gravity="center"
         android:text="上证指数  "
-        android:textSize="16dp" />
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textSize="11dp" />
 
     <TextView
         android:id="@+id/txt_index_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_index_name"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         android:gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:text="3382.58"
         android:textColor="@color/green_color"
-        android:textSize="18dp" />
+        android:textSize="15dp" />
 
     <TextView
         android:id="@+id/txt_index_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_index_value"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         android:gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:text="-5.7  -0.17%"
         android:textColor="@color/green_color"
-        android:textSize="14dp" />
+        android:textSize="12dp" />
 
     <View
         android:id="@+id/view_div"
-        android:layout_width="1dp"
+        android:layout_width="1px"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/txt_index_name"
         android:layout_alignBottom="@+id/txt_index_rate"
@@ -49,25 +55,25 @@
     
     <TextView
         android:id="@+id/txt_total"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="盈亏\n统计"
         android:gravity="center"
         android:padding="10dp"
         android:layout_toRightOf="@+id/view_div"
-        android:textSize="16dp"
+        android:textSize="13dp"
         android:background="@drawable/selector_round_solid_gray_shape"
         />
     
     <TextView
         android:id="@+id/txt_day_report"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="自选\n日报"
         android:gravity="center"
         android:padding="10dp"
         android:layout_toRightOf="@+id/txt_total"
-        android:textSize="16dp"
+        android:textSize="13dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/selector_round_solid_gray_shape"
@@ -75,15 +81,22 @@
     
     <TextView
         android:id="@+id/txt_invest"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="投资\n日历"
         android:gravity="center"
         android:padding="10dp"
         android:layout_toRightOf="@+id/txt_day_report"
-        android:textSize="16dp"
+        android:textSize="13dp"
         android:layout_marginRight="5dp"
         android:background="@drawable/selector_round_solid_gray_shape"
         />
-
+	<View
+        android:id="@+id/view_div2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/div_color" 
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/txt_index_rate"
+        />
 </RelativeLayout>

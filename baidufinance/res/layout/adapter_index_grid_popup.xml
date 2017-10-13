@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center|top"
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_gray_grid_divider"
+    android:padding="6dp" >
+
+    <TextView
+        android:id="@+id/txt_index_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="上证指数  "
+        android:textSize="11dp" />
+
+    <TextView
+        android:id="@+id/txt_index_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_index_name"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="3382.58"
+        android:textColor="@color/green_color"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/txt_index_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_index_value"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="-5.7  -0.17%"
+        android:textColor="@color/green_color"
+        android:textSize="12dp" />
+
+</RelativeLayout>

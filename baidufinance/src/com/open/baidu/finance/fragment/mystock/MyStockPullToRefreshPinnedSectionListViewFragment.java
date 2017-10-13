@@ -183,6 +183,7 @@ implements OnRefreshListener<ListView>{
 		super.onCallback(result);
 		if(result!=null){
 			try {
+				
 				list.clear();
 				temptlist.clear();
 				StockBean bean = new StockBean();
@@ -191,6 +192,11 @@ implements OnRefreshListener<ListView>{
 				list.addAll(result.getData().get(0).getData().getGroupList().get(0).getStock());
 				temptlist.addAll(result.getData().get(0).getData().getGroupList().get(0).getStock());
 				mMyStockAdapter.notifyDataSetChanged();
+				
+				IndexMarkHeadFragment fragment = (IndexMarkHeadFragment) getChildFragmentManager().findFragmentById(R.id.id_mystock_headview);
+				if(fragment!=null){
+					fragment.setIndexlist(temptlist);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
