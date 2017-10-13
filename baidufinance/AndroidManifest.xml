@@ -63,6 +63,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_mystock_desp" >
         </activity>
+        <!-- MyStock viewpager    -->
+        <activity
+            android:name=".activity.mystock.MyStockViewPagerFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_mystock_viewpager_fragment_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

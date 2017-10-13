@@ -7,4 +7,5 @@
     <string name="app_dot_viewpager_fragment_desp">dot viewpager fragment</string>
     <string name="app_main_tab_desp"> 动态主tab页面</string>
     <string name="app_mystock_desp"> 自选股</string>
+    <string name="app_mystock_viewpager_fragment_desp"> mystock viewpager fragment</string>
 </resources>
