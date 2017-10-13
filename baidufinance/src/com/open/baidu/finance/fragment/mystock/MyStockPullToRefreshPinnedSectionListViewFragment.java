@@ -64,6 +64,7 @@ implements OnRefreshListener<ListView>{
 	public MyStockAdapter mMyStockAdapter;
 	public List<StockBean> list = new ArrayList<StockBean>();
 	public List<StockBean> temptlist = new ArrayList<StockBean>();
+	public View headview;
 
 	public static MyStockPullToRefreshPinnedSectionListViewFragment newInstance(String url, boolean isVisibleToUser) {
 		MyStockPullToRefreshPinnedSectionListViewFragment fragment = new MyStockPullToRefreshPinnedSectionListViewFragment();
@@ -78,6 +79,7 @@ implements OnRefreshListener<ListView>{
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_mystock_pulltorefresh_pinnedsection_listview, container, false);
 		mPullToRefreshPinnedSectionListView = (PullToRefreshPinnedSectionListView) view.findViewById(R.id.pull_refresh_list);
+		headview = LayoutInflater.from(getActivity()).inflate(R.layout.layout_mystock_headview, null);
 		return view;
 	}
 
@@ -90,6 +92,10 @@ implements OnRefreshListener<ListView>{
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
+		mPullToRefreshPinnedSectionListView.getRefreshableView().addHeaderView(headview);
+		IndexMarkHeadFragment fragment = IndexMarkHeadFragment.newInstance(url, true);
+		getChildFragmentManager().beginTransaction().replace(R.id.id_mystock_headview, fragment).commit();
+		
 		StockBean bean = new StockBean();
 		bean.setViewType(1);
 		list.add(bean);

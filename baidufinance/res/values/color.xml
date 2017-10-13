@@ -5,4 +5,9 @@
   <color name="white_color">#ffffff</color>
   <color name="blue_color">#1a83ff</color>
   <color name="status_bar_color">#274FBF</color>
+  <color name="red_color">#f24957</color>
+  <color name="green_color">#1dbf60</color>
+  <color name="gray_color">#808080</color>
+  <color name="round_solid_color">#EBF3F2</color>
+  <color name="div_color">#D1D4D3</color>
 </resources>
