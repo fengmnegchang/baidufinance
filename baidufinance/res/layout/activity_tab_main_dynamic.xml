@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff1a79ff"
+    android:background="@color/status_bar_color"
     android:clipToPadding="true"
     android:fitsSystemWindows="true" >
 

@@ -22,9 +22,11 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,7 +35,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedSectionListView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
@@ -54,7 +58,8 @@ import com.open.baidu.finance.utils.ComparatorNetRatioType;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fragment<StockJson, MyStockPullToRefreshPinnedSectionListViewFragment> {
+public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fragment<StockJson, MyStockPullToRefreshPinnedSectionListViewFragment> 
+implements OnRefreshListener<ListView>{
 	public PullToRefreshPinnedSectionListView mPullToRefreshPinnedSectionListView;
 	public MyStockAdapter mMyStockAdapter;
 	public List<StockBean> list = new ArrayList<StockBean>();
@@ -90,7 +95,17 @@ public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fra
 		list.add(bean);
 		mMyStockAdapter = new MyStockAdapter(getActivity(),weakReferenceHandler, list);
 		mPullToRefreshPinnedSectionListView.setAdapter(mMyStockAdapter);
-		mPullToRefreshPinnedSectionListView.setMode(Mode.BOTH);
+		mPullToRefreshPinnedSectionListView.setMode(Mode.PULL_FROM_START);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.open.android.fragment.BaseV4Fragment#bindEvent()
+	 */
+	@Override
+	public void bindEvent() {
+		// TODO Auto-generated method stub
+		super.bindEvent();
+		mPullToRefreshPinnedSectionListView.setOnRefreshListener(this);
 	}
 	
 	/* (non-Javadoc)
@@ -174,6 +189,7 @@ public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fra
 				e.printStackTrace();
 			}
 		}
+		mPullToRefreshPinnedSectionListView.onRefreshComplete();
 	}
 	
 	/***
@@ -337,6 +353,25 @@ public class MyStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fra
 			break;
 		default:
 			break;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener#onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase)
+	 */
+	@Override
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		// TODO Auto-generated method stub
+		String label = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+		// Update the LastUpdatedLabel
+		refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+		// Do work to refresh the list here.
+		if (mPullToRefreshPinnedSectionListView.getCurrentMode() == Mode.PULL_FROM_START) {
+			pageNo = 1;
+			weakReferenceHandler.sendEmptyMessage(MESSAGE_HANDLER);
+		} else if (mPullToRefreshPinnedSectionListView.getCurrentMode() == Mode.PULL_FROM_END) {
+			pageNo++;
+			weakReferenceHandler.sendEmptyMessage(MESSAGE_HANDLER);
 		}
 	}
 }

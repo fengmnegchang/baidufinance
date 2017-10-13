@@ -14,7 +14,7 @@
         android:layout_marginLeft="15dp"
         android:padding="3dp"
         android:textColor="@color/blue_color"
-        android:text="全部"
+        android:text="全部 "
         android:layout_marginTop="5dp"
         android:drawableRight="@drawable/portfolio_market"
         android:textSize="16dp" />
@@ -30,7 +30,7 @@
         android:layout_toLeftOf="@+id/txt_netChange"
         android:padding="3dp"
         android:drawableRight="@drawable/portfolio_market"
-        android:text="最新价"
+        android:text="最新价 "
         android:layout_marginTop="5dp"
         android:textSize="16dp" />
 
@@ -49,7 +49,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
         android:paddingTop="2dp"
-        android:text="涨跌幅"
+        android:text="涨跌幅 "
         android:drawableRight="@drawable/portfolio_market"
         android:textSize="16dp" />
 

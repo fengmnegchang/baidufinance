@@ -45,8 +45,14 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 		} else {
 			url = UrlUtils.GATHERMYSTOCK;
 		}
-		setCenterTextValue(getResources().getString(R.string.app_mystock_desp));
+		setCenterTextValue(getResources().getString(R.string.app_mystock_desp)+"  ");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
+		setCenterCompoundDrawables(R.drawable.title_bar3_down);
+		setLeftTextValue("编辑");
+		setLeftTextVisivable(true);
+		
+		setRightImageResId(R.drawable.refresh_loading);
+		setRightImage2ResId(R.drawable.searchbox_logo_normal);
 		addfragment();
 	}
 	/*

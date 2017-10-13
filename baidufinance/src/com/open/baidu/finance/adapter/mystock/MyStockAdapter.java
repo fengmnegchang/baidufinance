@@ -60,18 +60,21 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.adapter_my_stock_itemtype, parent, false);
 				TextView txt_all = (TextView) convertView.findViewById(R.id.txt_all);
-				TextView txt_close = (TextView) convertView.findViewById(R.id.txt_close);
-				TextView txt_netChange = (TextView) convertView.findViewById(R.id.txt_netChange);
+				final TextView txt_close = (TextView) convertView.findViewById(R.id.txt_close);
+				final TextView txt_netChange = (TextView) convertView.findViewById(R.id.txt_netChange);
 				
 				txt_close.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						if(bean.getClosetype()==0){
 							bean.setClosetype(-1);
+							txt_close.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.sort_down), null);
 						}else if(bean.getClosetype()==-1){
 							bean.setClosetype(1);
+							txt_close.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.sort_up), null);
 						}else{
 							bean.setClosetype(0);
+							txt_close.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.portfolio_market), null);
 						}
 						Message msg = weakReferenceHandler.obtainMessage();
 						msg.what = 1;
@@ -85,10 +88,13 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 					public void onClick(View v) {
 						if(bean.getNetRatioType()==0){
 							bean.setNetRatioType(-1);
+							txt_netChange.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.sort_down), null);
 						}else if(bean.getNetRatioType()==-1){
 							bean.setNetRatioType(1);
+							txt_netChange.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.sort_up), null);
 						}else{
 							bean.setNetRatioType(0);
+							txt_netChange.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.portfolio_market), null);
 						}
 						Message msg = weakReferenceHandler.obtainMessage();
 						msg.what = 2;
