@@ -176,6 +176,7 @@ public class MyStockViewPagerFragment extends BaseV4Fragment<CommonJson, MyStock
 	public void onPageSelected(int arg0) {
 		// TODO Auto-generated method stub
 		((MyStockViewPagerFragmentActivity) getActivity()).setCenterTitle(titleList.get(arg0));
+		position = arg0;
 	}
 
 	/*

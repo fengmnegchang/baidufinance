@@ -11,11 +11,16 @@
  */
 package com.open.baidu.finance.activity.mystock;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.bean.mystock.GroupBean;
+import com.open.baidu.finance.bean.mystock.StockBean;
 import com.open.baidu.finance.fragment.mystock.MyStockPullToRefreshPinnedSectionListViewFragment;
 import com.open.baidu.finance.utils.UrlUtils;
 
@@ -54,6 +59,27 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 		setRightImageResId(R.drawable.refresh_loading);
 		setRightImage2ResId(R.drawable.searchbox_logo_normal);
 		addfragment();
+	}
+	
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		super.onClick(v);
+		switch (v.getId()) {
+		case R.id.txt_left:
+			//编辑
+			MyStockPullToRefreshPinnedSectionListViewFragment fragment = (MyStockPullToRefreshPinnedSectionListViewFragment) getSupportFragmentManager().findFragmentById(R.id.layout_content);
+			if(fragment!=null){
+				GroupBean bean = new GroupBean();
+				ArrayList<StockBean> list = (ArrayList<StockBean>) fragment.getList();
+				list.remove(0);
+				bean.setStock(list);
+				StockEditDragSortListViewFragmentActivity.startMyStockViewPagerFragmentActivity(this, url,bean);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 	/*
 	 * (non-Javadoc)

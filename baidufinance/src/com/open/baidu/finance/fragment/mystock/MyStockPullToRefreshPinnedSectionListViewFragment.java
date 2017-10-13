@@ -436,4 +436,14 @@ implements OnRefreshListener<ListView>{
 			weakReferenceHandler.sendEmptyMessage(MESSAGE_HANDLER);
 		}
 	}
+
+	/****
+	 * 获取股票信息
+	 * @return
+	 */
+	public List<StockBean> getList() {
+		return list;
+	}
+	
+	  
 }

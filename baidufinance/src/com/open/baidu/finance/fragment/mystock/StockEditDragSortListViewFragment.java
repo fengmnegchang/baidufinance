@@ -44,11 +44,12 @@ implements DragSortListView.DropListener,DragSortListView.RemoveListener{
 	public List<StockBean> list = new ArrayList<StockBean>();
 	public StockEditDragSortAdapter mStockEditDragSortAdapter;
 	
-	public static StockEditDragSortListViewFragment newInstance(String url, boolean isVisibleToUser) {
+	public static StockEditDragSortListViewFragment newInstance(String url,GroupBean groupBean, boolean isVisibleToUser) {
 		StockEditDragSortListViewFragment fragment = new StockEditDragSortListViewFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
+		fragment.list = groupBean.getStock();
 		return fragment;
 	}
 	
@@ -67,10 +68,6 @@ implements DragSortListView.DropListener,DragSortListView.RemoveListener{
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-		list.add(new StockBean());
-		list.add(new StockBean());
-		list.add(new StockBean());
-		list.add(new StockBean());
 		mStockEditDragSortAdapter = new StockEditDragSortAdapter(getActivity(), list);
 		mDragSortListView.setAdapter(mStockEditDragSortAdapter);
 	}
