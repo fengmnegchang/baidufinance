@@ -59,9 +59,15 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 		if(getItemViewType(position)==ITEM_VIEW_TYPE_HEADER){
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.adapter_my_stock_itemtype, parent, false);
+			}
 				TextView txt_all = (TextView) convertView.findViewById(R.id.txt_all);
 				final TextView txt_close = (TextView) convertView.findViewById(R.id.txt_close);
 				final TextView txt_netChange = (TextView) convertView.findViewById(R.id.txt_netChange);
+				if(bean.getNetValueType()==0){
+					txt_netChange.setText("涨跌幅 ");
+				}else{
+					txt_netChange.setText("涨跌额 ");
+				}
 				
 				txt_close.setOnClickListener(new OnClickListener() {
 					@Override
@@ -97,7 +103,13 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 							txt_netChange.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.portfolio_market), null);
 						}
 						Message msg = weakReferenceHandler.obtainMessage();
-						msg.what = 2;
+						if(bean.getNetValueType()==0){
+							//涨跌幅
+							msg.what = 2;
+						}else{
+							//涨跌额
+							msg.what = 4;
+						}
 						msg.arg1 = bean.getNetRatioType();
 						weakReferenceHandler.sendMessage(msg);
 					}
@@ -117,7 +129,7 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 						weakReferenceHandler.sendMessage(msg);
 					}
 				});
-			}
+			
 		}else{
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.adapter_my_stock, parent, false);
@@ -151,7 +163,27 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 			}else{
 				txt_netChangeRatio.setBackgroundResource(R.drawable.selector_gray_stock_shape);
 			}
-			txt_netChangeRatio.setText(String.format("%.2f", bean.getNetChangeRatio())+"%");
+			if(bean.getNetValueType()==0){
+				txt_netChangeRatio.setText(String.format("%.2f", bean.getNetChangeRatio())+"%");
+			}else{
+				txt_netChangeRatio.setText(String.format("%.2f", bean.getNetChange()));
+			}
+			
+			txt_netChangeRatio.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(bean.getNetValueType()==0){
+						for(int i=0;i<list.size();i++){
+							list.get(i).setNetValueType(1);
+						}
+					}else{
+						for(int i=0;i<list.size();i++){
+							list.get(i).setNetValueType(0);
+						}
+					}
+					notifyDataSetChanged();
+				}
+			});
 		}
 		return convertView;
 	}

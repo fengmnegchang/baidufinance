@@ -32,7 +32,7 @@ public class StockBean extends CommonBean {
 	private int stockStatus;// 2,
 	private Double close;// 3378.8334960938,
 	private double capitalization;// null,
-	private double netChange;// -9.4501953125,
+	private Double netChange;// -9.4501953125,
 	private Double netChangeRatio;// -0.27890804409981,
 	private int delayFlag;// 1,
 	private int smartStockPick;// 0,
@@ -44,6 +44,8 @@ public class StockBean extends CommonBean {
 	private int closetype;
 	/**0:涨跌幅；1：涨幅榜；-1：跌幅榜;**/
 	private int netRatioType;
+	/**0:涨跌幅；1：涨跌额*/
+	private int netValueType;
 
 	public String getStockCode() {
 		return stockCode;
@@ -101,11 +103,11 @@ public class StockBean extends CommonBean {
 		this.capitalization = capitalization;
 	}
 
-	public double getNetChange() {
+	public Double getNetChange() {
 		return netChange;
 	}
 
-	public void setNetChange(double netChange) {
+	public void setNetChange(Double netChange) {
 		this.netChange = netChange;
 	}
 
@@ -172,6 +174,14 @@ public class StockBean extends CommonBean {
 
 	public void setNetRatioType(int netRatioType) {
 		this.netRatioType = netRatioType;
+	}
+	/**0:涨跌幅；1：涨跌额*/
+	public int getNetValueType() {
+		return netValueType;
+	}
+
+	public void setNetValueType(int netValueType) {
+		this.netValueType = netValueType;
 	}
 
 }

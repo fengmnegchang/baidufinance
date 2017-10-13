@@ -46,6 +46,7 @@ import com.open.baidu.finance.bean.mystock.StockBean;
 import com.open.baidu.finance.json.mystock.StockJson;
 import com.open.baidu.finance.utils.ComparatorCloseType;
 import com.open.baidu.finance.utils.ComparatorNetRatioType;
+import com.open.baidu.finance.utils.ComparatorNetValueType;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -135,6 +136,10 @@ implements OnRefreshListener<ListView>{
 			break;
 		case 0:
 			allType(msg.arg1);
+			break;
+		case 4:
+			//涨跌额
+			netValueType(msg.arg1);
 			break;
 		}
 	}
@@ -278,6 +283,51 @@ implements OnRefreshListener<ListView>{
 				list.clear();
 				list.addAll(temptlist);
 				ComparatorNetRatioType comparator = new ComparatorNetRatioType(type);
+				Collections.sort(list, comparator);
+				
+				list.add(0,bean);
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	
+	/***
+	 * 涨跌额
+	 */
+	public void netValueType(int type){
+		switch (type) {
+		case 0:
+			try {
+				StockBean bean = list.get(0);
+				bean.setNetRatioType(type);
+				list.clear();
+				
+				list.add(bean);
+				list.addAll(temptlist);
+				
+				mMyStockAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case -1:
+			//降序
+		case 1:
+			//升序
+			try {
+				StockBean bean = list.get(0);
+				bean.setNetRatioType(type);
+				
+				list.clear();
+				list.addAll(temptlist);
+				ComparatorNetValueType comparator = new ComparatorNetValueType(type);
 				Collections.sort(list, comparator);
 				
 				list.add(0,bean);
