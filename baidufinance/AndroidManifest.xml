@@ -69,6 +69,18 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_mystock_viewpager_fragment_desp" >
         </activity>
+        <!--Stock EditDragSort    -->
+        <activity
+            android:name=".activity.mystock.StockEditDragSortListViewActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_stock_edit_dragsort_desp" >
+        </activity>
+        <!--Stock EditDragSort   fragment -->
+        <activity
+            android:name=".activity.mystock.StockEditDragSortListViewFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_stock_edit_dragsort_fragment_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

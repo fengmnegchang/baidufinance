@@ -8,4 +8,24 @@
     <string name="app_main_tab_desp"> 动态主tab页面</string>
     <string name="app_mystock_desp"> 自选股</string>
     <string name="app_mystock_viewpager_fragment_desp"> mystock viewpager fragment</string>
+    <string name="app_stock_edit_dragsort_desp"> Stock EditDragSort </string>
+    <string name="app_stock_edit_dragsort_fragment_desp"> Stock EditDragSort fragment</string>
+    <string-array name="jazz_artist_names">
+      <item>Brad Mehldau</item>
+      <item>Joshua Redman</item>
+      <item>Chick Corea</item>
+      <item>Kurt Rosenwinkel</item>
+      <item>Miles Davis</item>
+      <item>Wayne Shorter</item>
+      <item>Michael Brecker</item>
+      <item>Herbie Hancock</item>
+      <item>Joe Zawinul</item>
+      <item>Brian Blade</item>
+      <item>Jeff Ballard</item>
+      <item>Larry Grenadier</item>
+      <item>Keith Jarrett</item>
+      <item>McCoy Tyner</item>
+      <item>Stephon Harris</item>
+      <item>Mark Turner</item>
+    </string-array>
 </resources>
