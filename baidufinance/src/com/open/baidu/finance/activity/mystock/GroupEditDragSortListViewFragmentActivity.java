@@ -2,7 +2,7 @@
  *****************************************************************************************************************************************************************************
  * 
  * @author :fengguangjing
- * @createTime:2017-10-16下午2:57:20
+ * @createTime:2017-10-13下午3:51:02
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
@@ -18,21 +18,22 @@ import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.fragment.mystock.NewGroupNameFragment;
+import com.open.baidu.finance.bean.mystock.GroupBean;
+import com.open.baidu.finance.fragment.mystock.GroupEditDragSortListViewFragment;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  *****************************************************************************************************************************************************************************
- * 新建分组
+ * 
  * @author :fengguangjing
- * @createTime:2017-10-16下午2:57:20
+ * @createTime:2017-10-13下午3:51:02
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class NewGroupNameFragmentActivity extends CommonTitleBarActivity{
+public class GroupEditDragSortListViewFragmentActivity extends CommonTitleBarActivity{
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -46,11 +47,12 @@ public class NewGroupNameFragmentActivity extends CommonTitleBarActivity{
 		} else {
 			url = UrlUtils.GATHERMYSTOCK;
 		}
-		setCenterTextValue("新建分组");
+		setCenterTextValue("编辑分组  ");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
+		setLeftVisivableGone();
 		
-		setLeftImageResId(R.drawable.stockdetails_back_n);
-		setRightVisivableGone();
+		setRightTextVisivable(true);
+		setRightTextValue("完成");
 		addfragment();
 	}
 	
@@ -60,6 +62,18 @@ public class NewGroupNameFragmentActivity extends CommonTitleBarActivity{
 	 */
 	public void setCenterTitle(String title){
 		setCenterTextValue(title+"  ");
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.open.android.activity.common.CommonTitleBarActivity#onClick(android.view.View)
+	 */
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		super.onClick(v);
+		if(v.getId()==R.id.txt_right){
+			finish();
+		}
 	}
 
 	/*
@@ -71,24 +85,15 @@ public class NewGroupNameFragmentActivity extends CommonTitleBarActivity{
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = NewGroupNameFragment.newInstance(url,getIntent().getStringExtra("GROUPNAME"), true);
+		Fragment fragment = GroupEditDragSortListViewFragment.newInstance(url, true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
-	
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		super.onClick(v);
-		if(v.getId()==R.id.id_iv_left){
-			finish();
-		}
-	}
 
-	public static void startNewGroupNameFragmentActivity(Context context, String url,String groupName) {
+	public static void startGroupEditDragSortListViewFragmentActivity(Context context, String url,GroupBean bean) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
-		intent.putExtra("GROUPNAME", groupName);
-		intent.setClass(context, NewGroupNameFragmentActivity.class);
+		intent.putExtra("GROUPBEAN", bean);
+		intent.setClass(context, GroupEditDragSortListViewFragmentActivity.class);
 		context.startActivity(intent);
 	}
 }

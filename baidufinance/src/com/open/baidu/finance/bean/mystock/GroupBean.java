@@ -30,6 +30,9 @@ public class GroupBean implements Serializable{
 	private String group_name;//自选股",
 	private int isRed;//1,
 	private List<StockBean> stock;
+	private boolean check;
+	
+	
 	public String getGroup_id() {
 		return group_id;
 	}
@@ -54,6 +57,13 @@ public class GroupBean implements Serializable{
 	public void setStock(List<StockBean> stock) {
 		this.stock = stock;
 	}
+	public boolean isCheck() {
+		return check;
+	}
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
+ 
 	
 	
 	
