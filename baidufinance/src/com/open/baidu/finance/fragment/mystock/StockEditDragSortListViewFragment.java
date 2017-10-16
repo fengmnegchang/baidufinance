@@ -12,7 +12,11 @@
 package com.open.baidu.finance.fragment.mystock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,6 +24,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +37,13 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.NormalPostRequest;
+import com.android.volley.toolbox.Volley;
 import com.mobeta.android.dslv.DragSortListView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
@@ -39,6 +51,7 @@ import com.open.baidu.finance.activity.mystock.NewGroupNameFragmentActivity;
 import com.open.baidu.finance.adapter.mystock.StockEditDragSortAdapter;
 import com.open.baidu.finance.bean.mystock.GroupBean;
 import com.open.baidu.finance.bean.mystock.StockBean;
+import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -153,11 +166,96 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 		switch (msg.what) {
 		case 1000:
 			// 置顶
+			try {
+				StockBean bean = (StockBean) mStockEditDragSortAdapter.getItem(msg.arg1);
+				volleyJson(UrlUtils.TOPMYSTOCK,bean.getExchange()+bean.getStockCode());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			drop(msg.arg1, 0);
 			break;
 		default:
 			break;
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.open.qianbailu.fragment.BaseV4Fragment#onErrorResponse(com.android.volley.VolleyError)
+	 */
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		super.onErrorResponse(error);
+		System.out.println(error);
+	}
+	
+	public void volleyJson(final String href,final String stockCode) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		final Map<String,String> headers = new HashMap<String,String>(); 
+		headers.put("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
+		headers.put("Referer","https://gupiao.baidu.com/my/");
+		headers.put("Cookie", "BAIDUID=CF6C53AD63064C72CDA6A1CF7788EC1C:FG=1; BIDUPSID=CF6C53AD63064C72CDA6A1CF7788EC1C; PSTM=1504837961; MCITY=-289%3A; BDUSS=0dkR0YyclhzQTdsdTBnV09mRkFtYnRRYWdUM3BXV2E5d204RUVLeklHdnFxZ0phTVFBQUFBJCQAAAAAAAAAAAEAAAD5apgiZmVuZ3hpYW4wMzgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOod21nqHdtZS; stoken=4f7caf550b1c8aa74fb4b459d6d670d428c747b61bcda1f865b03434c562a47e; BDSFRCVID=eZ8sJeC62ulVthRZIMIhUOCPyg3K0GJTH6ao6YgjetafNIWawT90EG0Pqx8g0KubhQvWogKK0eOTHk3P; H_BDCLCKID_SF=tJPH_I8MJDD3qR5gMJ5q-n3HKUrL5t_XbI6y3JjOHJOoDDvNW675y4LdjG5t2p5J2Nrzal6Y2U5cEUJwbTbvDM-p3-Aq544qyCvB04bq5qrzSnj635u2QfbQ0hQOqP-jW5TaBUjKQb7JOpkxbfnxy-ny0a62btt_tbK8oITP; Hm_lvt_35d1e71f4c913c126b8703586f1d2307=1507532257,1507532966,1507533021,1507692673; Hm_lpvt_35d1e71f4c913c126b8703586f1d2307=1508144581; PSINO=5; H_PS_PSSID=1434_21118_17001_20929; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598");
+//		headers.put("X-Requested-With","XMLHttpRequest");
+//		headers.put("Host","gupiao.baidu.com");
+//		headers.put("Origin","https://gupiao.baidu.com");
+//		headers.put("Content-Type","application/x-www-form-urlencoded");
+		
+		/****
+		 * from:pc
+			os_ver:1
+			cuid:xxx
+			vv:100
+			format:json
+			stock_code:sz399001
+			group_id:8a5205fe03d1e3fcd7ec591ff8daea29
+			token:9df0129455f37719
+			timestamp:1508142738888
+		 */
+		final Map<String, String> params = new HashMap<String, String>();
+		params.put("from", "pc");
+		params.put("os_ver", "1");
+		params.put("cuid", "xxx");
+		params.put("vv", "100");
+		params.put("format", "json");
+		params.put("stock_code", stockCode);
+		params.put("group_id", "8a5205fe03d1e3fcd7ec591ff8daea29");
+		params.put("token", "9df0129455f37719");
+		params.put("timestamp", System.currentTimeMillis()+"");
+
+		
+//		JSONObject paramJsonObject = new JSONObject(headers); 
+//		
+//		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, href,params,paramJsonObject, new Response.Listener<JSONObject>() {
+//			@Override
+//			public void onResponse(JSONObject response) {
+//				System.out.println("href=" + href);
+//				System.out.println("response=" + response.toString());
+//			}
+//		}, StockEditDragSortListViewFragment.this){
+//			/* (non-Javadoc)
+//			 * @see com.android.volley.toolbox.JsonObjectRequest#getHeaders()
+//			 */
+////			@Override
+////			public Map<String, String> getHeaders() throws AuthFailureError {
+////				// TODO Auto-generated method stub
+////				return params;
+////			}
+//		};
+		
+		Request<JSONObject> request = new NormalPostRequest(href,
+			    new Response.Listener<JSONObject>() {
+			        @Override
+			        public void onResponse(JSONObject response) {
+			            Log.d(TAG, "response -> " + response.toString());
+			        }
+			    }, new Response.ErrorListener() {
+			        @Override
+			        public void onErrorResponse(VolleyError error) {
+			            Log.e(TAG, error.getMessage(), error);
+			        }
+			    }, headers,params);
+
+		requestQueue.add(request);
 	}
 
 	/*
