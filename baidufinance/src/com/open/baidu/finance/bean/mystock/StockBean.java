@@ -46,6 +46,7 @@ public class StockBean extends CommonBean {
 	private int netRatioType;
 	/**0:涨跌幅；1：涨跌额*/
 	private int netValueType;
+	private boolean isCheck;
 
 	public String getStockCode() {
 		return stockCode;
@@ -182,6 +183,14 @@ public class StockBean extends CommonBean {
 
 	public void setNetValueType(int netValueType) {
 		this.netValueType = netValueType;
+	}
+
+	public boolean isCheck() {
+		return isCheck;
+	}
+
+	public void setCheck(boolean isCheck) {
+		this.isCheck = isCheck;
 	}
 
 }

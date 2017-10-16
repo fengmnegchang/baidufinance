@@ -18,8 +18,7 @@ import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.bean.mystock.GroupBean;
-import com.open.baidu.finance.fragment.mystock.StockEditDragSortListViewFragment;
+import com.open.baidu.finance.fragment.mystock.StockAlarmSettingFragment;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -33,7 +32,7 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class StockEditDragSortListViewFragmentActivity extends CommonTitleBarActivity{
+public class StockAlarmSettingFragmentActivity extends CommonTitleBarActivity{
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -47,10 +46,10 @@ public class StockEditDragSortListViewFragmentActivity extends CommonTitleBarAct
 		} else {
 			url = UrlUtils.GATHERMYSTOCK;
 		}
-		setCenterTextValue(getResources().getString(R.string.app_mystock_desp)+"  ");
+		setCenterTextValue("提醒设置  ");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
-		setLeftVisivableGone();
 		
+		setLeftImageResId(R.drawable.stockdetails_back_n);
 		setRightTextVisivable(true);
 		setRightTextValue("完成");
 		addfragment();
@@ -63,18 +62,6 @@ public class StockEditDragSortListViewFragmentActivity extends CommonTitleBarAct
 	public void setCenterTitle(String title){
 		setCenterTextValue(title+"  ");
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.open.android.activity.common.CommonTitleBarActivity#onClick(android.view.View)
-	 */
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		super.onClick(v);
-		if(v.getId()==R.id.txt_right){
-			finish();
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -85,15 +72,23 @@ public class StockEditDragSortListViewFragmentActivity extends CommonTitleBarAct
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = StockEditDragSortListViewFragment.newInstance(url,(GroupBean)getIntent().getSerializableExtra("GROUPBEAN"), true);
+		Fragment fragment = StockAlarmSettingFragment.newInstance(url, true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
+	
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		super.onClick(v);
+		if(v.getId()==R.id.txt_right){
+			finish();
+		}
+	}
 
-	public static void startMyStockViewPagerFragmentActivity(Context context, String url,GroupBean bean) {
+	public static void startStockAlarmSettingFragmentActivity(Context context, String url) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
-		intent.putExtra("GROUPBEAN", bean);
-		intent.setClass(context, StockEditDragSortListViewFragmentActivity.class);
+		intent.setClass(context, StockAlarmSettingFragmentActivity.class);
 		context.startActivity(intent);
 	}
 }

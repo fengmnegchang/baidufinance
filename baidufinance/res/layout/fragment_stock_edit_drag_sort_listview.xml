@@ -4,10 +4,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    <include
+        android:id="@+id/layout_head"
+        layout="@layout/layout_stock_edit_drag_sort_head" />
+
     <com.mobeta.android.dslv.DragSortListView
         android:id="@+id/dragsort_listview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_above="@+id/layout_foot"
+        android:layout_below="@+id/layout_head"
         android:layout_margin="3dp"
         android:choiceMode="multipleChoice"
         android:dividerHeight="1px"
@@ -22,5 +28,12 @@
         dslv:remove_enabled="true"
         dslv:remove_mode="clickRemove"
         dslv:slide_shuffle_speed="0.3" />
+
+    <include
+        android:id="@+id/layout_foot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/layout_stock_edit_drag_sort_foot" />
 
 </RelativeLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="40dp" >
+
+    <View
+        android:id="@+id/div_view_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:paddingBottom="3dp"
+        android:background="@color/div_color" />
+
+    <CheckBox
+        android:id="@+id/checkbox_all"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:button="@drawable/selector_checkbox"
+        android:focusable="true"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/txt_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/checkbox_all"
+        android:gravity="center_vertical"
+        android:text="全选"
+        android:textColor="#BEC3CE"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_move"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/div_view"
+        android:text="移动到(1)"
+        android:textColor="@color/blue_color"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/div_view"
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/txt_delete"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="删除(1)"
+        android:textColor="@color/blue_color"
+        android:textSize="16dp" />
+
+</RelativeLayout>

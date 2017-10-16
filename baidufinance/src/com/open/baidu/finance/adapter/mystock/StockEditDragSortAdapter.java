@@ -14,12 +14,19 @@ package com.open.baidu.finance.adapter.mystock;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Message;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.open.android.adapter.CommonAdapter;
+import com.open.android.weak.WeakReferenceHandler;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.mystock.StockBean;
 
@@ -35,9 +42,10 @@ import com.open.baidu.finance.bean.mystock.StockBean;
  ***************************************************************************************************************************************************************************** 
  */
 public class StockEditDragSortAdapter extends CommonAdapter<StockBean> {
-
-	public StockEditDragSortAdapter(Context mContext, List<StockBean> list) {
+	private WeakReferenceHandler weakReferenceHandler;
+	public StockEditDragSortAdapter(Context mContext,WeakReferenceHandler weakReferenceHandler, List<StockBean> list) {
 		super(mContext, list);
+		this.weakReferenceHandler = weakReferenceHandler;
 	}
 
 	/*
@@ -47,13 +55,14 @@ public class StockEditDragSortAdapter extends CommonAdapter<StockBean> {
 	 * android.view.View, android.view.ViewGroup)
 	 */
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		StockBean bean = (StockBean) getItem(position);
+		final StockBean bean = (StockBean) getItem(position);
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.adapter_stock_edit_drag_sort, parent, false);
+			viewHolder.checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
 			viewHolder.txt_exchange = (TextView) convertView.findViewById(R.id.txt_exchange);
 			viewHolder.txt_stockname = (TextView) convertView.findViewById(R.id.txt_stockname);
 			viewHolder.txt_stockcode = (TextView) convertView.findViewById(R.id.txt_stockcode);
@@ -81,6 +90,29 @@ public class StockEditDragSortAdapter extends CommonAdapter<StockBean> {
 			
 			viewHolder.txt_stockname.setText(bean.getStockName());
 			viewHolder.txt_stockcode.setText(bean.getStockCode());
+			viewHolder.group_top.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Message msg = weakReferenceHandler.obtainMessage(1000,position,0);
+					weakReferenceHandler.sendMessage(msg);
+				}
+			});
+			
+			viewHolder.drag_alarm.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+				}
+			});
+			
+			viewHolder.checkbox.setChecked(bean.isCheck());
+			viewHolder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					bean.setCheck(isChecked);
+				}
+			});
 		}
 		return convertView;
 	}
@@ -88,6 +120,7 @@ public class StockEditDragSortAdapter extends CommonAdapter<StockBean> {
 	class ViewHolder {
 		TextView txt_exchange,txt_stockname,txt_stockcode;
 		ImageView drag_alarm,group_top,drag_handle;
+		CheckBox checkbox;
 
 	}
 

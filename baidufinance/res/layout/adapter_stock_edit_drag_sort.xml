@@ -7,46 +7,48 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/item_height"
-        android:layout_marginRight="5dp"
-        android:button="@drawable/edit_checkbox_normal"
-        android:gravity="center_vertical"
-        android:focusable="true"
         android:layout_marginLeft="15dp"
-        />
-<TextView
+        android:layout_marginRight="5dp"
+        android:button="@drawable/selector_checkbox"
+        android:focusable="true"
+        android:gravity="center_vertical" />
+
+    <TextView
         android:id="@+id/txt_exchange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#f69"
-        android:layout_marginTop="10dp"
-        android:padding="1dp"
-        android:layout_toRightOf="@+id/checkbox"
-        android:text="HK"
         android:layout_marginRight="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/checkbox"
+        android:background="#f69"
+        android:padding="1dp"
+        android:text="HK"
         android:textColor="#ffffff"
         android:textSize="9dp" />
+
     <RelativeLayout
-         android:layout_width="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/txt_exchange"
-         >
-    <TextView
-        android:id="@+id/txt_stockname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="创业板指"
-        android:textSize="14dp" />
+        android:layout_toRightOf="@+id/txt_exchange" >
 
-    <TextView
-        android:id="@+id/txt_stockcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_stockname"
-        android:layout_marginTop="3dp"
-        android:text="399006"
-        android:textSize="10dp" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/txt_stockname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创业板指"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/txt_stockcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_stockname"
+            android:layout_marginTop="3dp"
+            android:text="399006"
+            android:textSize="10dp" />
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/drag_alarm"
         android:layout_width="30dp"
