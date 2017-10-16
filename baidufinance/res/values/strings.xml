@@ -11,6 +11,7 @@
     <string name="app_stock_edit_dragsort_desp"> Stock EditDragSort </string>
     <string name="app_stock_edit_dragsort_fragment_desp"> Stock EditDragSort fragment</string>
     <string name="app_stock_alarm_fragment_desp"> 提醒设置 </string>
+    <string name="app_new_group_fragment_desp">新建分组</string>
     <string-array name="jazz_artist_names">
       <item>Brad Mehldau</item>
       <item>Joshua Redman</item>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_alignParentBottom="true"
+    android:background="#ffffff" >
+
+    <TextView
+        android:id="@+id/txt_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="自选股"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/div_view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_default"
+        android:layout_centerHorizontal="true"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_us"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view1"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="美股"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/div_view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_us"
+        android:layout_centerHorizontal="true"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_add_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view2"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/group_edit_2"
+        android:padding="10dp"
+        android:text="新建分组"
+        android:textColor="@color/blue_color"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/div_view3"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/txt_add_group"
+        android:layout_centerHorizontal="true"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view3"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="取消"
+        android:textColor="@color/blue_color"
+        android:textSize="16dp" />
+
+</RelativeLayout>

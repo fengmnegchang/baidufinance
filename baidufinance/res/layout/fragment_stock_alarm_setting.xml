@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
+        android:textSize="16dp"
         android:text="深证成指" />
 
     <TextView
@@ -18,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:textSize="14dp"
         android:layout_toRightOf="@+id/txt_stock_name"
         android:text="最新价" />
 
@@ -35,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:textSize="16dp"
         android:layout_toRightOf="@+id/txt_close"
         android:text="涨跌幅" />
 
@@ -67,21 +70,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:textSize="16dp"
             android:text="股价涨到" />
 
         <EditText
             android:id="@+id/edit_close_add"
             android:layout_width="100dp"
             android:layout_height="35dp"
+            android:padding="5dp"
             android:layout_alignTop="@+id/checkbox_close_add"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/selector_gray_edit_button"
             android:layout_toRightOf="@+id/txt_close_add" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/edit_close_add"
             android:text="元" />
 
@@ -92,7 +98,7 @@
             android:button="@drawable/checkbox_normal_light"
             android:layout_marginRight="15dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_alignParentRight="true" />
         
         <View
@@ -108,6 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:textSize="16dp"
             android:layout_below="@+id/div_view2"
             android:text="股价跌到" />
 
@@ -115,7 +122,8 @@
             android:id="@+id/edit_close_reduce"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:padding="5dp"
             android:layout_alignTop="@+id/checkbox_close_reduce"
             android:background="@drawable/selector_gray_edit_button"
             android:layout_below="@+id/div_view2"
@@ -124,7 +132,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/edit_close_reduce"
             android:layout_below="@+id/div_view2"
             android:text="元" />
@@ -133,7 +142,7 @@
             android:id="@+id/checkbox_close_reduce"
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_below="@+id/div_view2"
             android:button="@drawable/checkbox_normal_light"
             android:layout_marginRight="15dp"
@@ -154,15 +163,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_below="@+id/div_view3"
+            android:textSize="16dp"
             android:text="日涨幅超" />
 
         <EditText
             android:id="@+id/edit_day_addrate"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/selector_gray_edit_button"
             android:text="+"
+            android:padding="5dp"
             android:layout_alignTop="@+id/checkbox_day_addrate"
             android:layout_below="@+id/div_view3"
             android:layout_toRightOf="@+id/txt_day_addrate" />
@@ -170,7 +181,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/edit_day_addrate"
             android:layout_below="@+id/div_view3"
             android:textColor="@color/red_color"
@@ -180,7 +192,7 @@
             android:id="@+id/checkbox_day_addrate"
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_below="@+id/div_view3"
             android:button="@drawable/checkbox_normal_light"
             android:layout_marginRight="15dp"
@@ -201,14 +213,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_below="@+id/div_view4"
+            android:textSize="16dp"
             android:text="日跌幅超" />
 
         <EditText
             android:id="@+id/edit_day_reducerate"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:text="-"
+            android:padding="5dp"
             android:layout_below="@+id/div_view4"
             android:layout_alignTop="@+id/checkbox_day_reducerate"
             android:background="@drawable/selector_gray_edit_button"
@@ -217,7 +231,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/edit_day_reducerate"
             android:layout_below="@+id/div_view4"
             android:textColor="@color/green_color"
@@ -227,7 +242,7 @@
             android:id="@+id/checkbox_day_reducerate"
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_below="@+id/div_view4"
             android:button="@drawable/checkbox_normal_light"
             android:layout_marginRight="15dp"
@@ -241,13 +256,64 @@
             android:layout_marginTop="5dp"
             android:background="@color/div_color" />
     </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/layout_event"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_edit"
+        android:layout_marginTop="15dp"
+        android:background="#ffffff" >
+
+        <View
+            android:id="@+id/div_view6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/div_color" />
+        <TextView 
+            android:id="@+id/txt_event_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="重大事项提醒"
+            />
+        <TextView 
+            android:id="@+id/txt_event_tips"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_event_info"
+            android:text="开启后，该股票发生重大事项时，会收到提醒通知"
+            android:textSize="10dp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/gray_75_color"
+            />
+        <CheckBox
+            android:id="@+id/checkbox_event"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:button="@drawable/checkbox_normal_light"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+         <View
+            android:id="@+id/div_view7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/checkbox_event"
+            android:layout_marginTop="5dp"
+            android:background="@color/div_color" />
+        </RelativeLayout>
 
     <TextView
         android:id="@+id/txt_info"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_edit"
+        android:layout_below="@+id/layout_event"
         android:layout_margin="15dp"
+        android:textColor="@color/gray_75_color"
         android:text="股市通提醒为您提供实时股价提醒服务，该服务依赖于网络状况，个别情况下会出现延迟。" />
 
 </RelativeLayout>

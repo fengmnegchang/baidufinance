@@ -10,4 +10,7 @@
   <color name="gray_color">#808080</color>
   <color name="round_solid_color">#EBF3F2</color>
   <color name="div_color">#D1D4D3</color>
+  <color name="d5_color">#D5D5D5</color>
+  <color name="gray_75_color">#757C85</color>
+  <color name="gray_53_color">#535353</color>
 </resources>

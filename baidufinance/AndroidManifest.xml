@@ -87,6 +87,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_stock_alarm_fragment_desp" >
         </activity>
+        <!--新建分组 -->
+        <activity
+            android:name=".activity.mystock.NewGroupNameFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_new_group_fragment_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.open.android.adapter.CommonAdapter;
 import com.open.android.weak.WeakReferenceHandler;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.mystock.StockAlarmSettingFragmentActivity;
 import com.open.baidu.finance.bean.mystock.StockBean;
 
 /**
@@ -103,6 +104,7 @@ public class StockEditDragSortAdapter extends CommonAdapter<StockBean> {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					StockAlarmSettingFragmentActivity.startStockAlarmSettingFragmentActivity(mContext,bean, null);
 				}
 			});
 			
