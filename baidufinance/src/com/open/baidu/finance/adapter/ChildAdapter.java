@@ -54,7 +54,7 @@ public class ChildAdapter extends BaseAdapter {
 	/**
 	 * 用来存储图片的选中情况
 	 */
-	private HashMap<Integer, Boolean> mSelectMap = new HashMap<Integer, Boolean>();
+//	private HashMap<Integer, Boolean> mSelectMap = new HashMap<Integer, Boolean>();
 	private GridView mGridView;
 	private List<String> list;
 	protected LayoutInflater mInflater;
@@ -90,7 +90,7 @@ public class ChildAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.adapter_show_image, null);
 			viewHolder = new ViewHolder();
 			viewHolder.mImageView = (ScanImageView) convertView.findViewById(R.id.child_image);
-			viewHolder.mCheckBox = (CheckBox) convertView.findViewById(R.id.child_checkbox);
+//			viewHolder.mCheckBox = (CheckBox) convertView.findViewById(R.id.child_checkbox);
 			
 			//用来监听ImageView的宽和高
 			viewHolder.mImageView.setOnMeasureListener(new OnMeasureListener() {
@@ -107,19 +107,19 @@ public class ChildAdapter extends BaseAdapter {
 			viewHolder.mImageView.setImageResource(R.drawable.ic_launcher);
 		}
 		viewHolder.mImageView.setTag(path);
-		viewHolder.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				//如果是未选中的CheckBox,则添加动画
-				if(!mSelectMap.containsKey(position) || !mSelectMap.get(position)){
-					addAnimation(viewHolder.mCheckBox);
-				}
-				mSelectMap.put(position, isChecked);
-			}
-		});
-		
-		viewHolder.mCheckBox.setChecked(mSelectMap.containsKey(position) ? mSelectMap.get(position) : false);
+//		viewHolder.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			
+//			@Override
+//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//				//如果是未选中的CheckBox,则添加动画
+//				if(!mSelectMap.containsKey(position) || !mSelectMap.get(position)){
+//					addAnimation(viewHolder.mCheckBox);
+//				}
+//				mSelectMap.put(position, isChecked);
+//			}
+//		});
+//		
+//		viewHolder.mCheckBox.setChecked(mSelectMap.containsKey(position) ? mSelectMap.get(position) : false);
 		
 		//利用NativeImageLoader类加载本地图片
 		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path, mPoint, new NativeImageCallBack() {
@@ -156,26 +156,26 @@ public class ChildAdapter extends BaseAdapter {
 	}
 	
 	
-	/**
-	 * 获取选中的Item的position
-	 * @return
-	 */
-	public List<Integer> getSelectItems(){
-		List<Integer> list = new ArrayList<Integer>();
-		for(Iterator<Map.Entry<Integer, Boolean>> it = mSelectMap.entrySet().iterator(); it.hasNext();){
-			Map.Entry<Integer, Boolean> entry = it.next();
-			if(entry.getValue()){
-				list.add(entry.getKey());
-			}
-		}
-		
-		return list;
-	}
+//	/**
+//	 * 获取选中的Item的position
+//	 * @return
+//	 */
+//	public List<Integer> getSelectItems(){
+//		List<Integer> list = new ArrayList<Integer>();
+//		for(Iterator<Map.Entry<Integer, Boolean>> it = mSelectMap.entrySet().iterator(); it.hasNext();){
+//			Map.Entry<Integer, Boolean> entry = it.next();
+//			if(entry.getValue()){
+//				list.add(entry.getKey());
+//			}
+//		}
+//		
+//		return list;
+//	}
 	
 	
 	public static class ViewHolder{
 		public ScanImageView mImageView;
-		public CheckBox mCheckBox;
+//		public CheckBox mCheckBox;
 	}
 
 

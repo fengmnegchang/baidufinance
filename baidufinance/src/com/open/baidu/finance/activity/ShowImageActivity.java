@@ -52,7 +52,7 @@ public class ShowImageActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Toast.makeText(this, "选中 " + adapter.getSelectItems().size() + " item", Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, "选中 " + adapter.getSelectItems().size() + " item", Toast.LENGTH_LONG).show();
 		super.onBackPressed();
 	}
 	

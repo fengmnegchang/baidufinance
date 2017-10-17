@@ -117,6 +117,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_show_image_desp" >
         </activity>
+        <!--Stock图片浏览 -->
+        <activity
+            android:name=".activity.mystock.ImageScanStockGridFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_image_scan_stock_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

@@ -16,6 +16,7 @@
     <string name="app_search_stock_fragment_desp">搜索股票</string>
     <string name="app_image_scan_desp">浏览图片</string>
     <string name="app_show_image_desp">看图图片</string>
+     <string name="app_image_scan_stock_desp">stock浏览图片</string>
     <string-array name="jazz_artist_names">
       <item>Brad Mehldau</item>
       <item>Joshua Redman</item>
