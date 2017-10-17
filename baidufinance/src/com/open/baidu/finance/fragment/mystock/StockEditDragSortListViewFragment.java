@@ -30,9 +30,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
@@ -41,16 +44,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NormalPostRequest;
 import com.android.volley.toolbox.Volley;
 import com.mobeta.android.dslv.DragSortListView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.mystock.NewGroupNameFragmentActivity;
+import com.open.baidu.finance.adapter.mystock.GroupPopupAdapter;
 import com.open.baidu.finance.adapter.mystock.StockEditDragSortAdapter;
 import com.open.baidu.finance.bean.mystock.GroupBean;
 import com.open.baidu.finance.bean.mystock.StockBean;
+import com.open.baidu.finance.json.mystock.GroupListJson;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -74,15 +78,19 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 	public CheckBox checkbox_all;
 	public TextView txt_move, txt_delete;
 	public PopupWindow popupWindow;
-	public GroupBean groupBean;
+	public GroupListJson groupListJson;
 
-	public static StockEditDragSortListViewFragment newInstance(String url, GroupBean groupBean, boolean isVisibleToUser) {
+	public static StockEditDragSortListViewFragment newInstance(String url,GroupListJson groupListJson ,int  position, boolean isVisibleToUser) {
 		StockEditDragSortListViewFragment fragment = new StockEditDragSortListViewFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
-		fragment.list = groupBean.getStock();
-		fragment.groupBean = groupBean;
+		try {
+			fragment.list = groupListJson.getGroupList().get(position).getStock();
+			fragment.groupListJson = groupListJson;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return fragment;
 	}
 
@@ -191,12 +199,16 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 		System.out.println(error);
 	}
 	
-	public void volleyJson(final String href,final String stockCode) {
+	/**
+	 * 删除 stock_code:usMSFT,usFB
+	 */
+	public void volleyJson(final String href,final String stockCode ) {
 		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 		final Map<String,String> headers = new HashMap<String,String>(); 
-		headers.put("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
+		headers.put("User-Agent",UrlUtils.userAgent);
 		headers.put("Referer","https://gupiao.baidu.com/my/");
-		headers.put("Cookie", "BAIDUID=CF6C53AD63064C72CDA6A1CF7788EC1C:FG=1; BIDUPSID=CF6C53AD63064C72CDA6A1CF7788EC1C; PSTM=1504837961; MCITY=-289%3A; BDUSS=0dkR0YyclhzQTdsdTBnV09mRkFtYnRRYWdUM3BXV2E5d204RUVLeklHdnFxZ0phTVFBQUFBJCQAAAAAAAAAAAEAAAD5apgiZmVuZ3hpYW4wMzgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOod21nqHdtZS; stoken=4f7caf550b1c8aa74fb4b459d6d670d428c747b61bcda1f865b03434c562a47e; BDSFRCVID=eZ8sJeC62ulVthRZIMIhUOCPyg3K0GJTH6ao6YgjetafNIWawT90EG0Pqx8g0KubhQvWogKK0eOTHk3P; H_BDCLCKID_SF=tJPH_I8MJDD3qR5gMJ5q-n3HKUrL5t_XbI6y3JjOHJOoDDvNW675y4LdjG5t2p5J2Nrzal6Y2U5cEUJwbTbvDM-p3-Aq544qyCvB04bq5qrzSnj635u2QfbQ0hQOqP-jW5TaBUjKQb7JOpkxbfnxy-ny0a62btt_tbK8oITP; Hm_lvt_35d1e71f4c913c126b8703586f1d2307=1507532257,1507532966,1507533021,1507692673; Hm_lpvt_35d1e71f4c913c126b8703586f1d2307=1508144581; PSINO=5; H_PS_PSSID=1434_21118_17001_20929; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598");
+		headers.put("Cookie", UrlUtils.COOKIE);
+		
 //		headers.put("X-Requested-With","XMLHttpRequest");
 //		headers.put("Host","gupiao.baidu.com");
 //		headers.put("Origin","https://gupiao.baidu.com");
@@ -220,11 +232,13 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 		params.put("vv", "100");
 		params.put("format", "json");
 		params.put("stock_code", stockCode);
-		params.put("group_id", groupBean.getGroup_id()+"");
-		params.put("token", "9df0129455f37719");
+		params.put("group_id", groupListJson.getGroupList().get(position).getGroup_id()+"");
+		params.put("token", UrlUtils.TOKEN);
 		params.put("timestamp", System.currentTimeMillis()+"");
 
-		
+		Log.d("StockEditDragSortListViewFragment", "href=="+href);
+		Log.d("StockEditDragSortListViewFragment", "headers=="+headers);
+		Log.d("StockEditDragSortListViewFragment", "params=="+params);
 //		JSONObject paramJsonObject = new JSONObject(headers); 
 //		
 //		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, href,params,paramJsonObject, new Response.Listener<JSONObject>() {
@@ -284,11 +298,36 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 
 	public void showPopupWindow(View parent) {
 		// 加载布局
+		final String groupId = groupListJson.getGroupList().get(position).getGroup_id();
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_dragedit_popup_window, null);
 		WindowManager manager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+		GroupPopupAdapter mGroupPopupAdapter = new GroupPopupAdapter(getActivity(), groupListJson.getGroupList());
+		ListView listview = (ListView) view.findViewById(R.id.listview);
+		listview.setAdapter(mGroupPopupAdapter);
+		listview.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				// TODO Auto-generated method stub
+				//group_id_from:8a5205fe03d1e3fcd7ec591ff8daea29
+				//group_id_to:ae38a876efd3da6c006f7f8d4add415b
+				for (int i = list.size() - 1; i >= 0; i--) {
+					if (list.get(i).isCheck()) {
+						movemystock(UrlUtils.MOVEMYSTOCK, list.get(i).getExchange()+list.get(i).getStockCode(),  
+								groupId,
+								groupListJson.getGroupList().get((int)id).getGroup_id());
+						remove(i);
+					}
+				}
+				setBackgroundAlpha(1.0f);
+				if(popupWindow!=null){
+					popupWindow.dismiss();
+				}
+				
+			}
+		});
 		// 找到布局的控件
 		// 实例化popupWindow
-		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), 550);
+		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), groupListJson.getGroupList().size()*200+250);
 		// 控制键盘是否可以获得焦点
 		popupWindow.setFocusable(true);
 		setBackgroundAlpha(0.5f);//设置屏幕透明度
@@ -318,7 +357,7 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 				if(popupWindow!=null){
 					popupWindow.dismiss();
 				}
-				NewGroupNameFragmentActivity.startNewGroupNameFragmentActivity(getActivity(),"", url);
+				NewGroupNameFragmentActivity.startNewGroupNameFragmentActivity(getActivity(),"", url,null);
 			}
 		});
 		popupWindow.setOnDismissListener(new OnDismissListener() {
@@ -328,6 +367,55 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
                 setBackgroundAlpha(1.0f);
             }
         });
+	}
+	
+	public void movemystock(final String href,final String stockCode,String group_id_from,String group_id_to) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		final Map<String,String> headers = new HashMap<String,String>(); 
+		headers.put("User-Agent",UrlUtils.userAgent);
+		headers.put("Referer","https://gupiao.baidu.com/my/");
+		headers.put("Cookie", UrlUtils.COOKIE);
+		/****
+		 *  from:pc
+			os_ver:1
+			cuid:xxx
+			vv:100
+			format:json
+			stock_code:usBIDU
+			group_id_from:8a5205fe03d1e3fcd7ec591ff8daea29
+			group_id_to:ae38a876efd3da6c006f7f8d4add415b
+			token:65e93709f606922c
+			timestamp:1508210848998
+		 */
+		final Map<String, String> params = new HashMap<String, String>();
+		params.put("from", "pc");
+		params.put("os_ver", "1");
+		params.put("cuid", "xxx");
+		params.put("vv", "100");
+		params.put("format", "json");
+		params.put("stock_code", stockCode);
+		params.put("group_id_from", group_id_from);
+		params.put("group_id_to", group_id_to);
+		params.put("token", UrlUtils.TOKEN);
+		params.put("timestamp", System.currentTimeMillis()+"");
+
+		Log.d("StockEditDragSortListViewFragment", "href=="+href);
+		Log.d("StockEditDragSortListViewFragment", "headers=="+headers);
+		Log.d("StockEditDragSortListViewFragment", "params=="+params);
+		Request<JSONObject> request = new NormalPostRequest(href,
+			    new Response.Listener<JSONObject>() {
+			        @Override
+			        public void onResponse(JSONObject response) {
+			            Log.d(TAG, "response -> " + response.toString());
+			        }
+			    }, new Response.ErrorListener() {
+			        @Override
+			        public void onErrorResponse(VolleyError error) {
+			            Log.e(TAG, error.getMessage(), error);
+			        }
+			    }, headers,params);
+
+		requestQueue.add(request);
 	}
 
 	/**
@@ -359,6 +447,7 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 			public void onClick(DialogInterface dialog, int which) {
 				for (int i = list.size() - 1; i >= 0; i--) {
 					if (list.get(i).isCheck()) {
+						volleyJson(UrlUtils.BATCHDELMYSTOCK, list.get(i).getExchange()+list.get(i).getStockCode());
 						remove(i);
 					}
 				}

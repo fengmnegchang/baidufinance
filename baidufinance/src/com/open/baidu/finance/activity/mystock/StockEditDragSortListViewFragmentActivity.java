@@ -20,6 +20,7 @@ import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.mystock.GroupBean;
 import com.open.baidu.finance.fragment.mystock.StockEditDragSortListViewFragment;
+import com.open.baidu.finance.json.mystock.GroupListJson;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -85,14 +86,15 @@ public class StockEditDragSortListViewFragmentActivity extends CommonTitleBarAct
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = StockEditDragSortListViewFragment.newInstance(url,(GroupBean)getIntent().getSerializableExtra("GROUPBEAN"), true);
+		Fragment fragment = StockEditDragSortListViewFragment.newInstance(url,(GroupListJson)getIntent().getSerializableExtra("GROUPLISTJSON"), getIntent().getIntExtra("POSITION", 0),true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 
-	public static void startMyStockViewPagerFragmentActivity(Context context, String url,GroupBean bean) {
+	public static void startMyStockViewPagerFragmentActivity(Context context, String url,GroupListJson groupListJson,int position) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
-		intent.putExtra("GROUPBEAN", bean);
+		intent.putExtra("GROUPLISTJSON", groupListJson);
+		intent.putExtra("POSITION", position);
 		intent.setClass(context, StockEditDragSortListViewFragmentActivity.class);
 		context.startActivity(intent);
 	}

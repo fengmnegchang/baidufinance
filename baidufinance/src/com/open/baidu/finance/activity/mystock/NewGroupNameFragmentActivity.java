@@ -71,7 +71,7 @@ public class NewGroupNameFragmentActivity extends CommonTitleBarActivity{
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = NewGroupNameFragment.newInstance(url,getIntent().getStringExtra("GROUPNAME"), true);
+		Fragment fragment = NewGroupNameFragment.newInstance(url,getIntent().getStringExtra("GROUPNAME"),getIntent().getStringExtra("GROUPID"), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
@@ -84,10 +84,11 @@ public class NewGroupNameFragmentActivity extends CommonTitleBarActivity{
 		}
 	}
 
-	public static void startNewGroupNameFragmentActivity(Context context, String url,String groupName) {
+	public static void startNewGroupNameFragmentActivity(Context context, String url,String groupName,String groupId) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
 		intent.putExtra("GROUPNAME", groupName);
+		intent.putExtra("GROUPID", groupId);
 		intent.setClass(context, NewGroupNameFragmentActivity.class);
 		context.startActivity(intent);
 	}

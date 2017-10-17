@@ -20,15 +20,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.adapter.mystock.GroupPopupAdapter;
 import com.open.baidu.finance.bean.mystock.GroupBean;
 import com.open.baidu.finance.bean.mystock.StockBean;
 import com.open.baidu.finance.fragment.mystock.MyStockPullToRefreshPinnedSectionListViewFragment;
+import com.open.baidu.finance.json.mystock.GroupListJson;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -78,13 +81,18 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 			//编辑
 			MyStockPullToRefreshPinnedSectionListViewFragment fragment = (MyStockPullToRefreshPinnedSectionListViewFragment) getSupportFragmentManager().findFragmentById(R.id.layout_content);
 			if(fragment!=null){
+				GroupListJson  groupJson = new GroupListJson();
 				GroupBean bean = new GroupBean();
 				ArrayList<StockBean> list = (ArrayList<StockBean>) fragment.getList();
 				list.remove(0);
 				bean.setStock(list);
 				bean.setGroup_id(fragment.getGroupId());
 				bean.setGroup_name(fragment.getGroupName());
-				StockEditDragSortListViewFragmentActivity.startMyStockViewPagerFragmentActivity(this, url,bean);
+				
+				ArrayList<GroupBean> glist = new ArrayList<GroupBean>();
+				glist.add(bean);
+				groupJson.setGroupList(glist);
+				StockEditDragSortListViewFragmentActivity.startMyStockViewPagerFragmentActivity(this, url,groupJson,fragment.position);
 			}
 			break;
 		case R.id.txt_title:
@@ -100,9 +108,23 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 		// 加载布局
 		View view = LayoutInflater.from(this).inflate(R.layout.layout_stock_group_popup_window, null);
 		WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		MyStockPullToRefreshPinnedSectionListViewFragment fragment = (MyStockPullToRefreshPinnedSectionListViewFragment) getSupportFragmentManager().findFragmentById(R.id.layout_content);
+		GroupBean bean = new GroupBean();
+		ArrayList<StockBean> list = (ArrayList<StockBean>) fragment.getList();
+		list.remove(0);
+		bean.setStock(list);
+		bean.setGroup_id(fragment.getGroupId());
+		bean.setGroup_name(fragment.getGroupName());
+		
+		ArrayList<GroupBean> glist = new ArrayList<GroupBean>();
+		glist.add(bean);
+		
+		GroupPopupAdapter mGroupPopupAdapter = new GroupPopupAdapter(this, glist);
+		ListView listview = (ListView) view.findViewById(R.id.listview);
+		listview.setAdapter(mGroupPopupAdapter);
 		// 找到布局的控件
 		// 实例化popupWindow
-		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), 400);
+		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), glist.size()*150+150);
 		// 控制键盘是否可以获得焦点
 		popupWindow.setFocusable(true);
 		setBackgroundAlpha(0.5f);//设置屏幕透明度
@@ -133,7 +155,7 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 				if(popupWindow!=null){
 					popupWindow.dismiss();
 				}
-				NewGroupNameFragmentActivity.startNewGroupNameFragmentActivity(MyStockPullToRefreshPinnedSectionListViewActivity.this,"", "");
+				NewGroupNameFragmentActivity.startNewGroupNameFragmentActivity(MyStockPullToRefreshPinnedSectionListViewActivity.this,"", "",null);
 			}
 		});
 		txt_edit_group.setOnClickListener(new OnClickListener() {

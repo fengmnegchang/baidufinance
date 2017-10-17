@@ -21,12 +21,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.adapter.mystock.GroupPopupAdapter;
 import com.open.baidu.finance.bean.mystock.GroupBean;
 import com.open.baidu.finance.bean.mystock.StockBean;
 import com.open.baidu.finance.fragment.mystock.MyStockPullToRefreshPinnedSectionListViewFragment;
@@ -101,14 +103,9 @@ public class MyStockViewPagerFragmentActivity extends CommonTitleBarActivity{
 			//编辑
 			MyStockViewPagerFragment fragment = (MyStockViewPagerFragment) getSupportFragmentManager().findFragmentById(R.id.layout_content);
 			if(fragment!=null){
-				MyStockPullToRefreshPinnedSectionListViewFragment f = (MyStockPullToRefreshPinnedSectionListViewFragment) fragment.listFragment.get(fragment.position);
-				GroupBean bean = new GroupBean();
-				ArrayList<StockBean> list = (ArrayList<StockBean>) f.getList();
-				list.remove(0);
-				bean.setStock(list);
-				bean.setGroup_id(f.getGroupId());
-				bean.setGroup_name(f.getGroupName());
-				StockEditDragSortListViewFragmentActivity.startMyStockViewPagerFragmentActivity(this, url,bean);
+				GroupListJson  groupJson = new GroupListJson();
+				groupJson.setGroupList(fragment.getList());
+				StockEditDragSortListViewFragmentActivity.startMyStockViewPagerFragmentActivity(this, url,groupJson,fragment.position);
 			}
 			break;
 		case R.id.txt_title:
@@ -124,9 +121,14 @@ public class MyStockViewPagerFragmentActivity extends CommonTitleBarActivity{
 		// 加载布局
 		View view = LayoutInflater.from(this).inflate(R.layout.layout_stock_group_popup_window, null);
 		WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		
+		MyStockViewPagerFragment fragment = (MyStockViewPagerFragment) getSupportFragmentManager().findFragmentById(R.id.layout_content);
+		GroupPopupAdapter mGroupPopupAdapter = new GroupPopupAdapter(this, fragment.getList());
+		ListView listview = (ListView) view.findViewById(R.id.listview);
+		listview.setAdapter(mGroupPopupAdapter);
 		// 找到布局的控件
 		// 实例化popupWindow
-		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), 400);
+		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), fragment.getList().size()*150+150);
 		// 控制键盘是否可以获得焦点
 		popupWindow.setFocusable(true);
 		setBackgroundAlpha(0.5f);//设置屏幕透明度
@@ -157,7 +159,7 @@ public class MyStockViewPagerFragmentActivity extends CommonTitleBarActivity{
 				if(popupWindow!=null){
 					popupWindow.dismiss();
 				}
-				NewGroupNameFragmentActivity.startNewGroupNameFragmentActivity(MyStockViewPagerFragmentActivity.this,"", "");
+				NewGroupNameFragmentActivity.startNewGroupNameFragmentActivity(MyStockViewPagerFragmentActivity.this,"", "",null);
 			}
 		});
 		txt_edit_group.setOnClickListener(new OnClickListener() {

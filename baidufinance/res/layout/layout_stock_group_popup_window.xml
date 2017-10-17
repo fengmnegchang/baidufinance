@@ -5,49 +5,33 @@
     android:layout_alignParentBottom="true"
     android:background="#ffffff" >
 
-    <TextView
-        android:id="@+id/txt_default"
-        android:layout_width="match_parent"
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="自选股"
-        android:textSize="16dp" />
-    <ImageView 
+        android:cacheColorHint="#00000000"
+        android:divider="#19000000"
+        android:dividerHeight="1dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" />
+
+    <ImageView
         android:id="@+id/img_close"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/portfolio_trendchart_dynamic_exit"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        />
-
-    <View
-        android:id="@+id/div_view1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/txt_default"
-        android:layout_centerHorizontal="true"
-        android:background="@color/div_color" />
-
-    <TextView
-        android:id="@+id/txt_us"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/div_view1"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="美股"
-        android:textSize="16dp" />
+        android:src="@drawable/portfolio_trendchart_dynamic_exit" />
 
     <View
         android:id="@+id/div_view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/txt_us"
+        android:layout_below="@+id/listview"
         android:layout_centerHorizontal="true"
         android:background="@color/div_color" />
 
@@ -56,11 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/div_view2"
+        android:layout_marginRight="20dp"
         android:layout_toLeftOf="@+id/div_view3"
         android:drawableLeft="@drawable/group_edit_2"
         android:padding="10dp"
         android:text="编辑分组"
-        android:layout_marginRight="20dp"
         android:textColor="@color/blue_color"
         android:textSize="16dp" />
 
@@ -77,8 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/div_view2"
-        android:layout_toRightOf="@+id/div_view3"
         android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/div_view3"
         android:drawableLeft="@drawable/group_create"
         android:padding="10dp"
         android:text="新建分组"

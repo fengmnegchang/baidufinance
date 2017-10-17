@@ -5,40 +5,24 @@
     android:layout_alignParentBottom="true"
     android:background="#ffffff" >
 
-    <TextView
-        android:id="@+id/txt_default"
-        android:layout_width="match_parent"
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="自选股"
-        android:textSize="16dp" />
-
-    <View
-        android:id="@+id/div_view1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/txt_default"
-        android:layout_centerHorizontal="true"
-        android:background="@color/div_color" />
-
-    <TextView
-        android:id="@+id/txt_us"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/div_view1"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="美股"
-        android:textSize="16dp" />
+        android:cacheColorHint="#00000000"
+        android:divider="#19000000"
+        android:dividerHeight="1dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" />
 
     <View
         android:id="@+id/div_view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/txt_us"
+        android:layout_below="@+id/listview"
         android:layout_centerHorizontal="true"
         android:background="@color/div_color" />
 

@@ -86,7 +86,7 @@ public class GroupEditDragSortAdapter extends CommonAdapter<GroupBean> {
 				@Override
 				public void onClick(View v) {
 					//重命名
-					NewGroupNameFragmentActivity.startNewGroupNameFragmentActivity(mContext, null, bean.getGroup_name());
+					NewGroupNameFragmentActivity.startNewGroupNameFragmentActivity(mContext, null, bean.getGroup_name(),bean.getGroup_id());
 				}
 			});
 			
