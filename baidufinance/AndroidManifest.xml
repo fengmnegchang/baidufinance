@@ -105,6 +105,18 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_search_stock_fragment_desp" >
         </activity>
+        <!--图片浏览 -->
+        <activity
+            android:name=".activity.ImageScanActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_image_scan_desp" >
+        </activity>
+        <!--看图图片  -->
+        <activity
+            android:name=".activity.ShowImageActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_show_image_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

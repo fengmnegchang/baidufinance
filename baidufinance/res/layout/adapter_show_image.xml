@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <com.open.baidu.finance.widget.ScanImageView
+        android:id="@+id/child_image"
+        android:layout_width="fill_parent"
+        android:layout_height="150dip"
+        android:paddingBottom="30dip"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:paddingTop="18dip"
+        android:scaleType="fitXY" />
+
+    <CheckBox
+        android:id="@+id/child_checkbox"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:button="@drawable/checkbox_normal_light" />
+
+</RelativeLayout>
