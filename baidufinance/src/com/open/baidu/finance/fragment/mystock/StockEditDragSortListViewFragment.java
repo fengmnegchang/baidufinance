@@ -74,6 +74,7 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 	public CheckBox checkbox_all;
 	public TextView txt_move, txt_delete;
 	public PopupWindow popupWindow;
+	public GroupBean groupBean;
 
 	public static StockEditDragSortListViewFragment newInstance(String url, GroupBean groupBean, boolean isVisibleToUser) {
 		StockEditDragSortListViewFragment fragment = new StockEditDragSortListViewFragment();
@@ -81,6 +82,7 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
 		fragment.list = groupBean.getStock();
+		fragment.groupBean = groupBean;
 		return fragment;
 	}
 
@@ -218,7 +220,7 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 		params.put("vv", "100");
 		params.put("format", "json");
 		params.put("stock_code", stockCode);
-		params.put("group_id", "8a5205fe03d1e3fcd7ec591ff8daea29");
+		params.put("group_id", groupBean.getGroup_id()+"");
 		params.put("token", "9df0129455f37719");
 		params.put("timestamp", System.currentTimeMillis()+"");
 

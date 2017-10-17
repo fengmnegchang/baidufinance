@@ -66,6 +66,8 @@ implements OnRefreshListener<ListView>{
 	public List<StockBean> list = new ArrayList<StockBean>();
 	public List<StockBean> temptlist = new ArrayList<StockBean>();
 	public View headview;
+	public String groupId;
+	public String groupName;
 
 	public static MyStockPullToRefreshPinnedSectionListViewFragment newInstance(String url, boolean isVisibleToUser) {
 		MyStockPullToRefreshPinnedSectionListViewFragment fragment = new MyStockPullToRefreshPinnedSectionListViewFragment();
@@ -196,6 +198,10 @@ implements OnRefreshListener<ListView>{
 				list.add(bean);
 				list.addAll(result.getData().get(0).getData().getGroupList().get(0).getStock());
 				temptlist.addAll(result.getData().get(0).getData().getGroupList().get(0).getStock());
+				
+				setGroupId(result.getData().get(0).getData().getGroupList().get(0).getGroup_id());
+				setGroupName(result.getData().get(0).getData().getGroupList().get(0).getGroup_name());
+				
 				mMyStockAdapter.notifyDataSetChanged();
 				
 				IndexMarkHeadFragment fragment = (IndexMarkHeadFragment) getChildFragmentManager().findFragmentById(R.id.id_mystock_headview);
@@ -443,6 +449,22 @@ implements OnRefreshListener<ListView>{
 	 */
 	public List<StockBean> getList() {
 		return list;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 	
 	  

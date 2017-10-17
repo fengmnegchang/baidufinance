@@ -61,11 +61,14 @@ OnClickListener, OnCheckedChangeListener {
 	public TextView txt_add_group;
 	
 	
-	public static GroupEditDragSortListViewFragment newInstance(String url, boolean isVisibleToUser) {
+	public static GroupEditDragSortListViewFragment newInstance(String url,GroupListJson  groupJson, boolean isVisibleToUser) {
 		GroupEditDragSortListViewFragment fragment = new GroupEditDragSortListViewFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
+		if(groupJson!=null&& groupJson.getGroupList()!=null){
+			fragment.list = groupJson.getGroupList();
+		}
 		return fragment;
 	}
 
@@ -89,13 +92,6 @@ OnClickListener, OnCheckedChangeListener {
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-		GroupBean bean = new GroupBean();
-		bean.setGroup_name("自选股");
-		list.add(bean);
-		
-		bean = new GroupBean();
-		bean.setGroup_name("美股");
-		list.add(bean);
 		mGroupEditDragSortAdapter = new GroupEditDragSortAdapter(getActivity(), weakReferenceHandler, list);
 		mDragSortListView.setAdapter(mGroupEditDragSortAdapter);
 		

@@ -56,7 +56,7 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.GATHERMYSTOCK;
+			url = UrlUtils.GATHERMYSTOCK+"8a5205fe03d1e3fcd7ec591ff8daea29%22%7D%5D";
 		}
 		setCenterTextValue(getResources().getString(R.string.app_mystock_desp)+"  ");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
@@ -82,6 +82,8 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 				ArrayList<StockBean> list = (ArrayList<StockBean>) fragment.getList();
 				list.remove(0);
 				bean.setStock(list);
+				bean.setGroup_id(fragment.getGroupId());
+				bean.setGroup_name(fragment.getGroupName());
 				StockEditDragSortListViewFragmentActivity.startMyStockViewPagerFragmentActivity(this, url,bean);
 			}
 			break;

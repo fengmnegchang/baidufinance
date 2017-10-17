@@ -20,6 +20,7 @@ import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.mystock.GroupBean;
 import com.open.baidu.finance.fragment.mystock.GroupEditDragSortListViewFragment;
+import com.open.baidu.finance.json.mystock.GroupListJson;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -85,14 +86,14 @@ public class GroupEditDragSortListViewFragmentActivity extends CommonTitleBarAct
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = GroupEditDragSortListViewFragment.newInstance(url, true);
+		Fragment fragment = GroupEditDragSortListViewFragment.newInstance(url,(GroupListJson)getIntent().getSerializableExtra("GROUPJSON"), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 
-	public static void startGroupEditDragSortListViewFragmentActivity(Context context, String url,GroupBean bean) {
+	public static void startGroupEditDragSortListViewFragmentActivity(Context context, String url,GroupListJson  groupJson) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
-		intent.putExtra("GROUPBEAN", bean);
+		intent.putExtra("GROUPJSON", groupJson);
 		intent.setClass(context, GroupEditDragSortListViewFragmentActivity.class);
 		context.startActivity(intent);
 	}

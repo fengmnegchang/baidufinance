@@ -12,7 +12,11 @@
 package com.open.baidu.finance.fragment.mystock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -24,12 +28,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.open.android.adapter.CommonFragmentPagerAdapter;
-import com.open.android.bean.CommonBean;
 import com.open.android.fragment.BaseV4Fragment;
-import com.open.android.json.CommonJson;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.mystock.MyStockViewPagerFragmentActivity;
+import com.open.baidu.finance.bean.mystock.GroupBean;
+import com.open.baidu.finance.json.mystock.StockJson;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -43,12 +54,12 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class MyStockViewPagerFragment extends BaseV4Fragment<CommonJson, MyStockViewPagerFragment> implements OnPageChangeListener {
+public class MyStockViewPagerFragment extends BaseV4Fragment<StockJson, MyStockViewPagerFragment> implements OnPageChangeListener {
 	public ViewPager viewpager;
 	public CommonFragmentPagerAdapter mCommonFragmentPagerAdapter;
 	public List<Fragment> listFragment = new ArrayList<Fragment>();
 	public List<String> titleList = new ArrayList<String>();
-	public List<CommonBean> list = new ArrayList<CommonBean>();
+	public List<GroupBean> list = new ArrayList<GroupBean>();
 
 	public static MyStockViewPagerFragment newInstance(String url, boolean isVisibleToUser) {
 		MyStockViewPagerFragment fragment = new MyStockViewPagerFragment();
@@ -90,25 +101,41 @@ public class MyStockViewPagerFragment extends BaseV4Fragment<CommonJson, MyStock
 		super.bindEvent();
 		viewpager.setOnPageChangeListener(this);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.open.enrz.fragment.BaseV4Fragment#call()
+ 
+	
+	/* (non-Javadoc)
+	 * @see com.open.qianbailu.fragment.BaseV4Fragment#onErrorResponse(com.android.volley.VolleyError)
 	 */
 	@Override
-	public CommonJson call() throws Exception {
+	public void onErrorResponse(VolleyError error) {
 		// TODO Auto-generated method stub
-		CommonJson mIndexFocusJson = new CommonJson();
-		List<CommonBean> dlist = new ArrayList<CommonBean>();
-		CommonBean bean = new CommonBean();
-		dlist.add(bean);
-
-		bean = new CommonBean();
-		dlist.add(bean);
-
-		mIndexFocusJson.setDotlist(dlist);
-		return mIndexFocusJson;
+		super.onErrorResponse(error);
+		System.out.println(error);
+	}
+	
+	@Override
+	public void volleyJson(final String href) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		Map<String,String> params = new HashMap<String,String>(); 
+		params.put("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
+		params.put("Referer","https://gupiao.baidu.com/my/");
+		params.put("Cookie", "BAIDUID=CF6C53AD63064C72CDA6A1CF7788EC1C:FG=1; BIDUPSID=CF6C53AD63064C72CDA6A1CF7788EC1C; PSTM=1504837961; MCITY=-289%3A; BDUSS=0dkR0YyclhzQTdsdTBnV09mRkFtYnRRYWdUM3BXV2E5d204RUVLeklHdnFxZ0phTVFBQUFBJCQAAAAAAAAAAAEAAAD5apgiZmVuZ3hpYW4wMzgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOod21nqHdtZS; stoken=4f7caf550b1c8aa74fb4b459d6d670d428c747b61bcda1f865b03434c562a47e; locale=zh; PSINO=5; H_PS_PSSID=1434_21118_17001_20929; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; Hm_lvt_35d1e71f4c913c126b8703586f1d2307=1507532257,1507532966,1507533021,1507692673; Hm_lpvt_35d1e71f4c913c126b8703586f1d2307=1507778418");
+		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, href,params,null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				System.out.println("href=" + href);
+				System.out.println("response=" + response.toString());
+				try {
+					Gson gson = new Gson();
+					StockJson result = gson.fromJson(response.toString(), StockJson.class);
+					onCallback(result);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}, MyStockViewPagerFragment.this);
+		requestQueue.add(jsonObjectRequest);
 	}
 
 	/*
@@ -117,25 +144,19 @@ public class MyStockViewPagerFragment extends BaseV4Fragment<CommonJson, MyStock
 	 * @see com.open.enrz.fragment.BaseV4Fragment#onCallback(java.lang.Object)
 	 */
 	@Override
-	public void onCallback(CommonJson result) {
+	public void onCallback(StockJson result) {
 		// TODO Auto-generated method stub
 		super.onCallback(result);
 		list.clear();
-		list.addAll(result.getDotlist());
+		list.addAll(result.getData().get(0).getData().getGroupList());
 		for (int i = 0; i < list.size(); i++) {
-			switch (i) {
-			case 0:
-				titleList.add("自选股");
-				listFragment.add(MyStockPullToRefreshPinnedSectionListViewFragment.newInstance(UrlUtils.GATHERMYSTOCK, true));
-				break;
-			case 1:
-				titleList.add("美股");
-				listFragment.add(MyStockPullToRefreshPinnedSectionListViewFragment.newInstance(UrlUtils.GATHERMYSTOCK_US, false));
-				break;
-			default:
-				break;
+			titleList.add(list.get(i).getGroup_name());
+			if(i==0){
+				// 8a5205fe03d1e3fcd7ec591ff8daea29 %22%7D%5D
+				listFragment.add(MyStockPullToRefreshPinnedSectionListViewFragment.newInstance(UrlUtils.GATHERMYSTOCK+list.get(i).getGroup_id()+"%22%7D%5D", true));
+			}else{
+				listFragment.add(MyStockPullToRefreshPinnedSectionListViewFragment.newInstance(UrlUtils.GATHERMYSTOCK+list.get(i).getGroup_id()+"%22%7D%5D", false));
 			}
-
 		}
 		mCommonFragmentPagerAdapter.notifyDataSetChanged();
 	}
@@ -190,11 +211,15 @@ public class MyStockViewPagerFragment extends BaseV4Fragment<CommonJson, MyStock
 		// TODO Auto-generated method stub
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
-			doAsync(this, this, this);
+			volleyJson(url);
 			break;
 		default:
 			break;
 		}
+	}
+
+	public List<GroupBean> getList() {
+		return list;
 	}
 
 }
