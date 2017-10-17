@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp" >
+
+    <TextView
+        android:id="@+id/txt_stock_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:text="中国石油"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_stock_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_stock_name"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:text="601857 已在自选股分组中"
+        android:textColor="@color/gray_75_color"
+        android:textSize="12dp" />
+
+    <ImageView
+        android:id="@+id/img_add"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/stock_add" />
+
+    <TextView
+        android:id="@+id/txt_clean"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/gray_75_color"
+        android:textSize="16dp"
+        android:visibility="gone"
+        android:text="清空历史记录" />
+
+</RelativeLayout>

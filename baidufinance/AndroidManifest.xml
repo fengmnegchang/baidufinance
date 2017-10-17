@@ -99,6 +99,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_group_edit_dragsort_fragment_desp" >
         </activity>
+        <!--搜索 -->
+        <activity
+            android:name=".activity.mystock.SearchStockFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_search_stock_fragment_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

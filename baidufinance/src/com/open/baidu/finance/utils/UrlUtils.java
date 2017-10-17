@@ -44,4 +44,8 @@ public class UrlUtils {
 	public static final String DELGROUP ="https://gupiao.baidu.com/api/rails/delgroup";
 	/**编辑分组*/
 	public static final String MODIFYGROUP ="https://gupiao.baidu.com/api/rails/modifygroup";
+	/**搜索股票*/
+	public static final String STOCKQUERY="https://gupiao.baidu.com/api/search/stockquery?from=pc&os_ver=1&cuid=xxx&vv=3.2&format=json&asset=0%2C4%2C14&timestamp=1508218838054&query_content=";
+	/**添加股票*/
+	public static final String ADDMYSTOCK="https://gupiao.baidu.com/api/rails/addmystock";
 }

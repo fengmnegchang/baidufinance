@@ -13,6 +13,7 @@
     <string name="app_stock_alarm_fragment_desp"> 提醒设置 </string>
     <string name="app_new_group_fragment_desp">新建分组</string>
     <string name="app_group_edit_dragsort_fragment_desp">编辑分组</string>
+    <string name="app_search_stock_fragment_desp">搜索股票</string>
     <string-array name="jazz_artist_names">
       <item>Brad Mehldau</item>
       <item>Joshua Redman</item>
