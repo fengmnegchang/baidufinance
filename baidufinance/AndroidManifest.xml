@@ -25,7 +25,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+        >
         <activity
             android:name=".activity.SplashActivity"
             android:description="@string/app_name"
@@ -128,6 +129,12 @@
             android:name=".activity.mystock.RecognitionStockImageFragmentActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_recongition_image_stock_desp" >
+        </activity>
+        <!--行业解析 -->
+        <activity
+            android:name=".activity.news.TagNewsPullListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_news_tagnews_f_desp" >
         </activity>
         <!-- 所有类列表 -->
         <activity

@@ -48,4 +48,18 @@ public class UrlUtils {
 	public static final String STOCKQUERY="https://gupiao.baidu.com/api/search/stockquery?from=pc&os_ver=1&cuid=xxx&vv=3.2&format=json&asset=0%2C4%2C14&timestamp=1508218838054&query_content=";
 	/**添加股票*/
 	public static final String ADDMYSTOCK="https://gupiao.baidu.com/api/rails/addmystock";
+	/**行业解析*/
+	public static final String GETTAGNEWS="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=4000007&tagname=%E8%A1%8C%E4%B8%9A%E8%A7%A3%E6%9E%90&count=31&timestamp=1508316036756";
+	/**今日要闻*/
+	public static final String GETTAGNEWS_TODAY_NEWS="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=4000004&tagname=%E6%A6%82%E5%BF%B5%E7%83%AD%E7%82%B9&count=31&timestamp=1508317887490";
+	/**宏观经济*/
+	public static final String GETTAGNEWS_ECONOMY="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=4000008&tagname=%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E&count=31&timestamp=1508318189026";
+	/**概念热点*/
+	public static final String GETTAGNEWS_THEME_HOT="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=4000004&tagname=%E6%A6%82%E5%BF%B5%E7%83%AD%E7%82%B9&count=31&timestamp=1508318292918";
+	/**研究报告*/
+	public static final String GETTAGNEWS_REPORT="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=&tagname=%E7%A0%94%E7%A9%B6%E6%8A%A5%E5%91%8A&count=31&timestamp=1508318333541";
+	public static final String GETTAGNEWS_REPORT_2="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=&tagname=%E8%82%A1%E7%A5%A8%E7%A0%94%E6%8A%A5&count=31&timestamp=1508318333543";
+	public static final String GETTAGNEWS_REPORT_3="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=&tagname=%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%91%8A&count=31&timestamp=1508318333544";
+
+
 }

@@ -18,6 +18,7 @@
     <string name="app_show_image_desp">看图图片</string>
     <string name="app_image_scan_stock_desp">stock浏览图片</string>
     <string name="app_recongition_image_stock_desp">导入识别图片</string>
+    <string name="app_news_tagnews_f_desp">行业解析</string>
 
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>

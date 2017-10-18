@@ -2,57 +2,45 @@
  *****************************************************************************************************************************************************************************
  * 
  * @author :fengguangjing
- * @createTime:2017-10-12上午11:25:12
+ * @createTime:2017-10-18下午4:46:23
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
  * @description:
  *****************************************************************************************************************************************************************************
  */
-package com.open.baidu.finance.json;
+package com.open.baidu.finance.json.news;
 
-import java.io.Serializable;
+import java.util.List;
 
-import com.open.android.json.CommonJson;
+import com.open.baidu.finance.bean.news.TagNewsBean;
+import com.open.baidu.finance.json.CommonDataJson;
+import com.open.baidu.finance.json.news.TagNewsDataJson.TagNewsDataModel;
 
 /**
  ***************************************************************************************************************************************************************************** 
  * 
  * @author :fengguangjing
- * @createTime:2017-10-12上午11:25:12
+ * @createTime:2017-10-18下午4:46:23
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class CommonDataJson<T> extends CommonJson implements Serializable {
-	private int errorNo;// 0
-	private String errorMsg;// SUCCESS
-	private T data;
+public class TagNewsDataJson extends CommonDataJson<TagNewsDataModel> {
 
-	public int getErrorNo() {
-		return errorNo;
-	}
+	public class TagNewsDataModel {
+		private List<TagNewsBean> tagnews;
 
-	public void setErrorNo(int errorNo) {
-		this.errorNo = errorNo;
-	}
+		public List<TagNewsBean> getTagnews() {
+			return tagnews;
+		}
 
-	public String getErrorMsg() {
-		return errorMsg;
-	}
+		public void setTagnews(List<TagNewsBean> tagnews) {
+			this.tagnews = tagnews;
+		}
 
-	public void setErrorMsg(String errorMsg) {
-		this.errorMsg = errorMsg;
-	}
-
-	public T getData() {
-		return data;
-	}
-
-	public void setData(T data) {
-		this.data = data;
 	}
 
 }
