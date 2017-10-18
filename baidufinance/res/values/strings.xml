@@ -16,23 +16,26 @@
     <string name="app_search_stock_fragment_desp">搜索股票</string>
     <string name="app_image_scan_desp">浏览图片</string>
     <string name="app_show_image_desp">看图图片</string>
-     <string name="app_image_scan_stock_desp">stock浏览图片</string>
+    <string name="app_image_scan_stock_desp">stock浏览图片</string>
+    <string name="app_recongition_image_stock_desp">导入识别图片</string>
+
     <string-array name="jazz_artist_names">
-      <item>Brad Mehldau</item>
-      <item>Joshua Redman</item>
-      <item>Chick Corea</item>
-      <item>Kurt Rosenwinkel</item>
-      <item>Miles Davis</item>
-      <item>Wayne Shorter</item>
-      <item>Michael Brecker</item>
-      <item>Herbie Hancock</item>
-      <item>Joe Zawinul</item>
-      <item>Brian Blade</item>
-      <item>Jeff Ballard</item>
-      <item>Larry Grenadier</item>
-      <item>Keith Jarrett</item>
-      <item>McCoy Tyner</item>
-      <item>Stephon Harris</item>
-      <item>Mark Turner</item>
+        <item>Brad Mehldau</item>
+        <item>Joshua Redman</item>
+        <item>Chick Corea</item>
+        <item>Kurt Rosenwinkel</item>
+        <item>Miles Davis</item>
+        <item>Wayne Shorter</item>
+        <item>Michael Brecker</item>
+        <item>Herbie Hancock</item>
+        <item>Joe Zawinul</item>
+        <item>Brian Blade</item>
+        <item>Jeff Ballard</item>
+        <item>Larry Grenadier</item>
+        <item>Keith Jarrett</item>
+        <item>McCoy Tyner</item>
+        <item>Stephon Harris</item>
+        <item>Mark Turner</item>
     </string-array>
+
 </resources>

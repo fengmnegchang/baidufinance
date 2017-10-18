@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true" >
+
+    <com.open.baidu.finance.widget.ScanImageView
+        android:id="@+id/scan_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:id="@+id/img_refresh"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:src="@drawable/stockdetails_refresh_p" />
+
+    <TextView
+        android:id="@+id/txt_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_refresh"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="没有识别到有效的股票名称，\n请上传清晰带有股票名称或代码的截图" />
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/txt_tip"
+        android:layout_margin="15dp"
+        android:visibility="gone"
+        android:background="@drawable/blue_btn_shape"
+        android:text="再试一次"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>

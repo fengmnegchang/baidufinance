@@ -123,6 +123,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_image_scan_stock_desp" >
         </activity>
+        <!--导入图片 -->
+        <activity
+            android:name=".activity.mystock.RecognitionStockImageFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_recongition_image_stock_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

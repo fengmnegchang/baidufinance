@@ -29,26 +29,24 @@ import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.TextView;
 
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.json.CommonJson;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.activity.mystock.NewGroupNameFragmentActivity;
+import com.open.baidu.finance.activity.mystock.RecognitionStockImageFragmentActivity;
 import com.open.baidu.finance.adapter.ChildAdapter;
-import com.open.baidu.finance.adapter.mystock.GroupPopupAdapter;
 import com.open.baidu.finance.adapter.mystock.ScanStockImagePopupAdapter;
 import com.open.baidu.finance.bean.ImageBean;
-import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -105,6 +103,13 @@ public class ImageScanStockGridFragment extends BaseV4Fragment<CommonJson, Image
 		// TODO Auto-generated method stub
 		super.bindEvent();
 		txt_group.setOnClickListener(this);
+		mGridView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				// TODO Auto-generated method stub
+				RecognitionStockImageFragmentActivity.startRecognitionStockImageFragmentActivity(getActivity(), list.get((int)id));
+			}
+		});
 	}
 	
 	/* (non-Javadoc)
@@ -235,12 +240,10 @@ public class ImageScanStockGridFragment extends BaseV4Fragment<CommonJson, Image
 				}
 				list.clear();
 				if((int)id==0){
-					list = alllist;
+					list.addAll(alllist);
 				}else{
-					list = mGruopMap.get(groupList.get(position).getFolderName());
+					list.addAll(mGruopMap.get(groupList.get(position).getFolderName()));
 				}
-				mChildAdapter = new ChildAdapter(getActivity(), list, mGridView);
-				mGridView.setAdapter(mChildAdapter);
 				mChildAdapter.notifyDataSetChanged();
 			}
 		});
