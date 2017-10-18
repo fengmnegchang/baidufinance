@@ -26,6 +26,7 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
+import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.mystock.GroupPopupAdapter;
 import com.open.baidu.finance.bean.mystock.GroupBean;
@@ -124,7 +125,7 @@ public class MyStockPullToRefreshPinnedSectionListViewActivity extends CommonTit
 		listview.setAdapter(mGroupPopupAdapter);
 		// 找到布局的控件
 		// 实例化popupWindow
-		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), glist.size()*150+150);
+		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), (int)ScreenUtils.getIntToDip(this, (glist.size()*40+60)));
 		// 控制键盘是否可以获得焦点
 		popupWindow.setFocusable(true);
 		setBackgroundAlpha(0.5f);//设置屏幕透明度

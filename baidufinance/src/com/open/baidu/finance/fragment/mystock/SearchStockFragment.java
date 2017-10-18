@@ -52,7 +52,9 @@ import com.google.gson.Gson;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.mystock.ImageScanStockGridFragmentActivity;
 import com.open.baidu.finance.activity.mystock.NewGroupNameFragmentActivity;
 import com.open.baidu.finance.adapter.mystock.GroupPopupAdapter;
 import com.open.baidu.finance.adapter.mystock.SearchStockAdapter;
@@ -155,6 +157,9 @@ public class SearchStockFragment extends BaseV4Fragment<SearchStockJson, SearchS
 		switch (v.getId()) {
 		case R.id.btn_cancel:
 			getActivity().finish();
+			break;
+		case R.id.img_photo:
+			ImageScanStockGridFragmentActivity.startImageScanStockGridFragmentActivity(getActivity(), url);
 			break;
 		default:
 			break;
@@ -319,7 +324,7 @@ public class SearchStockFragment extends BaseV4Fragment<SearchStockJson, SearchS
 		});
 		// 找到布局的控件
 		// 实例化popupWindow
-		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), glist.size()*200+150);
+		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), (int)ScreenUtils.getIntToDip(getActivity(), (glist.size()*40+100)));
 		// 控制键盘是否可以获得焦点
 		popupWindow.setFocusable(true);
 		setBackgroundAlpha(0.5f);//设置屏幕透明度

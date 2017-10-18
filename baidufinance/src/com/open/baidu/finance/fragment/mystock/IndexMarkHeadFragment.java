@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.json.CommonJson;
+import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.mystock.IndexGridPopupAdapter;
 import com.open.baidu.finance.bean.mystock.StockBean;
@@ -113,7 +114,7 @@ public class IndexMarkHeadFragment extends BaseV4Fragment<CommonJson, IndexMarkH
 		mGridView.setAdapter(mIndexGridPopupAdapter);
 		//找到布局的控件
 		// 实例化popupWindow
-		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(),610);
+		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(),(int)ScreenUtils.getIntToDip(getActivity(), (this.indexlist.size()/4f*60+30)));
 		//控制键盘是否可以获得焦点
 		popupWindow.setFocusable(true);
 		//设置popupWindow弹出窗体的背景

@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +49,7 @@ import com.android.volley.toolbox.NormalPostRequest;
 import com.android.volley.toolbox.Volley;
 import com.mobeta.android.dslv.DragSortListView;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.mystock.NewGroupNameFragmentActivity;
 import com.open.baidu.finance.adapter.mystock.GroupPopupAdapter;
@@ -327,14 +329,15 @@ public class StockEditDragSortListViewFragment extends BaseV4Fragment<GroupBean,
 		});
 		// 找到布局的控件
 		// 实例化popupWindow
-		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), groupListJson.getGroupList().size()*200+250);
+		popupWindow = new PopupWindow(view, manager.getDefaultDisplay().getWidth(), (int)ScreenUtils.getIntToDip(getActivity(), (groupListJson.getGroupList().size()*40+100)));
 		// 控制键盘是否可以获得焦点
 		popupWindow.setFocusable(true);
 		setBackgroundAlpha(0.5f);//设置屏幕透明度
 		// 设置popupWindow弹出窗体的背景
 		popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.gray_popup_drag_shape));
 
-		popupWindow.showAsDropDown(parent, 0, -80);
+		popupWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.LEFT, 0,
+	            0);
 		
 		TextView txt_add_group = (TextView) view.findViewById(R.id.txt_add_group);
 		TextView txt_cancel = (TextView) view.findViewById(R.id.txt_cancel);
