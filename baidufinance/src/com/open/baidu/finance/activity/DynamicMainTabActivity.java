@@ -27,6 +27,7 @@ import com.open.android.activity.CommonTabActivity;
 import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.mystock.MyStockViewPagerFragmentActivity;
+import com.open.baidu.finance.activity.news.TagNewsIndicatorFragmentActivity;
 import com.open.baidu.finance.bean.MainTabBean;
 import com.open.baidu.finance.json.MainTabJson;
 /**
@@ -112,7 +113,7 @@ public class DynamicMainTabActivity extends CommonTabActivity<MainTabJson>{
             if(mbean.getTitle().equals("自选股")){
                   intent = new Intent(this, MyStockViewPagerFragmentActivity.class);
             }else if(mbean.getTitle().equals("资讯")){
-                  intent = new Intent(this, CommonDotPagerFragmentFragmentActivity.class);
+                  intent = new Intent(this, TagNewsIndicatorFragmentActivity.class);
             }else if(mbean.getTitle().equals("智能选股")){
                   intent = new Intent(this, CommonDotPagerFragmentFragmentActivity.class);
             }else if(mbean.getTitle().equals("行情")){
