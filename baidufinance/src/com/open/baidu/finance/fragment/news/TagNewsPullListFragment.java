@@ -18,6 +18,8 @@ import org.json.JSONObject;
 
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +30,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.baidu.finance.activity.article.NewsContainerPullScrollFragmentActivity;
 import com.open.baidu.finance.adapter.news.TagNewsAdapter;
 import com.open.baidu.finance.bean.news.TagNewsBean;
 import com.open.baidu.finance.fragment.mystock.MyStockPullToRefreshPinnedSectionListViewFragment;
@@ -149,5 +152,18 @@ public class TagNewsPullListFragment extends CommonPullToRefreshListFragment<Tag
 			}
 		}, TagNewsPullListFragment.this);
 		requestQueue.add(jsonObjectRequest);
+	}
+	
+ 
+	
+	/* (non-Javadoc)
+	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		// TODO Auto-generated method stub
+		if(id!=-1 && list!=null && list.get((int)id)!=null){
+			NewsContainerPullScrollFragmentActivity.startNewsContainerPullScrollFragmentActivity(getActivity(), UrlUtils.ARTICLE_URL+list.get((int)id).getNid());
+		}
 	}
 }

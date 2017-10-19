@@ -156,6 +156,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_subscribe_edit_dragsort_f_desp" >
         </activity>
+        <!--财经资讯 -->
+        <activity
+            android:name=".activity.article.NewsContainerPullScrollFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_article_pullscroll_f_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

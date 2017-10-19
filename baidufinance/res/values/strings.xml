@@ -22,6 +22,7 @@
     <string name="app_news_tab_f_desp">news Indicator 列表</string>
     <string name="app_hot_tieba_topic_f_desp">话题详情</string>
     <string name="app_subscribe_edit_dragsort_f_desp">订阅管理</string>
+    <string name="app_article_pullscroll_f_desp">财经资讯</string>
 
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>

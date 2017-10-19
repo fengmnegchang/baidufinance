@@ -58,8 +58,13 @@ public class UrlUtils {
 	public static final String GETTAGNEWS_REPORT="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=&tagname=%E7%A0%94%E7%A9%B6%E6%8A%A5%E5%91%8A&count=31&timestamp=1508318333541";
 	public static final String GETTAGNEWS_REPORT_2="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=&tagname=%E8%82%A1%E7%A5%A8%E7%A0%94%E6%8A%A5&count=31&timestamp=1508318333543";
 	public static final String GETTAGNEWS_REPORT_3="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=&tagname=%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%91%8A&count=31&timestamp=1508318333544";
-
-	
+	/**股票*/
 	public static final String GUPIAO_BAIDU="https://gupiao.baidu.com";
-
+	/**文章页面*/
+	public static final String ARTICLE="https://gupiao.baidu.com/article/TT1049386";
+	/**跳转文章页面*/
+	public static final String ARTICLE_URL="https://gupiao.baidu.com/article/";
+	
+	
+	
 }

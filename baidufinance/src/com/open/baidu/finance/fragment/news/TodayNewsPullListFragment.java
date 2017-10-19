@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -28,6 +29,7 @@ import com.open.andenginetask.Callable;
 import com.open.andenginetask.Callback;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.article.NewsContainerPullScrollFragmentActivity;
 import com.open.baidu.finance.activity.news.HotTiebaTopicPullListFragmentActivity;
 import com.open.baidu.finance.adapter.news.TagNewsAdapter;
 import com.open.baidu.finance.bean.news.TagNewsBean;
@@ -196,6 +198,17 @@ implements OnClickListener{
 			break;
 		default:
 			break;
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		// TODO Auto-generated method stub
+		if(id!=-1 && list!=null && list.get((int)id)!=null){
+			NewsContainerPullScrollFragmentActivity.startNewsContainerPullScrollFragmentActivity(getActivity(), list.get((int)id).getUrl());
 		}
 	}
 	
