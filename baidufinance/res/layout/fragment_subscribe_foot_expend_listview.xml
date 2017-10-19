@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dslv="http://schemas.android.com/apk/res/com.open.baidu.finance"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <View
+        android:id="@+id/div_view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_foot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view2"
+        android:background="#EBF1F6"
+        android:padding="10dp"
+        android:text="推荐订阅" />
+
+    <View
+        android:id="@+id/div_view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_foot"
+        android:background="@color/div_color" />
+
+    <com.open.android.view.ExpendListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/expend_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/div_view3"
+        android:cacheColorHint="#00000000"
+        android:divider="#19000000"
+        android:dividerHeight="1dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" />
+
+    <TextView
+        android:id="@+id/txt_footall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_below="@+id/div_view3"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:textSize="11dp"
+        android:textColor="@color/gray_75_color"
+        android:text="您已订阅全部新闻" />
+
+</RelativeLayout>

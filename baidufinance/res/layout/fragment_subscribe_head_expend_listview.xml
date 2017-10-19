@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dslv="http://schemas.android.com/apk/res/com.open.baidu.finance"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <EditText 
+        android:id="@+id/edit_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/gray_white_solid_shape"
+        android:layout_marginRight="10dp"
+        android:hint="订阅关键字"
+        android:textSize="12dp"
+        android:paddingTop="3dp"
+        android:editable="false"
+        android:paddingBottom="3dp"
+        android:textColorHint="@color/gray_75_color"
+        android:paddingLeft="3dp"
+        android:drawableLeft="@drawable/searchbox_icon"
+        />
+    
+    <View
+        android:id="@+id/div_view1"
+        android:layout_below="@+id/edit_search"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view1"
+        android:background="#EBF1F6"
+        android:padding="10dp"
+        android:text="已订阅" />
+
+    <View
+        android:id="@+id/div_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_head"
+        android:background="@color/div_color" />
+
+    <com.open.android.view.ExpendListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/expend_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/div_view"
+        android:cacheColorHint="#00000000"
+        android:divider="#19000000"
+        android:dividerHeight="1dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" />
+
+</RelativeLayout>
