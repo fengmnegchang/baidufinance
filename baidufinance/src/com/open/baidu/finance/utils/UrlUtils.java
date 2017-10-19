@@ -59,5 +59,7 @@ public class UrlUtils {
 	public static final String GETTAGNEWS_REPORT_2="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=&tagname=%E8%82%A1%E7%A5%A8%E7%A0%94%E6%8A%A5&count=31&timestamp=1508318333543";
 	public static final String GETTAGNEWS_REPORT_3="https://gupiao.baidu.com/api/news/gettagnews?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tagid=&tagname=%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%91%8A&count=31&timestamp=1508318333544";
 
+	
+	public static final String GUPIAO_BAIDU="https://gupiao.baidu.com";
 
 }

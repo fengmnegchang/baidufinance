@@ -107,6 +107,11 @@ public class TagNewsIndicatorFragment extends BaseV4Fragment<MainTabJson, TagNew
 		MainTabJson mMainTabJson = new MainTabJson();
 		ArrayList<MainTabBean> clist = new ArrayList<MainTabBean>();
 		MainTabBean bean = new MainTabBean();
+		bean.setHref(UrlUtils.GUPIAO_BAIDU);
+		bean.setTitle("今日要闻");
+		clist.add(bean);
+		
+		bean = new MainTabBean();
 		bean.setHref(UrlUtils.GETTAGNEWS_ECONOMY);
 		bean.setTitle("宏观经济");
 		clist.add(bean);
@@ -143,12 +148,12 @@ public class TagNewsIndicatorFragment extends BaseV4Fragment<MainTabJson, TagNew
 		list.addAll(result.getList());
 		titleList.clear();
 
-		TagNewsPullListFragment fragment;
+		Fragment fragment;
 		for (int i=0;i< result.getList().size();i++) {
 			MainTabBean bean = result.getList().get(i);
 			titleList.add(bean.getTitle());
 			if(i==0){
-				fragment = TagNewsPullListFragment.newInstance(bean.getHref(),true);
+				fragment = TodayNewsPullListFragment.newInstance(bean.getHref(),true);
 			}else{
 				fragment = TagNewsPullListFragment.newInstance(bean.getHref(),false);
 			}

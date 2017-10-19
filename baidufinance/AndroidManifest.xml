@@ -26,6 +26,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" 
+        android:name="com.open.baidu.finance.application.CommonApplication"
         >
         <activity
             android:name=".activity.SplashActivity"
@@ -142,6 +143,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_news_tab_f_desp"
             android:theme="@style/Theme.PageIndicatorDefaults"  >
+        </activity>
+        <!--话题详情 -->
+        <activity
+            android:name=".activity.news.HotTiebaTopicPullListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_hot_tieba_topic_f_desp" >
         </activity>
         <!-- 所有类列表 -->
         <activity

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/round_solid_color"
+    android:paddingBottom="10dp"
+     >
+
+    <FrameLayout
+        android:id="@+id/id_today_viewpager_headview"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:background="#ffffff" />
+
+    <View
+        android:id="@+id/div_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/id_today_viewpager_headview"
+        android:layout_marginTop="10dp"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_hot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view"
+        android:padding="10dp"
+        android:textSize="16dp"
+        android:background="#ffffff"
+        android:text="热门话题" />
+    <TextView
+        android:id="@+id/txt_hotall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view"
+        android:layout_alignParentRight="true"
+        android:padding="10dp"
+        android:textSize="14dp"
+        android:textColor="@color/gray_75_color"
+        android:drawableRight="@drawable/news_hot_topic_icon"
+        android:text="查看全部 " />
+    <View
+        android:id="@+id/div_view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_hotall"
+        android:background="@color/div_color" />
+    
+    <TextView
+        android:id="@+id/txt_topic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view2"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:background="#ffffff"
+        android:textSize="16dp"
+        android:text="创业板突然爆发 探秘" />
+    <TextView
+        android:id="@+id/txt_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_view2"
+        android:background="@color/blue_color"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:textColor="#ffffff"
+        android:textSize="8dp"
+        android:text="推荐" />
+	<View
+        android:id="@+id/div_view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_topic"
+        android:background="@color/div_color" />
+</RelativeLayout>

@@ -11,11 +11,7 @@
  */
 package com.open.baidu.finance.json.news;
 
-import java.util.List;
-
-import com.open.baidu.finance.bean.news.TagNewsBean;
 import com.open.baidu.finance.json.CommonDataJson;
-import com.open.baidu.finance.json.news.TagNewsDataJson.TagNewsDataModel;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -30,17 +26,6 @@ import com.open.baidu.finance.json.news.TagNewsDataJson.TagNewsDataModel;
  */
 public class TagNewsDataJson extends CommonDataJson<TagNewsDataModel> {
 
-	public class TagNewsDataModel {
-		private List<TagNewsBean> tagnews;
-
-		public List<TagNewsBean> getTagnews() {
-			return tagnews;
-		}
-
-		public void setTagnews(List<TagNewsBean> tagnews) {
-			this.tagnews = tagnews;
-		}
-
-	}
+ 
 
 }

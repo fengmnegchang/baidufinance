@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12月19日晚间重要行业研究汇总(附股)"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_readcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_title"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="2条阅读"
+        android:textColor="@color/gray_75_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_replycount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_title"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/txt_readcount"
+        android:text="2条回复"
+        android:textColor="@color/gray_75_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_newstime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txt_title"
+        android:layout_marginTop="10dp"
+        android:text="12-19 15:32"
+        android:textColor="@color/gray_75_color"
+        android:textSize="14dp" />
+
+</RelativeLayout>
