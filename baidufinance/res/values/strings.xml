@@ -26,7 +26,7 @@
     <string name="app_m_foot_tagnews_tab_f_desp">m foot Indicator 列表</string>
     <string name="app_m_article_pullscroll_f_desp">m财经资讯</string>
     <string name="app_m_article_scrollablelayout_f_desp">m scrollablelayout财经资讯</string>
-
+	<string name="app_m_comment_pulllist_f_desp">m财经资讯 评论</string>
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
         <item>Joshua Redman</item>

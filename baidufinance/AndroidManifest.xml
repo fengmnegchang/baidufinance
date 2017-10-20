@@ -183,6 +183,12 @@
             android:theme="@style/Theme.PageIndicatorDefaults" 
             android:description="@string/app_m_article_scrollablelayout_f_desp" >
         </activity>
+        <!--评论 -->
+        <activity
+            android:name=".activity.article.MNewsCommentPullListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_m_comment_pulllist_f_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

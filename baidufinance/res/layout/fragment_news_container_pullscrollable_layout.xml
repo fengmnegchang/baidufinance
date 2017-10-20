@@ -8,14 +8,14 @@
         android:id="@+id/pulltorefreshscrollablelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:scrollbars="vertical" >
 
         <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="40dp" >
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_top"
+            >
 
             <TextView
                 android:id="@+id/txt_title"
@@ -82,29 +82,23 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="#F2F6FB" />
-
-            <RelativeLayout
-                android:id="@+id/layout_more"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/div_foot2" 
-		     >
-		
-			    <com.open.indicator.TabPageIndicator
-			        android:id="@+id/indicator"
-			        android:layout_width="fill_parent"
-			        android:layout_height="wrap_content" />
-			
-			    <android.support.v4.view.ViewPager
-			        android:id="@+id/viewpager"
-			        android:layout_width="match_parent"
-			        android:layout_height="match_parent"
-			        android:layout_below="@+id/indicator"
-			        android:background="#ffffff"
-			        android:layout_gravity="center"
-			        android:visibility="visible" />
-		</RelativeLayout>
         </RelativeLayout>
+
+        <com.open.indicator.TabPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_top"
+            />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_below="@+id/indicator"
+            android:background="#ffffff"
+            android:visibility="visible" />
     </com.open.baidu.finance.widget.PullToRefreshScrollableLayout>
 
     <ImageView

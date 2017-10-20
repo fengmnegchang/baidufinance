@@ -50,6 +50,7 @@ import com.open.android.widget.ScrollableHelper.ScrollableContainer;
 import com.open.android.widget.ScrollableLayout;
 import com.open.android.widget.ScrollableLayout.ScrollLayoutListener;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.article.MNewsCommentPullListFragmentActivity;
 import com.open.baidu.finance.bean.MainTabBean;
 import com.open.baidu.finance.fragment.news.MFootTagNewsPullListFragment;
 import com.open.baidu.finance.fragment.news.MFootTodayNewsPullListFragment;
@@ -253,6 +254,7 @@ implements OnRefreshListener<ScrollableLayout>,OnClickListener,ScrollLayoutListe
 		case R.id.img_msg:
 		case R.id.txt_msg:
 			//留言
+			MNewsCommentPullListFragmentActivity.startMNewsCommentPullListFragmentActivity(getActivity(), url);
 			break;
 		case R.id.img_share:
 			//分享
