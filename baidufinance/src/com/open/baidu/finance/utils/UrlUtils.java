@@ -24,6 +24,7 @@ package com.open.baidu.finance.utils;
  */
 public class UrlUtils {
 	public static final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36";
+	public static final String userAgentMoblie = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Mobile Safari/537.36";
 	/**自选id**/
 	public static final String GATHERMYSTOCK = "https://gupiao.baidu.com/api/mystock/gathermystock?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1507788271919&cmdlist=%5B%7B%22cmd%22%3A15%2C%22group_id%22%3A%22";
 	/**自选置顶**/
@@ -66,6 +67,12 @@ public class UrlUtils {
 	public static final String ARTICLE_URL="https://gupiao.baidu.com/article/";
 	/**收藏文章*/
 	public static final String USERCOLLECT="https://gupiao.baidu.com/api/collect/usercollect?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamps=1508465833284&timestamp=1508465833284&collectids=";
-	
-	
+	/**m要闻*/
+	public static final String M_GETTODAYNEWS="https://gupiao.baidu.com/api/news/gettodaynews?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=json";
+	/**m宏观*/
+	public static final String M_GETTAGNEWS_ECONOMY="https://gupiao.baidu.com/api/news/gettagnews?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=json&tagname=%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E&tagid=4000008";
+	/**m行业*/
+	public static final String M_GETTAGNEWS="https://gupiao.baidu.com/api/news/gettagnews?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=json&tagname=%E8%A1%8C%E4%B8%9A%E8%A7%A3%E6%9E%90&tagid=4000007";
+	/**m机构*/
+	public static final String M_ORGANIZATION="https://gupiao.baidu.com/api/news/gettagnews?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=json&tagname=%E6%A6%82%E5%BF%B5%E7%83%AD%E7%82%B9&tagid=4000004";
 }

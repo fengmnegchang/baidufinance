@@ -162,6 +162,27 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_article_pullscroll_f_desp" >
         </activity>
+         <!--m foot Indicator 列表 -->
+        <activity
+            android:name=".activity.news.MFootTagNewsIndicatorFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_m_foot_tagnews_tab_f_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"  >
+        </activity>
+        <!--m财经资讯 -->
+        <activity
+            android:name=".activity.article.MNewsContainerPullScrollFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:theme="@style/Theme.PageIndicatorDefaults" 
+            android:description="@string/app_m_article_pullscroll_f_desp" >
+        </activity>
+        <!--m scrollablelayout财经资讯 -->
+        <activity
+            android:name=".activity.article.MNewsContainerPullScrollableLayoutFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:theme="@style/Theme.PageIndicatorDefaults" 
+            android:description="@string/app_m_article_scrollablelayout_f_desp" >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"
