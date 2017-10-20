@@ -64,7 +64,8 @@ public class UrlUtils {
 	public static final String ARTICLE="https://gupiao.baidu.com/article/TT1049386";
 	/**跳转文章页面*/
 	public static final String ARTICLE_URL="https://gupiao.baidu.com/article/";
-	
+	/**收藏文章*/
+	public static final String USERCOLLECT="https://gupiao.baidu.com/api/collect/usercollect?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamps=1508465833284&timestamp=1508465833284&collectids=";
 	
 	
 }

@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
+import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.fragment.article.NewsContainerPullScrollFragment;
 import com.open.baidu.finance.utils.UrlUtils;
@@ -33,6 +34,7 @@ import com.open.baidu.finance.utils.UrlUtils;
  *****************************************************************************************************************************************************************************
  */
 public class NewsContainerPullScrollFragmentActivity extends CommonTitleBarActivity{
+	private boolean largeSize;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -50,7 +52,9 @@ public class NewsContainerPullScrollFragmentActivity extends CommonTitleBarActiv
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
 		
 		setLeftImageResId(R.drawable.stockdetails_back_n);
-		setRightVisivableGone();
+		setRightImageResId(R.drawable.news_checkbox_text_1);
+		id_iv_right.getLayoutParams().width =  (int) ScreenUtils.getIntToDip(this, 40);
+		id_iv_right.getLayoutParams().height = (int) ScreenUtils.getIntToDip(this, 30);
 		addfragment();
 	}
 	
@@ -81,6 +85,17 @@ public class NewsContainerPullScrollFragmentActivity extends CommonTitleBarActiv
 		super.onClick(v);
 		if(v.getId()==R.id.id_iv_left){
 			finish();
+		}else if(v.getId()==R.id.id_iv_right){
+			NewsContainerPullScrollFragment fragment = (NewsContainerPullScrollFragment) getSupportFragmentManager().findFragmentById(R.id.layout_content);
+			 if(largeSize){
+				 //小
+				 setRightImageResId(R.drawable.news_checkbox_text_1);
+			 }else{
+				 //大
+				 setRightImageResId(R.drawable.news_checkbox_text_2);
+			 }
+			 largeSize = !largeSize;
+			 fragment.setLargeSize(largeSize);
 		}
 	}
 

@@ -11,25 +11,45 @@
  */
 package com.open.baidu.finance.fragment.article;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.format.DateUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.fragment.mystock.MyStockPullToRefreshPinnedSectionListViewFragment;
+import com.open.baidu.finance.json.CommonDataJson;
 import com.open.baidu.finance.json.article.NewsContainerJson;
+import com.open.baidu.finance.json.mystock.StockJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
+import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -43,10 +63,13 @@ import com.open.baidu.finance.jsoup.TagNewsJsoupService;
  *****************************************************************************************************************************************************************************
  */
 public class NewsContainerPullScrollFragment extends BaseV4Fragment<NewsContainerJson, NewsContainerPullScrollFragment>
-implements OnRefreshListener<ScrollView>{
+implements OnRefreshListener<ScrollView>,OnClickListener{
 	private TextView txt_title,txt_time,txt_news;
 	private PullToRefreshScrollView mPullToRefreshScrollView;
 	private FrameLayout layout_more;
+	//底部
+	private ImageView img_msg,img_share,img_love,img_top;
+	private TextView txt_msg;
 	
 	public static NewsContainerPullScrollFragment newInstance(String url, boolean isVisibleToUser) {
 		NewsContainerPullScrollFragment fragment = new NewsContainerPullScrollFragment();
@@ -64,6 +87,11 @@ implements OnRefreshListener<ScrollView>{
 		txt_news = (TextView) view.findViewById(R.id.txt_news);
 		mPullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.pulltorefreshscrollview);
 		layout_more = (FrameLayout) view.findViewById(R.id.layout_more);
+		img_msg = (ImageView) view.findViewById(R.id.img_msg);
+		img_share = (ImageView) view.findViewById(R.id.img_share);
+		img_love = (ImageView) view.findViewById(R.id.img_love);
+		img_top = (ImageView) view.findViewById(R.id.img_top);
+		txt_msg = (TextView) view.findViewById(R.id.txt_msg);
 		return view;
 	}
 	
@@ -88,6 +116,11 @@ implements OnRefreshListener<ScrollView>{
 		// TODO Auto-generated method stub
 		super.bindEvent();
 		mPullToRefreshScrollView.setOnRefreshListener(this);
+		img_msg.setOnClickListener(this);
+		txt_msg.setOnClickListener(this);
+		img_share.setOnClickListener(this);
+		img_top.setOnClickListener(this);
+		img_love.setOnClickListener(this);
 	}
 	
 	/* (non-Javadoc)
@@ -150,6 +183,80 @@ implements OnRefreshListener<ScrollView>{
 		} else if (mPullToRefreshScrollView.getCurrentMode() == Mode.PULL_FROM_END) {
 			pageNo++;
 			weakReferenceHandler.sendEmptyMessage(MESSAGE_HANDLER);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.img_msg:
+		case R.id.txt_msg:
+			//留言
+			break;
+		case R.id.img_share:
+			//分享
+			break;
+		case R.id.img_love:
+			//收藏
+			usercollect(UrlUtils.USERCOLLECT,url.replace(UrlUtils.ARTICLE_URL, ""));
+			break;
+		case R.id.img_top:
+			//置顶
+			mPullToRefreshScrollView.getRefreshableView().scrollTo(0, 0);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.open.qianbailu.fragment.BaseV4Fragment#onErrorResponse(com.android.volley.VolleyError)
+	 */
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		super.onErrorResponse(error);
+		System.out.println(error);
+	}
+	
+	public void usercollect(final String href,final String uid) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		Map<String,String> params = new HashMap<String,String>(); 
+		params.put("User-Agent",UrlUtils.userAgent);
+		params.put("Referer",UrlUtils.ARTICLE_URL+uid);
+		params.put("Cookie", UrlUtils.COOKIE);
+		
+		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, href+uid,params,null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				System.out.println("href=" + href+uid);
+				System.out.println("response=" + response.toString());
+				try {
+					Gson gson = new Gson();
+					CommonDataJson result = gson.fromJson(response.toString(), CommonDataJson.class);
+					Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}, NewsContainerPullScrollFragment.this);
+		requestQueue.add(jsonObjectRequest);
+	}
+	
+	
+	/**
+	 * 设置字体大小
+	 */
+	public void setLargeSize(boolean largeSize){
+		if(largeSize){
+			txt_news.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+		}else{
+			txt_news.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
 		}
 	}
 }
