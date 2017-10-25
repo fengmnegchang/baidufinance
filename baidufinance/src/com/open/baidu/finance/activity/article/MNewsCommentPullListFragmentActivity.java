@@ -42,9 +42,9 @@ public class MNewsCommentPullListFragmentActivity extends CommonTitleBarActivity
 	protected void initValue() {
 		// TODO Auto-generated method stub
 		if (getIntent().getStringExtra("URL") != null) {
-			url = getIntent().getStringExtra("URL");
+			url = UrlUtils.M_GETCOMMENTLIST+getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.M_GETCOMMENTLIST;
+			url = UrlUtils.M_GETCOMMENTLIST+"TT1049581";
 		}
 		setCenterTextValue("财经资讯");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));

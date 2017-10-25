@@ -8,10 +8,10 @@ package com.open.andenginetask;
 
 public final class R {
 	public static final class string {
-		public static final int app_name = 0x7f0a0014;
+		public static final int app_name = 0x7f0b0014;
 	}
 	public static final class style {
-		public static final int AppBaseTheme = 0x7f0b0123;
-		public static final int AppTheme = 0x7f0b0124;
+		public static final int AppBaseTheme = 0x7f0c0123;
+		public static final int AppTheme = 0x7f0c0124;
 	}
 }

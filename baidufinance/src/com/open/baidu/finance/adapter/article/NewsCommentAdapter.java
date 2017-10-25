@@ -72,7 +72,7 @@ public class NewsCommentAdapter extends CommonAdapter<CommentBean> {
 		}
 		CommentBean bean = (CommentBean) getItem(position);
 		if (bean != null) {
-			viewHolder.txt_username.setText(bean.getTopusername());
+			viewHolder.txt_username.setText(bean.getUserName());
 			viewHolder.txt_time.setText(getStringTimeFromLongCustomFormat(bean.getTimeStamp(),"yy-MM dd:mm"));
 			viewHolder.txt_content.setText(bean.getContent());
 			if(bean.getRecentUserId()!=null && bean.getRecentUserId().length()>0){

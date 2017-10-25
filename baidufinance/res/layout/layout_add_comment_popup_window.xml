@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#ffffff" 
+    android:paddingTop="10dp"
+    >
+
+    <EditText
+        android:id="@+id/edit_add"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/gray_white_solid_shape"
+        android:gravity="top"
+        android:hint="聊聊看法......"
+        android:padding="5dp"
+        android:textColorHint="@color/gray_75_color"
+        android:textSize="12dp" />
+
+    <ImageView
+        android:id="@+id/img_search_stock"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/edit_add"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/comment_btn_stock" />
+
+    <View
+        android:id="@+id/view_div"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_search_stock"
+        android:layout_alignTop="@+id/img_search_stock"
+        android:layout_below="@+id/edit_add"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@+id/img_search_stock"
+        android:background="@color/div_color" />
+
+    <ImageView
+        android:id="@+id/img_face"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/edit_add"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/view_div"
+        android:src="@drawable/comment_btn_face" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/edit_add"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/b74_btn_shape"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:text="发送"
+        android:textColor="#ffffff"
+        android:textSize="12dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@+id/btn_send"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
+        android:paddingBottom="20dp"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/viewpager"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginBottom="5dp"
+        />
+
+</RelativeLayout>

@@ -44,6 +44,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.article.MNewsCommentPullListFragmentActivity;
 import com.open.baidu.finance.fragment.mystock.MyStockPullToRefreshPinnedSectionListViewFragment;
 import com.open.baidu.finance.json.CommonDataJson;
 import com.open.baidu.finance.json.article.NewsContainerJson;
@@ -196,6 +197,7 @@ implements OnRefreshListener<ScrollView>,OnClickListener{
 		case R.id.img_msg:
 		case R.id.txt_msg:
 			//留言
+			MNewsCommentPullListFragmentActivity.startMNewsCommentPullListFragmentActivity(getActivity(), url.replace(UrlUtils.ARTICLE_URL, ""));
 			break;
 		case R.id.img_share:
 			//分享
