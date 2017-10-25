@@ -77,4 +77,9 @@ public class UrlUtils {
 	public static final String M_ORGANIZATION="https://gupiao.baidu.com/api/news/gettagnews?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=json&tagname=%E6%A6%82%E5%BF%B5%E7%83%AD%E7%82%B9&tagid=4000004";
 	/**m文章评论*/
 	public static final String M_GETCOMMENTLIST="https://gupiao.baidu.com/api/comment/getcommentlist?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=h5&datetime=&type=lt&stype=1&count=20&sid=";
+
+
+    public static final String APP_ID="101421230";
+    //申请的开发appid
+    public static final String WX_APP_ID = "wx8e8dc60535c9cd93";
 }

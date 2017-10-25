@@ -28,6 +28,26 @@
         android:theme="@style/AppTheme" 
         android:name="com.open.baidu.finance.application.CommonApplication"
         >
+        <!-- qq分享 -->
+         <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:description="@string/title_activity_auth" 
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent101421230" />
+            </intent-filter>
+        </activity>
+         <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:description="@string/title_activity_assist"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+         <!-- qq分享 -->
         <activity
             android:name=".activity.SplashActivity"
             android:description="@string/app_name"
