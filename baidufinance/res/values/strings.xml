@@ -29,6 +29,7 @@
 	<string name="app_m_comment_pulllist_f_desp">m财经资讯 评论</string>
 	<string name="title_activity_assist">Assist</string>
 	<string name="title_activity_auth">授权</string>
+	<string name="weixin_wxapi_desp"> wxapi</string>
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
         <item>Joshua Redman</item>

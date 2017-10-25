@@ -11,12 +11,15 @@
  */
 package com.open.baidu.finance.application;
 
+import android.app.Application;
+
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-
-import android.app.Application;
+import com.open.baidu.finance.utils.UrlUtils;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -30,6 +33,8 @@ import android.app.Application;
  ***************************************************************************************************************************************************************************** 
  */
 public class CommonApplication extends Application {
+	public static IWXAPI api;   
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -40,5 +45,9 @@ public class CommonApplication extends Application {
                 .build();
         //Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(configuration);
+        
+        api = WXAPIFactory.createWXAPI(this, UrlUtils.WX_APP_ID, true);  
+        api.registerApp(UrlUtils.WX_APP_ID); 
 	}
+	
 }

@@ -20,6 +20,8 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -58,6 +60,7 @@ import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.article.MNewsCommentPullListFragmentActivity;
 import com.open.baidu.finance.adapter.article.ShareGridAdapter;
+import com.open.baidu.finance.application.CommonApplication;
 import com.open.baidu.finance.bean.article.ShareBean;
 import com.open.baidu.finance.json.CommonDataJson;
 import com.open.baidu.finance.json.article.NewsContainerJson;
@@ -66,6 +69,13 @@ import com.open.baidu.finance.utils.UrlUtils;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
+import com.tencent.mm.sdk.openapi.SendMessageToWX;
+import com.tencent.mm.sdk.openapi.WXImageObject;
+import com.tencent.mm.sdk.openapi.WXMediaMessage;
+import com.tencent.mm.sdk.openapi.WXTextObject;
+import com.tencent.mm.sdk.openapi.WXVideoObject;
+import com.tencent.mm.sdk.openapi.WXWebpageObject;
+import com.tencent.mm.sdk.platformtools.Util;
 import com.tencent.open.utils.ThreadManager;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -356,6 +366,10 @@ public class NewsContainerPullScrollFragment extends BaseV4Fragment<NewsContaine
 					shareToQQ();
 				} else if (channelName.equals("QQ空间")) {
 					shareToQZone();
+				}else if (channelName.equals("微信好友")) {
+					shareText(txt_title.getText().toString(),SendMessageToWX.Req.WXSceneSession);
+				}else if (channelName.equals("朋友圈")) {
+					shareText(txt_title.getText().toString(),SendMessageToWX.Req.WXSceneTimeline);
 				}
 			}
 		});
@@ -381,7 +395,110 @@ public class NewsContainerPullScrollFragment extends BaseV4Fragment<NewsContaine
 		lp.alpha = bgAlpha;
 		getActivity().getWindow().setAttributes(lp);
 	}
-
+    private abstract class ShareContent {  
+        protected abstract int getShareWay();  
+        protected abstract String getContent();  
+        protected abstract String getTitle();  
+        protected abstract String getURL();  
+        protected abstract int getPictureResource();  
+    }  
+	 /* 
+     * 分享文字 
+     */  
+    private void shareText(String shareContent, int shareType) {  
+        String text = shareContent;  
+        //初始化一个WXTextObject对象  
+        WXTextObject textObj = new WXTextObject();  
+        textObj.text = text;  
+        //用WXTextObject对象初始化一个WXMediaMessage对象  
+        WXMediaMessage msg = new WXMediaMessage();  
+        msg.mediaObject = textObj;  
+        msg.description = text;  
+        //构造一个Req  
+        SendMessageToWX.Req req = new SendMessageToWX.Req();  
+        //transaction字段用于唯一标识一个请求  
+        req.transaction = buildTransaction("textshare");  
+        req.message = msg;  
+        //发送的目标场景， 可以选择发送到会话 WXSceneSession 或者朋友圈 WXSceneTimeline。 默认发送到会话。  
+        req.scene = shareType;  
+        CommonApplication.api.sendReq(req);  
+    } 
+    private static final int THUMB_SIZE = 150;  
+    /* 
+     * 分享图片 
+     */  
+    private void sharePicture(ShareContent shareContent, int shareType) {  
+        Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(), shareContent.getPictureResource());  
+        WXImageObject imgObj = new WXImageObject(bitmap);  
+           
+        WXMediaMessage msg = new WXMediaMessage();  
+        msg.mediaObject = imgObj;  
+           
+        Bitmap thumbBitmap =  Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);  
+        bitmap.recycle();  
+        msg.thumbData = Util.bmpToByteArray(thumbBitmap, true);  //设置缩略图  
+           
+        SendMessageToWX.Req req = new SendMessageToWX.Req();  
+        req.transaction = buildTransaction("imgshareappdata");  
+        req.message = msg;  
+        req.scene = shareType;  
+        CommonApplication.api.sendReq(req);  
+    }  
+   
+    /* 
+     * 分享链接 
+     */  
+    private void shareWebPage(String title,String content,String url,int resId, int shareType) {  
+        WXWebpageObject webpage = new WXWebpageObject();  
+        webpage.webpageUrl = url;  
+        WXMediaMessage msg = new WXMediaMessage(webpage);  
+        msg.title = title;  
+        msg.description = content;  
+           
+        Bitmap thumb = BitmapFactory.decodeResource(getActivity().getResources(),resId);  
+        if(thumb == null) {  
+            Toast.makeText(getActivity(), "图片不能为空", Toast.LENGTH_SHORT).show();  
+        } else {  
+            msg.thumbData = Util.bmpToByteArray(thumb, true);  
+        }  
+           
+        SendMessageToWX.Req req = new SendMessageToWX.Req();  
+        req.transaction = buildTransaction("webpage");  
+        req.message = msg;  
+        req.scene = shareType;  
+        CommonApplication.api.sendReq(req);  
+    }  
+      
+    /* 
+     * 分享视频 
+     */  
+    private void shareVideo(ShareContent shareContent, int shareType) {  
+        WXVideoObject video = new WXVideoObject();  
+        video.videoUrl = shareContent.getURL();  
+  
+        WXMediaMessage msg = new WXMediaMessage(video);  
+        msg.title = shareContent.getTitle();  
+        msg.description = shareContent.getContent();  
+        Bitmap thumb = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher);  
+//      BitmapFactory.decodeStream(new URL(video.videoUrl).openStream());  
+        /** 
+         * 测试过程中会出现这种情况，会有个别手机会出现调不起微信客户端的情况。造成这种情况的原因是微信对缩略图的大小、title、description等参数的大小做了限制，所以有可能是大小超过了默认的范围。 
+         * 一般情况下缩略图超出比较常见。Title、description都是文本，一般不会超过。 
+         */  
+        Bitmap thumbBitmap =  Bitmap.createScaledBitmap(thumb, THUMB_SIZE, THUMB_SIZE, true);  
+        thumb.recycle();  
+        msg.thumbData = Util.bmpToByteArray(thumbBitmap, true);  
+          
+        SendMessageToWX.Req req = new SendMessageToWX.Req();  
+        req.transaction = buildTransaction("video");  
+        req.message = msg;  
+        req.scene =  shareType;  
+        CommonApplication.api.sendReq(req);  
+    }  
+    
+    private String buildTransaction(final String type) {  
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();  
+    }  
 	private Bundle params;
 
 	private void shareToQZone() {
