@@ -23,6 +23,11 @@ package com.open.baidu.finance.utils;
  ***************************************************************************************************************************************************************************** 
  */
 public class UrlUtils {
+	/**申请的qq开发appid**/
+	public static final String APP_ID="101421230";
+    /**申请的微信开发appid**/
+    public static final String WX_APP_ID = "wx8e8dc60535c9cd93";
+	
 	public static final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36";
 	public static final String userAgentMoblie = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Mobile Safari/537.36";
 	/**自选id**/
@@ -77,9 +82,14 @@ public class UrlUtils {
 	public static final String M_ORGANIZATION="https://gupiao.baidu.com/api/news/gettagnews?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=json&tagname=%E6%A6%82%E5%BF%B5%E7%83%AD%E7%82%B9&tagid=4000004";
 	/**m文章评论*/
 	public static final String M_GETCOMMENTLIST="https://gupiao.baidu.com/api/comment/getcommentlist?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=h5&datetime=&type=lt&stype=1&count=20&sid=";
+	/**精英投资顾问*/
+	public static final String EXPERT = "https://gupiao.baidu.com/expert/10008";
+	/**顾问观点分页*/
+	public static final String EXPERT_LIST = "https://gupiao.baidu.com/tpl/expertList?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tab=0&time=1508985900313&timestamp=1508987022625&page=";
+	/**问答*/
+	public static final String QUESTION ="https://gupiao.baidu.com/expert/10008?tab=1";
+	/**问答分页*/
+	public static final String QUESTION_LIST="https://gupiao.baidu.com/tpl/expertList?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tab=1&time=1508987838641&timestamp=1508988690708&page=";
 
-
-    public static final String APP_ID="101421230";
-    //申请的开发appid
-    public static final String WX_APP_ID = "wx8e8dc60535c9cd93";
+	public static final String EXPERT_TAB="https://gupiao.baidu.com/expert/";
 }

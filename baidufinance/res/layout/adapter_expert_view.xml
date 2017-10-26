@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="声明"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_title"
+        android:layout_marginTop="3dp"
+        android:text="由于百度股市通业务的调整，本博以后将不再此发表观点，感兴趣的股友可通过微信搜索“平安看盘”或“key601318”，关注公众号，获取及时资讯"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_newstime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txt_content"
+        android:layout_marginTop="10dp"
+        android:text="发布时间 ：2016-05-19 16:31"
+        android:textColor="@color/gray_75_color"
+        android:textSize="14dp" />
+
+</RelativeLayout>

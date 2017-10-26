@@ -23,8 +23,11 @@ import android.util.Log;
 
 import com.open.android.jsoup.CommonService;
 import com.open.baidu.finance.bean.article.NewsContainerBean;
+import com.open.baidu.finance.bean.news.AdviserPersonBean;
+import com.open.baidu.finance.bean.news.ExpertViewBean;
 import com.open.baidu.finance.bean.news.HotTiebaTopicBean;
 import com.open.baidu.finance.bean.news.LiveShowBean;
+import com.open.baidu.finance.bean.news.QuestionBean;
 import com.open.baidu.finance.bean.news.TagNewsBean;
 import com.open.baidu.finance.utils.UrlUtils;
 
@@ -435,5 +438,273 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
+	
+	
+	public static List<AdviserPersonBean> parseAdviserPerson(String href, int pageNo) {
+		List<AdviserPersonBean> list = new ArrayList<AdviserPersonBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+			Document doc;
+			doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			Log.i(TAG, "url = " + href);
 
+			// Document doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				/**
+				 */
+//				Element globalnavElement = doc.select("ul.more-news-list").first();
+				Elements moduleElements = doc.select("div.adviser-person");
+				if (moduleElements != null && moduleElements.size() > 0) {
+					for (int i = 0; i < moduleElements.size(); i++) {
+						AdviserPersonBean sbean = new AdviserPersonBean();
+						try {
+							try {
+								Element aElement = moduleElements.get(i).select("a").first();
+								if (aElement != null) {
+									String url = UrlUtils.GUPIAO_BAIDU+aElement.attr("href");
+									Log.i(TAG, "i==" + i + ";url==" + url);
+									sbean.setHref(url);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("img").first();
+								if (imgElement != null) {
+									String src = imgElement.attr("src");
+									Log.i(TAG, "i==" + i + ";src==" + src);
+									sbean.setSrc(src);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("div.content").first();
+								if (imgElement != null) {
+									String title = imgElement.select("a").first().text();
+									Log.i(TAG, "i==" + i + ";title==" + title);
+									sbean.setExpertName(title);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("div.content").first();
+								if (imgElement != null) {
+									String level = imgElement.select("h4").first().text();
+									Log.i(TAG, "i==" + i + ";level==" + level);
+									sbean.setLevel(level);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("div.content").first();
+								if (imgElement != null) {
+									String info = imgElement.select("h4").first().nextElementSibling().text();
+									Log.i(TAG, "i==" + i + ";info==" + info);
+									sbean.setInfo(info);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						list.add(sbean);
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	public static List<ExpertViewBean> parseAdviserView(String href, int pageNo) {
+		List<ExpertViewBean> list = new ArrayList<ExpertViewBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+			Document doc;
+			if(pageNo>1){
+				doc = Jsoup.parse(href);
+			}else{
+				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			}
+			
+			Log.i(TAG, "url = " + href);
+
+			// Document doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				/**
+				 */
+				Element globalnavElement = doc.select("ul.view-list").first();
+				Elements moduleElements = globalnavElement.select("li");
+				if (moduleElements != null && moduleElements.size() > 0) {
+					for (int i = 0; i < moduleElements.size(); i++) {
+						ExpertViewBean sbean = new ExpertViewBean();
+						try {
+							try {
+								Element imgElement = moduleElements.get(i).select("div.title").first();
+								if (imgElement != null) {
+									String title = imgElement.text();
+									Log.i(TAG, "i==" + i + ";title==" + title);
+									sbean.setTitle(title);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("div.content").first();
+								if (imgElement != null) {
+									String content = imgElement.text();
+									Log.i(TAG, "i==" + i + ";content==" + content);
+									sbean.setContent(content);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("div.time").first();
+								if (imgElement != null) {
+									String time = imgElement.text();
+									Log.i(TAG, "i==" + i + ";time==" + time);
+									sbean.setTime(time);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						list.add(sbean);
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	
+	public static List<QuestionBean> parseQuestion(String href, int pageNo) {
+		List<QuestionBean> list = new ArrayList<QuestionBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+			Document doc;
+			if(pageNo>1){
+				doc = Jsoup.parse(href);
+			}else{
+				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			}
+			
+			Log.i(TAG, "url = " + href);
+
+			// Document doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				/**
+				 */
+				Element globalnavElement = doc.select("ul.qa-list").first();
+				Elements moduleElements = globalnavElement.select("li");
+				if (moduleElements != null && moduleElements.size() > 0) {
+					for (int i = 0; i < moduleElements.size(); i++) {
+						QuestionBean sbean = new QuestionBean();
+						try {
+							try {
+								Element imgElement = moduleElements.get(i).select("span.uname").first();
+								if (imgElement != null) {
+									String uname = imgElement.text();
+									Log.i(TAG, "i==" + i + ";uname==" + uname);
+									sbean.setUname(uname);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("span.uname").first();
+								if (imgElement != null) {
+									String time = imgElement.nextElementSibling().text();
+									Log.i(TAG, "i==" + i + ";time==" + time);
+									sbean.setTime(time);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("div.title").first();
+								if (imgElement != null) {
+									String title = imgElement.text();
+									Log.i(TAG, "i==" + i + ";title==" + title);
+									sbean.setTitle(title);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("img").first();
+								if (imgElement != null) {
+									String src = imgElement.attr("src");
+									Log.i(TAG, "i==" + i + ";src==" + src);
+									sbean.setSrc(src);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						list.add(sbean);
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

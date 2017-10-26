@@ -30,6 +30,10 @@
 	<string name="title_activity_assist">Assist</string>
 	<string name="title_activity_auth">授权</string>
 	<string name="weixin_wxapi_desp"> wxapi</string>
+	<string name="app_adviser_person_pulllist_f_desp">精英投资顾问</string>
+	<string name="app_adviser_view_pulllist_f_desp">观点</string>
+	<string name="app_question_pulllist_f_desp">问答</string>
+	<string name="app_question_tab_f_desp">观点问答 Indicator 列表 </string>
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
         <item>Joshua Redman</item>

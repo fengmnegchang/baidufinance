@@ -41,7 +41,7 @@ import com.open.indicator.TabPageIndicator;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class TagNewsIndicatorFragment extends BaseV4Fragment<MainTabJson, TagNewsIndicatorFragment>{
+public class ExpertViewQuestionIndicatorFragment extends BaseV4Fragment<MainTabJson, ExpertViewQuestionIndicatorFragment>{
 	public ViewPager viewpager;
 	public TabPageIndicator indicator;
 	public List<String> titleList = new ArrayList<String>();
@@ -49,8 +49,8 @@ public class TagNewsIndicatorFragment extends BaseV4Fragment<MainTabJson, TagNew
 	public CommonFragmentPagerAdapter mRankPagerAdapter;
 	public ArrayList<MainTabBean> list = new ArrayList<MainTabBean>();
 	
-	public static TagNewsIndicatorFragment newInstance(String url, boolean isVisibleToUser) {
-		TagNewsIndicatorFragment fragment = new TagNewsIndicatorFragment();
+	public static ExpertViewQuestionIndicatorFragment newInstance(String url, boolean isVisibleToUser) {
+		ExpertViewQuestionIndicatorFragment fragment = new ExpertViewQuestionIndicatorFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
@@ -107,33 +107,13 @@ public class TagNewsIndicatorFragment extends BaseV4Fragment<MainTabJson, TagNew
 		MainTabJson mMainTabJson = new MainTabJson();
 		ArrayList<MainTabBean> clist = new ArrayList<MainTabBean>();
 		MainTabBean bean = new MainTabBean();
-		bean.setHref(UrlUtils.GUPIAO_BAIDU);
-		bean.setTitle("今日要闻");
+		bean.setHref(url);
+		bean.setTitle("观点");
 		clist.add(bean);
 		
 		bean = new MainTabBean();
-		bean.setHref(UrlUtils.GETTAGNEWS_ECONOMY);
-		bean.setTitle("宏观经济");
-		clist.add(bean);
-		
-		bean = new MainTabBean();
-		bean.setHref(UrlUtils.GETTAGNEWS);
-		bean.setTitle("行业解析");
-		clist.add(bean);
-		
-		bean = new MainTabBean();
-		bean.setHref(UrlUtils.GETTAGNEWS_THEME_HOT);
-		bean.setTitle("概念热点");
-		clist.add(bean);
-		
-		bean = new MainTabBean();
-		bean.setHref(UrlUtils.GETTAGNEWS_REPORT);
-		bean.setTitle("研究报告");
-		clist.add(bean);
-		
-		bean = new MainTabBean();
-		bean.setHref(UrlUtils.GUPIAO_BAIDU);
-		bean.setTitle("投资顾问");
+		bean.setHref(url+"?tab=1");
+		bean.setTitle("问答");
 		clist.add(bean);
 		
 		mMainTabJson.setList(clist);
@@ -158,13 +138,9 @@ public class TagNewsIndicatorFragment extends BaseV4Fragment<MainTabJson, TagNew
 			MainTabBean bean = result.getList().get(i);
 			titleList.add(bean.getTitle());
 			if(i==0){
-				fragment = TodayNewsPullListFragment.newInstance(bean.getHref(),true);
+				fragment = ExpertViewPullListFragment.newInstance(bean.getHref(),true);
 			}else{
-				if("投资顾问".equals(bean.getTitle())){
-					fragment = AdviserPersonPullListFragment.newInstance(bean.getHref(),false);
-				}else{
-					fragment = TagNewsPullListFragment.newInstance(bean.getHref(),false);
-				}
+				fragment = QuestionPullListFragment.newInstance(bean.getHref(),false);
 			}
 			listRankFragment.add(fragment);
 		}

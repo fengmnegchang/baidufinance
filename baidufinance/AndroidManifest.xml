@@ -223,6 +223,31 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_m_comment_pulllist_f_desp" >
         </activity>
+        <!--精英投资顾问 -->
+        <activity
+            android:name=".activity.news.AdviserPersonPullListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_adviser_person_pulllist_f_desp" >
+        </activity>
+        <!-- 投资顾问观点 -->
+        <activity
+            android:name=".activity.news.AdviserViewPullListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_adviser_view_pulllist_f_desp" >
+        </activity>
+         <!-- 问答 -->
+        <activity
+            android:name=".activity.news.QuestionPullListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_question_pulllist_f_desp" >
+        </activity>
+         <!--观点问答 Indicator 列表 -->
+        <activity
+            android:name=".activity.news.ExpertQuestionIndicatorFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_question_tab_f_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"  >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

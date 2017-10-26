@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/img_logo"
+        android:text="任平安"
+        android:textColor="@color/gray_75_color"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2017-09-02 11:05"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/gray_75_color"
+        android:layout_alignParentRight="true"
+        android:textSize="12dp" />
+    
+    <TextView
+        android:id="@+id/txt_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_name"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/img_logo"
+        android:text="中山证券 资深投资顾问"
+        android:textSize="14dp" />
+
+ 
+
+</RelativeLayout>
