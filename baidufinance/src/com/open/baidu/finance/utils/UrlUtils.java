@@ -94,4 +94,6 @@ public class UrlUtils {
 	public static final String EXPERT_TAB="https://gupiao.baidu.com/expert/";
 	/**提问*/
 	public static final String USERQUESTIONADD ="https://gupiao.baidu.com/api/rails/userquestionadd";
+	/**最新热点*/
+	public static final String SEARCHDATE = "https://gupiao.baidu.com/concept/?searchdate=";
 }

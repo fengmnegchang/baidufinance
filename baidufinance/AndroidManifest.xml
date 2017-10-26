@@ -248,6 +248,27 @@
             android:description="@string/app_question_tab_f_desp"
             android:theme="@style/Theme.PageIndicatorDefaults"  >
         </activity>
+         <!--最新热点 -->
+        <activity
+            android:name=".activity.hot.HotConceptPullListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_hot_concept_f_desp"
+             >
+        </activity>
+         <!--PinnedSection最新热点 -->
+        <activity
+            android:name=".activity.hot.HotConceptPinnedSectionListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_pinnedsection_hot_concept_f_desp"
+             >
+        </activity>
+        <!--hot help -->
+        <activity
+            android:name=".activity.hot.HotHelpFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_hot_help_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

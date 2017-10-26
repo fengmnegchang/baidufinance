@@ -23,6 +23,8 @@ import android.util.Log;
 
 import com.open.android.jsoup.CommonService;
 import com.open.baidu.finance.bean.article.NewsContainerBean;
+import com.open.baidu.finance.bean.hot.HotConceptBean;
+import com.open.baidu.finance.bean.hot.HotStockBean;
 import com.open.baidu.finance.bean.news.AdviserPersonBean;
 import com.open.baidu.finance.bean.news.ExpertViewBean;
 import com.open.baidu.finance.bean.news.HotTiebaTopicBean;
@@ -690,6 +692,173 @@ public class TagNewsJsoupService extends CommonService {
 								e.printStackTrace();
 							}
 
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						list.add(sbean);
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	public static List<HotConceptBean> parseHot(String href, int pageNo) {
+		List<HotConceptBean> list = new ArrayList<HotConceptBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+			Document doc;
+		 
+				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			
+			Log.i(TAG, "url = " + href);
+
+			// Document doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				/**
+				 */
+//				Element globalnavElement = doc.select("div.concept-header").first();
+				Elements moduleElements = doc.select("div.hot-concept");
+				if (moduleElements != null && moduleElements.size() > 0) {
+					for (int i = 0; i < moduleElements.size(); i++) {
+						HotConceptBean sbean = new HotConceptBean();
+						try {
+							try {
+								Element imgElement = moduleElements.get(i).select("h2").first();
+								if (imgElement != null) {
+									String uname = imgElement.text();
+									Log.i(TAG, "i==" + i + ";uname==" + uname);
+									sbean.setName(uname);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("h3").first();
+								if (imgElement != null) {
+									String searchCount = imgElement.text();
+									Log.i(TAG, "i==" + i + ";searchCount==" + searchCount);
+									sbean.setSearchCount(searchCount);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("p").first();
+								if (imgElement != null) {
+									String time = imgElement.text();
+									Log.i(TAG, "i==" + i + ";time==" + time);
+									sbean.setTime(time);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = moduleElements.get(i).select("p").get(1);
+								if (imgElement != null) {
+									String subject = imgElement.text();
+									Log.i(TAG, "i==" + i + ";subject==" + subject);
+									sbean.setSubject(subject);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							try {
+								Element imgElement = moduleElements.get(i).select("div.concept-event").first();
+								if (imgElement != null) {
+									String event = imgElement.text();
+									Log.i(TAG, "i==" + i + ";event==" + event);
+									sbean.setEvent(event);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Elements sElements = moduleElements.get(i).select("li.no-click");
+								if (sElements != null && sElements.size()>0) {
+									List<HotStockBean> stocklist = new ArrayList<HotStockBean>();
+									HotStockBean hbean;
+									 for(int j=0;j<sElements.size();j++){
+										 hbean = new HotStockBean();
+										 try {
+											 Element imgElement = sElements.get(j).select("a").first();
+												if (imgElement != null) {
+													String hrefa =UrlUtils.GUPIAO_BAIDU +imgElement.attr("href");
+													Log.i(TAG, "j==" + j + ";hrefa==" + hrefa);
+													hbean.setHref(hrefa);
+												}
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+										 
+										 try {
+											 Element imgElement = sElements.get(j).select("li").first();
+												if (imgElement != null) {
+													String stockName =imgElement.attr("data-name");
+													Log.i(TAG, "j==" + j + ";stockName==" + stockName);
+													hbean.setStockName(stockName);
+												}
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+										 
+										 try {
+											 Element imgElement = sElements.get(j).select("li").first();
+												if (imgElement != null) {
+													String stockCode =imgElement.attr("data-code");
+													Log.i(TAG, "j==" + j + ";stockCode==" + stockCode);
+													hbean.setStockCode(stockCode);
+												}
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+										 
+										 try {
+											 Element imgElement = sElements.get(j).select("div.column2").get(1);
+												if (imgElement != null) {
+													String close =imgElement.text();
+													Log.i(TAG, "j==" + j + ";close==" + close);
+													hbean.setClose(close);
+												}
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+										 try {
+											 Element imgElement = sElements.get(j).select("div.column2").get(2);
+												if (imgElement != null) {
+													String rate =imgElement.text();
+													Log.i(TAG, "j==" + j + ";rate==" + rate);
+													hbean.setRate(rate);
+												}
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+										 stocklist.add(hbean);
+									 }
+									 sbean.setStocklist(stocklist);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

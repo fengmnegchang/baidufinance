@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_index"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:background="@color/yellow_color"
+        android:padding="8dp" >
+
+        <TextView
+            android:id="@+id/txt_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="热搜指数"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/txt_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_index"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="1544"
+            android:textColor="#ffffff"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/txt_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_count"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="-0.6%"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txt_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="关注"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/blue_bounds_shape"
+        android:textColor="@color/blue_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/layout_index"
+        android:text="5G产业"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_name"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/layout_index"
+        android:text="发布时间: 2017-10-26"
+        android:textColor="@color/gray_75_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_time"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/layout_index"
+        android:text="欧洲首个5G预商用网络启动"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/txt_stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_subject"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/layout_index"
+        android:text="相关股：中兴通讯 +6.12%"
+        android:textSize="13dp" />
+
+</RelativeLayout>

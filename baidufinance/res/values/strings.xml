@@ -34,6 +34,9 @@
 	<string name="app_adviser_view_pulllist_f_desp">观点</string>
 	<string name="app_question_pulllist_f_desp">问答</string>
 	<string name="app_question_tab_f_desp">观点问答 Indicator 列表 </string>
+	<string name="app_hot_concept_f_desp">最新热点 </string>
+	<string name="app_pinnedsection_hot_concept_f_desp">PinnedSection最新热点 </string>
+	<string name="app_hot_help_f_desp">hot help </string>
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
         <item>Joshua Redman</item>
@@ -70,5 +73,54 @@
         <item>港股头条</item>
         <item>美股头条</item>
     </string-array>
+    <string name="hot_help" formatted="false"><Data><![CDATA[热点是如何选出来的？<br/>
+<br/>
+<font color="#757C85">最新热点是根据每日数百万的实时新闻和上亿的股<br/>
+民搜索，建立权威的股市波动热点模型，挖掘出最<br/> 
+受市场关注的热点事件</font> <br/>
+<br/>
+每个热点里的相关股票是如何选出来的？<br/>
+<br/>
+<font color="#757C85">相关股票是依据百度股票知识图谱，将热点与股票<br/>
+根据业务、板块、股东、产业链等进行智能匹配，精<br/>
+选与热点事件关系最为密切的股票</font><br/>
+<br/>
+热点里的相关股票一定会涨吗？<br/>
+<br/>
+<font color="#757C85">不_定。股票的上涨或下跌需要结合事件影响力、<br/>
+个股走势进行综合判断</font><br/>
+<br/>
+热点的相关股票数量太少，我想看到更多的股票<br/>
+怎么办？<br/>
+<br/>
+<font color="#757C85">如果热点事件涉及特定板块，可以点击驱动事件下<br/>
+方的“相关板块"来浏览板块所有股票<br/>
+<br/>
+同时，也可以在自选股页面搜索板块名称，浏览板<br/>
+块所有股票</font><br/>
+<br/>
+热搜指数是什么？百分比表示什么？<br/>
+<br/>
+<font color="#757C85">热搜指数是股民对热点事件和相关股票的搜索热<br/>
+度。百分比是热搜指数当前交易日与上个交易曰的<br/>
+涨跌幅。<br/>
+<br/>
+热搜指数是市场对热点关注度的反应，多数热点的<br/>
+关注度走势都会强于大盘</font><br/>
+<br/>
+我想持续跟踪一个热点怎么办？<br/>
+<br/>
+<font color="#757C85">如果希望长期关注一个热点事件，可以点击"关<br/>
+注"按钮。关注后，该热点将会被长期保存，热搜数<br/>
+据也会持续更新。<br/>
+<br/>
+您可以通过"我的"一"关注"功能中査看关注的热点</font><br/>
+<br/>
+热点走势中的价格趋势是如何计算的？<br/>
+<br/>
+<font color="#757C85">热点走势中的价格趋势，是热点包含股票的价格平<br/>
+均值</font>
+]]>
+</Data></string>
 
 </resources>
