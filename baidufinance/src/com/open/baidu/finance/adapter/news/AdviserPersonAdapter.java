@@ -80,7 +80,7 @@ public class AdviserPersonAdapter extends CommonAdapter<AdviserPersonBean> {
 			viewHolder.txt_ask.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ExpertQuestionIndicatorFragmentActivity.startExpertQuestionIndicatorFragmentActivity(mContext, bean.getHref());
+					ExpertQuestionIndicatorFragmentActivity.startExpertQuestionIndicatorFragmentActivity(mContext,bean.getHref(), bean);
 				}
 			});
 		}

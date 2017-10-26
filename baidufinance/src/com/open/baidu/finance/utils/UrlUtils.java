@@ -92,4 +92,6 @@ public class UrlUtils {
 	public static final String QUESTION_LIST="https://gupiao.baidu.com/tpl/expertList?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&tab=1&time=1508987838641&timestamp=1508988690708&page=";
 
 	public static final String EXPERT_TAB="https://gupiao.baidu.com/expert/";
+	/**提问*/
+	public static final String USERQUESTIONADD ="https://gupiao.baidu.com/api/rails/userquestionadd";
 }

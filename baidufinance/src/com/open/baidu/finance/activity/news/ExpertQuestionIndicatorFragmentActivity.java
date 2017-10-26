@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.bean.news.AdviserPersonBean;
 import com.open.baidu.finance.fragment.news.ExpertViewQuestionIndicatorFragment;
 import com.open.baidu.finance.utils.UrlUtils;
 
@@ -71,7 +72,7 @@ public class ExpertQuestionIndicatorFragmentActivity extends CommonTitleBarActiv
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = ExpertViewQuestionIndicatorFragment.newInstance(url, true);
+		Fragment fragment = ExpertViewQuestionIndicatorFragment.newInstance(url,(AdviserPersonBean)getIntent().getSerializableExtra("ADVISER_PERSON_BEAN"), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
@@ -82,8 +83,9 @@ public class ExpertQuestionIndicatorFragmentActivity extends CommonTitleBarActiv
 		 
 	}
 
-	public static void startExpertQuestionIndicatorFragmentActivity(Context context, String url) {
+	public static void startExpertQuestionIndicatorFragmentActivity(Context context,String url, AdviserPersonBean bean) {
 		Intent intent = new Intent();
+		intent.putExtra("ADVISER_PERSON_BEAN", bean);
 		intent.putExtra("URL", url);
 		intent.setClass(context, ExpertQuestionIndicatorFragmentActivity.class);
 		context.startActivity(intent);

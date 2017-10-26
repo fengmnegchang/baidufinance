@@ -21,11 +21,16 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.open.android.adapter.CommonFragmentPagerAdapter;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.MainTabBean;
+import com.open.baidu.finance.bean.news.AdviserPersonBean;
 import com.open.baidu.finance.json.MainTabJson;
 import com.open.baidu.finance.utils.UrlUtils;
 import com.open.indicator.TabPageIndicator;
@@ -49,19 +54,29 @@ public class ExpertViewQuestionIndicatorFragment extends BaseV4Fragment<MainTabJ
 	public CommonFragmentPagerAdapter mRankPagerAdapter;
 	public ArrayList<MainTabBean> list = new ArrayList<MainTabBean>();
 	
-	public static ExpertViewQuestionIndicatorFragment newInstance(String url, boolean isVisibleToUser) {
+	
+	public TextView txt_name, txt_level, txt_info;
+	public ImageView img_logo;
+	public AdviserPersonBean mAdviserPersonBean;
+	
+	public static ExpertViewQuestionIndicatorFragment newInstance(String url,AdviserPersonBean bean, boolean isVisibleToUser) {
 		ExpertViewQuestionIndicatorFragment fragment = new ExpertViewQuestionIndicatorFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
+		fragment.mAdviserPersonBean = bean;
 		return fragment;
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_common_indicator_viewpager, container, false);
+		View view = inflater.inflate(R.layout.fragment_expert_question_indicator_viewpager, container, false);
 		viewpager = (ViewPager) view.findViewById(R.id.viewpager);
 		indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
+		txt_name = (TextView) view.findViewById(R.id.txt_name);
+		txt_level = (TextView) view.findViewById(R.id.txt_level);
+		txt_info = (TextView) view.findViewById(R.id.txt_info);
+		img_logo= (ImageView) view.findViewById(R.id.img_logo);
 		return view;
 	}
 	
@@ -77,6 +92,17 @@ public class ExpertViewQuestionIndicatorFragment extends BaseV4Fragment<MainTabJ
 		mRankPagerAdapter = new CommonFragmentPagerAdapter(getChildFragmentManager(), listRankFragment, titleList);
 		viewpager.setAdapter(mRankPagerAdapter);
 		indicator.setViewPager(viewpager);
+		
+		if(mAdviserPersonBean!=null){
+			if (mAdviserPersonBean.getSrc() != null && mAdviserPersonBean.getSrc().length() > 0) {
+				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.common_v4).showImageForEmptyUri(R.drawable.common_v4).showImageOnFail(R.drawable.common_v4)
+						.cacheInMemory().cacheOnDisc().build();
+				ImageLoader.getInstance().displayImage(mAdviserPersonBean.getSrc(), img_logo, options, getImageLoadingListener());
+			}
+			txt_name.setText(mAdviserPersonBean.getExpertName());
+			txt_level.setText(mAdviserPersonBean.getLevel());
+			txt_info.setText(mAdviserPersonBean.getInfo());
+		}
 	}
 	
 	/*
