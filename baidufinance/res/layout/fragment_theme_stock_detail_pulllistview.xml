@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/pull_refresh_list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/div_view"
+        android:cacheColorHint="#00000000"
+        android:divider="#19000000"
+        android:dividerHeight="1dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" />
+
+    <View
+        android:id="@+id/div_view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@+id/layout_bottom"
+        android:background="@color/div_color" />
+
+    <RelativeLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#F2F6FB"
+        android:padding="8dp" >
+
+        <ImageView
+            android:id="@+id/img_msg"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/news_live_comment" />
+
+        <TextView
+            android:id="@+id/txt_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_toRightOf="@+id/img_msg"
+            android:text="评论"
+            android:textColor="@color/gray_75_color" />
+         
+
+        <ImageView
+            android:id="@+id/img_love"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/attention_icon" />
+    </RelativeLayout>
+
+</RelativeLayout>

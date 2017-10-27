@@ -30,10 +30,8 @@ import android.widget.LinearLayout;
 import com.open.android.adapter.CommonFragmentPagerAdapter;
 import com.open.android.bean.CommonBean;
 import com.open.android.fragment.BaseV4Fragment;
-import com.open.android.fragment.CommonV4Fragment;
 import com.open.android.json.CommonJson;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.adapter.CommonDotViewPagerAdapter;
 /**
  *****************************************************************************************************************************************************************************
  * 

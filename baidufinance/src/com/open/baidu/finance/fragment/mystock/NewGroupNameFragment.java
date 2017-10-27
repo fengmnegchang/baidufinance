@@ -36,7 +36,6 @@ import com.google.gson.Gson;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.json.CommonJson;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.bean.mystock.GroupBean;
 import com.open.baidu.finance.json.mystock.AddGroupJson;
 import com.open.baidu.finance.utils.UrlUtils;
 

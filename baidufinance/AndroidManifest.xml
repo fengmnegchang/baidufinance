@@ -311,6 +311,13 @@
             android:description="@string/app_auto_stock_tab_f_desp"
             android:theme="@style/Theme.PageIndicatorDefaults"  >
         </activity>
+        <!--主题股票详细-->
+        <activity
+            android:name=".activity.hot.ThemeStockDetailListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_theme_stock_detail_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

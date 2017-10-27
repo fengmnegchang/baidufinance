@@ -18,9 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.open.android.fragment.BaseV4Fragment;
-import com.open.android.fragment.CommonV4Fragment;
 import com.open.android.json.CommonJson;
-import com.open.baidu.finance.R;
 
 /**
  ***************************************************************************************************************************************************************************** 

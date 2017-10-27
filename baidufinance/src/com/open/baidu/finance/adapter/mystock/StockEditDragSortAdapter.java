@@ -23,7 +23,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.open.android.adapter.CommonAdapter;
 import com.open.android.weak.WeakReferenceHandler;

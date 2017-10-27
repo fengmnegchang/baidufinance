@@ -32,7 +32,6 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.MainTabBean;
 import com.open.baidu.finance.bean.news.AdviserPersonBean;
 import com.open.baidu.finance.json.MainTabJson;
-import com.open.baidu.finance.utils.UrlUtils;
 import com.open.indicator.TabPageIndicator;
 
 /**

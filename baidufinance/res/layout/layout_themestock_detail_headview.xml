@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <View
+        android:id="@+id/view_left1"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/txt_tip"
+        android:layout_alignTop="@+id/txt_tip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/blue_color" />
+
+    <TextView
+        android:id="@+id/txt_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/view_left1"
+        android:gravity="center"
+        android:text="机会提示"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/txt_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_tip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/view_left1"
+        android:lineSpacingMultiplier="1.1"
+        android:text="据报道，美国总统特朗普25日签署增加无人机试点项目备忘录，准许各州市和团体进行测试，以增加无人飞机的政府和商业用途。据悉，目前美国联邦航空管理局(FAA)禁止无人机飞越人群、在晚上作业，或离开操作者的视线，新的指令将豁免这类规定。美国交通部长赵小兰说，这项计划是为了扶助科技创新。"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/view_left2"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/txt_tip2"
+        android:layout_alignTop="@+id/txt_tip2"
+        android:layout_below="@+id/txt_subject"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/blue_color" />
+
+    <TextView
+        android:id="@+id/txt_tip2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/txt_subject"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/view_left2"
+        android:gravity="center"
+        android:text="相关股票"
+        android:textSize="18dp" />
+
+    <View
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_below="@+id/txt_tip2"
+        android:layout_marginTop="5dp"
+        android:background="@color/div_color" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_bottom"
+        android:id="@+id/layout_title"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/txt_stock_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="股票名称"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/txt_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@+id/txt_rate"
+            android:text="最新价"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/txt_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:layout_toLeftOf="@+id/txt_buy"
+            android:text="涨跌幅"
+            android:textSize="16dp"
+             />
+
+        <TextView
+            android:id="@+id/txt_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="操作"
+            />
+    </RelativeLayout>
+	<View
+        android:id="@+id/view_bottom2"
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_below="@+id/layout_title"
+        android:layout_marginTop="1dp"
+        android:background="@color/div_color" />
+</RelativeLayout>

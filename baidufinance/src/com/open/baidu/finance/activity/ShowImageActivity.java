@@ -27,7 +27,6 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.ChildAdapter;

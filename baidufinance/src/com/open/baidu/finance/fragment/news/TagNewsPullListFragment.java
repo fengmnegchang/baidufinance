@@ -33,7 +33,6 @@ import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.baidu.finance.activity.article.NewsContainerPullScrollFragmentActivity;
 import com.open.baidu.finance.adapter.news.TagNewsAdapter;
 import com.open.baidu.finance.bean.news.TagNewsBean;
-import com.open.baidu.finance.fragment.mystock.MyStockPullToRefreshPinnedSectionListViewFragment;
 import com.open.baidu.finance.json.news.TagNewsDataJson;
 import com.open.baidu.finance.utils.UrlUtils;
 

@@ -18,4 +18,6 @@
   <color name="yellow_color">#FC7F28</color>
   <color name="yellow2_color">#FAB11E</color>
   <color name="pink_color">#F05188</color>
+  <color name="blue_dot_color">#17ABEF</color>
+  <color name="pink_dot_color">#FC4A87</color>
 </resources>

@@ -22,11 +22,7 @@ package com.open.baidu.finance.adapter;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -37,9 +33,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 

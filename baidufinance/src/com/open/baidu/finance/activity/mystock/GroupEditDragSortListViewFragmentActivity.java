@@ -18,7 +18,6 @@ import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.bean.mystock.GroupBean;
 import com.open.baidu.finance.fragment.mystock.GroupEditDragSortListViewFragment;
 import com.open.baidu.finance.json.mystock.GroupListJson;
 import com.open.baidu.finance.utils.UrlUtils;

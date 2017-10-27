@@ -14,8 +14,6 @@ package com.open.baidu.finance.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.open.android.R;
 import com.open.android.activity.common.CommonCommonFragmentActivity;

@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.open.android.adapter.CommonPagerAdapter;
 import com.open.android.bean.CommonBean;

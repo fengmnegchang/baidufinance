@@ -29,7 +29,6 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.article.NewsContainerPullScrollFragmentActivity;
 import com.open.baidu.finance.adapter.article.NewsContainerFootAdapter;
 import com.open.baidu.finance.bean.news.TagNewsBean;
-import com.open.baidu.finance.fragment.news.SubscribeHeadFragment;
 import com.open.baidu.finance.json.news.TagNewsDataModel;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 

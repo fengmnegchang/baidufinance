@@ -2,7 +2,7 @@
  *****************************************************************************************************************************************************************************
  * 
  * @author :fengguangjing
- * @createTime:2017-10-26下午4:47:54
+ * @createTime:2017-10-27下午4:12:13
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
@@ -18,20 +18,21 @@ import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.fragment.hot.SurveyPinnedSectionListFragment;
+import com.open.baidu.finance.fragment.hot.ThemeStockDetailListFragment;
+import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  *****************************************************************************************************************************************************************************
  * 
  * @author :fengguangjing
- * @createTime:2017-10-26下午4:47:54
+ * @createTime:2017-10-27下午4:12:13
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class SurveyPinnedSectionListFragmentActivity extends CommonTitleBarActivity{
+public class ThemeStockDetailListFragmentActivity extends CommonTitleBarActivity{
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,12 +44,13 @@ public class SurveyPinnedSectionListFragmentActivity extends CommonTitleBarActiv
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
+			url = UrlUtils.THEME_STOCK_DETAIL;
 		}
-		setCenterTextValue("机构调研");
+		setCenterTextValue("主题");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
 		
 		setLeftImageResId(R.drawable.stockdetails_back_n);
-		setRightImageResId(R.drawable.hot_help_icon);
+		setRightVisivableGone();
 		addfragment();
 	}
 	
@@ -69,7 +71,7 @@ public class SurveyPinnedSectionListFragmentActivity extends CommonTitleBarActiv
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = SurveyPinnedSectionListFragment.newInstance(url, true);
+		Fragment fragment = ThemeStockDetailListFragment.newInstance(url, true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
@@ -79,14 +81,13 @@ public class SurveyPinnedSectionListFragmentActivity extends CommonTitleBarActiv
 		super.onClick(v);
 		if(v.getId()==R.id.id_iv_left){
 			finish();
-		}else if(v.getId()==R.id.id_iv_right){
 		}
 	}
 
-	public static void startSurveyPinnedSectionListFragmentActivity(Context context, String url) {
+	public static void startThemeStockDetailListFragmentActivity(Context context, String url) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
-		intent.setClass(context, SurveyPinnedSectionListFragmentActivity.class);
+		intent.setClass(context, ThemeStockDetailListFragmentActivity.class);
 		context.startActivity(intent);
 	}
 }

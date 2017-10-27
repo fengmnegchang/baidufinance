@@ -30,7 +30,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
@@ -49,7 +48,6 @@ import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.news.QuestionAdapter;
 import com.open.baidu.finance.bean.news.QuestionBean;
-import com.open.baidu.finance.json.mystock.AddGroupJson;
 import com.open.baidu.finance.json.news.ExpertListDataJson;
 import com.open.baidu.finance.json.news.QuestionJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;

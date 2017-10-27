@@ -879,4 +879,96 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
+	
+	
+	public static List<HotStockBean> parseThmeme(String href, int pageNo) {
+		List<HotStockBean> stocklist = new ArrayList<HotStockBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+			Document doc;
+			doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			Log.i(TAG, "url = " + href);
+			// Document doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				/**
+				 */
+				Element globalnavElement = doc.select("div.hot-concept").first();
+				Elements sElements = globalnavElement.select("li.no-click");
+				if (sElements == null) {
+					sElements = globalnavElement.select("li.can-click");
+				}
+				if (sElements != null && sElements.size() > 0) {
+					HotStockBean hbean;
+					for (int j = 0; j < sElements.size(); j++) {
+						hbean = new HotStockBean();
+						try {
+							Element imgElement = sElements.get(j).select("a").first();
+							if (imgElement != null) {
+								String hrefa = UrlUtils.GUPIAO_BAIDU + imgElement.attr("href");
+								Log.i(TAG, "j==" + j + ";hrefa==" + hrefa);
+								hbean.setHref(hrefa);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							Element imgElement = sElements.get(j).select("li").first();
+							if (imgElement != null) {
+								String stockName = imgElement.attr("data-name");
+								Log.i(TAG, "j==" + j + ";stockName==" + stockName);
+								hbean.setStockName(stockName);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							Element imgElement = sElements.get(j).select("li").first();
+							if (imgElement != null) {
+								String stockCode = imgElement.attr("data-code");
+								Log.i(TAG, "j==" + j + ";stockCode==" + stockCode);
+								hbean.setStockCode(stockCode);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							Element imgElement = sElements.get(j).select("div.column2").get(1);
+							if (imgElement != null) {
+								String close = imgElement.text();
+								Log.i(TAG, "j==" + j + ";close==" + close);
+								hbean.setClose(close);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						try {
+							Element imgElement = sElements.get(j).select("div.column2").get(2);
+							if (imgElement != null) {
+								String rate = imgElement.text();
+								Log.i(TAG, "j==" + j + ";rate==" + rate);
+								hbean.setRate(rate);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						stocklist.add(hbean);
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return stocklist;
+	}
 }

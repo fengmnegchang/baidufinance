@@ -16,7 +16,6 @@ import java.util.List;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,8 +23,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.open.android.adapter.CommonAdapter;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.adapter.news.AdviserPersonAdapter.ViewHolder;
-import com.open.baidu.finance.bean.news.AdviserPersonBean;
 import com.open.baidu.finance.bean.news.QuestionBean;
 
 /**

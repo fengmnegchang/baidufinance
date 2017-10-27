@@ -96,4 +96,6 @@ public class UrlUtils {
 	public static final String USERQUESTIONADD ="https://gupiao.baidu.com/api/rails/userquestionadd";
 	/**最新热点*/
 	public static final String SEARCHDATE = "https://gupiao.baidu.com/concept/?searchdate=";
+	/**主题股票*/
+	public static final String THEME_STOCK_DETAIL="https://gupiao.baidu.com/concept/1000394.html";
 }

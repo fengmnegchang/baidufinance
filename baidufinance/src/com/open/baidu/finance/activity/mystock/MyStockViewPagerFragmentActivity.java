@@ -11,8 +11,6 @@
  */
 package com.open.baidu.finance.activity.mystock;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -30,9 +28,6 @@ import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.mystock.GroupPopupAdapter;
-import com.open.baidu.finance.bean.mystock.GroupBean;
-import com.open.baidu.finance.bean.mystock.StockBean;
-import com.open.baidu.finance.fragment.mystock.MyStockPullToRefreshPinnedSectionListViewFragment;
 import com.open.baidu.finance.fragment.mystock.MyStockViewPagerFragment;
 import com.open.baidu.finance.json.mystock.GroupListJson;
 import com.open.baidu.finance.utils.UrlUtils;

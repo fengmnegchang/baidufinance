@@ -14,7 +14,6 @@ package com.open.baidu.finance.wxapi;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.open.baidu.finance.R;
 import com.open.baidu.finance.application.CommonApplication;
 import com.tencent.mm.sdk.openapi.BaseReq;
 import com.tencent.mm.sdk.openapi.BaseResp;

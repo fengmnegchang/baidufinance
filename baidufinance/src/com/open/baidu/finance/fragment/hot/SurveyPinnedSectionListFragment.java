@@ -13,10 +13,7 @@ package com.open.baidu.finance.fragment.hot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.os.Bundle;
@@ -40,7 +37,6 @@ import com.open.baidu.finance.adapter.hot.SurveyPinnedSectionListAdapter;
 import com.open.baidu.finance.bean.hot.OrganizationSurveyBean;
 import com.open.baidu.finance.json.hot.OrganizationSurveyDateJson;
 import com.open.baidu.finance.json.hot.OrganizationSurveyJson;
-import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  *****************************************************************************************************************************************************************************

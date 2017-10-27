@@ -11,6 +11,7 @@
  */
 package com.open.baidu.finance.fragment;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -25,7 +26,6 @@ import com.open.android.json.CommonJson;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.presenter.SplashPresenter;
 import com.open.baidu.finance.viewmodel.SplashViewModel;
-import static com.google.common.base.Preconditions.checkNotNull;
 /**
  *****************************************************************************************************************************************************************************
  * 
