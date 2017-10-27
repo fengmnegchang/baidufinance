@@ -13,6 +13,7 @@ package com.open.baidu.finance.fragment.hot;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.baidu.finance.adapter.hot.HotConceptAdapter;
@@ -62,6 +63,8 @@ public class HotConceptPullListFragment extends CommonPullToRefreshListFragment<
 		// TODO Auto-generated method stub
 		HotConceptJson mHotConceptJson= new HotConceptJson();
 		mHotConceptJson.setList(TagNewsJsoupService.parseHot(url, pageNo));
+		Gson gson = new Gson();
+		System.out.println(gson.toJson(mHotConceptJson));
 		return mHotConceptJson;
 	}
 	
