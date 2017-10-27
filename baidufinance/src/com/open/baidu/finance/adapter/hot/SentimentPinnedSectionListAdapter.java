@@ -15,7 +15,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ import android.widget.TextView;
 import com.handmark.pulltorefresh.library.PinnedSectionListView.PinnedSectionListAdapter;
 import com.open.android.adapter.CommonAdapter;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.bean.hot.HotConceptBean;
+import com.open.baidu.finance.bean.hot.SentimentBean;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -36,10 +35,10 @@ import com.open.baidu.finance.bean.hot.HotConceptBean;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class HotConceptPinnedSectionListAdapter extends CommonAdapter<HotConceptBean> implements PinnedSectionListAdapter {
+public class SentimentPinnedSectionListAdapter extends CommonAdapter<SentimentBean> implements PinnedSectionListAdapter {
 	public static final int ITEM_VIEW_TYPE_HEADER = 1;
 
-	public HotConceptPinnedSectionListAdapter(Context mContext, List<HotConceptBean> list) {
+	public SentimentPinnedSectionListAdapter(Context mContext, List<SentimentBean> list) {
 		super(mContext, list);
 	}
 
@@ -52,27 +51,33 @@ public class HotConceptPinnedSectionListAdapter extends CommonAdapter<HotConcept
 	@SuppressLint("ResourceAsColor")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		HotConceptBean bean = (HotConceptBean) getItem(position);
+		SentimentBean bean = (SentimentBean) getItem(position);
 		if (getItemViewType(position) == ITEM_VIEW_TYPE_HEADER) {
 			convertView = mInflater.inflate(R.layout.adapter_hot_concept_itemtype, parent, false);
 			TextView txt_time = (TextView) convertView.findViewById(R.id.txt_time);
-			txt_time.setText(bean.getTime());
+			txt_time.setText(bean.getDateTime());
 		} else {
-			convertView = mInflater.inflate(R.layout.adapter_hot_concept, parent, false);
+			convertView = mInflater.inflate(R.layout.adapter_sentiment_good_bad, parent, false);
 			TextView txt_count = (TextView) convertView.findViewById(R.id.txt_count);
-			TextView txt_rate = (TextView) convertView.findViewById(R.id.txt_rate);
-			TextView txt_follow = (TextView) convertView.findViewById(R.id.txt_follow);
-			TextView txt_name = (TextView) convertView.findViewById(R.id.txt_name);
-			TextView txt_time = (TextView) convertView.findViewById(R.id.txt_time);
-			TextView txt_subject = (TextView) convertView.findViewById(R.id.txt_subject);
-			TextView txt_stock = (TextView) convertView.findViewById(R.id.txt_stock);
+			TextView txt_detail = (TextView) convertView.findViewById(R.id.txt_detail);
+			TextView txt_stockname = (TextView) convertView.findViewById(R.id.txt_stockname);
+			TextView txt_stockcode = (TextView) convertView.findViewById(R.id.txt_stockcode);
+			TextView txt_survey_all = (TextView) convertView.findViewById(R.id.txt_survey_all);
+			TextView txt_close = (TextView) convertView.findViewById(R.id.txt_close);
+			TextView txt_rate = (TextView) convertView.findViewById(R.id.txt_close);
 			if (bean != null) {
-				txt_count.setText(bean.getSearchCount().replace("热搜指数: ", ""));
-				txt_rate.setText("");
-				txt_name.setText(bean.getName());
-				txt_time.setText(bean.getTime());
-				txt_subject.setText(bean.getSubject());
-				txt_stock.setText(Html.fromHtml("相关股：<font color='#1a83ff'>"+bean.getStocklist().get(0).getStockName()+"</font> <font color='#f24957'>"+bean.getStocklist().get(0).getRate()+"</font>"));
+				txt_count.setText(bean.getSurveyCount()+"");
+				txt_stockname.setText(bean.getStockName());
+				txt_stockcode.setText(bean.getStockCode());
+				txt_close.setText(bean.getClose());
+				txt_rate.setText(bean.getRate());
+				txt_detail.setText(bean.getMsg()+"条评论");
+				
+				StringBuffer buffer = new StringBuffer("舆情关键词：");
+				for(String name:bean.getSurveyNames()){
+					buffer.append(name+" ");
+				}
+				txt_survey_all.setText(buffer.toString());
 			}
 		}
 		return convertView;
@@ -98,7 +103,7 @@ public class HotConceptPinnedSectionListAdapter extends CommonAdapter<HotConcept
 	@Override
 	public int getItemViewType(int position) {
 		// TODO Auto-generated method stub
-		return ((HotConceptBean) getItem(position)).getViewType();
+		return ((SentimentBean) getItem(position)).getViewType();
 	}
 
 	/*

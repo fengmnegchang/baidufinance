@@ -792,7 +792,7 @@ public class TagNewsJsoupService extends CommonService {
 							}
 							
 							try {
-								Elements sElements = moduleElements.get(i).select("li.no-click");
+								Elements sElements = moduleElements.get(i).select("li.can-click");
 								if (sElements != null && sElements.size()>0) {
 									List<HotStockBean> stocklist = new ArrayList<HotStockBean>();
 									HotStockBean hbean;

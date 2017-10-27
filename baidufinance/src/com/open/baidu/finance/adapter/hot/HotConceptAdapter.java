@@ -68,7 +68,7 @@ public class HotConceptAdapter extends CommonAdapter<HotConceptBean> {
 		}
 		HotConceptBean bean = (HotConceptBean) getItem(position);
 		if (bean != null) {
-			viewHolder.txt_count.setText(bean.getSearchCount().replace("热搜指数:", ""));
+			viewHolder.txt_count.setText(bean.getSearchCount().replace("热搜指数: ", ""));
 			viewHolder.txt_rate.setText("");
 			viewHolder.txt_name.setText(bean.getName());
 			viewHolder.txt_time.setText(bean.getTime());

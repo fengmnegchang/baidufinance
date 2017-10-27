@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_survey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp" >
+
+        <TextView
+            android:id="@+id/txt_surveycount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="舆情利好排名"
+            android:textColor="@color/gray_75_color"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/txt_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/txt_surveycount"
+            android:layout_alignRight="@+id/txt_surveycount"
+            android:layout_below="@+id/txt_surveycount"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="NO.1"
+            android:textColor="@color/yellow2_color"
+            android:textSize="25dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txt_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/blue_bounds_shape"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="108条评论"
+        android:textColor="@color/blue_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_stockname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/layout_survey"
+        android:text="汇川技术"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/txt_stockcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_stockname"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/layout_survey"
+        android:text="300124"
+        android:textColor="@color/gray_75_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_stockcode"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/layout_survey"
+        android:text="15.9"
+        android:textColor="@color/gray_75_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_stockcode"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/txt_close"
+        android:text="-0.93%"
+        android:textColor="@color/green_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_survey_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_rate"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/layout_survey"
+        android:text="舆情关键词：涨停 拉升 员工持股 爆涨 合并"
+        android:textColor="@color/gray_75_color"
+        android:textSize="12dp" />
+
+</RelativeLayout>

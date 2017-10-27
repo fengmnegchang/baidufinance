@@ -18,8 +18,7 @@ import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.fragment.hot.HotConceptPinnedSectionListFragment;
-import com.open.baidu.finance.utils.UrlUtils;
+import com.open.baidu.finance.fragment.hot.SentimentIndicatorFragment;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -32,7 +31,7 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class HotConceptPinnedSectionListFragmentActivity extends CommonTitleBarActivity{
+public class SentimentIndicatorFragmentActivity extends CommonTitleBarActivity{
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,9 +43,8 @@ public class HotConceptPinnedSectionListFragmentActivity extends CommonTitleBarA
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.SEARCHDATE+"2017-10-26";
 		}
-		setCenterTextValue("最新热点");
+		setCenterTextValue("舆情个股");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
 		
 		setLeftImageResId(R.drawable.stockdetails_back_n);
@@ -71,7 +69,7 @@ public class HotConceptPinnedSectionListFragmentActivity extends CommonTitleBarA
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = HotConceptPinnedSectionListFragment.newInstance(url, true);
+		Fragment fragment = SentimentIndicatorFragment.newInstance(url, true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
@@ -82,14 +80,13 @@ public class HotConceptPinnedSectionListFragmentActivity extends CommonTitleBarA
 		if(v.getId()==R.id.id_iv_left){
 			finish();
 		}else if(v.getId()==R.id.id_iv_right){
-			HotHelpFragmentActivity.startHotHelpFragmentActivity(this, url);
 		}
 	}
 
-	public static void startHotConceptPinnedSectionListFragmentActivity(Context context, String url) {
+	public static void startSentimentIndicatorFragmentActivity(Context context, String url) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
-		intent.setClass(context, HotConceptPinnedSectionListFragmentActivity.class);
+		intent.setClass(context, SentimentIndicatorFragmentActivity.class);
 		context.startActivity(intent);
 	}
 }

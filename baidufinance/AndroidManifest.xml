@@ -269,6 +269,27 @@
             android:description="@string/app_hot_help_f_desp"
              >
         </activity>
+        <!--PinnedSection机构调研 -->
+        <activity
+            android:name=".activity.hot.SurveyPinnedSectionListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_pinnedsection_survey_f_desp"
+             >
+        </activity>
+        <!--PinnedSection舆情个股 -->
+        <activity
+            android:name=".activity.hot.SentimentPinnedSectionListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_pinnedsection_sentiment_f_desp"
+             >
+        </activity>
+        <!--舆情个股 Indicator 列表 -->
+        <activity
+            android:name=".activity.hot.SentimentIndicatorFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_sentiment_tab_f_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"  >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

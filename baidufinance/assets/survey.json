@@ -1,0 +1,63 @@
+{
+	"list": [{
+		"dateTime": "2017-08-29",
+		"list": [{
+			"stockName": "汇川技术",
+			"stockCode": "300124",
+			"surveyCount": 64,
+			"surveyNames": ["易方达基金", "鹏华基金"]
+		},
+		{
+			"stockName": "利亚德",
+			"stockCode": "300296",
+			"surveyCount": 56,
+			"surveyNames": ["易方达基金", "华夏基金"]
+		}]
+	},
+	{
+		"dateTime": "2017-04-17",
+		"list": [{
+			"stockName": "恒通科技",
+			"stockCode": "300374",
+			"surveyCount": 8,
+			"surveyNames": ["淡水泉", "华商基金"]
+		},
+		{
+			"stockName": "特一药业",
+			"stockCode": "002728",
+			"surveyCount": 2,
+			"surveyNames": ["交银施罗德基金", "农银汇理基金"]
+		}]
+	},
+{
+		"dateTime": "2017-04-14",
+		"list": [{
+			"stockName": "润和软件",
+			"stockCode": "300339",
+			"surveyCount": 3,
+			"surveyNames": ["长信基金", "苏州国发股权投资"]
+		},
+		{
+			"stockName": "微光股份",
+			"stockCode": "002801",
+			"surveyCount": 1,
+			"surveyNames": ["中欧基金"]
+		}]
+	},
+{
+		"dateTime": "2017-03-23",
+		"list": [{
+			"stockName": "深天马A",
+			"stockCode": "000050",
+			"surveyCount": 22,
+			"surveyNames": ["大成基金", "国投瑞银基金"]
+		},
+		{
+			"stockName": "凯撒文化",
+			"stockCode": "002425",
+			"surveyCount": 7,
+			"surveyNames": ["华夏基金","嘉实基金"]
+		}]
+	}
+]
+}

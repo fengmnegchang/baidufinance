@@ -37,6 +37,10 @@
 	<string name="app_hot_concept_f_desp">最新热点 </string>
 	<string name="app_pinnedsection_hot_concept_f_desp">PinnedSection最新热点 </string>
 	<string name="app_hot_help_f_desp">hot help </string>
+	<string name="app_pinnedsection_survey_f_desp">PinnedSection机构调研</string>
+	<string name="app_pinnedsection_sentiment_f_desp">PinnedSection舆情个股</string>
+	<string name="app_sentiment_tab_f_desp">舆情个股 Indicator 列表 </string>
+	
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
         <item>Joshua Redman</item>

@@ -1,0 +1,65 @@
+{
+	"list": [{
+		"dateTime": "2017-10-27",
+		"list": [{
+			"stockName": "百联股份",
+			"stockCode": "600827",
+			"surveyCount": "NO.1",
+			"surveyNames": ["涨停 拉升 员工持股 爆涨 合并"],
+			"rate":"-0.81%",
+			"close":"15.92",
+			"msg":"108"
+		},
+		{
+			"stockName": "精达股份",
+			"stockCode": "600577",
+			"surveyCount": "NO.2",
+			"surveyNames": ["募集 收购 员工持股 溢价 复牌"],
+			"rate":"+0.46%",
+			"close":"4.34",
+			"msg":"105"
+		},
+		{
+			"stockName": "星网锐捷",
+			"stockCode": "000236",
+			"surveyCount": "NO.3",
+			"surveyNames": ["复牌 收购 新业务"],
+			"rate":"+0.69%",
+			"close":"23.42",
+			"msg":"14"
+		},
+		{
+			"stockName": "中钨高新",
+			"stockCode": "000657",
+			"surveyCount": "NO.4",
+			"surveyNames": ["复牌 收购  起飞 改革 定增"],
+			"rate":"-1.08%",
+			"close":"13.79",
+			"msg":"8"
+		}
+		]
+	},
+	{
+		"dateTime": "2017-10-26",
+		"list": [
+		{
+			"stockName": "百联股份",
+			"stockCode": "600827",
+			"surveyCount": "NO.1",
+			"surveyNames": ["涨停 拉升 员工持股 暴涨 合并"],
+			"rate":"+0.06%",
+			"close":"16.05",
+			"msg":"108"
+		},
+		{
+			"stockName": "精达股份",
+			"stockCode": "000657",
+			"surveyCount": "NO.2",
+			"surveyNames": ["募集 收购 员工持股 溢价 复牌"],
+			"rate":"+0.23%",
+			"close":"4.32",
+			"msg":"105"
+		}]
+	}
+]
+}
