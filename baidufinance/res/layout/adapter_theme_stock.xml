@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/txt_stock_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:text="中国石油"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_stock_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_stock_name"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:text="601857"
+        android:textColor="@color/gray_75_color"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/txt_buy_flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_stock_name"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/txt_stock_code"
+        android:background="@drawable/red_bounds_shape"
+        android:text="可购买"
+        android:textColor="@color/red_color"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/txt_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/txt_buy_flag"
+        android:text="3.2710"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_close"
+        android:layout_below="@+id/txt_close"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/txt_buy_flag"
+        android:text="2017-10-26"
+        android:textColor="@color/gray_75_color"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/txt_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@+id/txt_close"
+        android:text="+0.93%"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:textColor="@color/red_color"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/img_add"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/stock_add" />
+
+    <TextView
+        android:id="@+id/txt_clean"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="没有更多数据"
+        android:textColor="@color/gray_75_color"
+        android:textSize="16dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

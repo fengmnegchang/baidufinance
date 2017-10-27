@@ -41,6 +41,8 @@
 	<string name="app_pinnedsection_sentiment_f_desp">PinnedSection舆情个股</string>
 	<string name="app_sentiment_tab_f_desp">舆情个股 Indicator 列表 </string>
 	<string name="app_pinnedsection_msg_stock_f_desp">PinnedSection智能选股</string>
+	<string name="app_pinnedsection_theme_stock_f_desp">PinnedSection主题选股</string>
+	<string name="app_auto_stock_tab_f_desp">智能选股Indicator 列表 </string>
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
         <item>Joshua Redman</item>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/txt_oval"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/pink_oval_shape"
+        android:gravity="center"
+        android:text="基金"
+        android:textColor="#ffffff"
+        android:textSize="11dp" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txt_oval"
+        android:padding="5dp"
+        android:text="反弹先锋"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:drawableRight="@drawable/hot_search_stock_item_news_arrow"
+        android:padding="5dp"
+        android:text="2017-10-27 "
+        android:textColor="@color/gray_75_color"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/txt_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_oval"
+        android:text="关注基金在大盘反弹时的涨幅，精选反弹凌厉、配置灵活的基金"
+        android:textColor="@color/gray_75_color"
+        android:layout_marginTop="5dp"
+        android:textSize="14dp" />
+
+</RelativeLayout>

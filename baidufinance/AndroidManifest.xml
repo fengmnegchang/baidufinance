@@ -297,6 +297,20 @@
             android:description="@string/app_pinnedsection_msg_stock_f_desp"
              >
         </activity>
+        <!--主题选股 -->
+        <activity
+            android:name=".activity.hot.ThemeStockPinnedSectionListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_pinnedsection_theme_stock_f_desp"
+             >
+        </activity>
+        <!--智能选股 Indicator 列表 -->
+        <activity
+            android:name=".activity.hot.AutoStockIndicatorFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_auto_stock_tab_f_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"  >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"
