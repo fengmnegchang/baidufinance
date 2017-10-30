@@ -22,6 +22,7 @@ import org.jsoup.select.Elements;
 import android.util.Log;
 
 import com.open.android.jsoup.CommonService;
+import com.open.baidu.finance.bean.article.CommentBean;
 import com.open.baidu.finance.bean.article.NewsContainerBean;
 import com.open.baidu.finance.bean.hot.HotConceptBean;
 import com.open.baidu.finance.bean.hot.HotStockBean;
@@ -793,7 +794,7 @@ public class TagNewsJsoupService extends CommonService {
 							
 							try {
 								Elements sElements = moduleElements.get(i).select("li.no-click");
-								if(sElements==null){
+								if(sElements==null ||  sElements.size()==0){
 									sElements = moduleElements.get(i).select("li.can-click");
 								}
 								if (sElements != null && sElements.size()>0) {
@@ -955,6 +956,140 @@ public class TagNewsJsoupService extends CommonService {
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
+						}
+						stocklist.add(hbean);
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return stocklist;
+	}
+	
+	
+	public static List<CommentBean> parseThmemeComment(String href, int pageNo) {
+		List<CommentBean> stocklist = new ArrayList<CommentBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+			Document doc;
+			Elements	sElements;
+			if(pageNo>1){
+				doc = Jsoup.parse(href);
+			 	sElements = doc.select("li");
+			}else{
+				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+				Element globalnavElement = doc.select("div.comment-list").first();
+			 	sElements = globalnavElement.select("li");
+			}
+			Log.i(TAG, "url = " + href);
+			// Document doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				if (sElements != null && sElements.size() > 0) {
+					CommentBean hbean;
+					for (int j = 0; j < sElements.size(); j++) {
+						hbean = new CommentBean();
+						try {
+							Element imgElement = sElements.get(j).select("img").first();
+							if (imgElement != null) {
+								String userhead = imgElement.attr("src");
+								Log.i(TAG, "j==" + j + ";userhead==" + userhead);
+								hbean.setUserhead(userhead);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							Element imgElement = sElements.get(j).select("img").first();
+							if (imgElement != null) {
+								String userName = imgElement.attr("alt");
+								Log.i(TAG, "j==" + j + ";userName==" + userName);
+								hbean.setUserName(userName);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							Element imgElement = sElements.get(j).select("div.c-content-body").first();
+							if (imgElement != null) {
+								String content = imgElement.text();
+								Log.i(TAG, "j==" + j + ";content==" + content);
+								hbean.setContent(content);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						try {
+							Element imgElement = sElements.get(j).select("span.c-date").first();
+							if (imgElement != null) {
+								String dateTimeStr = imgElement.text();
+								Log.i(TAG, "j==" + j + ";dateTimeStr==" + dateTimeStr);
+								hbean.setDateTimeStr(dateTimeStr);
+							}
+							Element imgElement2 = sElements.get(j).select("span.c-date").get(1);
+							if (imgElement2 != null) {
+								String dateTimeStr = imgElement2.text();
+								Log.i(TAG, "j==" + j + ";dateTimeStr==" +dateTimeStr);
+								hbean.setDateTimeStr(hbean.getDateTimeStr()+" "+dateTimeStr);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						try {
+							Element imgElement = sElements.get(j).select("div.comment-refer").first();
+							if (imgElement != null) {
+								String recentstr = imgElement.text();
+								Log.i(TAG, "j==" + j + ";recentstr==" + recentstr);
+								hbean.setRecentstr(recentstr);
+								hbean.setRecentUserName("");
+								hbean.setRecentUserId("1");
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						if(pageNo==1){
+							/**
+							 *  <button class="look-good-btn" data-spm="1">
+			                    看好 <span>649</span>
+			                </button>
+			                <button class="look-bad-btn" data-spm="2">
+			                    看空 <span>736</span>
+			                </button>
+							 */
+							try {
+								Element imgElement = doc.select("button.look-good-btn").first();
+								if (imgElement != null) {
+									String upNum = imgElement.text().replace("看好 ", "");
+									Log.i(TAG, "j==" + j + ";upNum==" + upNum);
+									hbean.setUpNum(upNum);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								Element imgElement = doc.select("button.look-bad-btn").first();
+								if (imgElement != null) {
+									String downNum = imgElement.text().replace("看空 ", "");
+									Log.i(TAG, "j==" + j + ";downNum==" + downNum);
+									hbean.setDownNum(downNum);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 						stocklist.add(hbean);
 					}

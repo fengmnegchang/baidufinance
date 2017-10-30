@@ -56,6 +56,36 @@ public class CommentBean extends CommonBean {
 	private String price;// null,
 	private String netChange;// null,
 	private String isVIP;// 0
+	private String dateTimeStr;
+	private String upNum;
+	private String downNum;
+	
+	
+
+
+	public String getUpNum() {
+		return upNum;
+	}
+
+	public void setUpNum(String upNum) {
+		this.upNum = upNum;
+	}
+
+	public String getDownNum() {
+		return downNum;
+	}
+
+	public void setDownNum(String downNum) {
+		this.downNum = downNum;
+	}
+
+	public String getDateTimeStr() {
+		return dateTimeStr;
+	}
+
+	public void setDateTimeStr(String dateTimeStr) {
+		this.dateTimeStr = dateTimeStr;
+	}
 
 	public String getCommentId() {
 		return commentId;

@@ -97,5 +97,15 @@ public class UrlUtils {
 	/**最新热点*/
 	public static final String SEARCHDATE = "https://gupiao.baidu.com/concept/?searchdate=";
 	/**主题股票*/
-	public static final String THEME_STOCK_DETAIL="https://gupiao.baidu.com/concept/1000394.html";
+	public static final String THEME_STOCK_DETAIL="https://gupiao.baidu.com/concept/1000313.html";
+	/**取消关注**/
+	public static final String DELCONCEPTFOLLOW ="https://gupiao.baidu.com/api/follow/delconceptfollow";
+	/**关注**/
+	public static final String ADDCONCEPTFOLLOW ="https://gupiao.baidu.com/api/follow/addconceptfollow";
+	/**主题留言**/
+	public static final String COMMENTLIST="https://gupiao.baidu.com/tpl/commentList?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&datetime=";
+
+	public static final String CONCEPT = "https://gupiao.baidu.com/concept/";
+	/**主题看空。看好**/
+	public static final String VOTETOCONCEPT="https://gupiao.baidu.com/api/concept/votetoconcept";
 }

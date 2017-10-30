@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,12 +204,12 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		// create a dataset and give it a type
 		LineDataSet set2 = new LineDataSet(yVals2, "热搜指数");
 		set2.setAxisDependency(AxisDependency.RIGHT);
-		set2.setColor(Color.RED);
+		set2.setColor(getActivity().getResources().getColor(R.color.pink_dot_color));
 		set2.setCircleColor(Color.WHITE);
 		set2.setLineWidth(2f);
 		set2.setCircleRadius(3f);
 		set2.setFillAlpha(65);
-		set2.setFillColor(Color.RED);
+		set2.setFillColor(getActivity().getResources().getColor(R.color.pink_dot_color));
 		set2.setDrawCircleHole(false);
 		set2.setHighLightColor(Color.rgb(244, 117, 117));
 		set2.setDrawValues(false);
@@ -248,7 +249,11 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 			@Override
 			public String getFormattedValue(float value, AxisBase axis) {
 				// TODO Auto-generated method stub
-				return list.get((int) value).getFollowTime();
+				if((int)value==0 || (int)value==list.size()-1){
+					return list.get((int) value).getFollowTime();
+				}else{
+					return "";
+				}
 			}
 		});
 
@@ -261,8 +266,25 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		leftAxis.setDrawZeroLine(true);
 		leftAxis.setAxisMaximum(32f);
 	    leftAxis.setAxisMinimum(25f);
+	    leftAxis.setValueFormatter(new IAxisValueFormatter() {
+			@Override
+			public String getFormattedValue(float value, AxisBase axis) {
+				if(value==25){
+					return "1100";
+				}else if(value==27){
+					return "1600";
+				}else if(value==28){
+					return "28";
+				}else if(value==32){
+					return "32";
+				}else{
+					return "";
+				}
+			}
+		});
 		
 		YAxis rightAxis = mChart.getAxisRight();
+		rightAxis.setEnabled(false);
 //		rightAxis.setDrawLabels(false);
 		rightAxis.setDrawGridLines(false);
 		rightAxis.setGranularityEnabled(false);
@@ -287,8 +309,8 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 			FollowBean bean = list.get((int)e.getX());
 			if(bean!=null){
 				txt_time.setText("时间 "+bean.getFollowTime());
-				txt_close.setText(" 价格趋势 "+String.format("%.2f", bean.getFollowPrice()));
-				txt_hotcount.setText(" 热搜指数 "+bean.getFollowIndex());
+				txt_close.setText(Html.fromHtml(" 价格趋势 <font color='#17ABEF'>"+String.format("%.2f", bean.getFollowPrice())+"</font>"));
+				txt_hotcount.setText(Html.fromHtml(" 热搜指数 <font color='#FC4A87'>"+bean.getFollowIndex()+"</font>"));
 			}
 		} catch (Exception e2) {
 			e2.printStackTrace();

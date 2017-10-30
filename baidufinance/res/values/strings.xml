@@ -44,6 +44,7 @@
 	<string name="app_pinnedsection_theme_stock_f_desp">PinnedSection主题选股</string>
 	<string name="app_auto_stock_tab_f_desp">智能选股Indicator 列表 </string>
 	<string name="app_theme_stock_detail_f_desp">主题股票详细</string>
+	<string name="app_theme_stock_comment_f_desp">主题股票评论</string>
 	
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>

@@ -76,14 +76,14 @@ import com.open.baidu.finance.utils.UrlUtils;
  *****************************************************************************************************************************************************************************
  */
 public class MNewsCommentPullListFragment extends CommonPullToRefreshListFragment<CommentBean, GetCommentListJson> implements OnClickListener {
-	private NewsCommentAdapter mNewsCommentAdapter;
-	private TextView edit_search;
+	public NewsCommentAdapter mNewsCommentAdapter;
+	public TextView edit_search;
 	public PopupWindow popupWindow;
-	private List<EmojiJson> emojilist = new ArrayList<EmojiJson>();
+	public List<EmojiJson> emojilist = new ArrayList<EmojiJson>();
 	private List<EmojiAdapter> adapterlist = new ArrayList<EmojiAdapter>();
 	private List<View> viewlist = new ArrayList<View>();
-	private ImageView img_nocommnets;
-	private TextView txt_nocomment;
+	public ImageView img_nocommnets;
+	public TextView txt_nocomment;
 	
 	
 	public static MNewsCommentPullListFragment newInstance(String url, boolean isVisibleToUser) {

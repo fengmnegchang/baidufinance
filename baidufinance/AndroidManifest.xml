@@ -318,6 +318,13 @@
             android:description="@string/app_theme_stock_detail_f_desp"
              >
         </activity>
+        <!--主题股票评论-->
+        <activity
+            android:name=".activity.hot.ThemeStockCommentPullListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_theme_stock_comment_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

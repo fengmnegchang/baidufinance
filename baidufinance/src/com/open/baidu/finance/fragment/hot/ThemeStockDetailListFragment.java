@@ -11,22 +11,37 @@
  */
 package com.open.baidu.finance.fragment.hot;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.NormalPostRequest;
+import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.hot.ThemeStockCommentPullListFragmentActivity;
 import com.open.baidu.finance.adapter.hot.ThemeStockDetailListAdapter;
 import com.open.baidu.finance.bean.hot.HotStockBean;
 import com.open.baidu.finance.json.hot.HotStockJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
+import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -39,9 +54,11 @@ import com.open.baidu.finance.jsoup.TagNewsJsoupService;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class ThemeStockDetailListFragment extends CommonPullToRefreshListFragment<HotStockBean, HotStockJson> {
+public class ThemeStockDetailListFragment extends CommonPullToRefreshListFragment<HotStockBean, HotStockJson>
+implements OnClickListener{
 	private ThemeStockDetailListAdapter mThemeStockDetailListAdapter;
 	private View headview,footview;
+	private ImageView img_love,img_msg;
 
 	public static ThemeStockDetailListFragment newInstance(String url, boolean isVisibleToUser) {
 		ThemeStockDetailListFragment fragment = new ThemeStockDetailListFragment();
@@ -57,6 +74,9 @@ public class ThemeStockDetailListFragment extends CommonPullToRefreshListFragmen
 		mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pull_refresh_list);
 		headview = LayoutInflater.from(getActivity()).inflate(R.layout.layout_themestock_detail_headview,null);
 		footview = LayoutInflater.from(getActivity()).inflate(R.layout.layout_themestock_detail_footview,null);
+		
+		img_love = (ImageView) view.findViewById(R.id.img_love);
+		img_msg = (ImageView) view.findViewById(R.id.img_msg);
 		return view;
 	}
 
@@ -89,6 +109,8 @@ public class ThemeStockDetailListFragment extends CommonPullToRefreshListFragmen
 		// TODO Auto-generated method stub
 		super.bindEvent();
 		mPullToRefreshListView.setOnRefreshListener(this);
+		img_love.setOnClickListener(this);
+		img_msg.setOnClickListener(this);
 	}
 
 	/*
@@ -151,4 +173,72 @@ public class ThemeStockDetailListFragment extends CommonPullToRefreshListFragmen
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.img_msg:
+			//留言
+			ThemeStockCommentPullListFragmentActivity.startThemeStockCommentPullListFragmentActivity(getActivity(), url);
+			break;
+		case R.id.img_love:
+			//关注
+			addconceptfollow(UrlUtils.ADDCONCEPTFOLLOW);
+			break;
+		default:
+			break;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.open.qianbailu.fragment.BaseV4Fragment#onErrorResponse(com.android.volley.VolleyError)
+	 */
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		super.onErrorResponse(error);
+		System.out.println(error);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.open.android.fragment.BaseV4Fragment#volleyJson(java.lang.String)
+	 */
+	public void addconceptfollow(final String href) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		final Map<String,String> headers = new HashMap<String,String>(); 
+		headers.put("User-Agent",UrlUtils.userAgent);
+		headers.put("Referer",url);
+		headers.put("Cookie", UrlUtils.COOKIE);
+ 
+		final Map<String, String> params = new HashMap<String, String>();
+		params.put("from", "pc");
+		params.put("os_ver", "1");
+		params.put("cuid", "xxx");
+		params.put("concept_ids", url.replace(UrlUtils.CONCEPT, "").replace(".html", ""));
+		params.put("vv", "100");
+		params.put("format", "json");
+		params.put("token", UrlUtils.TOKEN);
+		params.put("timestamp", System.currentTimeMillis()+"");
+
+		Log.d(TAG, "href=="+href);
+		Log.d(TAG, "headers=="+headers);
+		Log.d(TAG, "params=="+params);
+		Request<JSONObject> request = new NormalPostRequest(href,
+			    new Response.Listener<JSONObject>() {
+			        @Override
+			        public void onResponse(JSONObject response) {
+			            Log.d(TAG, "response -> " + response.toString());
+			        }
+			    }, new Response.ErrorListener() {
+			        @Override
+			        public void onErrorResponse(VolleyError error) {
+			            Log.e(TAG, error.getMessage(), error);
+			        }
+			    }, headers,params);
+
+		requestQueue.add(request);
+	}
 }
