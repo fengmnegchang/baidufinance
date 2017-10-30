@@ -4,15 +4,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_tip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="时间 10-27"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/txt_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_tip"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/txt_hotcount"
+        android:drawableLeft="@drawable/hot_search_stock_blue_dot"
+        android:gravity="center"
+        android:text=" 价格趋势 9.67"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/txt_hotcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txt_tip"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/hot_search_stock_pink_dot"
+        android:gravity="center"
+        android:text=" 热搜指数 1388"
+        android:textSize="12dp" />
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart1"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart2"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/chart1"
-        android:layout_height="150dp" />
+        android:layout_height="230dp"
+        android:layout_below="@+id/txt_hotcount" />
 
 </RelativeLayout>

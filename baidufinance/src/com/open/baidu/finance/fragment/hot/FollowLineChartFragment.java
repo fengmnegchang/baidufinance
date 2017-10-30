@@ -14,6 +14,7 @@ package com.open.baidu.finance.fragment.hot;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,8 +23,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.XAxis;
@@ -32,10 +35,14 @@ import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.bean.hot.FollowBean;
 import com.open.baidu.finance.json.hot.FollowJson;
 
 /**
@@ -49,9 +56,11 @@ import com.open.baidu.finance.json.hot.FollowJson;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLineChartFragment> {
-	private LineChart mChart, mChart2;
-
+public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLineChartFragment> implements OnChartValueSelectedListener{
+	private LineChart mChart;
+	private TextView txt_time,txt_close,txt_hotcount;
+	private List<FollowBean> list =new ArrayList<FollowBean>();
+	
 	public static FollowLineChartFragment newInstance(String url, boolean isVisibleToUser) {
 		FollowLineChartFragment fragment = new FollowLineChartFragment();
 		fragment.setFragment(fragment);
@@ -64,7 +73,9 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_follow_line_chart, container, false);
 		mChart = (LineChart) view.findViewById(R.id.chart1);
-		mChart2 = (LineChart) view.findViewById(R.id.chart2);
+		txt_time = (TextView) view.findViewById(R.id.txt_time);
+		txt_close = (TextView) view.findViewById(R.id.txt_close);
+		txt_hotcount = (TextView) view.findViewById(R.id.txt_hotcount);
 		return view;
 	}
 
@@ -98,28 +109,7 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		// set an alternative background color
 		mChart.setBackgroundColor(Color.WHITE);
 		mChart.setNoDataText("");
-
-		// no description text
-		mChart2.getDescription().setEnabled(false);
-
-		// enable touch gestures
-		mChart2.setTouchEnabled(true);
-
-		mChart2.setDragDecelerationFrictionCoef(0.9f);
-
-		// enable scaling and dragging
-		mChart2.setDragEnabled(false);
-		mChart2.setScaleEnabled(false);
-		mChart2.setDrawGridBackground(false);
-		mChart2.setHighlightPerDragEnabled(false);
-
-		// if disabled, scaling can be done on x- and y-axis separately
-		mChart2.setPinchZoom(false);
-
-		// set an alternative background color
-		mChart2.setBackgroundColor(Color.WHITE);
-		mChart2.setNoDataText("");
-
+		mChart.setOnChartValueSelectedListener(this);
 	}
 
 	/*
@@ -175,15 +165,19 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 	 * com.open.android.fragment.BaseV4Fragment#onCallback(java.lang.Object)
 	 */
 	@Override
-	public void onCallback(FollowJson result) {
+	public void onCallback(final FollowJson result) {
 		// TODO Auto-generated method stub
 		super.onCallback(result);
+		list.clear();
+		for(int i=result.getList().size()-1;i>=0;i--){
+			list.add(result.getList().get(i));
+		}
+		
 		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-		for (int i = 0; i < result.getList().size(); i++) {
-			yVals1.add(new Entry(i, result.getList().get(i).getFollowPrice()));
-			yVals2.add(new Entry(i, result.getList().get(i).getFollowIndex()));
+		for (int i =0; i <list.size(); i++) {
+			yVals1.add(new Entry(i, list.get(i).getFollowPrice()));
+			yVals2.add(new Entry(i, list.get(i).getFollowIndex()));
 		}
 		LineDataSet set1;
 		// create a dataset and give it a type
@@ -200,7 +194,7 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		set1.setDrawCircleHole(false);
 		set1.setDrawValues(false);
 		set1.setDrawCircles(false);
-		
+
 		// set1.setFillFormatter(new MyFillFormatter(0f));
 		// set1.setDrawHorizontalHighlightIndicator(false);
 		// set1.setVisible(false);
@@ -222,10 +216,10 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		set2.setDrawFilled(true);
 
 		// create a data object with the datasets
-		LineData data = new LineData(set1);
+		LineData data = new LineData(set1,set2);
 		data.setValueTextColor(Color.WHITE);
 		data.setValueTextSize(9f);
-		 
+
 		// set data
 		mChart.setData(data);
 		// mChart.animateX(2500);
@@ -241,7 +235,7 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
 		l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
 		l.setDrawInside(false);
-		// l.setYOffset(11f);
+		l.setEnabled(false);
 
 		XAxis xAxis = mChart.getXAxis();
 		// xAxis.setTypeface(mTfLight);
@@ -250,81 +244,64 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		xAxis.setDrawGridLines(false);
 		xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 		xAxis.setDrawAxisLine(false);
-		xAxis.setDrawLabels(true);
+		xAxis.setValueFormatter(new IAxisValueFormatter() {
+			@Override
+			public String getFormattedValue(float value, AxisBase axis) {
+				// TODO Auto-generated method stub
+				return list.get((int) value).getFollowTime();
+			}
+		});
 
-//		YAxis leftAxis = mChart.getAxisLeft();
-//		// leftAxis.setTypeface(mTfLight);
-//		leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-//		leftAxis.setDrawGridLines(false);
-//		leftAxis.setGranularityEnabled(false);
+		YAxis leftAxis = mChart.getAxisLeft();
+//		leftAxis.setDrawLabels(false);
+		leftAxis.setDrawGridLines(false);
+		leftAxis.setGranularityEnabled(false);
+		leftAxis.setDrawAxisLine(false);
+		leftAxis.setDrawTopYLabelEntry(true);
+		leftAxis.setDrawZeroLine(true);
+		leftAxis.setAxisMaximum(32f);
+	    leftAxis.setAxisMinimum(25f);
+		
+		YAxis rightAxis = mChart.getAxisRight();
+//		rightAxis.setDrawLabels(false);
+		rightAxis.setDrawGridLines(false);
+		rightAxis.setGranularityEnabled(false);
+		rightAxis.setDrawAxisLine(false);
+		rightAxis.setDrawTopYLabelEntry(true);
+		rightAxis.setDrawZeroLine(true);
+		rightAxis.setAxisMaximum(2500f);
+		rightAxis.setAxisMinimum(1100f);
 
-		 YAxis rightAxis = mChart.getAxisRight();
-		 // rightAxis.setTypeface(mTfLight);
-//		 rightAxis.setTextColor(Color.RED);
-		 rightAxis.setDrawLabels(false);
-		 rightAxis.setDrawGridLines(false);
-		 rightAxis.setDrawZeroLine(false);
-		 rightAxis.setGranularityEnabled(false);
-		 mChart.setDescription(null);
+		mChart.setDescription(null);
 		mChart.invalidate();
 
-		// create a data object with the datasets
-		LineData data2 = new LineData(set2);
-		data2.setValueTextColor(Color.WHITE);
-		data2.setValueTextSize(9f);
+	}
 
-		// set data
-		mChart2.setData(data2);
-		// mChart.animateX(2500);
+	/* (non-Javadoc)
+	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#onValueSelected(com.github.mikephil.charting.data.Entry, com.github.mikephil.charting.highlight.Highlight)
+	 */
+	@Override
+	public void onValueSelected(Entry e, Highlight h) {
+		// TODO Auto-generated method stub
+		try {
+			FollowBean bean = list.get((int)e.getX());
+			if(bean!=null){
+				txt_time.setText("时间 "+bean.getFollowTime());
+				txt_close.setText(" 价格趋势 "+String.format("%.2f", bean.getFollowPrice()));
+				txt_hotcount.setText(" 热搜指数 "+bean.getFollowIndex());
+			}
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	}
 
-		// get the legend (only possible after setting data)
-		Legend l2 = mChart2.getLegend();
-
-		// modify the legend ...
-		l2.setForm(LegendForm.LINE);
-		// l.setTypeface(mTfLight);
-		l2.setTextSize(11f);
-		// l.setTextColor(Color.WHITE);
-		l2.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-		l2.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-		l2.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-		l2.setDrawInside(false);
-		// l.setYOffset(11f);
-
-		XAxis xAxis2 = mChart2.getXAxis();
-		// xAxis2.setTypeface(mTfLight);
-		xAxis2.setTextSize(11f);
-		// xAxis2.setTextColor(Color.WHITE);
-		xAxis2.setDrawGridLines(false);
-		xAxis2.setDrawAxisLine(false);
-		xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-//		YAxis leftAxis2 = mChart2.getAxisLeft();
-//		// leftAxis2.setTypeface(mTfLight);
-//		leftAxis2.setTextColor(ColorTemplate.getHoloBlue());
-//		leftAxis2.setDrawGridLines(false);
-//		leftAxis2.setGranularityEnabled(false);
-//		leftAxis2.setAxisMaximum(1600f);
-//		leftAxis2.setAxisMinimum(1100f);
+	/* (non-Javadoc)
+	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#onNothingSelected()
+	 */
+	@Override
+	public void onNothingSelected() {
+		// TODO Auto-generated method stub
 		
-		YAxis rightAxis2 = mChart2.getAxisRight();
-		 // rightAxis.setTypeface(mTfLight);
-//		 rightAxis.setTextColor(Color.RED);
-		 rightAxis2.setDrawLabels(false);
-		 rightAxis2.setDrawGridLines(false);
-		 rightAxis2.setDrawZeroLine(false);
-		 rightAxis2.setGranularityEnabled(false);
-		 rightAxis2.setAxisMaximum(1600f);
-		 rightAxis2.setAxisMinimum(1100f);
-		 
-		// YAxis rightAxis = mChart.getAxisRight();
-		// // rightAxis.setTypeface(mTfLight);
-		// rightAxis.setTextColor(Color.RED);
-		// rightAxis.setDrawGridLines(false);
-		// rightAxis.setDrawZeroLine(false);
-		// rightAxis.setGranularityEnabled(false);
-		 mChart2.setDescription(null);
-		mChart2.invalidate();
 	}
 
 }
