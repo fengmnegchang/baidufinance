@@ -898,10 +898,7 @@ public class TagNewsJsoupService extends CommonService {
 				/**
 				 */
 				Element globalnavElement = doc.select("div.hot-concept").first();
-				Elements sElements = globalnavElement.select("li.no-click");
-				if (sElements == null) {
-					sElements = globalnavElement.select("li.can-click");
-				}
+				Elements	sElements = globalnavElement.select("li.can-click");
 				if (sElements != null && sElements.size() > 0) {
 					HotStockBean hbean;
 					for (int j = 0; j < sElements.size(); j++) {

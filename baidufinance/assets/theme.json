@@ -1,190 +1,188 @@
-{
-    "list": [
-        {
-            "followIndex": "1415",
-            "followTime": "10-27",
-            "followPercent": "-7.52%",
-            "followPrice": 10.618888881471
-        },
-        {
-            "followIndex": "1530",
-            "followTime": "10-26",
-            "followPercent": "24.29%",
-            "followPrice": "10.63"
-        },
-        {
-            "followIndex": "1231",
-            "followTime": "10-25",
-            "followPercent": "-19.07%",
-            "followPrice": "10.5922"
-        },
-        {
-            "followIndex": "1521",
-            "followTime": "10-24",
-            "followPercent": "10.06%",
-            "followPrice": "10.5544"
-        },
-        {
-            "followIndex": "1382",
-            "followTime": "10-23",
-            "followPercent": "14.03%",
-            "followPrice": "10.6411"
-        },
-        {
-            "followIndex": "1212",
-            "followTime": "10-20",
-            "followPercent": "-13.3%",
-            "followPrice": "10.6378"
-        },
-        {
-            "followIndex": "1398",
-            "followTime": "10-19",
-            "followPercent": "16.69%",
-            "followPrice": "10.6"
-        },
-        {
-            "followIndex": "1198",
-            "followTime": "10-18",
-            "followPercent": "1.1%",
-            "followPrice": "10.6644"
-        },
-        {
-            "followIndex": "1185",
-            "followTime": "10-17",
-            "followPercent": "-1.58%",
-            "followPrice": "10.77"
-        },
-        {
-            "followIndex": "1204",
-            "followTime": "10-16",
-            "followPercent": "-12.31%",
-            "followPrice": "10.8433"
-        },
-        {
-            "followIndex": "1373",
-            "followTime": "10-13",
-            "followPercent": "-7.1%",
-            "followPrice": "11.0822"
-        },
-        {
-            "followIndex": "1478",
-            "followTime": "10-12",
-            "followPercent": "4.3%",
-            "followPrice": "11.0344"
-        },
-        {
-            "followIndex": "1417",
-            "followTime": "10-11",
-            "followPercent": "11.49%",
-            "followPrice": "11.71"
-        },
-        {
-            "followIndex": "1271",
-            "followTime": "10-10",
-            "followPercent": "3.25%",
-            "followPrice": "11.7344"
-        },
-        {
-            "followIndex": "1231",
-            "followTime": "10-09",
-            "followPercent": "-15.63%",
-            "followPrice": "11.6289"
-        },
-        {
-            "followIndex": "1459",
-            "followTime": "09-29",
-            "followPercent": "4.96%",
-            "followPrice": "11.5611"
-        },
-        {
-            "followIndex": "1390",
-            "followTime": "09-28",
-            "followPercent": "-8.55%",
-            "followPrice": "11.5178"
-        },
-        {
-            "followIndex": "1520",
-            "followTime": "09-27",
-            "followPercent": "18.2%",
-            "followPrice": "11.5267"
-        },
-        {
-            "followIndex": "1286",
-            "followTime": "09-26",
-            "followPercent": "-6.34%",
-            "followPrice": "11.5422"
-        },
-        {
-            "followIndex": "1373",
-            "followTime": "09-25",
-            "followPercent": "3.86%",
-            "followPrice": "11.5256"
-        },
-        {
-            "followIndex": "1322",
-            "followTime": "09-22",
-            "followPercent": "10.54%",
-            "followPrice": "11.55"
-        },
-        {
-            "followIndex": "1196",
-            "followTime": "09-21",
-            "followPercent": "-18.86%",
-            "followPrice": "11.5911"
-        },
-        {
-            "followIndex": "1474",
-            "followTime": "09-20",
-            "followPercent": "4.17%",
-            "followPrice": "11.6344"
-        },
-        {
-            "followIndex": "1415",
-            "followTime": "09-19",
-            "followPercent": "14.76%",
-            "followPrice": "11.5467"
-        },
-        {
-            "followIndex": "1233",
-            "followTime": "09-18",
-            "followPercent": "-14.43%",
-            "followPrice": "11.6167"
-        },
-        {
-            "followIndex": "1441",
-            "followTime": "09-15",
-            "followPercent": "27.18%",
-            "followPrice": "11.5222"
-        },
-        {
-            "followIndex": "1133",
-            "followTime": "09-14",
-            "followPercent": "-13.91%",
-            "followPrice": "11.5044"
-        },
-        {
-            "followIndex": "1316",
-            "followTime": "09-13",
-            "followPercent": "-3.16%",
-            "followPrice": "11.5167"
-        },
-        {
-            "followIndex": "1359",
-            "followTime": "09-12",
-            "followPercent": "8.03%",
-            "followPrice": "11.4833"
-        },
-        {
-            "followIndex": "1258",
-            "followTime": "09-11",
-            "followPercent": "-5.41%",
-            "followPrice": "11.5611"
-        },
-        {
-            "followIndex": "1330",
-            "followTime": "09-08",
-            "followPercent": "-5%",
-            "followPrice": "11.5611"
-        }
-    ]
-}
+{"list":[
+    {
+        "followIndex": "1442",
+        "followTime": "10-30",
+        "followPercent": "7.93%",
+        "followPrice": 31.741428647723
+    },
+    {
+        "followIndex": "1336",
+        "followTime": "10-27",
+        "followPercent": "-5.38%",
+        "followPrice": "31.5957"
+    },
+    {
+        "followIndex": "1412",
+        "followTime": "10-26",
+        "followPercent": "-3.62%",
+        "followPrice": "31.5086"
+    },
+    {
+        "followIndex": "1465",
+        "followTime": "10-25",
+        "followPercent": "-1.74%",
+        "followPrice": "31.69"
+    },
+    {
+        "followIndex": "1491",
+        "followTime": "10-24",
+        "followPercent": "6.12%",
+        "followPrice": "31.5543"
+    },
+    {
+        "followIndex": "1405",
+        "followTime": "10-23",
+        "followPercent": "4.85%",
+        "followPrice": "30.8643"
+    },
+    {
+        "followIndex": "1340",
+        "followTime": "10-20",
+        "followPercent": "7.54%",
+        "followPrice": "30.4071"
+    },
+    {
+        "followIndex": "1246",
+        "followTime": "10-19",
+        "followPercent": "2.55%",
+        "followPrice": "30.3771"
+    },
+    {
+        "followIndex": "1215",
+        "followTime": "10-18",
+        "followPercent": "-11.44%",
+        "followPrice": "30.6643"
+    },
+    {
+        "followIndex": "1372",
+        "followTime": "10-17",
+        "followPercent": "0.51%",
+        "followPrice": "30.2686"
+    },
+    {
+        "followIndex": "1365",
+        "followTime": "10-16",
+        "followPercent": "-8.63%",
+        "followPrice": "30.1629"
+    },
+    {
+        "followIndex": "1494",
+        "followTime": "10-13",
+        "followPercent": "-1.52%",
+        "followPrice": "30.3029"
+    },
+    {
+        "followIndex": "1517",
+        "followTime": "10-12",
+        "followPercent": "27.91%",
+        "followPrice": "29.36"
+    },
+    {
+        "followIndex": "1186",
+        "followTime": "10-11",
+        "followPercent": "-6.91%",
+        "followPrice": "28.9829"
+    },
+    {
+        "followIndex": "1274",
+        "followTime": "10-10",
+        "followPercent": "-17.49%",
+        "followPrice": "29.0086"
+    },
+    {
+        "followIndex": "1544",
+        "followTime": "10-09",
+        "followPercent": "32.08%",
+        "followPrice": "29.3171"
+    },
+    {
+        "followIndex": "1169",
+        "followTime": "09-29",
+        "followPercent": "-24.29%",
+        "followPrice": "29.1914"
+    },
+    {
+        "followIndex": "1544",
+        "followTime": "09-28",
+        "followPercent": "7.75%",
+        "followPrice": "29.1571"
+    },
+    {
+        "followIndex": "1433",
+        "followTime": "09-27",
+        "followPercent": "-3.24%",
+        "followPrice": "28.9371"
+    },
+    {
+        "followIndex": "1481",
+        "followTime": "09-26",
+        "followPercent": "0.07%",
+        "followPrice": "28.2729"
+    },
+    {
+        "followIndex": "1480",
+        "followTime": "09-25",
+        "followPercent": "7.01%",
+        "followPrice": "28.2457"
+    },
+    {
+        "followIndex": "1383",
+        "followTime": "09-22",
+        "followPercent": "-3.69%",
+        "followPrice": "28.7729"
+    },
+    {
+        "followIndex": "1436",
+        "followTime": "09-21",
+        "followPercent": "2.13%",
+        "followPrice": "28.6586"
+    },
+    {
+        "followIndex": "1406",
+        "followTime": "09-20",
+        "followPercent": "-6.76%",
+        "followPrice": "28.7543"
+    },
+    {
+        "followIndex": "1508",
+        "followTime": "09-19",
+        "followPercent": "1.28%",
+        "followPrice": "28.5129"
+    },
+    {
+        "followIndex": "1489",
+        "followTime": "09-18",
+        "followPercent": "14.54%",
+        "followPrice": "29.2814"
+    },
+    {
+        "followIndex": "1300",
+        "followTime": "09-15",
+        "followPercent": "-1.74%",
+        "followPrice": "28.9571"
+    },
+    {
+        "followIndex": "1323",
+        "followTime": "09-14",
+        "followPercent": "-15.25%",
+        "followPrice": "29.0171"
+    },
+    {
+        "followIndex": "1561",
+        "followTime": "09-13",
+        "followPercent": "11.82%",
+        "followPrice": "29.3971"
+    },
+    {
+        "followIndex": "1396",
+        "followTime": "09-12",
+        "followPercent": "16.43%",
+        "followPrice": "29.9271"
+    },
+    {
+        "followIndex": "1199",
+        "followTime": "09-11",
+        "followPercent": "-19.48%",
+        "followPrice": "30.1043"
+    }
+]}
