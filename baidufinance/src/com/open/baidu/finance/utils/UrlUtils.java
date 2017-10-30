@@ -108,4 +108,9 @@ public class UrlUtils {
 	public static final String CONCEPT = "https://gupiao.baidu.com/concept/";
 	/**主题看空。看好**/
 	public static final String VOTETOCONCEPT="https://gupiao.baidu.com/api/concept/votetoconcept";
+	/**主题 评论**/
+	public static final String CREATECOMMENT ="https://gupiao.baidu.com/ajax/createComment";
+	
+	/**登陆用户名称**/
+	public static final String UNAME ="fengxian038";
 }

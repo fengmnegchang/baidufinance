@@ -35,10 +35,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -260,10 +262,21 @@ public class MNewsCommentPullListFragment extends CommonPullToRefreshListFragmen
 		
 		popupWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.LEFT, 0,
 	            0);
-		
+		final EditText edit_add = (EditText) view.findViewById(R.id.edit_add);
 		ImageView img_search_stock = (ImageView) view.findViewById(R.id.img_search_stock);
 		ImageView img_face = (ImageView) view.findViewById(R.id.img_face);
 		Button btn_send = (Button) view.findViewById(R.id.btn_send);
+		btn_send.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(edit_add.getText().toString().length()==0){
+					Toast.makeText(getActivity(), "输入评论内容", Toast.LENGTH_LONG).show();
+					return;
+				}
+				weakReferenceHandler.sendMessage(weakReferenceHandler.obtainMessage(10000, edit_add.getText().toString()));
+			}
+		});
 		final ViewPager viewpager = (ViewPager) view.findViewById(R.id.viewpager);
 		final LinearLayout layout_dot = (LinearLayout) view.findViewById(R.id.layout_dot);
 		final ImageView[] dots = new ImageView[emojilist.size()];

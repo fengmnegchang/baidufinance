@@ -34,7 +34,18 @@ public class HotConceptBean extends CommonBean {
 	private String event;
 	private List<HotStockBean> stocklist;
 	private int viewType;
+	private String href;
 	
+	
+	
+	public String getHref() {
+		return href;
+	}
+
+	public void setHref(String href) {
+		this.href = href;
+	}
+
 	public int getViewType() {
 		return viewType;
 	}

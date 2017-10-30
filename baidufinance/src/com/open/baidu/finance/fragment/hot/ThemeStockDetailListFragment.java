@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -59,12 +60,15 @@ implements OnClickListener{
 	private ThemeStockDetailListAdapter mThemeStockDetailListAdapter;
 	private View headview,footview;
 	private ImageView img_love,img_msg;
+	private String event;
+	private TextView txt_subject;
 
-	public static ThemeStockDetailListFragment newInstance(String url, boolean isVisibleToUser) {
+	public static ThemeStockDetailListFragment newInstance(String url, String event,boolean isVisibleToUser) {
 		ThemeStockDetailListFragment fragment = new ThemeStockDetailListFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
+		fragment.event = event;
 		return fragment;
 	}
 
@@ -73,6 +77,8 @@ implements OnClickListener{
 		View view = inflater.inflate(R.layout.fragment_theme_stock_detail_pulllistview, container, false);
 		mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pull_refresh_list);
 		headview = LayoutInflater.from(getActivity()).inflate(R.layout.layout_themestock_detail_headview,null);
+		txt_subject = (TextView) headview.findViewById(R.id.txt_subject);
+		
 		footview = LayoutInflater.from(getActivity()).inflate(R.layout.layout_themestock_detail_footview,null);
 		
 		img_love = (ImageView) view.findViewById(R.id.img_love);
@@ -97,6 +103,10 @@ implements OnClickListener{
 		mThemeStockDetailListAdapter = new ThemeStockDetailListAdapter(getActivity(), list);
 		mPullToRefreshListView.setAdapter(mThemeStockDetailListAdapter);
 		mPullToRefreshListView.setMode(Mode.PULL_FROM_START);
+		
+		if(event!=null){
+			txt_subject.setText(event);
+		}
 	}
 
 	/*

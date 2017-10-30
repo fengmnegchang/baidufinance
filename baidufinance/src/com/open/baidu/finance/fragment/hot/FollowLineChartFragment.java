@@ -45,6 +45,7 @@ import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.hot.FollowBean;
 import com.open.baidu.finance.json.hot.FollowJson;
+import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -141,18 +142,19 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		// TODO Auto-generated method stub
 		FollowJson mFollowJson = new FollowJson();
 		try {
-			InputStream is = getActivity().getResources().getAssets().open("theme.json");
-			ByteArrayOutputStream bytestream = new ByteArrayOutputStream();
-			int ch;
-			while ((ch = is.read()) != -1) {
-				bytestream.write(ch);
-			}
-			byte imgdata[] = bytestream.toByteArray();
-			bytestream.close();
-			String data = new String(imgdata);
-			Gson gson = new Gson();
-
-			mFollowJson = gson.fromJson(data, FollowJson.class);
+//			InputStream is = getActivity().getResources().getAssets().open("theme.json");
+//			ByteArrayOutputStream bytestream = new ByteArrayOutputStream();
+//			int ch;
+//			while ((ch = is.read()) != -1) {
+//				bytestream.write(ch);
+//			}
+//			byte imgdata[] = bytestream.toByteArray();
+//			bytestream.close();
+//			String data = new String(imgdata);
+//			Gson gson = new Gson();
+//
+//			mFollowJson = gson.fromJson(data, FollowJson.class);
+			mFollowJson = TagNewsJsoupService.parseThmemeFollow(url, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -176,9 +178,30 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		
 		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
+		float maxX = 1;
+		float minX = 100;
+		float maxY = 100;
+		float minY = 2500;
 		for (int i =0; i <list.size(); i++) {
 			yVals1.add(new Entry(i, list.get(i).getFollowPrice()));
 			yVals2.add(new Entry(i, list.get(i).getFollowIndex()));
+			
+			if(maxX<list.get(i).getFollowPrice()){
+				maxX = list.get(i).getFollowPrice();
+			}
+			
+			if(minX>list.get(i).getFollowPrice()){
+				minX = list.get(i).getFollowPrice();
+			}
+			
+			if(maxY<list.get(i).getFollowIndex()){
+				maxY = list.get(i).getFollowIndex();
+			}
+			
+			if(minY>list.get(i).getFollowIndex()){
+				minY = list.get(i).getFollowIndex();
+			}
+			
 		}
 		LineDataSet set1;
 		// create a dataset and give it a type
@@ -264,8 +287,8 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawTopYLabelEntry(true);
 		leftAxis.setDrawZeroLine(true);
-		leftAxis.setAxisMaximum(32f);
-	    leftAxis.setAxisMinimum(25f);
+		leftAxis.setAxisMaximum(maxX);
+	    leftAxis.setAxisMinimum(minX*2/3);
 	    leftAxis.setValueFormatter(new IAxisValueFormatter() {
 			@Override
 			public String getFormattedValue(float value, AxisBase axis) {
@@ -291,8 +314,8 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		rightAxis.setDrawAxisLine(false);
 		rightAxis.setDrawTopYLabelEntry(true);
 		rightAxis.setDrawZeroLine(true);
-		rightAxis.setAxisMaximum(2500f);
-		rightAxis.setAxisMinimum(1100f);
+		rightAxis.setAxisMaximum(maxY+1000);
+		rightAxis.setAxisMinimum(minY);
 
 		mChart.setDescription(null);
 		mChart.invalidate();

@@ -11,6 +11,10 @@
  */
 package com.open.baidu.finance.jsoup;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,7 @@ import org.jsoup.select.Elements;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.open.android.jsoup.CommonService;
 import com.open.baidu.finance.bean.article.CommentBean;
 import com.open.baidu.finance.bean.article.NewsContainerBean;
@@ -32,6 +37,7 @@ import com.open.baidu.finance.bean.news.HotTiebaTopicBean;
 import com.open.baidu.finance.bean.news.LiveShowBean;
 import com.open.baidu.finance.bean.news.QuestionBean;
 import com.open.baidu.finance.bean.news.TagNewsBean;
+import com.open.baidu.finance.json.hot.FollowJson;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -76,7 +82,7 @@ public class TagNewsJsoupService extends CommonService {
 							try {
 								Element aElement = moduleElements.get(i).select("a").first();
 								if (aElement != null) {
-									String hrefa = UrlUtils.GUPIAO_BAIDU+aElement.attr("href");
+									String hrefa = UrlUtils.GUPIAO_BAIDU + aElement.attr("href");
 									Log.i(TAG, "i==" + i + ";hrefa==" + hrefa);
 									sbean.setUrl(hrefa);
 								}
@@ -113,7 +119,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
-	
+
 	/***
 	 * 直播
 	 */
@@ -161,7 +167,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.desc").first();
 								if (imgElement != null) {
@@ -191,8 +197,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
-	
-	
+
 	/***
 	 * 精华帖子
 	 */
@@ -229,7 +234,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("a").first();
 								if (imgElement != null) {
@@ -240,7 +245,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("span").first();
 								if (imgElement != null) {
@@ -251,7 +256,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("p").first();
 								if (imgElement != null) {
@@ -262,16 +267,14 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.statistic").first();
 								if (imgElement != null) {
 									String readcount = imgElement.select("span").get(1).text();
 									Log.i(TAG, "i==" + i + ";readcount==" + readcount);
 									sbean.setReadcount(readcount);
-									
-									
+
 									String replycount = imgElement.select("span").get(3).text();
 									Log.i(TAG, "i==" + i + ";replycount==" + replycount);
 									sbean.setReplycount(replycount);
@@ -298,8 +301,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
-	
-	
+
 	/***
 	 *  
 	 */
@@ -336,7 +338,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.news-subtitle").first();
 								if (imgElement != null) {
@@ -347,7 +349,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.news-box").first();
 								if (imgElement != null) {
@@ -377,7 +379,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
-	
+
 	public static List<TagNewsBean> parseNewsContainerFoot(String href, int pageNo) {
 		List<TagNewsBean> list = new ArrayList<TagNewsBean>();
 		try {
@@ -404,14 +406,14 @@ public class TagNewsJsoupService extends CommonService {
 							try {
 								Element aElement = moduleElements.get(i).select("a").first();
 								if (aElement != null) {
-									String url = UrlUtils.GUPIAO_BAIDU+aElement.attr("href");
+									String url = UrlUtils.GUPIAO_BAIDU + aElement.attr("href");
 									Log.i(TAG, "i==" + i + ";url==" + url);
 									sbean.setUrl(url);
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("a").first();
 								if (imgElement != null) {
@@ -441,8 +443,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
-	
-	
+
 	public static List<AdviserPersonBean> parseAdviserPerson(String href, int pageNo) {
 		List<AdviserPersonBean> list = new ArrayList<AdviserPersonBean>();
 		try {
@@ -460,7 +461,8 @@ public class TagNewsJsoupService extends CommonService {
 			try {
 				/**
 				 */
-//				Element globalnavElement = doc.select("ul.more-news-list").first();
+				// Element globalnavElement =
+				// doc.select("ul.more-news-list").first();
 				Elements moduleElements = doc.select("div.adviser-person");
 				if (moduleElements != null && moduleElements.size() > 0) {
 					for (int i = 0; i < moduleElements.size(); i++) {
@@ -469,14 +471,14 @@ public class TagNewsJsoupService extends CommonService {
 							try {
 								Element aElement = moduleElements.get(i).select("a").first();
 								if (aElement != null) {
-									String url = UrlUtils.GUPIAO_BAIDU+aElement.attr("href");
+									String url = UrlUtils.GUPIAO_BAIDU + aElement.attr("href");
 									Log.i(TAG, "i==" + i + ";url==" + url);
 									sbean.setHref(url);
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("img").first();
 								if (imgElement != null) {
@@ -487,7 +489,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.content").first();
 								if (imgElement != null) {
@@ -498,7 +500,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.content").first();
 								if (imgElement != null) {
@@ -509,7 +511,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.content").first();
 								if (imgElement != null) {
@@ -539,8 +541,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
-	
-	
+
 	public static List<ExpertViewBean> parseAdviserView(String href, int pageNo) {
 		List<ExpertViewBean> list = new ArrayList<ExpertViewBean>();
 		try {
@@ -549,12 +550,12 @@ public class TagNewsJsoupService extends CommonService {
 			// }
 			// });
 			Document doc;
-			if(pageNo>1){
+			if (pageNo > 1) {
 				doc = Jsoup.parse(href);
-			}else{
+			} else {
 				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
 			}
-			
+
 			Log.i(TAG, "url = " + href);
 
 			// Document doc =
@@ -579,7 +580,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.content").first();
 								if (imgElement != null) {
@@ -590,7 +591,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.time").first();
 								if (imgElement != null) {
@@ -620,7 +621,6 @@ public class TagNewsJsoupService extends CommonService {
 		return list;
 	}
 
-	
 	public static List<QuestionBean> parseQuestion(String href, int pageNo) {
 		List<QuestionBean> list = new ArrayList<QuestionBean>();
 		try {
@@ -629,12 +629,12 @@ public class TagNewsJsoupService extends CommonService {
 			// }
 			// });
 			Document doc;
-			if(pageNo>1){
+			if (pageNo > 1) {
 				doc = Jsoup.parse(href);
-			}else{
+			} else {
 				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
 			}
-			
+
 			Log.i(TAG, "url = " + href);
 
 			// Document doc =
@@ -659,7 +659,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("span.uname").first();
 								if (imgElement != null) {
@@ -670,7 +670,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("div.title").first();
 								if (imgElement != null) {
@@ -681,7 +681,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("img").first();
 								if (imgElement != null) {
@@ -710,8 +710,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
-	
-	
+
 	public static List<HotConceptBean> parseHot(String href, int pageNo) {
 		List<HotConceptBean> list = new ArrayList<HotConceptBean>();
 		try {
@@ -720,9 +719,9 @@ public class TagNewsJsoupService extends CommonService {
 			// }
 			// });
 			Document doc;
-		 
-				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
-			
+
+			doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+
 			Log.i(TAG, "url = " + href);
 
 			// Document doc =
@@ -731,12 +730,24 @@ public class TagNewsJsoupService extends CommonService {
 			try {
 				/**
 				 */
-//				Element globalnavElement = doc.select("div.concept-header").first();
+				// Element globalnavElement =
+				// doc.select("div.concept-header").first();
 				Elements moduleElements = doc.select("div.hot-concept");
 				if (moduleElements != null && moduleElements.size() > 0) {
 					for (int i = 0; i < moduleElements.size(); i++) {
 						HotConceptBean sbean = new HotConceptBean();
 						try {
+							try {
+								Element imgElement = moduleElements.get(i).select("a").first();
+								if (imgElement != null) {
+									String hrefa = UrlUtils.GUPIAO_BAIDU + imgElement.attr("href");
+									Log.i(TAG, "i==" + i + ";hrefa==" + hrefa);
+									sbean.setHref(hrefa);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
 							try {
 								Element imgElement = moduleElements.get(i).select("h2").first();
 								if (imgElement != null) {
@@ -747,7 +758,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("h3").first();
 								if (imgElement != null) {
@@ -758,7 +769,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("p").first();
 								if (imgElement != null) {
@@ -769,7 +780,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = moduleElements.get(i).select("p").get(1);
 								if (imgElement != null) {
@@ -791,78 +802,78 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Elements sElements = moduleElements.get(i).select("li.no-click");
-								if(sElements==null ||  sElements.size()==0){
+								if (sElements == null || sElements.size() == 0) {
 									sElements = moduleElements.get(i).select("li.can-click");
 								}
-								if (sElements != null && sElements.size()>0) {
+								if (sElements != null && sElements.size() > 0) {
 									List<HotStockBean> stocklist = new ArrayList<HotStockBean>();
 									HotStockBean hbean;
-									 for(int j=0;j<sElements.size();j++){
-										 hbean = new HotStockBean();
-										 try {
-											 Element imgElement = sElements.get(j).select("a").first();
-												if (imgElement != null) {
-													String hrefa =UrlUtils.GUPIAO_BAIDU +imgElement.attr("href");
-													Log.i(TAG, "j==" + j + ";hrefa==" + hrefa);
-													hbean.setHref(hrefa);
-												}
+									for (int j = 0; j < sElements.size(); j++) {
+										hbean = new HotStockBean();
+										try {
+											Element imgElement = sElements.get(j).select("a").first();
+											if (imgElement != null) {
+												String hrefa = UrlUtils.GUPIAO_BAIDU + imgElement.attr("href");
+												Log.i(TAG, "j==" + j + ";hrefa==" + hrefa);
+												hbean.setHref(hrefa);
+											}
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
-										 
-										 try {
-											 Element imgElement = sElements.get(j).select("li").first();
-												if (imgElement != null) {
-													String stockName =imgElement.attr("data-name");
-													Log.i(TAG, "j==" + j + ";stockName==" + stockName);
-													hbean.setStockName(stockName);
-												}
+
+										try {
+											Element imgElement = sElements.get(j).select("li").first();
+											if (imgElement != null) {
+												String stockName = imgElement.attr("data-name");
+												Log.i(TAG, "j==" + j + ";stockName==" + stockName);
+												hbean.setStockName(stockName);
+											}
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
-										 
-										 try {
-											 Element imgElement = sElements.get(j).select("li").first();
-												if (imgElement != null) {
-													String stockCode =imgElement.attr("data-code");
-													Log.i(TAG, "j==" + j + ";stockCode==" + stockCode);
-													hbean.setStockCode(stockCode);
-												}
+
+										try {
+											Element imgElement = sElements.get(j).select("li").first();
+											if (imgElement != null) {
+												String stockCode = imgElement.attr("data-code");
+												Log.i(TAG, "j==" + j + ";stockCode==" + stockCode);
+												hbean.setStockCode(stockCode);
+											}
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
-										 
-										 try {
-											 Element imgElement = sElements.get(j).select("div.column2").get(1);
-												if (imgElement != null) {
-													String close =imgElement.text();
-													Log.i(TAG, "j==" + j + ";close==" + close);
-													hbean.setClose(close);
-												}
+
+										try {
+											Element imgElement = sElements.get(j).select("div.column2").get(1);
+											if (imgElement != null) {
+												String close = imgElement.text();
+												Log.i(TAG, "j==" + j + ";close==" + close);
+												hbean.setClose(close);
+											}
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
-										 try {
-											 Element imgElement = sElements.get(j).select("div.column2").get(2);
-												if (imgElement != null) {
-													String rate =imgElement.text();
-													Log.i(TAG, "j==" + j + ";rate==" + rate);
-													hbean.setRate(rate);
-												}
+										try {
+											Element imgElement = sElements.get(j).select("div.column2").get(2);
+											if (imgElement != null) {
+												String rate = imgElement.text();
+												Log.i(TAG, "j==" + j + ";rate==" + rate);
+												hbean.setRate(rate);
+											}
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
-										 stocklist.add(hbean);
-									 }
-									 sbean.setStocklist(stocklist);
+										stocklist.add(hbean);
+									}
+									sbean.setStocklist(stocklist);
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -880,8 +891,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return list;
 	}
-	
-	
+
 	public static List<HotStockBean> parseThmeme(String href, int pageNo) {
 		List<HotStockBean> stocklist = new ArrayList<HotStockBean>();
 		try {
@@ -899,7 +909,10 @@ public class TagNewsJsoupService extends CommonService {
 				/**
 				 */
 				Element globalnavElement = doc.select("div.hot-concept").first();
-				Elements	sElements = globalnavElement.select("li.can-click");
+				Elements sElements = globalnavElement.select("li.can-click");
+				if (sElements == null || sElements.size() == 0) {
+					sElements = globalnavElement.select("li.no-click");
+				}
 				if (sElements != null && sElements.size() > 0) {
 					HotStockBean hbean;
 					for (int j = 0; j < sElements.size(); j++) {
@@ -969,8 +982,7 @@ public class TagNewsJsoupService extends CommonService {
 		}
 		return stocklist;
 	}
-	
-	
+
 	public static List<CommentBean> parseThmemeComment(String href, int pageNo) {
 		List<CommentBean> stocklist = new ArrayList<CommentBean>();
 		try {
@@ -979,14 +991,14 @@ public class TagNewsJsoupService extends CommonService {
 			// }
 			// });
 			Document doc;
-			Elements	sElements;
-			if(pageNo>1){
+			Elements sElements;
+			if (pageNo > 1) {
 				doc = Jsoup.parse(href);
-			 	sElements = doc.select("li");
-			}else{
+				sElements = doc.select("li");
+			} else {
 				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
 				Element globalnavElement = doc.select("div.comment-list").first();
-			 	sElements = globalnavElement.select("li");
+				sElements = globalnavElement.select("li");
 			}
 			Log.i(TAG, "url = " + href);
 			// Document doc =
@@ -1029,7 +1041,7 @@ public class TagNewsJsoupService extends CommonService {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						
+
 						try {
 							Element imgElement = sElements.get(j).select("span.c-date").first();
 							if (imgElement != null) {
@@ -1040,13 +1052,13 @@ public class TagNewsJsoupService extends CommonService {
 							Element imgElement2 = sElements.get(j).select("span.c-date").get(1);
 							if (imgElement2 != null) {
 								String dateTimeStr = imgElement2.text();
-								Log.i(TAG, "j==" + j + ";dateTimeStr==" +dateTimeStr);
-								hbean.setDateTimeStr(hbean.getDateTimeStr()+" "+dateTimeStr);
+								Log.i(TAG, "j==" + j + ";dateTimeStr==" + dateTimeStr);
+								hbean.setDateTimeStr(hbean.getDateTimeStr() + " " + dateTimeStr);
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						
+
 						try {
 							Element imgElement = sElements.get(j).select("div.comment-refer").first();
 							if (imgElement != null) {
@@ -1059,15 +1071,13 @@ public class TagNewsJsoupService extends CommonService {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						
-						if(pageNo==1){
+
+						if (pageNo == 1) {
 							/**
-							 *  <button class="look-good-btn" data-spm="1">
-			                    看好 <span>649</span>
-			                </button>
-			                <button class="look-bad-btn" data-spm="2">
-			                    看空 <span>736</span>
-			                </button>
+							 * <button class="look-good-btn" data-spm="1"> 看好
+							 * <span>649</span> </button> <button
+							 * class="look-bad-btn" data-spm="2"> 看空
+							 * <span>736</span> </button>
 							 */
 							try {
 								Element imgElement = doc.select("button.look-good-btn").first();
@@ -1079,7 +1089,7 @@ public class TagNewsJsoupService extends CommonService {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							try {
 								Element imgElement = doc.select("button.look-bad-btn").first();
 								if (imgElement != null) {
@@ -1102,5 +1112,43 @@ public class TagNewsJsoupService extends CommonService {
 			e.printStackTrace();
 		}
 		return stocklist;
+	}
+
+	public static FollowJson parseThmemeFollow(String href, int pageNo) {
+		FollowJson mFollowJson = new FollowJson();
+		try {
+		    URL url = new URL(href);
+		    HttpURLConnection connection = (HttpURLConnection) url.openConnection();// 设置代理访问
+		    connection.setRequestProperty("User-Agent", UrlUtils.userAgent);
+		    InputStreamReader read = new InputStreamReader(connection.getInputStream(), "utf-8");// 考虑到编码格式
+            BufferedReader bufferedReader = new BufferedReader(read);
+            String lineTxt = null;
+            StringBuffer buffer = new StringBuffer();
+            while ((lineTxt = bufferedReader.readLine()) != null) {//按行读取
+                if (!"".equals(lineTxt)) {
+                	if(lineTxt.contains("{\\")  && lineTxt.contains("followIndex")){
+                		if(lineTxt.contains("__gupiao[\"login\"]")){
+                			lineTxt = lineTxt.substring(0,lineTxt.indexOf("__gupiao[\"login\"]"));
+                		}else if(lineTxt.contains("[{")){
+                			lineTxt = lineTxt.substring(lineTxt.indexOf("[{")+1,lineTxt.length());
+                		}
+                		buffer.append(lineTxt);
+                		System.out.println(lineTxt);
+                	}
+                }
+            }
+            read.close();//关闭InputStreamReader
+            bufferedReader.close();//关闭BufferedReader
+            
+            String content = buffer.toString();
+            content = content.replace("<script type=\"text/javascript\">__gupiao[\"curve\"] = \"", "")
+            		.replace("\";", "");
+            content = "{\"list\":"+content.replace("\\&quot;", "\"")+"}";
+            Gson gson = new Gson();
+            mFollowJson = gson.fromJson(content, FollowJson.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mFollowJson;
 	}
 }

@@ -46,6 +46,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.article.EmojiBean;
 import com.open.baidu.finance.fragment.article.MNewsCommentPullListFragment;
+import com.open.baidu.finance.json.CommonDataJson;
 import com.open.baidu.finance.json.article.EmojiJson;
 import com.open.baidu.finance.json.article.GetCommentListJson;
 import com.open.baidu.finance.json.article.GetCommentListModel;
@@ -182,6 +183,10 @@ public class ThemeStockCommentPullListFragment extends MNewsCommentPullListFragm
 				volleyJson(UrlUtils.COMMENTLIST + date.getTime() + "&timestamp=" + new Date().getTime() + "&sid=" + url.replace(UrlUtils.CONCEPT, "").replace(".html", ""));
 			}
 			break;
+		case 10000:
+			//评论
+			createComment(UrlUtils.CREATECOMMENT, (String)msg.obj);
+			break;
 		default:
 			break;
 		}
@@ -310,6 +315,55 @@ public class ThemeStockCommentPullListFragment extends MNewsCommentPullListFragm
 			            if(json!=null){
 			            	txt_up_num.setText(json.getData().getLikeNum());
 			    			txt_down_num.setText(json.getData().getDislikeNum());
+			            	Toast.makeText(getActivity(), json.getErrorMsg(), Toast.LENGTH_LONG).show();
+			            }
+			        }
+			    }, new Response.ErrorListener() {
+			        @Override
+			        public void onErrorResponse(VolleyError error) {
+			            Log.e(TAG, error.getMessage(), error);
+			        }
+			    }, headers,params);
+
+		requestQueue.add(request);
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see com.open.android.fragment.BaseV4Fragment#volleyJson(java.lang.String)
+	 */
+	public void createComment(final String href,String content) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		final Map<String,String> headers = new HashMap<String,String>(); 
+		headers.put("User-Agent",UrlUtils.userAgent);
+		headers.put("Referer",url);
+		headers.put("Cookie", UrlUtils.COOKIE);
+		
+		final Map<String, String> params = new HashMap<String, String>();
+		params.put("from", "pc");
+		params.put("os_ver", "1");
+		params.put("cuid", "xxx");
+		params.put("vv", "2.3");
+		params.put("sid", url.replace(UrlUtils.CONCEPT, "").replace(".html", ""));
+		params.put("format", "json");
+		params.put("uname", UrlUtils.UNAME);
+		params.put("stype", "2");
+		params.put("content", content);
+		params.put("token", UrlUtils.TOKEN);
+		params.put("timestamp", System.currentTimeMillis()+"");
+
+		Log.d(TAG, "href=="+href);
+		Log.d(TAG, "headers=="+headers);
+		Log.d(TAG, "params=="+params);
+		Request<JSONObject> request = new NormalPostRequest(href,
+			    new Response.Listener<JSONObject>() {
+			        @Override
+			        public void onResponse(JSONObject response) {
+			            Log.d(TAG, "response -> " + response.toString());
+			            //{"errorNo":0,"errorMsg":"SUCCESS","data":{"commentid":"58041420115093523634927","timestamp":1509352364627}}
+			            Gson gson = new Gson();
+			            CommonDataJson json = gson.fromJson(response.toString(), CommonDataJson.class);
+			            if(json!=null){
 			            	Toast.makeText(getActivity(), json.getErrorMsg(), Toast.LENGTH_LONG).show();
 			            }
 			        }

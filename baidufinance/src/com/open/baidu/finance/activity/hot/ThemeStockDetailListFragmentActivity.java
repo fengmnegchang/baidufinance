@@ -71,7 +71,8 @@ public class ThemeStockDetailListFragmentActivity extends CommonTitleBarActivity
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = ThemeStockDetailListFragment.newInstance(url, true);
+		setCenterTextValue(getIntent().getStringExtra("THEMENAME") );
+		Fragment fragment = ThemeStockDetailListFragment.newInstance(url,getIntent().getStringExtra("EVENT") ,true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
@@ -84,9 +85,11 @@ public class ThemeStockDetailListFragmentActivity extends CommonTitleBarActivity
 		}
 	}
 
-	public static void startThemeStockDetailListFragmentActivity(Context context, String url) {
+	public static void startThemeStockDetailListFragmentActivity(Context context, String url,String event,String themeName) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
+		intent.putExtra("EVENT", event);
+		intent.putExtra("THEMENAME", themeName);
 		intent.setClass(context, ThemeStockDetailListFragmentActivity.class);
 		context.startActivity(intent);
 	}

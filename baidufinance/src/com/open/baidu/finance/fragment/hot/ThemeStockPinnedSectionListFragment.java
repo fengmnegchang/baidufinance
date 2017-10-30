@@ -25,6 +25,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -33,6 +35,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedSectionListView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.hot.ThemeStockDetailListFragmentActivity;
 import com.open.baidu.finance.adapter.hot.ThemeStockPinnedSectionListAdapter;
 import com.open.baidu.finance.bean.hot.HotConceptBean;
 import com.open.baidu.finance.bean.hot.HotStockBean;
@@ -52,7 +55,7 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class ThemeStockPinnedSectionListFragment extends BaseV4Fragment<HotConceptJson, ThemeStockPinnedSectionListFragment> implements OnRefreshListener<ListView> {
+public class ThemeStockPinnedSectionListFragment extends BaseV4Fragment<HotConceptJson, ThemeStockPinnedSectionListFragment> implements OnRefreshListener<ListView>,OnItemClickListener {
 	public PullToRefreshPinnedSectionListView mPullToRefreshPinnedSectionListView;
 	private ThemeStockPinnedSectionListAdapter mThemeStockPinnedSectionListAdapter;
 	private List<ThemeStockBean> list = new ArrayList<ThemeStockBean>();
@@ -240,6 +243,17 @@ public class ThemeStockPinnedSectionListFragment extends BaseV4Fragment<HotConce
 		} else if (mPullToRefreshPinnedSectionListView.getCurrentMode() == Mode.PULL_FROM_END) {
 			pageNo++;
 			weakReferenceHandler.sendEmptyMessage(MESSAGE_HANDLER);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		// TODO Auto-generated method stub
+		if(id!=-1&& list!=null && list.get((int)id)!=null){
+			ThemeStockDetailListFragmentActivity.startThemeStockDetailListFragmentActivity(getActivity(), list.get((int)id).getHref(),list.get((int)id).getEvent(),list.get((int)id).getName());
 		}
 	}
 
