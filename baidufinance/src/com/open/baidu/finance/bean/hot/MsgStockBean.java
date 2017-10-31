@@ -43,8 +43,17 @@ public class MsgStockBean extends CommonBean {
 	private String name;
 	private String time;
 	private String subject;
+	private String href;
 	
 	
+	public String getHref() {
+		return href;
+	}
+
+	public void setHref(String href) {
+		this.href = href;
+	}
+
 	public String getTypeName() {
 		return typeName;
 	}

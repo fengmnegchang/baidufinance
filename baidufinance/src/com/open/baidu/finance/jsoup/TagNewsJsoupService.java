@@ -1143,7 +1143,7 @@ public class TagNewsJsoupService extends CommonService {
             String content = buffer.toString();
             content = content.replace("<script type=\"text/javascript\">__gupiao[\"curve\"] = \"", "")
             		.replace("\";", "");
-            content = "{\"list\":"+content.replace("\\&quot;", "\"")+"}";
+            content = "{\"list\":"+content.replace("\\\"", "\"").replace("\\&quot;", "\"")+"}";
             Gson gson = new Gson();
             mFollowJson = gson.fromJson(content, FollowJson.class);
 		} catch (Exception e) {

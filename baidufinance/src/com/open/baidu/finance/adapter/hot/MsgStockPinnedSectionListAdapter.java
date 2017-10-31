@@ -27,6 +27,7 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.hot.HotConceptPinnedSectionListFragmentActivity;
 import com.open.baidu.finance.activity.hot.SentimentIndicatorFragmentActivity;
 import com.open.baidu.finance.activity.hot.SurveyPinnedSectionListFragmentActivity;
+import com.open.baidu.finance.activity.hot.ThemeStockDetailListFragmentActivity;
 import com.open.baidu.finance.bean.hot.MsgStockBean;
 
 /**
@@ -119,6 +120,12 @@ public class MsgStockPinnedSectionListAdapter extends CommonAdapter<MsgStockBean
 					txt_subject.setText(bean.getSubject());
 					txt_stock.setText(Html.fromHtml("相关股：<font color='#1a83ff'>"+bean.getStockName()+"</font> <font color='#f24957'>"+bean.getRate()+"</font>"));
 				}
+				convertView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						ThemeStockDetailListFragmentActivity.startThemeStockDetailListFragmentActivity(mContext, bean.getHref(),bean.getSubject(),bean.getName());
+					}
+				});
 			}else{
 				convertView = mInflater.inflate(R.layout.adapter_sentiment_good_bad, parent, false);
 				TextView txt_count = (TextView) convertView.findViewById(R.id.txt_count);

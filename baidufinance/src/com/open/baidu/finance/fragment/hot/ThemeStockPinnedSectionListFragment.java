@@ -100,6 +100,7 @@ public class ThemeStockPinnedSectionListFragment extends BaseV4Fragment<HotConce
 		// TODO Auto-generated method stub
 		super.bindEvent();
 		mPullToRefreshPinnedSectionListView.setOnRefreshListener(this);
+		mPullToRefreshPinnedSectionListView.setOnItemClickListener(this);
 	}
 
 	/*

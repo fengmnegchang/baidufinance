@@ -186,6 +186,7 @@ public class MsgStockPinnedSectionListFragment extends BaseV4Fragment<MsgStockJs
 				mMsgStockBean.setStockName(subBean.getStocklist().get(0).getStockName());
 				mMsgStockBean.setStockCode(subBean.getStocklist().get(0).getStockCode());
 				mMsgStockBean.setRate(subBean.getStocklist().get(0).getRate());
+				mMsgStockBean.setHref(subBean.getHref());
 				clist.add(mMsgStockBean);
 			}
 		} catch (Exception e) {
