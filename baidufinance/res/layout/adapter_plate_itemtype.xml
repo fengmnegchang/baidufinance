@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    >
+
+    <TextView
+        android:id="@+id/txt_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:padding="3dp"
+        android:text="行业名称 "
+        android:layout_marginTop="5dp"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_netChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="3dp"
+        android:textColor="@color/blue_color"
+        android:layout_marginRight="45dp"
+        android:layout_toLeftOf="@+id/txt_topstock"
+        android:padding="3dp"
+        android:drawableRight="@drawable/portfolio_market"
+        android:text="涨幅 "
+        android:layout_marginTop="5dp"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/txt_topstock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="3dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:paddingTop="2dp"
+        android:text="领涨股 "
+        android:textSize="16dp" />
+
+</RelativeLayout>

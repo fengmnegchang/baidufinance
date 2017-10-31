@@ -333,6 +333,13 @@
             android:description="@string/app_market_index_sh_sz_f_desp"
              >
         </activity>
+        <!--行情-行业跌涨幅-->
+        <activity
+            android:name=".activity.market.PlatePullToRefreshPinnedSectionListViewFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_market_plate_list_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

@@ -117,4 +117,16 @@ public class UrlUtils {
 	//新浪行情数据
 	/**沪深指数**/
 	public static final String INDEX_SH_SZ ="http://hq.sinajs.cn/list=s_sh000001,s_sz399001,s_sz399006,s_sh000300";
+	/**启明星行业**/
+	public static final String QMXINDUSTRYHQ="http://biz.finance.sina.com.cn/hq/qmxIndustryHq.php";
+	/**新浪行业**/
+	public static final String NEWSINAHY="http://vip.stock.finance.sina.com.cn/q/view/newSinaHy.php";
+	/**申万行业**/
+	public static final String SWHY="http://vip.stock.finance.sina.com.cn/q/view/SwHy.php";
+	/**地域**/
+	public static final String NEWFLJK_AREA="http://vip.stock.finance.sina.com.cn/q/view/newFLJK.php?param=area";
+	/**概念**/
+	public static final String NEWFLJK_CLASS="http://vip.stock.finance.sina.com.cn/q/view/newFLJK.php?param=class";
+	/**行业**/
+	public static final String NEWFLJK_INDUSTRY="http://vip.stock.finance.sina.com.cn/q/view/newFLJK.php?param=industry";
 }
