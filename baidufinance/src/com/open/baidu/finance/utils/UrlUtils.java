@@ -113,4 +113,8 @@ public class UrlUtils {
 	
 	/**登陆用户名称**/
 	public static final String UNAME ="fengxian038";
+	
+	//新浪行情数据
+	/**沪深指数**/
+	public static final String INDEX_SH_SZ ="http://hq.sinajs.cn/list=s_sh000001,s_sz399001,s_sz399006,s_sh000300";
 }

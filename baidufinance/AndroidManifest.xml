@@ -325,6 +325,14 @@
             android:description="@string/app_theme_stock_comment_f_desp"
              >
         </activity>
+        
+        <!--行情-沪深指数-->
+        <activity
+            android:name=".activity.market.IndexShSZFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_market_index_sh_sz_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"
