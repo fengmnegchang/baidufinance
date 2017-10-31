@@ -13,7 +13,7 @@ package com.open.baidu.finance.utils;
 
 import java.util.Comparator;
 
-import com.open.baidu.finance.bean.market.PlateBean;
+import com.open.baidu.finance.bean.market.PlateStockBean;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -26,9 +26,9 @@ import com.open.baidu.finance.bean.market.PlateBean;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class ComparatorPlateRatioType implements Comparator<PlateBean>{
+public class ComparatorPlateStockRatioType implements Comparator<PlateStockBean>{
 	int type;
-	public ComparatorPlateRatioType(int type){
+	public ComparatorPlateStockRatioType(int type){
 		this.type = type;
 	}
 
@@ -36,15 +36,15 @@ public class ComparatorPlateRatioType implements Comparator<PlateBean>{
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public int compare(PlateBean lhs, PlateBean rhs) {
+	public int compare(PlateStockBean lhs, PlateStockBean rhs) {
 		// TODO Auto-generated method stub
 		Double change1 = 0.00;
-		if (lhs.getNetChangeRate() != null) {
-			change1 = lhs.getNetChangeRate().doubleValue();
+		if (lhs.getChangepercent() != null) {
+			change1 = lhs.getChangepercent().doubleValue();
 		}
 		Double change2 = 0.00;
-		if (rhs.getNetChangeRate() != null) {
-			change2 = rhs.getNetChangeRate().doubleValue();
+		if (rhs.getChangepercent() != null) {
+			change2 = rhs.getChangepercent().doubleValue();
 		}
 		return change1.compareTo(change2) * type;
 	}

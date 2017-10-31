@@ -14,9 +14,9 @@ package com.open.baidu.finance.fragment.market;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -25,11 +25,8 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,18 +35,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedSectionListView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.activity.market.PlateStockPullToRefreshPinnedSectionListViewFragmentActivity;
-import com.open.baidu.finance.adapter.market.PlatePinnedSectionListAdapter;
-import com.open.baidu.finance.bean.market.IndexBean;
-import com.open.baidu.finance.bean.market.PlateBean;
-import com.open.baidu.finance.json.market.PlateJson;
-import com.open.baidu.finance.utils.ComparatorPlateRatioType;
+import com.open.baidu.finance.adapter.market.PlateStockPinnedSectionListAdapter;
+import com.open.baidu.finance.bean.market.PlateStockBean;
+import com.open.baidu.finance.json.market.PlateStockJson;
+import com.open.baidu.finance.utils.ComparatorPlateStockRatioType;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -62,15 +58,15 @@ import com.open.baidu.finance.utils.ComparatorPlateRatioType;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class PlatePullToRefreshPinnedSectionListViewFragment extends BaseV4Fragment<PlateJson,PlatePullToRefreshPinnedSectionListViewFragment>
-implements OnRefreshListener<ListView>,OnItemClickListener{
+public class PlateStockPullToRefreshPinnedSectionListViewFragment extends BaseV4Fragment<PlateStockJson,PlateStockPullToRefreshPinnedSectionListViewFragment>
+implements OnRefreshListener<ListView>{
 	public PullToRefreshPinnedSectionListView mPullToRefreshPinnedSectionListView;
-	public PlatePinnedSectionListAdapter mPlatePinnedSectionListAdapter;
-	private List<PlateBean> list = new ArrayList<PlateBean>();
-	public List<PlateBean> temptlist = new ArrayList<PlateBean>();
+	public PlateStockPinnedSectionListAdapter mPlateStockPinnedSectionListAdapter;
+	private List<PlateStockBean> list = new ArrayList<PlateStockBean>();
+	public List<PlateStockBean> temptlist = new ArrayList<PlateStockBean>();
 	
-	public static PlatePullToRefreshPinnedSectionListViewFragment newInstance(String url, boolean isVisibleToUser) {
-		PlatePullToRefreshPinnedSectionListViewFragment fragment = new PlatePullToRefreshPinnedSectionListViewFragment();
+	public static PlateStockPullToRefreshPinnedSectionListViewFragment newInstance(String url, boolean isVisibleToUser) {
+		PlateStockPullToRefreshPinnedSectionListViewFragment fragment = new PlateStockPullToRefreshPinnedSectionListViewFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
@@ -94,11 +90,11 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-		PlateBean bean = new PlateBean();
+		PlateStockBean bean = new PlateStockBean();
 		bean.setViewType(1);
 		list.add(bean);
-		mPlatePinnedSectionListAdapter = new PlatePinnedSectionListAdapter(getActivity(),weakReferenceHandler, list);
-		mPullToRefreshPinnedSectionListView.setAdapter(mPlatePinnedSectionListAdapter);
+		mPlateStockPinnedSectionListAdapter = new PlateStockPinnedSectionListAdapter(getActivity(),weakReferenceHandler, list);
+		mPullToRefreshPinnedSectionListView.setAdapter(mPlateStockPinnedSectionListAdapter);
 		mPullToRefreshPinnedSectionListView.setMode(Mode.PULL_FROM_START);
 	}
 	
@@ -110,7 +106,6 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 		// TODO Auto-generated method stub
 		super.bindEvent();
 		mPullToRefreshPinnedSectionListView.setOnRefreshListener(this);
-		mPullToRefreshPinnedSectionListView.setOnItemClickListener(this);
 	}
 	
 	/* (non-Javadoc)
@@ -138,14 +133,14 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 		switch (type) {
 		case 0:
 			try {
-				PlateBean bean = list.get(0);
+				PlateStockBean bean = list.get(0);
 				bean.setNetRatioType(type);
 				list.clear();
 				
 				list.add(bean);
 				list.addAll(temptlist);
 				
-				mPlatePinnedSectionListAdapter.notifyDataSetChanged();
+				mPlateStockPinnedSectionListAdapter.notifyDataSetChanged();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -155,16 +150,16 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 		case 1:
 			//升序
 			try {
-				PlateBean bean = list.get(0);
+				PlateStockBean bean = list.get(0);
 				bean.setNetRatioType(type);
 				
 				list.clear();
 				list.addAll(temptlist);
-				ComparatorPlateRatioType comparator = new ComparatorPlateRatioType(type);
+				ComparatorPlateStockRatioType comparator = new ComparatorPlateStockRatioType(type);
 				Collections.sort(list, comparator);
 				
 				list.add(0,bean);
-				mPlatePinnedSectionListAdapter.notifyDataSetChanged();
+				mPlateStockPinnedSectionListAdapter.notifyDataSetChanged();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -195,47 +190,28 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 			@Override
 			public void onResponse(String response) {
 				System.out.println("href=" + href);
-				System.out.println("response=" + response.toString());
-				//"lycy,旅游餐饮,29,13.987777777778,0.24259259259259,1.7649277861608,172612988,1872491223,sh600358,9.946949602122,8.290,0.75,国旅联合"
-				 // ,
+//				System.out.println("response=" + response.toString());
+				 // {symbol:"sz300409",code:"300409",name:"道氏技术",trade:"46.800",pricechange:"2.500",changepercent:"5.643",buy:"46.800",sell:"46.850",settlement:"44.300",open:"44.310",high:"47.550",low:"44.310",volume:5196120,amount:240773012,ticktime:"15:25:03",per:99.574,pb:7.98,mktcap:1006200,nmc:518511.82968,turnoverratio:4.68993}
 				try {
-					PlateJson result = new PlateJson();
-					List<PlateBean> list = new ArrayList<PlateBean>();
-					PlateBean bean;
-					response = response.split("=")[1];
-					String codes[] = response.replace("{", "").replace("}", "").replace("\"", "").split(":");
-					for(int i=1;i<codes.length;i++){
-						//lycy,旅游餐饮,29,14.067407407407,0.32222222222222,2.3442552274197,225050218,2639273585,sh600358,9.946949602122,8.290,0.75,国旅联合
-						//板块 数量　 平均价　 涨跌额　 涨跌幅　 总成交量(手)　 总成交额(万元)　 领涨股 涨跌幅　 当前价　 涨跌额
-						bean = new PlateBean();
-						try {
-							String other = codes[i];
-							bean.setPlateSimpleCode(other.split(",")[0]);
-							bean.setPlateName(other.split(",")[1]);
-							bean.setNum(Integer.parseInt(other.split(",")[2]));
-							bean.setAgvprice(Double.parseDouble(other.split(",")[3]));
-							bean.setNetChange(Double.parseDouble(other.split(",")[4]));
-							bean.setNetChangeRate(Double.parseDouble(other.split(",")[5]));
-							bean.setTotalvolume(Long.parseLong(other.split(",")[6]));
-							bean.setTotalvolumeMoney(Long.parseLong(other.split(",")[7]));
-							bean.setStockCode(other.split(",")[8]);
-							bean.setStockNetChnageRate(Double.parseDouble(other.split(",")[9]));
-							bean.setStockClose(Double.parseDouble(other.split(",")[10]));
-							bean.setStockNetChnage(Double.parseDouble(other.split(",")[11]));
-							bean.setStockName(other.split(",")[12]);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						list.add(bean);
+					PlateStockJson result = new PlateStockJson();
+					Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+					Matcher matcher = p.matcher(response);
+					while(matcher.find()){
+						String s = matcher.group().replace(":", "-");
+						response = response.replace(matcher.group(), s);
 					}
-					result.setList(list);
+					response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
+					response = "{\"list\":"+response+"}";
+					System.out.println("response=" + response.toString());
+					Gson gson = new Gson();
+					result = gson.fromJson(response, PlateStockJson.class);
 					onCallback(result);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
 			}
-		}, PlatePullToRefreshPinnedSectionListViewFragment.this){
+		}, PlateStockPullToRefreshPinnedSectionListViewFragment.this){
 //		    @Override
 //		    public Map<String, String> getHeaders() throws AuthFailureError {
 //		        return headers;
@@ -259,7 +235,7 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 	 * @see com.open.android.fragment.BaseV4Fragment#onCallback(java.lang.Object)
 	 */
 	@Override
-	public void onCallback(PlateJson result) {
+	public void onCallback(PlateStockJson result) {
 		// TODO Auto-generated method stub
 		super.onCallback(result);
 		if(result!=null){
@@ -267,13 +243,13 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 				
 				list.clear();
 				temptlist.clear();
-				PlateBean bean = new PlateBean();
+				PlateStockBean bean = new PlateStockBean();
 				bean.setViewType(1);
 				list.add(bean);
 				list.addAll(result.getList());
 				temptlist.addAll(result.getList());
 				
-				mPlatePinnedSectionListAdapter.notifyDataSetChanged();
+				mPlateStockPinnedSectionListAdapter.notifyDataSetChanged();
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -298,17 +274,6 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 		} else if (mPullToRefreshPinnedSectionListView.getCurrentMode() == Mode.PULL_FROM_END) {
 			pageNo++;
 			weakReferenceHandler.sendEmptyMessage(MESSAGE_HANDLER);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
-	 */
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		// TODO Auto-generated method stub
-		if(id!=-1 && list!=null && list.get((int)id)!=null){
-			PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(getActivity(), list.get((int)id).getPlateSimpleCode());
 		}
 	}
 }

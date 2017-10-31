@@ -18,7 +18,7 @@ import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.fragment.market.PlatePullToRefreshPinnedSectionListViewFragment;
+import com.open.baidu.finance.fragment.market.PlateStockPullToRefreshPinnedSectionListViewFragment;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -32,7 +32,7 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class PlatePullToRefreshPinnedSectionListViewFragmentActivity extends CommonTitleBarActivity{
+public class PlateStockPullToRefreshPinnedSectionListViewFragmentActivity extends CommonTitleBarActivity{
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -42,11 +42,11 @@ public class PlatePullToRefreshPinnedSectionListViewFragmentActivity extends Com
 	protected void initValue() {
 		// TODO Auto-generated method stub
 		if (getIntent().getStringExtra("URL") != null) {
-			url = getIntent().getStringExtra("URL");
+			url = UrlUtils.GETHQNODEDATA_NODE+getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.NEWSINAHY;
+			url = UrlUtils.GETHQNODEDATA;
 		}
-		setCenterTextValue("行业跌涨幅");
+		setCenterTextValue("陶瓷行业");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
 		
 		setLeftImageResId(R.drawable.stockdetails_back_n);
@@ -72,7 +72,7 @@ public class PlatePullToRefreshPinnedSectionListViewFragmentActivity extends Com
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = PlatePullToRefreshPinnedSectionListViewFragment.newInstance(url, true);
+		Fragment fragment = PlateStockPullToRefreshPinnedSectionListViewFragment.newInstance(url, true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
@@ -85,10 +85,10 @@ public class PlatePullToRefreshPinnedSectionListViewFragmentActivity extends Com
 		}
 	}
 
-	public static void startPlatePullToRefreshPinnedSectionListViewFragmentActivity(Context context, String url) {
+	public static void startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(Context context, String url) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
-		intent.setClass(context, PlatePullToRefreshPinnedSectionListViewFragmentActivity.class);
+		intent.setClass(context, PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.class);
 		context.startActivity(intent);
 	}
 }

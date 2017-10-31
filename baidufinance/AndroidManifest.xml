@@ -340,6 +340,13 @@
             android:description="@string/app_market_plate_list_f_desp"
              >
         </activity>
+        <!--行情-行业个股-->
+        <activity
+            android:name=".activity.market.PlateStockPullToRefreshPinnedSectionListViewFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_market_plate_stock_list_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

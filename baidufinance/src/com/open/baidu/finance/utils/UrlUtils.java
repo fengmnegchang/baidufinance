@@ -129,4 +129,9 @@ public class UrlUtils {
 	public static final String NEWFLJK_CLASS="http://vip.stock.finance.sina.com.cn/q/view/newFLJK.php?param=class";
 	/**行业**/
 	public static final String NEWFLJK_INDUSTRY="http://vip.stock.finance.sina.com.cn/q/view/newFLJK.php?param=industry";
+	/**板块个股**/
+	public static final String GETHQNODEDATA ="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=new_tchy&symbol=&_s_r_a=init";
+	/**node板块个股**/
+	public static final String GETHQNODEDATA_NODE ="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&symbol=&_s_r_a=init&node=";
+
 }
