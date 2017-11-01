@@ -95,7 +95,7 @@ implements OnRefreshListener<ListView>{
 		list.add(bean);
 		mPlateStockPinnedSectionListAdapter = new PlateStockPinnedSectionListAdapter(getActivity(),weakReferenceHandler, list);
 		mPullToRefreshPinnedSectionListView.setAdapter(mPlateStockPinnedSectionListAdapter);
-		mPullToRefreshPinnedSectionListView.setMode(Mode.PULL_FROM_START);
+		mPullToRefreshPinnedSectionListView.setMode(Mode.BOTH);
 	}
 	
 	/* (non-Javadoc)
@@ -117,6 +117,9 @@ implements OnRefreshListener<ListView>{
 		super.handlerMessage(msg);
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
+			if(pageNo>1){
+				url = url.replace("page=1", "page="+pageNo);
+			}
 			volleyJson(url);
 			break;
 		case 2:
@@ -240,17 +243,19 @@ implements OnRefreshListener<ListView>{
 		super.onCallback(result);
 		if(result!=null){
 			try {
-				
-				list.clear();
-				temptlist.clear();
-				PlateStockBean bean = new PlateStockBean();
-				bean.setViewType(1);
-				list.add(bean);
-				list.addAll(result.getList());
-				temptlist.addAll(result.getList());
-				
+				if (mPullToRefreshPinnedSectionListView.getCurrentMode() == Mode.PULL_FROM_START) {
+					list.clear();
+					temptlist.clear();
+					PlateStockBean bean = new PlateStockBean();
+					bean.setViewType(1);
+					list.add(bean);
+					list.addAll(result.getList());
+					temptlist.addAll(result.getList());
+				}else{
+					list.addAll(result.getList());
+					temptlist.addAll(result.getList());
+				}
 				mPlateStockPinnedSectionListAdapter.notifyDataSetChanged();
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

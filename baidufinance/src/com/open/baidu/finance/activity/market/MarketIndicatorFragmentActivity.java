@@ -2,7 +2,7 @@
  *****************************************************************************************************************************************************************************
  * 
  * @author :fengguangjing
- * @createTime:2017-10-31下午2:51:24
+ * @createTime:2017-11-1下午4:53:06
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
@@ -18,21 +18,20 @@ import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.fragment.market.PlatePullToRefreshPinnedSectionListViewFragment;
-import com.open.baidu.finance.utils.UrlUtils;
+import com.open.baidu.finance.fragment.market.MarketIndicatorFragment;
 
 /**
  *****************************************************************************************************************************************************************************
  * 
  * @author :fengguangjing
- * @createTime:2017-10-31下午2:51:24
+ * @createTime:2017-11-1下午4:53:06
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class PlatePullToRefreshPinnedSectionListViewFragmentActivity extends CommonTitleBarActivity{
+public class MarketIndicatorFragmentActivity extends CommonTitleBarActivity{
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,19 +43,12 @@ public class PlatePullToRefreshPinnedSectionListViewFragmentActivity extends Com
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.NEWSINAHY;
 		}
-		
-		if(getIntent().getStringExtra("TITLE")!=null){
-			setCenterTextValue(getIntent().getStringExtra("TITLE"));
-		}else{
-			setCenterTextValue("行业跌涨幅");
-		}
+		setCenterTextValue("市场行情");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
 		
-		setLeftImageResId(R.drawable.stockdetails_back_n);
+		setLeftImageResId(R.drawable.searchbox_logo_normal);
 		setRightImageResId(R.drawable.refresh_loading);
-		setRightImage2ResId(R.drawable.searchbox_logo_normal);
 		addfragment();
 	}
 	
@@ -77,9 +69,8 @@ public class PlatePullToRefreshPinnedSectionListViewFragmentActivity extends Com
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = PlatePullToRefreshPinnedSectionListViewFragment.newInstance(url, true);
+		Fragment fragment = MarketIndicatorFragment.newInstance(url, true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
-		
 	}
 	
 	@Override
@@ -87,15 +78,15 @@ public class PlatePullToRefreshPinnedSectionListViewFragmentActivity extends Com
 		// TODO Auto-generated method stub
 		super.onClick(v);
 		if(v.getId()==R.id.id_iv_left){
+			finish();
 		}else if(v.getId()==R.id.id_iv_right){
 		}
 	}
 
-	public static void startPlatePullToRefreshPinnedSectionListViewFragmentActivity(Context context, String url,String title) {
+	public static void startMarketIndicatorFragmentActivity(Context context, String url) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
-		intent.putExtra("TITLE", title);
-		intent.setClass(context, PlatePullToRefreshPinnedSectionListViewFragmentActivity.class);
+		intent.setClass(context, MarketIndicatorFragmentActivity.class);
 		context.startActivity(intent);
 	}
 }

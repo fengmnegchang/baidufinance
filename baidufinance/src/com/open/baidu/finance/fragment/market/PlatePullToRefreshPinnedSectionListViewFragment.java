@@ -308,7 +308,7 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		if(id!=-1 && list!=null && list.get((int)id)!=null){
-			PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(getActivity(), list.get((int)id).getPlateSimpleCode());
+			PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(getActivity(), list.get((int)id).getPlateSimpleCode(),list.get((int)id).getPlateName());
 		}
 	}
 }

@@ -31,6 +31,17 @@ public class MarketShSzBean extends CommonBean {
 	private int groupType;
 	private List<PlateBean> plist;
 	private List<PlateStockBean> slist;
+	private String url;
+	
+	
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getGroupName() {
 		return groupName;

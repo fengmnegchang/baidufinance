@@ -46,7 +46,11 @@ public class PlateStockPullToRefreshPinnedSectionListViewFragmentActivity extend
 		} else {
 			url = UrlUtils.GETHQNODEDATA;
 		}
-		setCenterTextValue("陶瓷行业");
+		if (getIntent().getStringExtra("TITLE") != null) {
+			setCenterTextValue(getIntent().getStringExtra("TITLE"));
+		}else{
+			setCenterTextValue("陶瓷行业");
+		}
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
 		
 		setLeftImageResId(R.drawable.stockdetails_back_n);
@@ -85,9 +89,10 @@ public class PlateStockPullToRefreshPinnedSectionListViewFragmentActivity extend
 		}
 	}
 
-	public static void startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(Context context, String url) {
+	public static void startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(Context context, String url,String title) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
+		intent.putExtra("TITLE", title);
 		intent.setClass(context, PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.class);
 		context.startActivity(intent);
 	}

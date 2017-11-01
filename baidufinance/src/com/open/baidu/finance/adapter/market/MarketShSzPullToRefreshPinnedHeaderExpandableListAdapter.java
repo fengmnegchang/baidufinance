@@ -16,6 +16,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ import com.open.android.adapter.CommonExpandableListAdapter;
 import com.open.android.view.ExpendGridView;
 import com.open.android.view.ExpendListView;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.market.PlatePullToRefreshPinnedSectionListViewFragmentActivity;
+import com.open.baidu.finance.activity.market.PlateStockPullToRefreshPinnedSectionListViewFragmentActivity;
 import com.open.baidu.finance.bean.market.MarketShSzBean;
 import com.open.baidu.finance.bean.market.PlateBean;
 import com.open.baidu.finance.bean.market.PlateStockBean;
@@ -52,6 +55,7 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter extends Co
 	public View getGroupView(int groupPosition, boolean arg1, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		GroupViewHolder mGroupViewHolder;
+		final MarketShSzBean bean = (MarketShSzBean) getGroup(groupPosition);
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.adapter_market_shsz_itemtype, null);
 			mGroupViewHolder = new GroupViewHolder();
@@ -61,9 +65,19 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter extends Co
 		} else {
 			mGroupViewHolder = (GroupViewHolder) convertView.getTag();
 		}
-		MarketShSzBean bean = (MarketShSzBean) getGroup(groupPosition);
 		if (bean != null) {
 			mGroupViewHolder.txt_name.setText("  "+bean.getGroupName());
+			mGroupViewHolder.txt_all.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					 if(bean.getGroupType()<=4){
+						 PlatePullToRefreshPinnedSectionListViewFragmentActivity.startPlatePullToRefreshPinnedSectionListViewFragmentActivity(mContext, bean.getUrl(),bean.getGroupName());
+					 }else{
+						 PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(mContext, bean.getUrl(),bean.getGroupName());
+					 }
+				}
+			});
 		}
 		return convertView;
 	}

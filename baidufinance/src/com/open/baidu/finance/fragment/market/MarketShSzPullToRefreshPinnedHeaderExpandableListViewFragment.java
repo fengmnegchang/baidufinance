@@ -24,6 +24,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedHeaderExpandableListView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.market.PlatePullToRefreshPinnedSectionListViewFragmentActivity;
+import com.open.baidu.finance.activity.market.PlateStockPullToRefreshPinnedSectionListViewFragmentActivity;
 import com.open.baidu.finance.adapter.market.MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter;
 import com.open.baidu.finance.bean.market.MarketShSzBean;
 import com.open.baidu.finance.bean.market.PlateBean;
@@ -246,6 +249,7 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment exten
 					MarketShSzBean mmbean = list.get(type);
 					mmbean.setGroupName(groupName);
 					mmbean.setPlist(sublist);
+					mmbean.setUrl(href);
 					mmbean.setSlist(new ArrayList<PlateStockBean>());
 
 					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView())
@@ -337,6 +341,7 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment exten
 					list.get(type).getSlist().clear();
 					list.get(type).setSlist(slist);
 					list.get(type).setGroupName(groupName);
+					list.get(type).setUrl(href);
 					list.get(type).setPlist(new ArrayList<PlateBean>());
 					mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 					mPullToRefreshExpandableListView.onRefreshComplete();
@@ -392,11 +397,22 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment exten
 		RelativeLayout layout_group2 = (RelativeLayout) headerView.findViewById(R.id.layout_group2);
 		TextView txt_all = (TextView) headerView.findViewById(R.id.txt_all);
 		if(groupPosition!=-1){
-			MarketShSzBean mMarketShSzBean = (MarketShSzBean) mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.getGroup(groupPosition);
+			final MarketShSzBean mMarketShSzBean = (MarketShSzBean) mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.getGroup(groupPosition);
 			txt_name.setText("  " + mMarketShSzBean.getGroupName());
 			layout_group2.setBackgroundColor(getActivity().getResources().getColor(R.color.round_solid_color));
 			txt_name.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.market_down_expand), null,null , null);
 			txt_all.setCompoundDrawablesWithIntrinsicBounds(null, null, getActivity().getResources().getDrawable(R.drawable.more), null);
+			txt_all.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					 if(mMarketShSzBean.getGroupType()<=4){
+						 PlatePullToRefreshPinnedSectionListViewFragmentActivity.startPlatePullToRefreshPinnedSectionListViewFragmentActivity(getActivity(), mMarketShSzBean.getUrl(),mMarketShSzBean.getGroupName());
+					 }else{
+						 PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(getActivity(), mMarketShSzBean.getUrl(),mMarketShSzBean.getGroupName());
+					 }
+				}
+			});
 		}else{
 			txt_name.setText("");
 			txt_all.setText("");
