@@ -72,7 +72,16 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter extends Co
 		TextView txt_name,txt_all;
 	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.widget.ExpandableListAdapter#getGroup(int)
+	 */
+	@Override
+	public MarketShSzBean getGroup(int groupPosition) {
+		// TODO Auto-generated method stub
+		return list.get(groupPosition);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -109,7 +118,7 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter extends Co
 			mChildViewHolder = (ChildViewHolder) convertView.getTag();
 		}
 
-		if(getGroup(groupPosition).getGroupType()<=5){
+		if(getGroup(groupPosition).getGroupType()<=4){
 			mChildViewHolder.gridView.setVisibility(View.VISIBLE);
 			mChildViewHolder.listview.setVisibility(View.GONE);
 		}else{

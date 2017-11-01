@@ -1,23 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    >
- 
+    android:layout_height="match_parent" >
 
-   <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/pull_refresh_list"
-        android:layout_width="wrap_content"
+    <!-- <com.open.baidu.finance.widget.StickyLayout
+        android:id="@+id/sticky_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:cacheColorHint="#00000000"
-        android:divider="#19000000"
-        android:dividerHeight="1dp"
-        android:fadingEdge="none"
-        android:fastScrollEnabled="false"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:smoothScrollbar="true" />
+        android:layout_marginTop="0dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/sticky_header"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@+id/id_market_head"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sticky_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <com.handmark.pulltorefresh.library.PullToRefreshPinnedHeaderExpandableListView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/pull_refresh_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:cacheColorHint="#00000000"
+                android:divider="#19000000"
+                android:dividerHeight="1dp"
+                android:fadingEdge="none"
+                android:fastScrollEnabled="false"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:smoothScrollbar="true" />
+        </LinearLayout>
+    </com.open.baidu.finance.widget.StickyLayout> -->
+    
+    <com.handmark.pulltorefresh.library.PullToRefreshPinnedHeaderExpandableListView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/pull_refresh_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:cacheColorHint="#00000000"
+                android:divider="#19000000"
+                android:dividerHeight="1dp"
+                android:fadingEdge="none"
+                android:fastScrollEnabled="false"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:smoothScrollbar="true" />
+         
 
 </RelativeLayout>

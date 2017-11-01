@@ -3,17 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/layout_group2"
     >
 
     <TextView
         android:id="@+id/txt_name"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:padding="5dp"
-        android:text="  "
         android:layout_marginTop="5dp"
         android:textSize="12dp" />
  

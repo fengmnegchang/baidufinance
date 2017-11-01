@@ -49,23 +49,29 @@ public class PlateGridExpandAdapter extends CommonAdapter<PlateBean> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		final PlateBean bean = (PlateBean) getItem(position);
-
-		convertView = mInflater.inflate(R.layout.adapter_market_shsz_grid, parent, false);
-		TextView txt_plate_name = (TextView) convertView.findViewById(R.id.txt_plate_name);
-		TextView txt_plate_rate = (TextView) convertView.findViewById(R.id.txt_plate_rate);
-		TextView txt_stock_name = (TextView) convertView.findViewById(R.id.txt_stock_name);
-		TextView txt_stock_close = (TextView) convertView.findViewById(R.id.txt_stock_close);
-		
-		txt_plate_name.setText(bean.getPlateName());
-		txt_stock_name.setText(bean.getStockName());
-		if (bean.getNetChangeRate() > 0) {
-			txt_plate_rate.setTextColor(mContext.getResources().getColor(R.color.red_color));
-		} else if (bean.getNetChangeRate() < 0) {
-			txt_plate_rate.setTextColor(mContext.getResources().getColor(R.color.green_color));
-		} else {
-			txt_plate_rate.setTextColor(mContext.getResources().getColor(R.color.black_color));
+		ViewHodler mViewHodler;
+		if(convertView==null){
+			convertView = mInflater.inflate(R.layout.adapter_market_shsz_grid, parent, false);
+			mViewHodler = new ViewHodler();
+			mViewHodler.txt_plate_name = (TextView) convertView.findViewById(R.id.txt_plate_name);
+			mViewHodler.txt_plate_rate = (TextView) convertView.findViewById(R.id.txt_plate_rate);
+			mViewHodler.txt_stock_name = (TextView) convertView.findViewById(R.id.txt_stock_name);
+			mViewHodler.txt_stock_close = (TextView) convertView.findViewById(R.id.txt_stock_close);
+			convertView.setTag(mViewHodler);
+		}else{
+			mViewHodler = (ViewHodler) convertView.getTag();
 		}
-		txt_plate_rate.setText(String.format("%.2f", bean.getNetChangeRate()) + "%");
+		
+		mViewHodler.txt_plate_name.setText(bean.getPlateName());
+		mViewHodler.txt_stock_name.setText(bean.getStockName());
+		if (bean.getNetChangeRate() > 0) {
+			mViewHodler.txt_plate_rate.setTextColor(mContext.getResources().getColor(R.color.red_color));
+		} else if (bean.getNetChangeRate() < 0) {
+			mViewHodler.txt_plate_rate.setTextColor(mContext.getResources().getColor(R.color.green_color));
+		} else {
+			mViewHodler.txt_plate_rate.setTextColor(mContext.getResources().getColor(R.color.black_color));
+		}
+		mViewHodler.txt_plate_rate.setText(String.format("%.2f", bean.getNetChangeRate()) + "%");
 //		if (bean.getStockNetChnageRate() > 0) {
 //			txt_stock_close.setTextColor(mContext.getResources().getColor(R.color.red_color));
 //		} else if (bean.getStockNetChnageRate() < 0) {
@@ -73,8 +79,15 @@ public class PlateGridExpandAdapter extends CommonAdapter<PlateBean> {
 //		} else {
 //			txt_stock_close.setTextColor(mContext.getResources().getColor(R.color.black_color));
 //		}
-		txt_stock_close.setText(String.format("%.2f", bean.getStockNetChnage()) +" "+String.format("%.2f", bean.getNetChangeRate()) + "%");
+		mViewHodler.txt_stock_close.setText(String.format("%.2f", bean.getStockNetChnage()) +" "+String.format("%.2f", bean.getNetChangeRate()) + "%");
 		return convertView;
+	}
+	
+	class ViewHodler{
+		TextView txt_plate_name;
+		TextView txt_plate_rate;
+		TextView txt_stock_name;
+		TextView txt_stock_close;
 	}
 
 }

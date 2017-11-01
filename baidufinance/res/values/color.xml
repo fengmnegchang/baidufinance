@@ -21,4 +21,5 @@
   <color name="blue_dot_color">#17ABEF</color>
   <color name="pink_dot_color">#FC4A87</color>
   <color name="black_color">#000000</color>
+  <color name="transparent_color">#00000000</color>
 </resources>

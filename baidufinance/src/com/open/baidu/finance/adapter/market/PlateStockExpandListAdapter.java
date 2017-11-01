@@ -49,25 +49,36 @@ public class PlateStockExpandListAdapter extends CommonAdapter<PlateStockBean> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		final PlateStockBean bean = (PlateStockBean) getItem(position);
-		convertView = mInflater.inflate(R.layout.adapter_plate_stock, parent, false);
-		TextView txt_stock_name = (TextView) convertView.findViewById(R.id.txt_stock_name);
-		TextView txt_stock_code = (TextView) convertView.findViewById(R.id.txt_stock_code);
-		TextView txt_close = (TextView) convertView.findViewById(R.id.txt_close);
-		TextView txt_netChangeRatio = (TextView) convertView.findViewById(R.id.txt_netChangeRatio);
+		ViewHodler mViewHodler;
+		if(convertView==null){
+			convertView = mInflater.inflate(R.layout.adapter_plate_stock, parent, false);
+			mViewHodler = new ViewHodler();
+			mViewHodler.txt_stock_name = (TextView) convertView.findViewById(R.id.txt_stock_name);
+			mViewHodler.txt_stock_code = (TextView) convertView.findViewById(R.id.txt_stock_code);
+			mViewHodler.txt_close = (TextView) convertView.findViewById(R.id.txt_close);
+			mViewHodler.txt_netChangeRatio = (TextView) convertView.findViewById(R.id.txt_netChangeRatio);
+			convertView.setTag(mViewHodler);
+		}else{
+			mViewHodler = (ViewHodler) convertView.getTag();
+		}
 
-		txt_stock_name.setText(bean.getName());
-		txt_stock_code.setText(bean.getCode());
-		txt_close.setText(String.format("%.2f", bean.getTrade()));
+		mViewHodler.txt_stock_name.setText(bean.getName());
+		mViewHodler.txt_stock_code.setText(bean.getCode());
+		mViewHodler.txt_close.setText(String.format("%.2f", bean.getTrade()));
 
 		if (bean.getChangepercent() > 0) {
-			txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.red_color));
+			mViewHodler.txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.red_color));
 		} else if (bean.getChangepercent() < 0) {
-			txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.green_color));
+			mViewHodler.txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.green_color));
 		} else {
-			txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.black_color));
+			mViewHodler.txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.black_color));
 		}
-		txt_netChangeRatio.setText(String.format("%.2f", bean.getChangepercent()) + "%");
+		mViewHodler.txt_netChangeRatio.setText(String.format("%.2f", bean.getChangepercent()) + "%");
 		return convertView;
+	}
+	
+	class ViewHodler{
+		TextView txt_stock_name,txt_stock_code,txt_close,txt_netChangeRatio;
 	}
 
 }
