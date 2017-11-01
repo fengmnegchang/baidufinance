@@ -133,5 +133,17 @@ public class UrlUtils {
 	public static final String GETHQNODEDATA ="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=new_tchy&symbol=&_s_r_a=init";
 	/**node板块个股**/
 	public static final String GETHQNODEDATA_NODE ="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&symbol=&_s_r_a=init&node=";
+	/**沪深A股跌幅**/
+	public static final String GETHQNODEDATA_CHANGE_PERCENT_1="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=changepercent&asc=1&node=hs_a&symbol=&_s_r_a=init";
+	/**沪深A股z涨幅**/
+	public static final String GETHQNODEDATA_CHANGE_PERCENT_0="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=changepercent&asc=0&node=hs_a&symbol=&_s_r_a=init";
+	/**次新股**/
+	public static final String GETHQNODEDATA_NEW_STOCK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=new_stock&symbol=&_s_r_a=init";
+	/**换手率榜**/
+	public static final String GETHQNODEDATA_TURNOVERRATIO="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=turnoverratio&asc=0&node=hs_a&symbol=&_s_r_a=init";
+	/**成交额**/
+	public static final String GETHQNODEDATA_AMOOUNT="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=amount&asc=0&node=hs_a&symbol=&_s_r_a=init";
+	/**涨速榜**/
+	public static final String STOCK_HS_UP_5MIN_20="http://hq.sinajs.cn/rn=q2q25&format=text&list=stock_hs_up_5min_20";
 
 }

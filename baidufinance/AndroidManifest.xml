@@ -347,6 +347,13 @@
             android:description="@string/app_market_plate_stock_list_f_desp"
              >
         </activity>
+         <!--行情-沪深-->
+        <activity
+            android:name=".activity.market.MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_market_sh_sz_all_list_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

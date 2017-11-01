@@ -48,6 +48,7 @@
 	<string name="app_market_index_sh_sz_f_desp">行情-沪深指数</string>
 	<string name="app_market_plate_list_f_desp">行情-行业跌涨幅</string>
 	<string name="app_market_plate_stock_list_f_desp">行情-行业个股</string>
+	<string name="app_market_sh_sz_all_list_f_desp">行情-沪深</string>
 	
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
