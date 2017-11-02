@@ -361,6 +361,13 @@
             android:description="@string/app_market_tab_f_desp"
             android:theme="@style/Theme.PageIndicatorDefaults"  >
         </activity>
+         <!--行情-基金-->
+        <activity
+            android:name=".activity.market.FundSyncHorizontalScrollViewFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_market_fund_list_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

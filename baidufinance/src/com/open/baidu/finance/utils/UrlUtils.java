@@ -147,5 +147,6 @@ public class UrlUtils {
 	public static final String STOCK_HS_UP_5MIN_20="http://hq.sinajs.cn/rn=q2q25&format=text&list=stock_hs_up_5min_20";
 	/**风险警示**/
 	public static final String GETHQNODEDATA_SHFXJS="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=shfxjs&symbol=&_s_r_a=init";
-
+	/**开放式基金**/
+	public static final String GETFUNDNETDATA_OPEN_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getFundNetData?page=1&num=80&sort=symbol&asc=1&node=open_fund&_s_r_a=init";
 }

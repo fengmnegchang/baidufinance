@@ -117,9 +117,7 @@ implements OnRefreshListener<ListView>{
 		super.handlerMessage(msg);
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
-			if(pageNo>1){
-				url = url.replace("page=1", "page="+pageNo);
-			}
+			url = url.replace("page="+(pageNo-1), "page="+pageNo);
 			volleyJson(url);
 			break;
 		case 2:
