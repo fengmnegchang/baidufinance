@@ -157,7 +157,9 @@ public class MarketIndicatorFragment extends BaseV4Fragment<MainTabJson, MarketI
 			titleList.add(bean.getTitle());
 			if (i == 0) {
 				fragment = MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment.newInstance(null, true);
-			} else {
+			} else if (i == 1) {
+				fragment = FundTypePinnedHeaderExpandableListViewFragment.newInstance(null, false);
+			}else {
 				fragment = CommonV4Fragment.newInstance(bean.getHref(), false);
 			}
 			listRankFragment.add(fragment);

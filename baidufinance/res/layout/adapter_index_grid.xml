@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_gray_grid_divider"
+    android:padding="10dp" 
+    >
+
+    <TextView
+        android:id="@+id/txt_plate_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="通信运营"
+        android:textSize="14dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_plate_rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_plate_name"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="+2.29"
+        android:textColor="@color/red_color"
+        android:textSize="14dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_stock_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_plate_rate"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="7.83  +2.49%"
+        android:textSize="13dp" />
+
+</RelativeLayout>

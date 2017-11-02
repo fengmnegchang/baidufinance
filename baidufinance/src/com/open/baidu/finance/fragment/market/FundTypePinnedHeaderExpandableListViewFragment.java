@@ -37,6 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PinnedHeaderExpandableListView.OnHeaderUpdateListener;
+import com.handmark.pulltorefresh.library.PinnedHeaderExpandableListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -61,14 +62,14 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragment<FundTypeJson, FundTypePinnedHeaderExpandableListViewFragment> implements
-		OnRefreshListener<ExpandableListView>, OnHeaderUpdateListener {
-	//OnGiveUpTouchEventListener
+public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragment<FundTypeJson, FundTypePinnedHeaderExpandableListViewFragment> implements OnRefreshListener<ExpandableListView>,
+		OnHeaderUpdateListener {
+	// OnGiveUpTouchEventListener
 	public PullToRefreshPinnedHeaderExpandableListView mPullToRefreshExpandableListView;
 	public FundTypePinnedHeaderExpandableListAdapter mFundTypePinnedHeaderExpandableListAdapter;
 	public List<FundTypeBean> list = new ArrayList<FundTypeBean>();
-//	private StickyLayout stickyLayout;
-	 private View headview;
+	// private StickyLayout stickyLayout;
+	private View headview;
 
 	public static FundTypePinnedHeaderExpandableListViewFragment newInstance(String url, boolean isVisibleToUser) {
 		FundTypePinnedHeaderExpandableListViewFragment fragment = new FundTypePinnedHeaderExpandableListViewFragment();
@@ -83,8 +84,8 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_market_sh_sz_pulltorefresh_pinnedheader_expandable_listview, container, false);
 		mPullToRefreshExpandableListView = (PullToRefreshPinnedHeaderExpandableListView) view.findViewById(R.id.pull_refresh_list);
-//		headview = LayoutInflater.from(getActivity()).inflate(R.layout.layout_mystock_headview, null);
-//		stickyLayout = (StickyLayout)view.findViewById(R.id.sticky_layout);
+		headview = LayoutInflater.from(getActivity()).inflate(R.layout.layout_mystock_headview, null);
+		// stickyLayout = (StickyLayout)view.findViewById(R.id.sticky_layout);
 		return view;
 	}
 
@@ -97,9 +98,9 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-//		 mPullToRefreshExpandableListView.getRefreshableView().addHeaderView(headview);
-//		IndexShSZFragment fragment = IndexShSZFragment.newInstance(UrlUtils.INDEX_SH_SZ, true);
-//		getChildFragmentManager().beginTransaction().replace(R.id.id_mystock_headview, fragment).commit();
+		mPullToRefreshExpandableListView.getRefreshableView().addHeaderView(headview);
+		IndexShSZFragment fragment = IndexShSZFragment.newInstance(UrlUtils.INDEX_SH_SZ_FUND, true);
+		getChildFragmentManager().beginTransaction().replace(R.id.id_mystock_headview, fragment).commit();
 
 		mFundTypePinnedHeaderExpandableListAdapter = new FundTypePinnedHeaderExpandableListAdapter(getActivity(), list);
 		mPullToRefreshExpandableListView.getRefreshableView().setAdapter(mFundTypePinnedHeaderExpandableListAdapter);
@@ -117,7 +118,7 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 		// TODO Auto-generated method stub
 		super.bindEvent();
 		mPullToRefreshExpandableListView.setOnRefreshListener(this);
-//		stickyLayout.setOnGiveUpTouchEventListener(this);
+		// stickyLayout.setOnGiveUpTouchEventListener(this);
 
 	}
 
@@ -184,7 +185,6 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 		System.out.println(error);
 	}
 
-
 	public void expandAll() {
 		for (int i = 0; i < mFundTypePinnedHeaderExpandableListAdapter.getGroupCount(); i++) {
 			mPullToRefreshExpandableListView.getRefreshableView().expandGroup(i);
@@ -204,9 +204,9 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 				try {
 					FundJson result = new FundJson();
 					response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
-					response = "{\"list\":"+response+"}";
+					response = "{\"list\":" + response + "}";
 					System.out.println("response=" + response.toString());
-					
+
 					Gson gson = new Gson();
 					result = gson.fromJson(response, FundJson.class);
 
@@ -221,6 +221,7 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 					list.get(type).setList(slist);
 					list.get(type).setGroupName(groupName);
 					list.get(type).setUrl(href);
+					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(FundTypePinnedHeaderExpandableListViewFragment.this);
 					mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
@@ -274,11 +275,11 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 		TextView txt_name = (TextView) headerView.findViewById(R.id.txt_name);
 		RelativeLayout layout_group2 = (RelativeLayout) headerView.findViewById(R.id.layout_group2);
 		TextView txt_all = (TextView) headerView.findViewById(R.id.txt_all);
-//		if(groupPosition!=-1){
+		if (groupPosition != -1) {
 			final FundTypeBean mMarketShSzBean = (FundTypeBean) mFundTypePinnedHeaderExpandableListAdapter.getGroup(groupPosition);
 			txt_name.setText("  " + mMarketShSzBean.getGroupName());
 			layout_group2.setBackgroundColor(getActivity().getResources().getColor(R.color.round_solid_color));
-			txt_name.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.market_down_expand), null,null , null);
+			txt_name.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.market_down_expand), null, null, null);
 			txt_all.setCompoundDrawablesWithIntrinsicBounds(null, null, getActivity().getResources().getDrawable(R.drawable.more), null);
 			txt_all.setOnClickListener(new OnClickListener() {
 				@Override
@@ -286,29 +287,33 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 					// TODO Auto-generated method stub
 				}
 			});
-//		}else{
-//			txt_name.setText("");
-//			txt_all.setText("");
-//			txt_name.setCompoundDrawablesWithIntrinsicBounds(null, null,null , null);
-//			txt_all.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-//			layout_group2.setBackgroundColor(getActivity().getResources().getColor(R.color.transparent_color));
-//		}
-		
+		} else {
+			txt_name.setText("");
+			txt_all.setText("");
+			txt_name.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+			txt_all.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+			layout_group2.setBackgroundColor(getActivity().getResources().getColor(R.color.transparent_color));
+		}
+
 	}
 
-//	/* (non-Javadoc)
-//	 * @see com.open.baidu.finance.widget.StickyLayout.OnGiveUpTouchEventListener#giveUpTouchEvent(android.view.MotionEvent)
-//	 */
-//	@Override
-//	public boolean giveUpTouchEvent(MotionEvent event) {
-//		// TODO Auto-generated method stub
-//		if (mPullToRefreshExpandableListView.getRefreshableView().getFirstVisiblePosition() == 0) {
-//            View view = mPullToRefreshExpandableListView.getRefreshableView().getChildAt(0);
-//            if (view != null && view.getTop() >= 0) {
-//                return true;
-//            }
-//        }
-//        return false;
-//	}
+	// /* (non-Javadoc)
+	// * @see
+	// com.open.baidu.finance.widget.StickyLayout.OnGiveUpTouchEventListener#giveUpTouchEvent(android.view.MotionEvent)
+	// */
+	// @Override
+	// public boolean giveUpTouchEvent(MotionEvent event) {
+	// // TODO Auto-generated method stub
+	// if
+	// (mPullToRefreshExpandableListView.getRefreshableView().getFirstVisiblePosition()
+	// == 0) {
+	// View view =
+	// mPullToRefreshExpandableListView.getRefreshableView().getChildAt(0);
+	// if (view != null && view.getTop() >= 0) {
+	// return true;
+	// }
+	// }
+	// return false;
+	// }
 
 }

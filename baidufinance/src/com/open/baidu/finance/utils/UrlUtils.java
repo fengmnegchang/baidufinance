@@ -117,6 +117,8 @@ public class UrlUtils {
 	//新浪行情数据
 	/**沪深指数**/
 	public static final String INDEX_SH_SZ ="http://hq.sinajs.cn/list=s_sh000001,s_sz399001,s_sz399006,s_sh000300";
+	/**基金指数**/
+	public static final String INDEX_SH_SZ_FUND ="http://hq.sinajs.cn/list=s_sh000011,s_sz399305";
 	/**启明星行业**/
 	public static final String QMXINDUSTRYHQ="http://biz.finance.sina.com.cn/hq/qmxIndustryHq.php";
 	/**新浪行业**/
