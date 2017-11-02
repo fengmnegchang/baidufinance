@@ -15,9 +15,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +34,16 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshLinearLayout;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.market.FundLeftScrollAdapter;
 import com.open.baidu.finance.adapter.market.FundRightScrollAdapter;
 import com.open.baidu.finance.bean.market.FundBean;
 import com.open.baidu.finance.json.market.FundJson;
-import com.open.baidu.finance.json.market.PlateStockJson;
 import com.open.baidu.finance.widget.SyncHorizontalScrollView;
 
 /**
@@ -54,7 +57,9 @@ import com.open.baidu.finance.widget.SyncHorizontalScrollView;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJson, FundSyncHorizontalScrollViewFragment> {
+public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJson, FundSyncHorizontalScrollViewFragment>
+implements OnRefreshListener<LinearLayout>
+{
 	private LinearLayout leftContainerView;
 	private ListView leftListView;
 	private List<FundBean> list = new ArrayList<FundBean>();
@@ -64,6 +69,7 @@ public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJso
 	private SyncHorizontalScrollView contentHorsv;
 	private FundLeftScrollAdapter mFundLeftScrollAdapter;
 	private FundRightScrollAdapter mFundRightScrollAdapter;
+	private PullToRefreshLinearLayout mPullToRefreshLinearLayout;
 
 	public static FundSyncHorizontalScrollViewFragment newInstance(String url, boolean isVisibleToUser) {
 		FundSyncHorizontalScrollViewFragment fragment = new FundSyncHorizontalScrollViewFragment();
@@ -82,7 +88,7 @@ public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJso
 		rightListView = (ListView) view.findViewById(R.id.right_container_listview);
 		titleHorsv = (SyncHorizontalScrollView) view.findViewById(R.id.title_horsv);
 		contentHorsv = (SyncHorizontalScrollView) view.findViewById(R.id.content_horsv);
-
+		mPullToRefreshLinearLayout = (PullToRefreshLinearLayout) view.findViewById(R.id.pulltorefreshlinearlayout);
 		return view;
 	}
 
@@ -95,6 +101,7 @@ public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJso
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
+		mPullToRefreshLinearLayout.setMode(Mode.BOTH);
 		// 设置两个水平控件的联动
 		titleHorsv.setScrollView(contentHorsv);
 		contentHorsv.setScrollView(titleHorsv);
@@ -112,6 +119,16 @@ public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJso
 		mFundRightScrollAdapter = new FundRightScrollAdapter(getActivity(), list);
 		rightListView.setAdapter(mFundRightScrollAdapter);
 		setListViewHeightBasedOnChildren(rightListView);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.open.android.fragment.BaseV4Fragment#bindEvent()
+	 */
+	@Override
+	public void bindEvent() {
+		// TODO Auto-generated method stub
+		super.bindEvent();
+		mPullToRefreshLinearLayout.setOnRefreshListener(this);
 	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -140,6 +157,7 @@ public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJso
 		super.handlerMessage(msg);
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
+			url = url.replace("page="+(pageNo-1), "page="+pageNo);
 			volleyJson(url);
 			break;
 		}
@@ -153,12 +171,17 @@ public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJso
 		// TODO Auto-generated method stub
 		super.onCallback(result);
 		if(result!=null && result.getList()!=null){
-			list.clear();
-			list.addAll(result.getList());
+			if (mPullToRefreshLinearLayout.getCurrentMode() == Mode.PULL_FROM_START) {
+				list.clear();
+				list.addAll(result.getList());
+			}else{
+				list.addAll(result.getList());
+			}
 			mFundLeftScrollAdapter.notifyDataSetChanged();
 			mFundRightScrollAdapter.notifyDataSetChanged();
 			setListViewHeightBasedOnChildren(leftListView);
 			setListViewHeightBasedOnChildren(rightListView);
+			mPullToRefreshLinearLayout.onRefreshComplete();
 		}
 	}
 	
@@ -205,6 +228,25 @@ public class FundSyncHorizontalScrollViewFragment extends BaseV4Fragment<FundJso
 		    }
 		};
 		requestQueue.add(jsonObjectRequest);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener#onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase)
+	 */
+	@Override
+	public void onRefresh(PullToRefreshBase<LinearLayout> refreshView) {
+		// TODO Auto-generated method stub
+		String label = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+		// Update the LastUpdatedLabel
+		refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+		// Do work to refresh the list here.
+		if (mPullToRefreshLinearLayout.getCurrentMode() == Mode.PULL_FROM_START) {
+			pageNo = 1;
+			weakReferenceHandler.sendEmptyMessage(MESSAGE_HANDLER);
+		} else if (mPullToRefreshLinearLayout.getCurrentMode() == Mode.PULL_FROM_END) {
+			pageNo++;
+			weakReferenceHandler.sendEmptyMessage(MESSAGE_HANDLER);
+		}
 	}
 	
 	
