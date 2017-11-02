@@ -149,4 +149,7 @@ public class UrlUtils {
 	public static final String GETHQNODEDATA_SHFXJS="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=shfxjs&symbol=&_s_r_a=init";
 	/**开放式基金**/
 	public static final String GETFUNDNETDATA_OPEN_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getFundNetData?page=1&num=80&sort=symbol&asc=1&node=open_fund&_s_r_a=init";
+	/**ETF基金净值**/
+	public static final String GETFUNDNETDATA_ETF_JZ_FUND ="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getFundNetData?page=1&num=80&sort=symbol&asc=1&node=etf_jz_fund&_s_r_a=init";
+
 }

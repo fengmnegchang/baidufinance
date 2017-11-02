@@ -213,7 +213,7 @@ public class IndexShSZFragment extends BaseV4Fragment<IndexJson, IndexShSZFragme
 							bean.setNetChnage(Double.parseDouble(other.split(",")[2]));
 							bean.setNetChnageRate(Double.parseDouble(other.split(",")[3]));
 							bean.setVolume(Long.parseLong(other.split(",")[4]));
-							bean.setVolumeMoney(Long.parseLong(other.split(",")[5]));
+							bean.setVolumeMoney(Long.parseLong(other.split(",")[5].replace("\"", "")));
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
