@@ -34,7 +34,7 @@ public class FundBean extends CommonBean {
 	private Double jzzz;// "0.56864338",
 	private String date;// "2017-10-31",
 	private Double jjgm;// "43.0363"
-
+	
 	public String getSymbol() {
 		return symbol;
 	}

@@ -12,6 +12,6 @@
         android:background="@color/round_solid_color"
         android:padding="10dp"
         android:text="名称代码"
-        android:textSize="16dp" />
+        android:textSize="14dp" />
 
 </RelativeLayout>
