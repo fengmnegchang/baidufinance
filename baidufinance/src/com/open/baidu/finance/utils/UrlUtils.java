@@ -165,6 +165,8 @@ public class UrlUtils {
 	public static final String GETHQNODEDATASIMPLE_LOF_HQ_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeDataSimple?page=1&num=80&sort=symbol&asc=1&node=lof_hq_fund&_s_r_a=init";
 	/** 基金预测净值**/
 	public static final String GETFUNDPREVDATA="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getFundPrevData?page=1&num=80&sort=symbol&asc=1&node=jjycjz&_s_r_a=init";
+	/**货币型基金**/
+	public static final String GETNAMELIST_MONEY_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getNameList?page=1&num=80&sort=symbol&asc=1&node=money_fund&_s_r_a=init";
 
 	//港股
 	/**蓝筹股**/
@@ -219,5 +221,18 @@ public class UrlUtils {
 	public static final String GETUSLIST_MEIDA_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=meida_us&_s_r_a=init";
 	/**医药食品类**/
 	public static final String GETUSLIST_YYSP_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=yysp_us&_s_r_a=init";
+
+	//全球指数
+	/**美洲*/
+	public static final String GETGLOBALINDEX_AMERICA_GLOBAL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getGlobalIndex?page=1&num=80&sort=_&asc=1&node=america_global&_s_r_a=init";
+	/**欧洲*/
+	public static final String GETGLOBALINDEX_EURO_GLOBAL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getGlobalIndex?page=1&num=80&sort=_&asc=1&node=euro_global&_s_r_a=init";
+	/**亚洲*/
+	public static final String GETGLOBALINDEX_ASIA_GLOBAL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getGlobalIndex?page=1&num=80&sort=_&asc=1&node=asia_global&_s_r_a=init";
+	/**非洲*/
+	public static final String GETGLOBALINDEX_AFRICA_GLOBAL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getGlobalIndex?page=1&num=80&sort=_&asc=1&node=africa_global&_s_r_a=init";
+	/**大洋洲*/
+	public static final String GETGLOBALINDEX_OCEANIA_GLOBAL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getGlobalIndex?page=1&num=80&sort=_&asc=1&node=oceania_global&_s_r_a=init";
+
 
 }

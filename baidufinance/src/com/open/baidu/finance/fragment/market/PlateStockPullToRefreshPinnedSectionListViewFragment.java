@@ -127,7 +127,7 @@ implements OnRefreshListener<ListView>{
 			if("A+H".equals(plateName)){
 				ah(url);
 			}else{
-				if(url.contains("getUSList")){
+				if(url.contains("getUSList") || url.contains("getGlobalIndex")){
 					ah(url);
 				}else{
 					volleyJson(url);
@@ -334,7 +334,9 @@ implements OnRefreshListener<ListView>{
 					for (int i = 0; i < size; i++) {
 						if(url.contains("getUSList")){
 							codebuffer.append("gb_" + mmbean.getSlist().get(i).getSymbol().toLowerCase() + ",");
-						}else{
+						}else if(url.contains("getGlobalIndex")){
+							codebuffer.append("b_" + mmbean.getSlist().get(i).getSymbol().toUpperCase() + ",");
+						}else {
 							codebuffer.append(mmbean.getSlist().get(i).getA() + ","+"hk"+mmbean.getSlist().get(i).getH()+",");
 						}
 					}
@@ -377,7 +379,30 @@ implements OnRefreshListener<ListView>{
 					List<PlateStockBean> plist = new ArrayList<PlateStockBean>();
 					PlateStockBean bean;
 					String[] codes = null;
-					if (response.contains("var hq_str_")) {
+					
+					if (response.contains("var hq_str_b_")) {
+						codes = response.split("var hq_str_b_");
+						////var hq_str_b_AS30="澳交所普通股指数 ,6030.32,28.17,0.47,2:34,14:34:00";
+						for (int i = 1; i < codes.length; i++) {
+							bean = new PlateStockBean();
+							try {
+								String c = codes[i];
+								String stockCode = c.split("=")[0];
+								bean.setSymbol(stockCode);
+								String other = c.split("=")[1].replace(";", "").replace("\"", "");
+								
+								//AS30="澳交所普通股指数 ,6030.32,28.17,0.47,2:34,14:34:00";
+								bean.setName(other.split(",")[0]);
+								bean.setTrade(Double.parseDouble(other.split(",")[1]));
+								bean.setPricechange(other.split(",")[2]);
+								bean.setChangepercent(Double.parseDouble(other.split(",")[3]));
+								
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							plist.add(bean);
+						}
+					}else  if (response.contains("var hq_str_")) {
 						codes = response.split("var hq_str_");
 						for (int i = 1; i < codes.length; i++) {
 							//var hq_str_sh600011="华能国际,6.740,6.740,6.670,6.750,6.650,6.660,6.680,6994301,46801632.000,147800,6.660,190199,6.650,68300,6.640,37000,6.630,37300,6.620,4700,6.680,26200,6.690,69400,6.700,78300,6.710,84500,6.720,2017-11-03,15:00:00,00";
@@ -440,7 +465,7 @@ implements OnRefreshListener<ListView>{
 							}
 							plist.add(bean);
 						}
-					}
+					}  
 					result.setList(plist);
 					onCallback(result);
 				} catch (Exception e) {

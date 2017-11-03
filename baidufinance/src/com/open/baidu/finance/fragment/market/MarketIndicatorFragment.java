@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 
 import com.open.android.adapter.CommonFragmentPagerAdapter;
 import com.open.android.fragment.BaseV4Fragment;
-import com.open.android.fragment.CommonV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.MainTabBean;
 import com.open.baidu.finance.json.MainTabJson;
@@ -172,7 +171,7 @@ public class MarketIndicatorFragment extends BaseV4Fragment<MainTabJson, MarketI
 			}else if (i == 5) {
 				fragment = USPinnedHeaderExpandableListViewFragment.newInstance(null, false);
 			}else {
-				fragment = CommonV4Fragment.newInstance(bean.getHref(), false);
+				fragment = USIndexPinnedHeaderExpandableListViewFragment.newInstance(null, false);
 			}
 			listRankFragment.add(fragment);
 		}

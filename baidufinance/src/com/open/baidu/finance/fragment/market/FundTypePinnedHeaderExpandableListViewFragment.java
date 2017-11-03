@@ -50,6 +50,7 @@ import com.open.baidu.finance.activity.market.FundSyncHorizontalScrollViewFragme
 import com.open.baidu.finance.adapter.market.FundTypePinnedHeaderExpandableListAdapter;
 import com.open.baidu.finance.bean.market.FundBean;
 import com.open.baidu.finance.bean.market.FundTypeBean;
+import com.open.baidu.finance.bean.market.PlateStockBean;
 import com.open.baidu.finance.json.market.FundJson;
 import com.open.baidu.finance.json.market.FundTypeJson;
 import com.open.baidu.finance.json.market.PlateStockJson;
@@ -140,7 +141,7 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
 			list.clear();
-			for (int i = 0; i <= 5; i++) {
+			for (int i = 0; i <= 6; i++) {
 				FundTypeBean mmbean = new FundTypeBean();
 				mmbean.setGroupType(i);
 				mmbean.setList(new ArrayList<FundBean>());
@@ -152,6 +153,7 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 			fund(UrlUtils.GETHQNODEDATASIMPLE_ETF_HQ_FUND, 3, "ETF基金行情");
 			fund(UrlUtils.GETHQNODEDATASIMPLE_LOF_HQ_FUND, 4, "LOF基金行情");
 			stock(UrlUtils.GETFUNDPREVDATA, 5, "基金预测净值");
+			ah(UrlUtils.GETNAMELIST_MONEY_FUND, 6, "货币型基金");
 			break;
 		}
 	}
@@ -419,5 +421,132 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 	// }
 	// return false;
 	// }
+	
+	
+	/**
+	 * 货币基金
+	 */
+	public void ah(final String href, final int type, final String groupName) {
+//		final Map<String, String> headers  = new HashMap<String, String>();
+//		headers.put("Content-Type", "gbk");
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				System.out.println("href=" + href);
+//				System.out.println("response=" + response.toString());
+				 // {symbol:"sz300409",code:"300409",name:"道氏技术",trade:"46.800",pricechange:"2.500",changepercent:"5.643",buy:"46.800",sell:"46.850",settlement:"44.300",open:"44.310",high:"47.550",low:"44.310",volume:5196120,amount:240773012,ticktime:"15:25:03",per:99.574,pb:7.98,mktcap:1006200,nmc:518511.82968,turnoverratio:4.68993}
+				try {
+					PlateStockJson result = new PlateStockJson();
+					Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+					Matcher matcher = p.matcher(response);
+					while(matcher.find()){
+						String s = matcher.group().replace(":", "-");
+						response = response.replace(matcher.group(), s);
+					}
+					response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
+					response = "{\"list\":"+response+"}";
+					System.out.println("response=" + response.toString());
+					Gson gson = new Gson();
+					result = gson.fromJson(response, PlateStockJson.class);
+					
+					StringBuilder codebuffer = new StringBuilder();
+					codebuffer.append(UrlUtils.SINA_LIST);
+					List<FundBean> slist = new ArrayList<FundBean>();
+					int size = result.getList().size();
+					if (result.getList().size() > 10) {
+						size = 10;
+					}
+					FundBean fundBean;
+					for(int i=0;i<size;i++){
+						fundBean = new FundBean();
+						fundBean.setSymbol(result.getList().get(i).getSymbol());
+						slist.add(fundBean);
+						codebuffer.append("f_" + fundBean.getSymbol() + ",");
+					}
+					list.get(type).getList().clear();
+					list.get(type).setList(slist);
+					list.get(type).setGroupName(groupName);
+					list.get(type).setUrl(href);
+					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(FundTypePinnedHeaderExpandableListViewFragment.this);
+					mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+					mPullToRefreshExpandableListView.onRefreshComplete();
+					expandAll();
+					
+					String href = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
+					getStockList(href, type);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}, FundTypePinnedHeaderExpandableListViewFragment.this){
+//		    @Override
+//		    public Map<String, String> getHeaders() throws AuthFailureError {
+//		        return headers;
+//		    }
+		    
+		    @Override
+		    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+		        String parsed;
+		        try {
+		            parsed = new String(response.data, "gbk");
+		        } catch (UnsupportedEncodingException e) {
+		            parsed = new String(response.data);
+		        }
+		        return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+		    }
+		};
+		requestQueue.add(jsonObjectRequest);
+	}
 
+	
+	public void getStockList(final String href, final int type) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				System.out.println("href=" + href);
+				System.out.println("response=" + response.toString());
+				try {
+					List<FundBean> plist = new ArrayList<FundBean>();
+					FundBean fundbean;
+					String[] codes = null;
+					if (response.contains("var hq_str_f_")) {
+						codes = response.split("var hq_str_f_");
+						for (int i = 1; i < codes.length; i++) {
+							fundbean = new FundBean();
+							//var hq_str_f_519508="万家货币A,0.9943,3.722,,2017-11-02,4.70888";
+							try {
+								String c = codes[i];
+								String stockCode = c.split("=")[0];
+								fundbean.setSymbol(stockCode);
+								String other = c.split("=")[1].replace(";", "").replace("\"", "");
+
+								//519508="万家货币A,0.9943,3.722,,2017-11-02,4.70888";
+								fundbean.setName(other.split(",")[0]);
+								fundbean.setDate(other.split(",")[4]);
+								fundbean.setDwjz(Double.parseDouble(other.split(",")[1]));
+								fundbean.setJzzz(Double.parseDouble(other.split(",")[2]));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							plist.add(fundbean);
+						}
+						list.get(type).getList().clear();
+						list.get(type).setList(plist);
+						((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(FundTypePinnedHeaderExpandableListViewFragment.this);
+						mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+						mPullToRefreshExpandableListView.onRefreshComplete();
+						expandAll();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}, FundTypePinnedHeaderExpandableListViewFragment.this);
+		requestQueue.add(jsonObjectRequest);
+	}
 }
