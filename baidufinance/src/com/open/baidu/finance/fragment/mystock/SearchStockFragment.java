@@ -230,7 +230,7 @@ public class SearchStockFragment extends BaseV4Fragment<SearchStockJson, SearchS
 			break;
 		case MESSAGE_HANDLER:
 			gathermystock(UrlUtils.GATHERMYSTOCK_ALL);
-			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), 1);
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), -1);
 			if(dblist!=null && dblist.size()>0){
 				SearchStockData bean = null;
 				for(OpenDBBean dbBean:dblist){
@@ -307,9 +307,9 @@ public class SearchStockFragment extends BaseV4Fragment<SearchStockJson, SearchS
 					openbean.setTitle(bean.getF_symbolName());
 					openbean.setDownloadurl(bean.getF_symbol());
 					openbean.setImgsrc(glist.get((int)id).getGroup_id());
-					openbean.setType(1);
-					openbean.setTypename("1");
-					openbean.setUrl(bean.getF_symbolName());
+					openbean.setType(-1);
+					openbean.setTypename("-1");
+					openbean.setUrl(bean.getF_symbol());
 					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();

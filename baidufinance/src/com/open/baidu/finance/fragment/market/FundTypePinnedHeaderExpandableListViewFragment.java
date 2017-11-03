@@ -38,19 +38,21 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.handmark.pulltorefresh.library.PinnedHeaderExpandableListView.OnHeaderUpdateListener;
+import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PinnedHeaderExpandableListView;
+import com.handmark.pulltorefresh.library.PinnedHeaderExpandableListView.OnHeaderUpdateListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedHeaderExpandableListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.market.FundSyncHorizontalScrollViewFragmentActivity;
 import com.open.baidu.finance.adapter.market.FundTypePinnedHeaderExpandableListAdapter;
 import com.open.baidu.finance.bean.market.FundBean;
 import com.open.baidu.finance.bean.market.FundTypeBean;
-import com.open.baidu.finance.bean.market.PlateStockBean;
 import com.open.baidu.finance.json.market.FundJson;
 import com.open.baidu.finance.json.market.FundTypeJson;
 import com.open.baidu.finance.json.market.PlateStockJson;
@@ -253,12 +255,38 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 					mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(slist));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+type);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, FundTypePinnedHeaderExpandableListViewFragment.this) {
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type, pageNo+"");
+				Gson gson = new Gson();
+				List<FundBean> slist = gson.fromJson(dblist.get(0).getTitle(), new TypeToken<List<FundBean>>() {}.getType());
+				list.get(type).getList().clear();
+				list.get(type).setList(slist);
+				list.get(type).setGroupName(groupName);
+				list.get(type).setUrl(href);
+				((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(FundTypePinnedHeaderExpandableListViewFragment.this);
+				mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+				mPullToRefreshExpandableListView.onRefreshComplete();
+				expandAll();
+			}
+		}) {
 			// @Override
 			// public Map<String, String> getHeaders() throws AuthFailureError {
 			// return headers;
@@ -378,12 +406,38 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
 					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(slist));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+type);
+					OpenDBService.insert(getActivity(), openbean);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
 			}
-		}, FundTypePinnedHeaderExpandableListViewFragment.this){
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type, pageNo+"");
+				Gson gson = new Gson();
+				List<FundBean> slist = gson.fromJson(dblist.get(0).getTitle(), new TypeToken<List<FundBean>>() {}.getType());
+				list.get(type).getList().clear();
+				list.get(type).setList(slist);
+				list.get(type).setGroupName(groupName);
+				list.get(type).setUrl(href);
+				((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(FundTypePinnedHeaderExpandableListViewFragment.this);
+				mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+				mPullToRefreshExpandableListView.onRefreshComplete();
+				expandAll();
+			}
+		}){
 //		    @Override
 //		    public Map<String, String> getHeaders() throws AuthFailureError {
 //		        return headers;
@@ -473,15 +527,32 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
 					
-					String href = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
-					getStockList(href, type);
+					String href2 = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
+					getStockList(href2, type,groupName);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(href2);
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+type+"ah");
+					OpenDBService.insert(getActivity(), openbean);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
 			}
-		}, FundTypePinnedHeaderExpandableListViewFragment.this){
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type+"ah", pageNo+"");
+				getStockList(dblist.get(0).getTitle(),type,groupName);
+			}
+		}){
 //		    @Override
 //		    public Map<String, String> getHeaders() throws AuthFailureError {
 //		        return headers;
@@ -502,7 +573,7 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 	}
 
 	
-	public void getStockList(final String href, final int type) {
+	public void getStockList(final String href, final int type,final String groupName) {
 		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, new Response.Listener<String>() {
 			@Override
@@ -540,13 +611,40 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 						mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 						mPullToRefreshExpandableListView.onRefreshComplete();
 						expandAll();
+						
+						Gson gson = new Gson();
+						OpenDBBean openbean = new OpenDBBean();
+						openbean.setTitle(gson.toJson(plist));
+						
+						openbean.setDownloadurl("");
+						openbean.setImgsrc("");
+						openbean.setType(pageNo);
+						openbean.setTypename(pageNo+"");
+						openbean.setUrl(href+type);
+						OpenDBService.insert(getActivity(), openbean);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, FundTypePinnedHeaderExpandableListViewFragment.this);
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type, pageNo+"");
+				Gson gson = new Gson();
+				List<FundBean> slist = gson.fromJson(dblist.get(0).getTitle(), new TypeToken<List<FundBean>>() {}.getType());
+				list.get(type).getList().clear();
+				list.get(type).setList(slist);
+				list.get(type).setGroupName(groupName);
+				list.get(type).setUrl(href);
+				((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(FundTypePinnedHeaderExpandableListViewFragment.this);
+				mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+				mPullToRefreshExpandableListView.onRefreshComplete();
+				expandAll();
+			}
+		});
 		requestQueue.add(jsonObjectRequest);
 	}
 }

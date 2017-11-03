@@ -44,6 +44,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedHeaderExpandableListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.market.PlatePullToRefreshPinnedSectionListViewFragmentActivity;
@@ -257,12 +259,39 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment exten
 					mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
+					
+					Gson gson = new Gson();
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(mmbean));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+type);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment.this) {
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type, pageNo+"");
+				Gson gson = new Gson();
+				MarketShSzBean mmbean = gson.fromJson(dblist.get(0).getTitle(), MarketShSzBean.class);
+				list.set(type,mmbean);
+
+				((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView())
+						.setOnHeaderUpdateListener(MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment.this);
+				mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+				mPullToRefreshExpandableListView.onRefreshComplete();
+				expandAll();
+				
+			}
+		}) {
 			// @Override
 			// public Map<String, String> getHeaders() throws AuthFailureError {
 			// return headers;
@@ -346,12 +375,38 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment exten
 					mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
+					
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(list.get(type)));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+type);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment.this) {
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type, pageNo+"");
+				Gson gson = new Gson();
+				MarketShSzBean mmbean = gson.fromJson(dblist.get(0).getTitle(), MarketShSzBean.class);
+				list.set(type,mmbean);
+
+				((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView())
+						.setOnHeaderUpdateListener(MarketShSzPullToRefreshPinnedHeaderExpandableListViewFragment.this);
+				mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+				mPullToRefreshExpandableListView.onRefreshComplete();
+				expandAll();
+			}
+		}) {
 			// @Override
 			// public Map<String, String> getHeaders() throws AuthFailureError {
 			// return headers;

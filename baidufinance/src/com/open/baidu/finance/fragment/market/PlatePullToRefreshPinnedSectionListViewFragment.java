@@ -38,10 +38,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedSectionListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.market.PlateStockPullToRefreshPinnedSectionListViewFragmentActivity;
@@ -231,12 +234,32 @@ implements OnRefreshListener<ListView>,OnItemClickListener{
 					}
 					result.setList(list);
 					onCallback(result);
+					
+					Gson gson = new Gson();
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(result));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
 			}
-		}, PlatePullToRefreshPinnedSectionListViewFragment.this){
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href, pageNo+"");
+				Gson gson = new Gson();
+				PlateJson result = gson.fromJson(dblist.get(0).getTitle(), PlateJson.class);
+				onCallback(result);
+			}
+		}){
 //		    @Override
 //		    public Map<String, String> getHeaders() throws AuthFailureError {
 //		        return headers;

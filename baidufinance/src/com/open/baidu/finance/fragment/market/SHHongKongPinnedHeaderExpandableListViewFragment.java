@@ -38,17 +38,21 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PinnedHeaderExpandableListView;
 import com.handmark.pulltorefresh.library.PinnedHeaderExpandableListView.OnHeaderUpdateListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedHeaderExpandableListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.market.PlatePullToRefreshPinnedSectionListViewFragmentActivity;
 import com.open.baidu.finance.activity.market.PlateStockPullToRefreshPinnedSectionListViewFragmentActivity;
 import com.open.baidu.finance.adapter.market.MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter;
+import com.open.baidu.finance.bean.market.FundBean;
 import com.open.baidu.finance.bean.market.MarketShSzBean;
 import com.open.baidu.finance.bean.market.PlateBean;
 import com.open.baidu.finance.bean.market.PlateStockBean;
@@ -260,12 +264,36 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 					mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(list.get(type - num)));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+type);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, SHHongKongPinnedHeaderExpandableListViewFragment.this) {
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type, pageNo+"");
+				Gson gson = new Gson();
+				MarketShSzBean mMarketShSzBean = gson.fromJson(dblist.get(0).getTitle(), MarketShSzBean.class);
+				
+				list.set(type - num,mMarketShSzBean);
+				((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(SHHongKongPinnedHeaderExpandableListViewFragment.this);
+				mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+				mPullToRefreshExpandableListView.onRefreshComplete();
+				expandAll();
+			}
+		}) {
 			// @Override
 			// public Map<String, String> getHeaders() throws AuthFailureError {
 			// return headers;
@@ -400,14 +428,31 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
 					
-					String href = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
-					getStockList(href, type,num);
+					String href2 = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
+					getStockList(href2, type,num);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(href2);
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+type+"SH_HONGKONG");
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, SHHongKongPinnedHeaderExpandableListViewFragment.this) {
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type+"SH_HONGKONG", pageNo+"");
+				getStockList(dblist.get(0).getTitle(), type,num);
+			}
+		}) {
 			// @Override
 			// public Map<String, String> getHeaders() throws AuthFailureError {
 			// return headers;
@@ -477,13 +522,39 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 						mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 						mPullToRefreshExpandableListView.onRefreshComplete();
 						expandAll();
+						
+						
+						Gson gson = new Gson();
+						OpenDBBean openbean = new OpenDBBean();
+						openbean.setTitle(gson.toJson(list.get(type - num)));
+						
+						openbean.setDownloadurl("");
+						openbean.setImgsrc("");
+						openbean.setType(pageNo);
+						openbean.setTypename(pageNo+"");
+						openbean.setUrl(href+type);
+						OpenDBService.insert(getActivity(), openbean);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, SHHongKongPinnedHeaderExpandableListViewFragment.this);
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+type, pageNo+"");
+				Gson gson = new Gson();
+				MarketShSzBean mMarketShSzBean = gson.fromJson(dblist.get(0).getTitle(), MarketShSzBean.class);
+				list.set(type - num,mMarketShSzBean);
+				
+				((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(SHHongKongPinnedHeaderExpandableListViewFragment.this);
+				mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+				mPullToRefreshExpandableListView.onRefreshComplete();
+				expandAll();
+			}
+		});
 		requestQueue.add(jsonObjectRequest);
 	}
 

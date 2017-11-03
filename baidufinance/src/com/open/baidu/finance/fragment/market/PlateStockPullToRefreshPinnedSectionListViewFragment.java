@@ -41,12 +41,15 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedSectionListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.market.PlateStockPinnedSectionListAdapter;
 import com.open.baidu.finance.bean.market.MarketShSzBean;
 import com.open.baidu.finance.bean.market.PlateBean;
 import com.open.baidu.finance.bean.market.PlateStockBean;
+import com.open.baidu.finance.json.market.PlateJson;
 import com.open.baidu.finance.json.market.PlateStockJson;
 import com.open.baidu.finance.utils.ComparatorPlateStockRatioType;
 import com.open.baidu.finance.utils.UrlUtils;
@@ -231,12 +234,32 @@ implements OnRefreshListener<ListView>{
 						}
 					}
 					onCallback(result);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(result));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href);
+					OpenDBService.insert(getActivity(), openbean);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
 			}
-		}, PlateStockPullToRefreshPinnedSectionListViewFragment.this){
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href, pageNo+"");
+				Gson gson = new Gson();
+				PlateStockJson result = gson.fromJson(dblist.get(0).getTitle(), PlateStockJson.class);
+				onCallback(result);
+			}
+		}){
 //		    @Override
 //		    public Map<String, String> getHeaders() throws AuthFailureError {
 //		        return headers;
@@ -340,14 +363,31 @@ implements OnRefreshListener<ListView>{
 							codebuffer.append(mmbean.getSlist().get(i).getA() + ","+"hk"+mmbean.getSlist().get(i).getH()+",");
 						}
 					}
-					String href = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
-					getStockList(href);
+					String href2 = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
+					getStockList(href2);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(href2);
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+"PLATE");
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, PlateStockPullToRefreshPinnedSectionListViewFragment.this) {
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+"PLATE", pageNo+"");
+				getStockList(dblist.get(0).getTitle());
+			}
+		}) {
 			// @Override
 			// public Map<String, String> getHeaders() throws AuthFailureError {
 			// return headers;
@@ -468,12 +508,32 @@ implements OnRefreshListener<ListView>{
 					}  
 					result.setList(plist);
 					onCallback(result);
+					
+					Gson gson = new Gson();
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(result));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 			}
-		}, PlateStockPullToRefreshPinnedSectionListViewFragment.this);
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href, pageNo+"");
+				Gson gson = new Gson();
+				PlateStockJson result = gson.fromJson(dblist.get(0).getTitle(), PlateStockJson.class);
+				onCallback(result);
+			}
+		});
 		requestQueue.add(jsonObjectRequest);
 	}
 }

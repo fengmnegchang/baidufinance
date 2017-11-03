@@ -45,12 +45,15 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.market.FundLeftScrollAdapter;
 import com.open.baidu.finance.adapter.market.FundRightScrollAdapter;
 import com.open.baidu.finance.bean.market.FundBean;
 import com.open.baidu.finance.json.market.FundJson;
+import com.open.baidu.finance.json.market.IndexJson;
 import com.open.baidu.finance.json.market.PlateStockJson;
 import com.open.baidu.finance.utils.ComparatorFundRatioType;
 import com.open.baidu.finance.utils.UrlUtils;
@@ -274,6 +277,11 @@ implements OnRefreshListener<ScrollView>
 		// TODO Auto-generated method stub
 		super.onErrorResponse(error);
 		System.out.println(error);
+		
+		List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+		Gson gson = new Gson();
+		FundJson result = gson.fromJson(dblist.get(0).getTitle(), FundJson.class);
+		onCallback(result);
 	}
 	
 	@Override
@@ -298,6 +306,17 @@ implements OnRefreshListener<ScrollView>
 						}
 					}
 					onCallback(result);
+					
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(result));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -363,6 +382,16 @@ implements OnRefreshListener<ScrollView>
 					}
 					mFundJson.setList(slist);
 					onCallback(mFundJson);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(mFundJson));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -442,12 +471,28 @@ implements OnRefreshListener<ScrollView>
 					}
 					String href = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
 					getStockList(href);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(href);
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href+"STOCK_LIST_FUND");
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
 			}
-		}, FundSyncHorizontalScrollViewFragment.this){
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),href+"STOCK_LIST_FUND", pageNo+"");
+				getStockList(dblist.get(0).getTitle());
+			}
+		}){
 //		    @Override
 //		    public Map<String, String> getHeaders() throws AuthFailureError {
 //		        return headers;
@@ -505,6 +550,17 @@ implements OnRefreshListener<ScrollView>
 					}
 					mFundJson.setList(plist);
 					onCallback(mFundJson);
+					
+					Gson gson = new Gson();
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(mFundJson));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

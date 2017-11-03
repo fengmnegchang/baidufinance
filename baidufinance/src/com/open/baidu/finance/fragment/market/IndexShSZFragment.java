@@ -27,12 +27,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.view.ExpendGridView;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.market.IndexAdapter;
 import com.open.baidu.finance.bean.market.IndexBean;
+import com.open.baidu.finance.json.hot.HotConceptJson;
 import com.open.baidu.finance.json.market.IndexJson;
+import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -149,6 +154,11 @@ public class IndexShSZFragment extends BaseV4Fragment<IndexJson, IndexShSZFragme
 		// TODO Auto-generated method stub
 		super.onErrorResponse(error);
 		System.out.println(error);
+		
+		List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+		Gson gson = new Gson();
+		IndexJson result = gson.fromJson(dblist.get(0).getTitle(), IndexJson.class);
+		onCallback(result);
 	}
 
 	@Override
@@ -260,6 +270,17 @@ public class IndexShSZFragment extends BaseV4Fragment<IndexJson, IndexShSZFragme
 					
 					result.setList(list);
 					onCallback(result);
+					
+					Gson gson = new Gson();
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(gson.toJson(result));
+					
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(href);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
