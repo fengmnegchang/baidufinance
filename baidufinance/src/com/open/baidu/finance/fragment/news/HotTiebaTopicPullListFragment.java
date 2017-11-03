@@ -11,14 +11,21 @@
  */
 package com.open.baidu.finance.fragment.news;
 
+import java.util.List;
+
 import android.os.Message;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.baidu.finance.adapter.news.HotTiebaTopicAdapter;
 import com.open.baidu.finance.bean.news.HotTiebaTopicBean;
 import com.open.baidu.finance.json.news.HotTiebaTopicJson;
+import com.open.baidu.finance.json.news.TagNewsDataModel;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 import com.open.baidu.finance.utils.UrlUtils;
 
@@ -86,7 +93,24 @@ public class HotTiebaTopicPullListFragment extends CommonPullToRefreshListFragme
 	public HotTiebaTopicJson call() throws Exception {
 		// TODO Auto-generated method stub
 		HotTiebaTopicJson mHotTiebaTopicJson = new HotTiebaTopicJson();
-		mHotTiebaTopicJson.setList(TagNewsJsoupService.parseHotTiebaTopic(UrlUtils.GUPIAO_BAIDU, pageNo));
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mHotTiebaTopicJson.setList(TagNewsJsoupService.parseHotTiebaTopic(UrlUtils.GUPIAO_BAIDU, pageNo));
+			
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mHotTiebaTopicJson));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(UrlUtils.GUPIAO_BAIDU+"HOT");
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),UrlUtils.GUPIAO_BAIDU+"HOT", pageNo+"");
+			Gson gson = new Gson();
+			mHotTiebaTopicJson = gson.fromJson(dblist.get(0).getTitle(), HotTiebaTopicJson.class);
+		}
 		return mHotTiebaTopicJson;
 	}
 

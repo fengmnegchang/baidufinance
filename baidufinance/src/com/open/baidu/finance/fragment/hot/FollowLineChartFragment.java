@@ -41,9 +41,13 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.hot.FollowBean;
+import com.open.baidu.finance.json.article.NewsContainerJson;
 import com.open.baidu.finance.json.hot.FollowJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 
@@ -154,7 +158,24 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 //			Gson gson = new Gson();
 //
 //			mFollowJson = gson.fromJson(data, FollowJson.class);
-			mFollowJson = TagNewsJsoupService.parseThmemeFollow(url, 1);
+			if(NetWorkUtils.isNetworkAvailable(getActivity())){
+				mFollowJson = TagNewsJsoupService.parseThmemeFollow(url, 1);
+				Gson gson = new Gson();
+				OpenDBBean openbean = new OpenDBBean();
+				openbean.setTitle(gson.toJson(mFollowJson));
+				
+				openbean.setDownloadurl("");
+				openbean.setImgsrc("");
+				openbean.setType(pageNo);
+				openbean.setTypename(pageNo+"");
+				openbean.setUrl(url);
+				OpenDBService.insert(getActivity(), openbean);
+			}else{
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+				Gson gson = new Gson();
+				mFollowJson = gson.fromJson(dblist.get(0).getTitle(), FollowJson.class);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

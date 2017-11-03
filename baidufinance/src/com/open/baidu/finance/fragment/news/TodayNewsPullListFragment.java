@@ -11,6 +11,8 @@
  */
 package com.open.baidu.finance.fragment.news;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -22,12 +24,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.open.andenginetask.CallEarliest;
 import com.open.andenginetask.Callable;
 import com.open.andenginetask.Callback;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.article.NewsContainerPullScrollFragmentActivity;
 import com.open.baidu.finance.activity.news.HotTiebaTopicPullListFragmentActivity;
@@ -157,7 +163,25 @@ implements OnClickListener{
 		// TODO Auto-generated method stub
 		TagNewsDataJson mTagNewsDataJson = new TagNewsDataJson();
 		TagNewsDataModel mTagNewsDataModel = new  TagNewsDataModel();
-		mTagNewsDataModel.setTagnews(TagNewsJsoupService.parseTodayNews(UrlUtils.GUPIAO_BAIDU, pageNo));
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mTagNewsDataModel.setTagnews(TagNewsJsoupService.parseTodayNews(UrlUtils.GUPIAO_BAIDU, pageNo));
+			
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mTagNewsDataModel));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(UrlUtils.GUPIAO_BAIDU+"TODAY");
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),UrlUtils.GUPIAO_BAIDU+"TODAY", pageNo+"");
+			Gson gson = new Gson();
+			mTagNewsDataModel = gson.fromJson(dblist.get(0).getTitle(), TagNewsDataModel.class);
+		}
+		
 		mTagNewsDataJson.setData(mTagNewsDataModel);
 		return mTagNewsDataJson;
 	}

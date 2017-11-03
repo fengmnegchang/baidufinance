@@ -45,7 +45,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.open.android.adapter.CommonFragmentPagerAdapter;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.android.widget.ScrollableHelper.ScrollableContainer;
 import com.open.android.widget.ScrollableLayout;
 import com.open.android.widget.ScrollableLayout.ScrollLayoutListener;
@@ -56,6 +59,7 @@ import com.open.baidu.finance.fragment.news.MFootTagNewsPullListFragment;
 import com.open.baidu.finance.fragment.news.MFootTodayNewsPullListFragment;
 import com.open.baidu.finance.json.CommonDataJson;
 import com.open.baidu.finance.json.article.NewsContainerJson;
+import com.open.baidu.finance.json.news.ExpertViewJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 import com.open.baidu.finance.utils.UrlUtils;
 import com.open.baidu.finance.widget.PullToRefreshScrollableLayout;
@@ -188,7 +192,25 @@ implements OnRefreshListener<ScrollableLayout>,OnClickListener,ScrollLayoutListe
 	public NewsContainerJson call() throws Exception {
 		// TODO Auto-generated method stub
 		NewsContainerJson mNewsContainerJson = new NewsContainerJson();
-		mNewsContainerJson.setList(TagNewsJsoupService.parseArticle(url, pageNo));
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mNewsContainerJson.setList(TagNewsJsoupService.parseArticle(url, pageNo));
+			
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mNewsContainerJson));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(url);
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+			Gson gson = new Gson();
+			mNewsContainerJson = gson.fromJson(dblist.get(0).getTitle(), NewsContainerJson.class);
+		}
+		
 		return mNewsContainerJson;
 	}
 	

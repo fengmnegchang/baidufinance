@@ -12,6 +12,7 @@
 package com.open.baidu.finance.fragment.hot;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -33,13 +34,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NormalPostRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.hot.ThemeStockCommentPullListFragmentActivity;
 import com.open.baidu.finance.adapter.hot.ThemeStockDetailListAdapter;
 import com.open.baidu.finance.bean.hot.HotStockBean;
+import com.open.baidu.finance.json.article.NewsContainerJson;
 import com.open.baidu.finance.json.hot.HotStockJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 import com.open.baidu.finance.utils.UrlUtils;
@@ -151,7 +157,25 @@ implements OnClickListener{
 	public HotStockJson call() throws Exception {
 		// TODO Auto-generated method stub
 		HotStockJson mHotStockJson = new HotStockJson();
-		mHotStockJson.setList(TagNewsJsoupService.parseThmeme(url, pageNo));
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mHotStockJson.setList(TagNewsJsoupService.parseThmeme(url, pageNo));
+			
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mHotStockJson));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(url);
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+			Gson gson = new Gson();
+			mHotStockJson = gson.fromJson(dblist.get(0).getTitle(), HotStockJson.class);
+		}
+		
 		return mHotStockJson;
 	}
 

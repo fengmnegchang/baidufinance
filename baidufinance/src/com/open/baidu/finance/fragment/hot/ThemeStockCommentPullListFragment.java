@@ -43,6 +43,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
+import com.open.android.utils.NetWorkUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.article.EmojiBean;
 import com.open.baidu.finance.fragment.article.MNewsCommentPullListFragment;
@@ -50,6 +53,7 @@ import com.open.baidu.finance.json.CommonDataJson;
 import com.open.baidu.finance.json.article.EmojiJson;
 import com.open.baidu.finance.json.article.GetCommentListJson;
 import com.open.baidu.finance.json.article.GetCommentListModel;
+import com.open.baidu.finance.json.article.NewsContainerJson;
 import com.open.baidu.finance.json.hot.VotetoConceptDataJson;
 import com.open.baidu.finance.json.news.ExpertListDataJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
@@ -134,7 +138,25 @@ public class ThemeStockCommentPullListFragment extends MNewsCommentPullListFragm
 		// TODO Auto-generated method stub
 		GetCommentListJson mGetCommentListJson = new GetCommentListJson();
 		GetCommentListModel mGetCommentListModel = new GetCommentListModel();
-		mGetCommentListModel.setComments(TagNewsJsoupService.parseThmemeComment(url, pageNo));
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mGetCommentListModel.setComments(TagNewsJsoupService.parseThmemeComment(url, pageNo));
+			
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mGetCommentListModel));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(url);
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+			Gson gson = new Gson();
+			mGetCommentListModel = gson.fromJson(dblist.get(0).getTitle(), GetCommentListModel.class);
+		}
+		
 		mGetCommentListJson.setData(mGetCommentListModel);
 		return mGetCommentListJson;
 	}

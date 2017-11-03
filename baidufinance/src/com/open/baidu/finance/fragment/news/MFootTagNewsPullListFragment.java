@@ -12,6 +12,7 @@
 package com.open.baidu.finance.fragment.news;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -29,6 +30,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.android.widget.ScrollableHelper.ScrollableContainer;
 import com.open.baidu.finance.activity.article.NewsContainerPullScrollFragmentActivity;
@@ -126,6 +129,10 @@ public class MFootTagNewsPullListFragment extends CommonPullToRefreshListFragmen
 		// TODO Auto-generated method stub
 		super.onErrorResponse(error);
 		System.out.println(error);
+		List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+		Gson gson = new Gson();
+		TagNewsDataJson mTagNewsDataJson = gson.fromJson(dblist.get(0).getTitle(), TagNewsDataJson.class);
+		onCallback(mTagNewsDataJson);
 	}
 	
 	@Override
@@ -144,6 +151,15 @@ public class MFootTagNewsPullListFragment extends CommonPullToRefreshListFragmen
 					Gson gson = new Gson();
 					TagNewsDataJson result = gson.fromJson(response.toString(), TagNewsDataJson.class);
 					onCallback(result);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(response.toString());
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(url);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

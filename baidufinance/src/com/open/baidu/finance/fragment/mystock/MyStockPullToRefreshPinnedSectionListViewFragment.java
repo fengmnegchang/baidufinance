@@ -39,6 +39,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedSectionListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.mystock.MyStockAdapter;
@@ -155,6 +157,10 @@ implements OnRefreshListener<ListView>{
 		// TODO Auto-generated method stub
 		super.onErrorResponse(error);
 		System.out.println(error);
+		List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, "2");
+		Gson gson = new Gson();
+		StockJson result = gson.fromJson(dblist.get(0).getTitle(), StockJson.class);
+		onCallback(result);
 	}
 	
 	@Override
@@ -173,6 +179,16 @@ implements OnRefreshListener<ListView>{
 					Gson gson = new Gson();
 					StockJson result = gson.fromJson(response.toString(), StockJson.class);
 					onCallback(result);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(response.toString());
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(2);
+					openbean.setTypename("2");
+					openbean.setUrl(url);
+					OpenDBService.insert(getActivity(), openbean);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

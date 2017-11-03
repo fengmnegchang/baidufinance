@@ -22,11 +22,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.news.LiveShowNewsAdapter;
 import com.open.baidu.finance.bean.news.LiveShowBean;
 import com.open.baidu.finance.json.news.LiveShowJson;
+import com.open.baidu.finance.json.news.TagNewsDataModel;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 
 /**
@@ -94,7 +99,24 @@ public class LiveShowNewsViewPagerFragment extends BaseV4Fragment<LiveShowJson, 
 	public LiveShowJson call() throws Exception {
 		// TODO Auto-generated method stub
 		LiveShowJson mLiveShowJson = new LiveShowJson();
-		mLiveShowJson.setList(TagNewsJsoupService.parseLiveNews(url, pageNo));
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mLiveShowJson.setList(TagNewsJsoupService.parseLiveNews(url, pageNo));
+			
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mLiveShowJson));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(url);
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+			Gson gson = new Gson();
+			mLiveShowJson = gson.fromJson(dblist.get(0).getTitle(), LiveShowJson.class);
+		}
 		return mLiveShowJson;
 	}
 	

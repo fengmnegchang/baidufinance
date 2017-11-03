@@ -23,12 +23,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.android.view.ExpendListView;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.article.NewsContainerPullScrollFragmentActivity;
 import com.open.baidu.finance.adapter.article.NewsContainerFootAdapter;
 import com.open.baidu.finance.bean.news.TagNewsBean;
+import com.open.baidu.finance.json.article.NewsContainerJson;
 import com.open.baidu.finance.json.news.TagNewsDataModel;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 
@@ -97,7 +102,24 @@ implements OnItemClickListener
 	public TagNewsDataModel call() throws Exception {
 		// TODO Auto-generated method stub
 		TagNewsDataModel mTagNewsDataModel = new TagNewsDataModel();
-		mTagNewsDataModel.setTagnews(TagNewsJsoupService.parseNewsContainerFoot(url, pageNo));
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mTagNewsDataModel.setTagnews(TagNewsJsoupService.parseNewsContainerFoot(url, pageNo));
+			
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mTagNewsDataModel));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(url);
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+			Gson gson = new Gson();
+			mTagNewsDataModel = gson.fromJson(dblist.get(0).getTitle(), TagNewsDataModel.class);
+		}
 		return mTagNewsDataModel;
 	}
 	/*

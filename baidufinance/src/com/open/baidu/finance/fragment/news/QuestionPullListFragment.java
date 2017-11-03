@@ -12,6 +12,7 @@
 package com.open.baidu.finance.fragment.news;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -43,12 +44,16 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.adapter.news.QuestionAdapter;
 import com.open.baidu.finance.bean.news.QuestionBean;
 import com.open.baidu.finance.json.news.ExpertListDataJson;
+import com.open.baidu.finance.json.news.HotTiebaTopicJson;
 import com.open.baidu.finance.json.news.QuestionJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 import com.open.baidu.finance.utils.UrlUtils;
@@ -140,7 +145,24 @@ public class QuestionPullListFragment extends CommonPullToRefreshListFragment<Qu
 	public QuestionJson call() throws Exception {
 		// TODO Auto-generated method stub
 		QuestionJson mAdviserPersonJson = new QuestionJson();
-		mAdviserPersonJson.setList(TagNewsJsoupService.parseQuestion(url, pageNo));
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mAdviserPersonJson.setList(TagNewsJsoupService.parseQuestion(url, pageNo));
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mAdviserPersonJson));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(url);
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+			Gson gson = new Gson();
+			mAdviserPersonJson = gson.fromJson(dblist.get(0).getTitle(), QuestionJson.class);
+		}
+		
 		return mAdviserPersonJson;
 	}
 	
@@ -189,6 +211,15 @@ public class QuestionPullListFragment extends CommonPullToRefreshListFragment<Qu
 					QuestionJson mAdviserPersonJson = new QuestionJson();
 					mAdviserPersonJson.setList(TagNewsJsoupService.parseQuestion(result.getHtml(), pageNo));
 					onCallback(mAdviserPersonJson);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(response.toString());
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(url);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

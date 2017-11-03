@@ -29,15 +29,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedSectionListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.hot.ThemeStockDetailListFragmentActivity;
 import com.open.baidu.finance.adapter.hot.HotConceptPinnedSectionListAdapter;
 import com.open.baidu.finance.bean.hot.HotConceptBean;
+import com.open.baidu.finance.json.article.NewsContainerJson;
 import com.open.baidu.finance.json.hot.HotConceptJson;
 import com.open.baidu.finance.jsoup.TagNewsJsoupService;
 import com.open.baidu.finance.utils.UrlUtils;
@@ -140,7 +145,26 @@ public class HotConceptPinnedSectionListFragment extends BaseV4Fragment<HotConce
 		calendar.getTime();
 		SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
 		String currentDate = dft.format(calendar.getTime());
-		mHotConceptJson.setList(TagNewsJsoupService.parseHot(UrlUtils.SEARCHDATE+currentDate, pageNo));
+		
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mHotConceptJson.setList(TagNewsJsoupService.parseHot(UrlUtils.SEARCHDATE+currentDate, pageNo));
+			
+			Gson gson = new Gson();
+			OpenDBBean openbean = new OpenDBBean();
+			openbean.setTitle(gson.toJson(mHotConceptJson));
+			
+			openbean.setDownloadurl("");
+			openbean.setImgsrc("");
+			openbean.setType(pageNo);
+			openbean.setTypename(pageNo+"");
+			openbean.setUrl(UrlUtils.SEARCHDATE+currentDate);
+			OpenDBService.insert(getActivity(), openbean);
+		}else{
+			List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),UrlUtils.SEARCHDATE+currentDate, pageNo+"");
+			Gson gson = new Gson();
+			mHotConceptJson = gson.fromJson(dblist.get(0).getTitle(), HotConceptJson.class);
+		}
+		
 		return mHotConceptJson;
 	}
 

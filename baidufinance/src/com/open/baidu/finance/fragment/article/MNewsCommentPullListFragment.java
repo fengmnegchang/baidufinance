@@ -54,6 +54,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.android.utils.ScreenUtils;
 import com.open.baidu.finance.R;
@@ -65,6 +67,7 @@ import com.open.baidu.finance.bean.article.CommentBean;
 import com.open.baidu.finance.bean.article.EmojiBean;
 import com.open.baidu.finance.json.article.EmojiJson;
 import com.open.baidu.finance.json.article.GetCommentListJson;
+import com.open.baidu.finance.json.news.ExpertViewJson;
 import com.open.baidu.finance.utils.UrlUtils;
 /**
  *****************************************************************************************************************************************************************************
@@ -210,6 +213,10 @@ public class MNewsCommentPullListFragment extends CommonPullToRefreshListFragmen
 		// TODO Auto-generated method stub
 		super.onErrorResponse(error);
 		System.out.println(error);
+		List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+		Gson gson = new Gson();
+		GetCommentListJson mAdviserPersonJson = gson.fromJson(dblist.get(0).getTitle(), GetCommentListJson.class);
+		onCallback(mAdviserPersonJson);
 	}
 	
 	@Override
@@ -228,6 +235,15 @@ public class MNewsCommentPullListFragment extends CommonPullToRefreshListFragmen
 					Gson gson = new Gson();
 					GetCommentListJson result = gson.fromJson(response.toString(), GetCommentListJson.class);
 					onCallback(result);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(response.toString());
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(url);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

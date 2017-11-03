@@ -34,6 +34,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.view.ExpendListView;
 import com.open.android.widget.ScrollableHelper.ScrollableContainer;
@@ -42,6 +44,7 @@ import com.open.baidu.finance.activity.article.NewsContainerPullScrollFragmentAc
 import com.open.baidu.finance.adapter.news.TagNewsAdapter;
 import com.open.baidu.finance.bean.news.TagNewsBean;
 import com.open.baidu.finance.json.news.GetTodayNewsJson;
+import com.open.baidu.finance.json.news.TagNewsDataJson;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -152,6 +155,10 @@ public class MFootTodayNewsExpendListFragment extends BaseV4Fragment<GetTodayNew
 		// TODO Auto-generated method stub
 		super.onErrorResponse(error);
 		System.out.println(error);
+		List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(),url, pageNo+"");
+		Gson gson = new Gson();
+		GetTodayNewsJson mTagNewsDataJson = gson.fromJson(dblist.get(0).getTitle(), GetTodayNewsJson.class);
+		onCallback(mTagNewsDataJson);
 	}
 
 	@Override
@@ -170,6 +177,15 @@ public class MFootTodayNewsExpendListFragment extends BaseV4Fragment<GetTodayNew
 					Gson gson = new Gson();
 					GetTodayNewsJson result = gson.fromJson(response.toString(), GetTodayNewsJson.class);
 					onCallback(result);
+					
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(response.toString());
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo+"");
+					openbean.setUrl(url);
+					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
