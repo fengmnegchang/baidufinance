@@ -192,12 +192,15 @@ public class UrlUtils {
 	public static final String GETHQNODEDATA_HGT_SH="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=hgt_sh&symbol=&_s_r_a=init";
 	/**港股通**/
 	public static final String GETHQNODEDATA_HGT_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=symbol&asc=1&node=hgt_hk&_s_r_a=init";
-
+//	/**A+H**/
+//	public static final String GETANHDATA_HGT_AH="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getANHData?page=1&num=80&sort=hrap&asc=0&node=hgt_ah&_s_r_a=init";
 	//深港通
 	/**深股通**/
 	public static final String GETHQNODEDATA_SGT_SZ="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=sgt_sz&symbol=&_s_r_a=init";
 	/**港股通**/
 	public static final String GETHQNODEDATA_SGT_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=symbol&asc=1&node=sgt_hk&_s_r_a=init";
+	/**A+H**/
+	public static final String GETANHDATA_HGT_AH="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getANHData?page=1&num=80&sort=hrap&asc=0&node=hgt_ah&_s_r_a=init";
 
 	//美股
 	/**中国概念股**/

@@ -76,7 +76,7 @@ public class FundSyncHorizontalScrollViewFragmentActivity extends CommonTitleBar
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = FundSyncHorizontalScrollViewFragment.newInstance(url,getIntent().getStringExtra("TITLE"), true);
+		Fragment fragment = FundSyncHorizontalScrollViewFragment.newInstance(url,(getIntent().getStringExtra("TITLE")==null?"基金":getIntent().getStringExtra("TITLE")), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	

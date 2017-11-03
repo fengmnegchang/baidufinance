@@ -66,21 +66,22 @@ public class SZHongKongPinnedHeaderExpandableListViewFragment extends SHHongKong
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
 			list.clear();
-			for (int i = 40; i <= 41; i++) {
+			for (int i = 40; i <= 42; i++) {
 				MarketShSzBean mmbean = new MarketShSzBean();
 				mmbean.setGroupType(i);
 				mmbean.setPlist(new ArrayList<PlateBean>());
 				mmbean.setSlist(new ArrayList<PlateStockBean>());
 				list.add(mmbean);
 			}
-			stock(UrlUtils.GETHQNODEDATA_SGT_SZ, 40, "深股通");
-			stock(UrlUtils.GETHQNODEDATA_SGT_HK, 41, "港股通");
+			stock(UrlUtils.GETHQNODEDATA_SGT_SZ, 40, "深股通",40);
+			stock(UrlUtils.GETHQNODEDATA_SGT_HK, 41, "港股通",40);
+			ah(UrlUtils.GETANHDATA_HGT_AH, 42, "A+H",40);
 			break;
 		}
 	}
 	
 	@Override
-	public void stock(final String href, final int type, final String groupName) {
+	public void stock(final String href, final int type, final String groupName,final int num ) {
 		// final Map<String, String> headers = new HashMap<String, String>();
 		// headers.put("Content-Type", "gbk");
 		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -115,11 +116,11 @@ public class SZHongKongPinnedHeaderExpandableListViewFragment extends SHHongKong
 						slist.add(mmbean.getSlist().get(i));
 					}
 
-					list.get(type-40).getSlist().clear();
-					list.get(type-40).setSlist(slist);
-					list.get(type-40).setGroupName(groupName);
-					list.get(type-40).setUrl(href);
-					list.get(type-40).setPlist(new ArrayList<PlateBean>());
+					list.get(type-num).getSlist().clear();
+					list.get(type-num).setSlist(slist);
+					list.get(type-num).setGroupName(groupName);
+					list.get(type-num).setUrl(href);
+					list.get(type-num).setPlist(new ArrayList<PlateBean>());
 					
 					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView())
 					.setOnHeaderUpdateListener(SZHongKongPinnedHeaderExpandableListViewFragment.this);
@@ -150,4 +151,6 @@ public class SZHongKongPinnedHeaderExpandableListViewFragment extends SHHongKong
 		};
 		requestQueue.add(jsonObjectRequest);
 	}
+	
+	 
 }

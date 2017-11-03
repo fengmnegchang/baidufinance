@@ -89,14 +89,14 @@ public class PlateStockPinnedSectionListAdapter extends CommonAdapter<PlateStock
 			txt_stock_code.setText(bean.getCode());
 			txt_close.setText(String.format("%.2f", bean.getTrade()));
 			
-			if(bean.getChangepercent()>0){
+			if(bean.getChangepercent()!=null && bean.getChangepercent()>0){
 				txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.red_color));
-			}else if(bean.getChangepercent()<0){
+			}else if(bean.getChangepercent()!=null &&bean.getChangepercent()<0){
 				txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.green_color));
 			}else{
 				txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.black_color));
 			}
-			txt_netChangeRatio.setText(String.format("%.2f", bean.getChangepercent())+"%");
+			txt_netChangeRatio.setText((bean.getChangepercent()==null?"--":String.format("%.2f", bean.getChangepercent())+"%"));
 		}
 		return convertView;
 	}

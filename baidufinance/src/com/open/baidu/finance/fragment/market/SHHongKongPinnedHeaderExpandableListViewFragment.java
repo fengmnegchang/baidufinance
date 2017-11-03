@@ -139,15 +139,16 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
 			list.clear();
-			for (int i = 30; i <= 31; i++) {
+			for (int i = 30; i <= 32; i++) {
 				MarketShSzBean mmbean = new MarketShSzBean();
 				mmbean.setGroupType(i);
 				mmbean.setPlist(new ArrayList<PlateBean>());
 				mmbean.setSlist(new ArrayList<PlateStockBean>());
 				list.add(mmbean);
 			}
-			stock(UrlUtils.GETHQNODEDATA_HGT_SH, 30, "沪股通");
-			stock(UrlUtils.GETHQNODEDATA_HGT_HK, 31, "港股通");
+			stock(UrlUtils.GETHQNODEDATA_HGT_SH, 30, "沪股通",30);
+			stock(UrlUtils.GETHQNODEDATA_HGT_HK, 31, "港股通",30);
+			ah(UrlUtils.GETANHDATA_HGT_AH, 32, "A+H",30);
 			break;
 		}
 	}
@@ -215,7 +216,7 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 		}
 	}
 
-	public void stock(final String href, final int type, final String groupName) {
+	public void stock(final String href, final int type, final String groupName,final int num) {
 		// final Map<String, String> headers = new HashMap<String, String>();
 		// headers.put("Content-Type", "gbk");
 		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -249,11 +250,11 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 						slist.add(mmbean.getSlist().get(i));
 					}
 
-					list.get(type - 30).getSlist().clear();
-					list.get(type - 30).setSlist(slist);
-					list.get(type - 30).setGroupName(groupName);
-					list.get(type - 30).setUrl(href);
-					list.get(type - 30).setPlist(new ArrayList<PlateBean>());
+					list.get(type - num).getSlist().clear();
+					list.get(type - num).setSlist(slist);
+					list.get(type - num).setGroupName(groupName);
+					list.get(type - num).setUrl(href);
+					list.get(type - num).setPlist(new ArrayList<PlateBean>());
 
 					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(SHHongKongPinnedHeaderExpandableListViewFragment.this);
 					mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
@@ -351,5 +352,139 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 	// }
 	// return false;
 	// }
+	
+	public void ah(final String href, final int type, final String groupName,final int num) {
+		// final Map<String, String> headers = new HashMap<String, String>();
+		// headers.put("Content-Type", "gbk");
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				System.out.println("href=" + href);
+				// System.out.println("response=" + response.toString());
+				// {symbol:"sz300409",code:"300409",name:"道氏技术",trade:"46.800",pricechange:"2.500",changepercent:"5.643",buy:"46.800",sell:"46.850",settlement:"44.300",open:"44.310",high:"47.550",low:"44.310",volume:5196120,amount:240773012,ticktime:"15:25:03",per:99.574,pb:7.98,mktcap:1006200,nmc:518511.82968,turnoverratio:4.68993}
+				try {
+					Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+					Matcher matcher = p.matcher(response);
+					while (matcher.find()) {
+						String s = matcher.group().replace(":", "-");
+						response = response.replace(matcher.group(), s);
+					}
+					response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
+					response = "{\"slist\":" + response + "}";
+					System.out.println("response=" + response.toString());
+					Gson gson = new Gson();
+					MarketShSzBean mmbean = gson.fromJson(response, MarketShSzBean.class);
+
+					StringBuilder codebuffer = new StringBuilder();
+					codebuffer.append(UrlUtils.SINA_LIST);
+					
+					List<PlateStockBean> slist = new ArrayList<PlateStockBean>();
+					int size = mmbean.getSlist().size();
+					if (mmbean.getSlist().size() > 10) {
+						size = 10;
+					}
+					for (int i = 0; i < size; i++) {
+						slist.add(mmbean.getSlist().get(i));
+						codebuffer.append( mmbean.getSlist().get(i).getA() + ","+"hk"+mmbean.getSlist().get(i).getH()+",");
+					}
+					list.get(type-num).getSlist().clear();
+					list.get(type-num).setSlist(slist);
+					list.get(type-num).setGroupName(groupName);
+					list.get(type-num).setUrl(href);
+					list.get(type-num).setPlist(new ArrayList<PlateBean>());
+					
+					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView())
+					.setOnHeaderUpdateListener(SHHongKongPinnedHeaderExpandableListViewFragment.this);
+					mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+					mPullToRefreshExpandableListView.onRefreshComplete();
+					expandAll();
+					
+					String href = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
+					getStockList(href, type,num);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}, SHHongKongPinnedHeaderExpandableListViewFragment.this) {
+			// @Override
+			// public Map<String, String> getHeaders() throws AuthFailureError {
+			// return headers;
+			// }
+
+			@Override
+			protected Response<String> parseNetworkResponse(NetworkResponse response) {
+				String parsed;
+				try {
+					parsed = new String(response.data, "gbk");
+				} catch (UnsupportedEncodingException e) {
+					parsed = new String(response.data);
+				}
+				return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+			}
+		};
+		requestQueue.add(jsonObjectRequest);
+	}
+	
+	public void getStockList(final String href, final int type,final int num) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				System.out.println("href=" + href);
+				System.out.println("response=" + response.toString());
+				try {
+					List<PlateStockBean> plist = new ArrayList<PlateStockBean>();
+					PlateStockBean bean;
+					String[] codes = null;
+					if (response.contains("var hq_str_")) {
+						codes = response.split("var hq_str_");
+						for (int i = 1; i < codes.length; i++) {
+							//var hq_str_sh600011="华能国际,6.740,6.740,6.670,6.750,6.650,6.660,6.680,6994301,46801632.000,147800,6.660,190199,6.650,68300,6.640,37000,6.630,37300,6.620,4700,6.680,26200,6.690,69400,6.700,78300,6.710,84500,6.720,2017-11-03,15:00:00,00";
+							//var hq_str_hk00902="HUANENG POWER,华能国际电力股份,5.190,5.200,5.250,5.170,5.190,-0.010,-0.192,5.190,5.200,145981304,28033643,324.375,5.588,6.250,4.600,2017/11/03,14:57";
+							bean = new PlateStockBean();
+							try {
+								if(i%2==1){
+									String c = codes[i];
+									String stockCode = c.split("=")[0];
+									bean.setSymbol(stockCode);
+									String other = c.split("=")[1].replace(";", "").replace("\"", "");
+									bean.setName(other.split(",")[0]);
+									bean.setTrade(Double.parseDouble(other.split(",")[1]));
+//									bean.setPricechange(other.split(",")[4]);
+//									bean.setChangepercent(Double.parseDouble(other.split(",")[2]));
+								}else{
+									String c = codes[i];
+									String stockCode = c.split("=")[0];
+									bean.setSymbol(stockCode);
+									String other = c.split("=")[1].replace(";", "").replace("\"", "");
+									bean.setName(other.split(",")[1]);
+									bean.setTrade(Double.parseDouble(other.split(",")[2]));
+									bean.setPricechange(other.split(",")[7]);
+									bean.setChangepercent(Double.parseDouble(other.split(",")[8]));
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							plist.add(bean);
+						}
+
+						list.get(type - num).getSlist().clear();
+						list.get(type - num).setSlist(plist);
+
+						((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(SHHongKongPinnedHeaderExpandableListViewFragment.this);
+						mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+						mPullToRefreshExpandableListView.onRefreshComplete();
+						expandAll();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}, SHHongKongPinnedHeaderExpandableListViewFragment.this);
+		requestQueue.add(jsonObjectRequest);
+	}
 
 }

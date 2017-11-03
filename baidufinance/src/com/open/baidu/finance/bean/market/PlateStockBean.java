@@ -66,6 +66,28 @@ public class PlateStockBean extends CommonBean {
 	private double chg;
 	private double pchg;
 	
+	//ah 深港通，沪股通
+	private String a;
+	private String h;
+	
+	
+	
+
+	public String getA() {
+		return a;
+	}
+
+	public void setA(String a) {
+		this.a = a;
+	}
+
+	public String getH() {
+		return h;
+	}
+
+	public void setH(String h) {
+		this.h = h;
+	}
 
 	public String getChname() {
 		return chname;

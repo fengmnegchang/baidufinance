@@ -110,19 +110,19 @@ public class USPinnedHeaderExpandableListViewFragment extends SHHongKongPinnedHe
 				mmbean.setSlist(new ArrayList<PlateStockBean>());
 				list.add(mmbean);
 			}
-			 stock(UrlUtils.GETUSLIST_CHINA_US, 50, "中国概念股");
-			 stock(UrlUtils.GETUSLIST_TECT_US, 51, "科技类");
-			 stock(UrlUtils.GETUSLIST_FINANCE_US, 52, "金融类");
-			 stock(UrlUtils.GETUSLIST_SALES_US, 53, "制造零售类");
-			 stock(UrlUtils.GETUSLIST_AUTO_US, 54, "汽车能源类");
-			stock(UrlUtils.GETUSLIST_MEIDA_US, 55, "媒体类");
-			 stock(UrlUtils.GETUSLIST_YYSP_US, 56, "医药食品类");
+			 stock(UrlUtils.GETUSLIST_CHINA_US, 50, "中国概念股",50);
+			 stock(UrlUtils.GETUSLIST_TECT_US, 51, "科技类",50);
+			 stock(UrlUtils.GETUSLIST_FINANCE_US, 52, "金融类",50);
+			 stock(UrlUtils.GETUSLIST_SALES_US, 53, "制造零售类",50);
+			 stock(UrlUtils.GETUSLIST_AUTO_US, 54, "汽车能源类",50);
+			 stock(UrlUtils.GETUSLIST_MEIDA_US, 55, "媒体类",50);
+			 stock(UrlUtils.GETUSLIST_YYSP_US, 56, "医药食品类",50);
 			break;
 		}
 	}
 
 	@Override
-	public void stock(final String href, final int type, final String groupName) {
+	public void stock(final String href, final int type, final String groupName,final int num) {
 		// final Map<String, String> headers = new HashMap<String, String>();
 		// headers.put("Content-Type", "gbk");
 		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -157,11 +157,11 @@ public class USPinnedHeaderExpandableListViewFragment extends SHHongKongPinnedHe
 						codebuffer.append("gb_" + mmbean.getSlist().get(i).getSymbol().toLowerCase() + ",");
 					}
 
-					list.get(type - 50).getSlist().clear();
-					list.get(type - 50).setSlist(slist);
-					list.get(type - 50).setGroupName(groupName);
-					list.get(type - 50).setUrl(href);
-					list.get(type - 50).setPlist(new ArrayList<PlateBean>());
+					list.get(type - num).getSlist().clear();
+					list.get(type - num).setSlist(slist);
+					list.get(type - num).setGroupName(groupName);
+					list.get(type - num).setUrl(href);
+					list.get(type - num).setPlist(new ArrayList<PlateBean>());
 
 					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(USPinnedHeaderExpandableListViewFragment.this);
 					mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
@@ -169,7 +169,7 @@ public class USPinnedHeaderExpandableListViewFragment extends SHHongKongPinnedHe
 					expandAll();
 
 					String href = codebuffer.toString().substring(0, codebuffer.toString().length() - 1);
-					getStockList(href, type);
+					getStockList(href, type,num);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -195,7 +195,7 @@ public class USPinnedHeaderExpandableListViewFragment extends SHHongKongPinnedHe
 		requestQueue.add(jsonObjectRequest);
 	}
 
-	public void getStockList(final String href, final int type) {
+	public void getStockList(final String href, final int type,final int num) {
 		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, new Response.Listener<String>() {
 			@Override
@@ -239,8 +239,8 @@ public class USPinnedHeaderExpandableListViewFragment extends SHHongKongPinnedHe
 							plist.add(bean);
 						}
 
-						list.get(type - 50).getSlist().clear();
-						list.get(type - 50).setSlist(plist);
+						list.get(type - num).getSlist().clear();
+						list.get(type - num).setSlist(plist);
 
 						((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(USPinnedHeaderExpandableListViewFragment.this);
 						mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
