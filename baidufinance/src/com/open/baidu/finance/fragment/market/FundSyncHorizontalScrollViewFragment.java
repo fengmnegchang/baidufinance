@@ -15,6 +15,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -48,6 +50,7 @@ import com.open.baidu.finance.adapter.market.FundLeftScrollAdapter;
 import com.open.baidu.finance.adapter.market.FundRightScrollAdapter;
 import com.open.baidu.finance.bean.market.FundBean;
 import com.open.baidu.finance.json.market.FundJson;
+import com.open.baidu.finance.json.market.PlateStockJson;
 import com.open.baidu.finance.utils.ComparatorFundRatioType;
 import com.open.baidu.finance.widget.SyncHorizontalScrollView;
 
@@ -78,12 +81,14 @@ implements OnRefreshListener<ScrollView>
 	private PullToRefreshScrollView mPullToRefreshLinearLayout;
 	private int type;
 	private TextView txt_jzzz;
+	private String fundName;
 
-	public static FundSyncHorizontalScrollViewFragment newInstance(String url, boolean isVisibleToUser) {
+	public static FundSyncHorizontalScrollViewFragment newInstance(String url, String fundName,boolean isVisibleToUser) {
 		FundSyncHorizontalScrollViewFragment fragment = new FundSyncHorizontalScrollViewFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
+		fragment.fundName = fundName;
 		return fragment;
 	}
 
@@ -183,7 +188,11 @@ implements OnRefreshListener<ScrollView>
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
 			url = url.replace("page="+(pageNo-1), "page="+pageNo);
-			volleyJson(url);
+			if(fundName.equals("封闭式基金") || "ETF基金行情".equals(fundName) || "LOF基金行情".equals(fundName)){
+				fund(url);
+			}else{
+				volleyJson(url);
+			}
 			break;
 		}
 	}
@@ -276,6 +285,13 @@ implements OnRefreshListener<ScrollView>
 					System.out.println("response=" + response.toString());
 					Gson gson = new Gson();
 					result = gson.fromJson(response, FundJson.class);
+					if("基金预测净值".equals(fundName)){
+						for(FundBean bean:result.getList()){
+							bean.setDate(bean.getPre_date());
+							bean.setDwjz(bean.getPre_nav());
+							bean.setJzzz(bean.getAccu_nav());
+						}
+					}
 					onCallback(result);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -283,6 +299,76 @@ implements OnRefreshListener<ScrollView>
 				
 			}
 		}, FundSyncHorizontalScrollViewFragment.this){
+		    @Override
+		    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+		        String parsed;
+		        try {
+		            parsed = new String(response.data, "gbk");
+		        } catch (UnsupportedEncodingException e) {
+		            parsed = new String(response.data);
+		        }
+		        return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+		    }
+		};
+		requestQueue.add(jsonObjectRequest);
+	}
+	
+	/**
+	 * 封闭式基金
+	 */
+	public void fund(final String href) {
+//		final Map<String, String> headers  = new HashMap<String, String>();
+//		headers.put("Content-Type", "gbk");
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				System.out.println("href=" + href);
+//				System.out.println("response=" + response.toString());
+				 // {symbol:"sz300409",code:"300409",name:"道氏技术",trade:"46.800",pricechange:"2.500",changepercent:"5.643",buy:"46.800",sell:"46.850",settlement:"44.300",open:"44.310",high:"47.550",low:"44.310",volume:5196120,amount:240773012,ticktime:"15:25:03",per:99.574,pb:7.98,mktcap:1006200,nmc:518511.82968,turnoverratio:4.68993}
+				try {
+					PlateStockJson result = new PlateStockJson();
+					Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+					Matcher matcher = p.matcher(response);
+					while(matcher.find()){
+						String s = matcher.group().replace(":", "-");
+						response = response.replace(matcher.group(), s);
+					}
+					response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
+					response = "{\"list\":"+response+"}";
+					System.out.println("response=" + response.toString());
+					Gson gson = new Gson();
+					result = gson.fromJson(response, PlateStockJson.class);
+					
+					
+					FundJson mFundJson = new FundJson();
+					List<FundBean> slist = new ArrayList<FundBean>();
+					FundBean fundBean;
+					for(int i=0;i<result.getList().size();i++){
+						fundBean = new FundBean();
+						fundBean.setSymbol(result.getList().get(i).getCode());
+						fundBean.setName(result.getList().get(i).getName());
+						fundBean.setDate(result.getList().get(i).getTicktime());
+						fundBean.setDwjz(result.getList().get(i).getTrade());
+						fundBean.setJzzz(result.getList().get(i).getChangepercent());
+						fundBean.setJjgm(result.getList().get(i).getAmount());
+						fundBean.setZrjz(Double.parseDouble(result.getList().get(i).getSettlement()));
+						fundBean.setLjdwjz(result.getList().get(i).getVolume());
+						slist.add(fundBean);
+					}
+					mFundJson.setList(slist);
+					onCallback(mFundJson);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}, FundSyncHorizontalScrollViewFragment.this){
+//		    @Override
+//		    public Map<String, String> getHeaders() throws AuthFailureError {
+//		        return headers;
+//		    }
+		    
 		    @Override
 		    protected Response<String> parseNetworkResponse(NetworkResponse response) {
 		        String parsed;

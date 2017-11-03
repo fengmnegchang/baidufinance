@@ -46,7 +46,12 @@ public class FundSyncHorizontalScrollViewFragmentActivity extends CommonTitleBar
 		} else {
 			url = UrlUtils.GETFUNDNETDATA_OPEN_FUND;
 		}
-		setCenterTextValue("基金");
+		if (getIntent().getStringExtra("TITLE") != null) {
+			setCenterTextValue(getIntent().getStringExtra("TITLE"));
+		} else {
+			setCenterTextValue("基金");
+		}
+		
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
 		
 		setLeftVisivableGone();
@@ -71,7 +76,7 @@ public class FundSyncHorizontalScrollViewFragmentActivity extends CommonTitleBar
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = FundSyncHorizontalScrollViewFragment.newInstance(url, true);
+		Fragment fragment = FundSyncHorizontalScrollViewFragment.newInstance(url,getIntent().getStringExtra("TITLE"), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
@@ -84,9 +89,10 @@ public class FundSyncHorizontalScrollViewFragmentActivity extends CommonTitleBar
 		}
 	}
 
-	public static void startFundSyncHorizontalScrollViewFragmentActivity(Context context, String url) {
+	public static void startFundSyncHorizontalScrollViewFragmentActivity(Context context, String url,String title) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
+		intent.putExtra("TITLE", title);
 		intent.setClass(context, FundSyncHorizontalScrollViewFragmentActivity.class);
 		context.startActivity(intent);
 	}

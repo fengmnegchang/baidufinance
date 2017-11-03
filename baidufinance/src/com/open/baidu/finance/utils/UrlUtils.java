@@ -153,5 +153,12 @@ public class UrlUtils {
 	public static final String GETFUNDNETDATA_OPEN_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getFundNetData?page=1&num=80&sort=symbol&asc=1&node=open_fund&_s_r_a=init";
 	/**ETF基金净值**/
 	public static final String GETFUNDNETDATA_ETF_JZ_FUND ="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getFundNetData?page=1&num=80&sort=symbol&asc=1&node=etf_jz_fund&_s_r_a=init";
-
+	/**封闭式基金**/
+	public static final String GETHQNODEDATASIMPLE_CLOSE_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeDataSimple?page=1&num=80&sort=symbol&asc=1&node=close_fund&_s_r_a=init";
+	/**ETF基金行情**/
+	public static final String GETHQNODEDATASIMPLE_ETF_HQ_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeDataSimple?page=1&num=80&sort=symbol&asc=1&node=etf_hq_fund&_s_r_a=init";
+	/**LOF基金行情**/
+	public static final String GETHQNODEDATASIMPLE_LOF_HQ_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeDataSimple?page=1&num=80&sort=symbol&asc=1&node=lof_hq_fund&_s_r_a=init";
+	/** 基金预测净值**/
+	public static final String GETFUNDPREVDATA="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getFundPrevData?page=1&num=80&sort=symbol&asc=1&node=jjycjz&_s_r_a=init";
 }

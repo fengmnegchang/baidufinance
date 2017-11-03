@@ -35,6 +35,14 @@ public class FundBean extends CommonBean {
 	private String date;// "2017-10-31",
 	private Double jjgm;// "43.0363"
 	
+	//基金预测净值
+	private Double pre_nav;// "2.2706",
+	private Double nav_chg;// "0.38019452",
+	private Double last_nav;// "2.2620",
+	private String nav_date;// "2017-11-02",
+	private Double accu_nav;// "2.2620",
+	private String pre_date;// "2017-11-03"
+	
 	public String getSymbol() {
 		return symbol;
 	}
@@ -97,6 +105,54 @@ public class FundBean extends CommonBean {
 
 	public void setJjgm(Double jjgm) {
 		this.jjgm = jjgm;
+	}
+
+	public Double getPre_nav() {
+		return pre_nav;
+	}
+
+	public void setPre_nav(Double pre_nav) {
+		this.pre_nav = pre_nav;
+	}
+
+	public Double getNav_chg() {
+		return nav_chg;
+	}
+
+	public void setNav_chg(Double nav_chg) {
+		this.nav_chg = nav_chg;
+	}
+
+	public Double getLast_nav() {
+		return last_nav;
+	}
+
+	public void setLast_nav(Double last_nav) {
+		this.last_nav = last_nav;
+	}
+
+	public String getNav_date() {
+		return nav_date;
+	}
+
+	public void setNav_date(String nav_date) {
+		this.nav_date = nav_date;
+	}
+
+	public Double getAccu_nav() {
+		return accu_nav;
+	}
+
+	public void setAccu_nav(Double accu_nav) {
+		this.accu_nav = accu_nav;
+	}
+
+	public String getPre_date() {
+		return pre_date;
+	}
+
+	public void setPre_date(String pre_date) {
+		this.pre_date = pre_date;
 	}
 
 }

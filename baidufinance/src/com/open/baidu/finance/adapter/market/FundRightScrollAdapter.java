@@ -63,11 +63,11 @@ public class FundRightScrollAdapter extends CommonAdapter<FundBean> {
 		}
 		final FundBean bean = (FundBean) getItem(position);
 		if (bean != null) {
-			mViewHodler.txt_dwjz.setText(bean.getDwjz() + "");
-			mViewHodler.txt_ljdwjz.setText(bean.getLjdwjz() + "");
-			mViewHodler.txt_zrjz.setText(bean.getZrjz() + "");
-			mViewHodler.txt_jzzz.setText(String.format("%.3f", bean.getJzzz()) + "%");
-			mViewHodler.txt_jjgm.setText(String.format("%.3f", bean.getJjgm()) + "");
+			mViewHodler.txt_dwjz.setText((bean.getDwjz()==null?"--":bean.getDwjz()) + "");
+			mViewHodler.txt_ljdwjz.setText((bean.getLjdwjz()==null?"--":bean.getLjdwjz() )+ "");
+			mViewHodler.txt_zrjz.setText((bean.getZrjz()==null?"--":bean.getZrjz()) + "");
+			mViewHodler.txt_jzzz.setText((bean.getJzzz()==null?"--":String.format("%.3f", bean.getJzzz())+ "%") );
+			mViewHodler.txt_jjgm.setText((bean.getJjgm()==null?"--":String.format("%.3f", bean.getJjgm())) + "");
 			mViewHodler.txt_date.setText(bean.getDate());
 			if (bean.getJzzz() != null && bean.getJzzz() > 0) {
 				mViewHodler.txt_dwjz.setTextColor(mContext.getResources().getColor(R.color.red_color));

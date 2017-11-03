@@ -14,6 +14,8 @@ package com.open.baidu.finance.fragment.market;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -44,11 +46,13 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshPinnedHeaderExpandableListView;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.market.FundSyncHorizontalScrollViewFragmentActivity;
 import com.open.baidu.finance.adapter.market.FundTypePinnedHeaderExpandableListAdapter;
 import com.open.baidu.finance.bean.market.FundBean;
 import com.open.baidu.finance.bean.market.FundTypeBean;
 import com.open.baidu.finance.json.market.FundJson;
 import com.open.baidu.finance.json.market.FundTypeJson;
+import com.open.baidu.finance.json.market.PlateStockJson;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -136,14 +140,18 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 		switch (msg.what) {
 		case MESSAGE_HANDLER:
 			list.clear();
-			for (int i = 0; i <= 1; i++) {
+			for (int i = 0; i <= 5; i++) {
 				FundTypeBean mmbean = new FundTypeBean();
 				mmbean.setGroupType(i);
 				mmbean.setList(new ArrayList<FundBean>());
 				list.add(mmbean);
 			}
-			stock(UrlUtils.GETFUNDNETDATA_OPEN_FUND, 0, "开放式基金");
-			stock(UrlUtils.GETFUNDNETDATA_ETF_JZ_FUND, 1, "ETF基金净值");
+			fund(UrlUtils.GETHQNODEDATASIMPLE_CLOSE_FUND, 0, "封闭式基金");
+			stock(UrlUtils.GETFUNDNETDATA_OPEN_FUND, 1, "开放式基金");
+			stock(UrlUtils.GETFUNDNETDATA_ETF_JZ_FUND, 2, "ETF基金净值");
+			fund(UrlUtils.GETHQNODEDATASIMPLE_ETF_HQ_FUND, 3, "ETF基金行情");
+			fund(UrlUtils.GETHQNODEDATASIMPLE_LOF_HQ_FUND, 4, "LOF基金行情");
+			stock(UrlUtils.GETFUNDPREVDATA, 5, "基金预测净值");
 			break;
 		}
 	}
@@ -211,11 +219,29 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 					result = gson.fromJson(response, FundJson.class);
 
 					List<FundBean> slist = new ArrayList<FundBean>();
-					if (result.getList().size() > 10) {
-						for (int i = 0; i < 10; i++) {
-							slist.add(result.getList().get(i));
+					if("基金预测净值".equals(groupName)){
+						int size = result.getList().size();
+						if (result.getList().size() > 10) {
+							size = 10;
+						} 
+						FundBean fundbean;
+						for(int i=0;i<size;i++){
+							fundbean = result.getList().get(i);
+							fundbean.setDate(fundbean.getPre_date());
+							fundbean.setDwjz(fundbean.getPre_nav());
+							fundbean.setJzzz(fundbean.getAccu_nav());
+							slist.add(fundbean);
+						}
+					}else{
+						if (result.getList().size() > 10) {
+							for (int i = 0; i < 10; i++) {
+								slist.add(result.getList().get(i));
+							}
+						}else{
+							slist.addAll(result.getList());
 						}
 					}
+					
 
 					list.get(type).getList().clear();
 					list.get(type).setList(slist);
@@ -285,6 +311,7 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					FundSyncHorizontalScrollViewFragmentActivity.startFundSyncHorizontalScrollViewFragmentActivity(getActivity(), mMarketShSzBean.getUrl(),mMarketShSzBean.getGroupName());
 				}
 			});
 		} else {
@@ -295,6 +322,83 @@ public class FundTypePinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 			layout_group2.setBackgroundColor(getActivity().getResources().getColor(R.color.transparent_color));
 		}
 
+	}
+	
+	/**
+	 * 封闭式基金
+	 */
+	public void fund(final String href, final int type, final String groupName) {
+//		final Map<String, String> headers  = new HashMap<String, String>();
+//		headers.put("Content-Type", "gbk");
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				System.out.println("href=" + href);
+//				System.out.println("response=" + response.toString());
+				 // {symbol:"sz300409",code:"300409",name:"道氏技术",trade:"46.800",pricechange:"2.500",changepercent:"5.643",buy:"46.800",sell:"46.850",settlement:"44.300",open:"44.310",high:"47.550",low:"44.310",volume:5196120,amount:240773012,ticktime:"15:25:03",per:99.574,pb:7.98,mktcap:1006200,nmc:518511.82968,turnoverratio:4.68993}
+				try {
+					PlateStockJson result = new PlateStockJson();
+					Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+					Matcher matcher = p.matcher(response);
+					while(matcher.find()){
+						String s = matcher.group().replace(":", "-");
+						response = response.replace(matcher.group(), s);
+					}
+					response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
+					response = "{\"list\":"+response+"}";
+					System.out.println("response=" + response.toString());
+					Gson gson = new Gson();
+					result = gson.fromJson(response, PlateStockJson.class);
+					
+					
+					List<FundBean> slist = new ArrayList<FundBean>();
+					int size = result.getList().size();
+					if (result.getList().size() > 10) {
+						size = 10;
+					}
+					FundBean fundBean;
+					for(int i=0;i<size;i++){
+						fundBean = new FundBean();
+						fundBean.setSymbol(result.getList().get(i).getCode());
+						fundBean.setName(result.getList().get(i).getName());
+						fundBean.setDate(result.getList().get(i).getTicktime());
+						fundBean.setDwjz(result.getList().get(i).getTrade());
+						fundBean.setJzzz(result.getList().get(i).getChangepercent());
+						slist.add(fundBean);
+					}
+					list.get(type).getList().clear();
+					list.get(type).setList(slist);
+					list.get(type).setGroupName(groupName);
+					list.get(type).setUrl(href);
+					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(FundTypePinnedHeaderExpandableListViewFragment.this);
+					mFundTypePinnedHeaderExpandableListAdapter.notifyDataSetChanged();
+					mPullToRefreshExpandableListView.onRefreshComplete();
+					expandAll();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}, FundTypePinnedHeaderExpandableListViewFragment.this){
+//		    @Override
+//		    public Map<String, String> getHeaders() throws AuthFailureError {
+//		        return headers;
+//		    }
+		    
+		    @Override
+		    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+		        String parsed;
+		        try {
+		            parsed = new String(response.data, "gbk");
+		        } catch (UnsupportedEncodingException e) {
+		            parsed = new String(response.data);
+		        }
+		        return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+		    }
+		};
+		requestQueue.add(jsonObjectRequest);
 	}
 
 	// /* (non-Javadoc)

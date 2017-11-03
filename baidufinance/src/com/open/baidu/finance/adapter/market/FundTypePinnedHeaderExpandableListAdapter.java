@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.open.android.adapter.CommonExpandableListAdapter;
 import com.open.android.view.ExpendListView;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.market.FundSyncHorizontalScrollViewFragmentActivity;
 import com.open.baidu.finance.bean.market.FundBean;
 import com.open.baidu.finance.bean.market.FundTypeBean;
 import com.open.baidu.finance.json.market.FundTypeJson;
@@ -67,6 +68,7 @@ public class FundTypePinnedHeaderExpandableListAdapter extends CommonExpandableL
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					FundSyncHorizontalScrollViewFragmentActivity.startFundSyncHorizontalScrollViewFragmentActivity(mContext, bean.getUrl(),bean.getGroupName());
 				}
 			});
 		}

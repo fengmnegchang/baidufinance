@@ -31,6 +31,7 @@
         android:drawableRight="@drawable/more"
         android:layout_marginTop="5dp"
         android:text="  "
+        android:paddingLeft="20dp"
         android:textSize="16dp" />
 
 </RelativeLayout>
