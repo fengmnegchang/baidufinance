@@ -124,6 +124,10 @@ public class MarketIndicatorFragment extends BaseV4Fragment<MainTabJson, MarketI
 		clist.add(bean);
 		
 		bean = new MainTabBean();
+		bean.setTitle("深港通");
+		clist.add(bean);
+		
+		bean = new MainTabBean();
 		bean.setTitle("美股");
 		clist.add(bean);
 		
@@ -163,6 +167,8 @@ public class MarketIndicatorFragment extends BaseV4Fragment<MainTabJson, MarketI
 				fragment = HongKongPinnedHeaderExpandableListViewFragment.newInstance(null, false);
 			}else if (i == 3) {
 				fragment = SHHongKongPinnedHeaderExpandableListViewFragment.newInstance(null, false);
+			}else if (i == 4) {
+				fragment = SZHongKongPinnedHeaderExpandableListViewFragment.newInstance(null, false);
 			}else {
 				fragment = CommonV4Fragment.newInstance(bean.getHref(), false);
 			}
