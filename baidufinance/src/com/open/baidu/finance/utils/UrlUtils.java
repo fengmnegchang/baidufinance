@@ -185,6 +185,11 @@ public class UrlUtils {
 	public static final String GETHKSTOCKDATA_VOLUME="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=volume&asc=0&node=qbgg_hk&_s_r_a=init";
 
 
+	//沪港通
+	/**沪股通**/
+	public static final String GETHQNODEDATA_HGT_SH="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=hgt_sh&symbol=&_s_r_a=init";
+	/**港股通**/
+	public static final String GETHQNODEDATA_HGT_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=symbol&asc=1&node=hgt_hk&_s_r_a=init";
 
 
 }

@@ -210,7 +210,9 @@ implements OnRefreshListener<ListView>{
 					result = gson.fromJson(response, PlateStockJson.class);
 					for (int i = 0; i < result.getList().size(); i++) {
 						PlateStockBean bean = result.getList().get(i);
-						bean.setTrade(bean.getLasttrade());
+						if(bean.getLasttrade()!=0){
+							bean.setTrade(bean.getLasttrade());
+						}
 						if("ADR".equals(plateName)){
 							bean.setName(bean.getChname());
 							bean.setTrade(bean.getLast());
