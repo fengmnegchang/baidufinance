@@ -169,6 +169,8 @@ public class MarketIndicatorFragment extends BaseV4Fragment<MainTabJson, MarketI
 				fragment = SHHongKongPinnedHeaderExpandableListViewFragment.newInstance(null, false);
 			}else if (i == 4) {
 				fragment = SZHongKongPinnedHeaderExpandableListViewFragment.newInstance(null, false);
+			}else if (i == 5) {
+				fragment = USPinnedHeaderExpandableListViewFragment.newInstance(null, false);
 			}else {
 				fragment = CommonV4Fragment.newInstance(bean.getHref(), false);
 			}

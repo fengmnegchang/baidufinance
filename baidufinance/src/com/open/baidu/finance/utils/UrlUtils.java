@@ -121,6 +121,8 @@ public class UrlUtils {
 	public static final String INDEX_SH_SZ_FUND ="http://hq.sinajs.cn/list=s_sh000011,s_sz399305";
 	/**港股指数**/
 	public static final String INDEX_HONG_KONG ="http://hq.sinajs.cn/?_=1509677324760&list=rt_hkHSI,rt_hkHSCCI,rt_hkHSCEI";
+	/**美股指数**/
+	public static final String INDEX_US ="http://hq.sinajs.cn/rn=1509690467872&list=gb_dji,gb_ixic,gb_inx";
 	/**启明星行业**/
 	public static final String QMXINDUSTRYHQ="http://biz.finance.sina.com.cn/hq/qmxIndustryHq.php";
 	/**新浪行业**/
@@ -196,5 +198,23 @@ public class UrlUtils {
 	public static final String GETHQNODEDATA_SGT_SZ="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=80&sort=symbol&asc=1&node=sgt_sz&symbol=&_s_r_a=init";
 	/**港股通**/
 	public static final String GETHQNODEDATA_SGT_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=symbol&asc=1&node=sgt_hk&_s_r_a=init";
+
+	//美股
+	/**中国概念股**/
+	public static final String GETUSLIST_CHINA_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=china_us&_s_r_a=init";
+	/**科技类**/
+	public static final String GETUSLIST_TECT_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=tect_us&_s_r_a=init";
+	/**新浪获取个股信息**/
+	public static final String SINA_LIST="http://hq.sinajs.cn/list=";
+	/**金融类**/
+	public static final String GETUSLIST_FINANCE_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=finance_us&_s_r_a=init";
+	/**制造零售类**/
+	public static final String GETUSLIST_SALES_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=sales_us&_s_r_a=init";
+	/**汽车能源类**/
+	public static final String GETUSLIST_AUTO_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=auto_us&_s_r_a=init";
+	/**媒体类**/
+	public static final String GETUSLIST_MEIDA_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=meida_us&_s_r_a=init";
+	/**医药食品类**/
+	public static final String GETUSLIST_YYSP_US="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getUSList?page=1&num=80&sort=chg&asc=0&node=yysp_us&_s_r_a=init";
 
 }

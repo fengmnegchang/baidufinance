@@ -68,12 +68,12 @@ import com.open.baidu.finance.utils.UrlUtils;
  */
 public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Fragment<MarketShSzJson, SHHongKongPinnedHeaderExpandableListViewFragment> implements
 		OnRefreshListener<ExpandableListView>, OnHeaderUpdateListener {
-	//OnGiveUpTouchEventListener
+	// OnGiveUpTouchEventListener
 	public PullToRefreshPinnedHeaderExpandableListView mPullToRefreshExpandableListView;
 	public MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter;
 	public List<MarketShSzBean> list = new ArrayList<MarketShSzBean>();
-//	private StickyLayout stickyLayout;
-	 private View headview;
+	// private StickyLayout stickyLayout;
+	public View headview;
 
 	public static SHHongKongPinnedHeaderExpandableListViewFragment newInstance(String url, boolean isVisibleToUser) {
 		SHHongKongPinnedHeaderExpandableListViewFragment fragment = new SHHongKongPinnedHeaderExpandableListViewFragment();
@@ -89,7 +89,7 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 		View view = inflater.inflate(R.layout.fragment_market_sh_sz_pulltorefresh_pinnedheader_expandable_listview, container, false);
 		mPullToRefreshExpandableListView = (PullToRefreshPinnedHeaderExpandableListView) view.findViewById(R.id.pull_refresh_list);
 		headview = LayoutInflater.from(getActivity()).inflate(R.layout.layout_sh_hongkong_head, null);
-//		stickyLayout = (StickyLayout)view.findViewById(R.id.sticky_layout);
+		// stickyLayout = (StickyLayout)view.findViewById(R.id.sticky_layout);
 		return view;
 	}
 
@@ -104,7 +104,7 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 		super.initValues();
 
 		mPullToRefreshExpandableListView.getRefreshableView().addHeaderView(headview);
-		
+
 		mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter = new MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter(getActivity(), list);
 		mPullToRefreshExpandableListView.getRefreshableView().setAdapter(mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter);
 		mPullToRefreshExpandableListView.setMode(Mode.PULL_FROM_START);
@@ -121,7 +121,7 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 		// TODO Auto-generated method stub
 		super.bindEvent();
 		mPullToRefreshExpandableListView.setOnRefreshListener(this);
-//		stickyLayout.setOnGiveUpTouchEventListener(this);
+		// stickyLayout.setOnGiveUpTouchEventListener(this);
 
 	}
 
@@ -188,6 +188,7 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 		super.onErrorResponse(error);
 		System.out.println(error);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -236,25 +237,25 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 					System.out.println("response=" + response.toString());
 					Gson gson = new Gson();
 					MarketShSzBean mmbean = gson.fromJson(response, MarketShSzBean.class);
-
 					List<PlateStockBean> slist = new ArrayList<PlateStockBean>();
+					int size = mmbean.getSlist().size();
 					if (mmbean.getSlist().size() > 10) {
-						for (int i = 0; i < 10; i++) {
-							if(type==31){
-								mmbean.getSlist().get(i).setTrade(mmbean.getSlist().get(i).getLasttrade());
-							}
-							slist.add(mmbean.getSlist().get(i));
+						size = 10;
+					}
+					for (int i = 0; i < size; i++) {
+						if (type == 31) {
+							mmbean.getSlist().get(i).setTrade(mmbean.getSlist().get(i).getLasttrade());
 						}
+						slist.add(mmbean.getSlist().get(i));
 					}
 
-					list.get(type-30).getSlist().clear();
-					list.get(type-30).setSlist(slist);
-					list.get(type-30).setGroupName(groupName);
-					list.get(type-30).setUrl(href);
-					list.get(type-30).setPlist(new ArrayList<PlateBean>());
-					
-					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView())
-					.setOnHeaderUpdateListener(SHHongKongPinnedHeaderExpandableListViewFragment.this);
+					list.get(type - 30).getSlist().clear();
+					list.get(type - 30).setSlist(slist);
+					list.get(type - 30).setGroupName(groupName);
+					list.get(type - 30).setUrl(href);
+					list.get(type - 30).setPlist(new ArrayList<PlateBean>());
+
+					((PinnedHeaderExpandableListView) mPullToRefreshExpandableListView.getRefreshableView()).setOnHeaderUpdateListener(SHHongKongPinnedHeaderExpandableListViewFragment.this);
 					mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.notifyDataSetChanged();
 					mPullToRefreshExpandableListView.onRefreshComplete();
 					expandAll();
@@ -308,42 +309,47 @@ public class SHHongKongPinnedHeaderExpandableListViewFragment extends BaseV4Frag
 		TextView txt_name = (TextView) headerView.findViewById(R.id.txt_name);
 		RelativeLayout layout_group2 = (RelativeLayout) headerView.findViewById(R.id.layout_group2);
 		TextView txt_all = (TextView) headerView.findViewById(R.id.txt_all);
-		if(groupPosition!=-1){
+		if (groupPosition != -1) {
 			final MarketShSzBean mMarketShSzBean = (MarketShSzBean) mMarketShSzPullToRefreshPinnedHeaderExpandableListAdapter.getGroup(groupPosition);
 			txt_name.setText("  " + mMarketShSzBean.getGroupName());
 			layout_group2.setBackgroundColor(getActivity().getResources().getColor(R.color.round_solid_color));
-			txt_name.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.market_down_expand), null,null , null);
+			txt_name.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.market_down_expand), null, null, null);
 			txt_all.setCompoundDrawablesWithIntrinsicBounds(null, null, getActivity().getResources().getDrawable(R.drawable.more), null);
 			txt_all.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					 PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(getActivity(), mMarketShSzBean.getUrl(),mMarketShSzBean.getGroupName());
+					PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(getActivity(), mMarketShSzBean.getUrl(),
+							mMarketShSzBean.getGroupName());
 				}
 			});
-		}else{
+		} else {
 			txt_name.setText("");
 			txt_all.setText("");
-			txt_name.setCompoundDrawablesWithIntrinsicBounds(null, null,null , null);
+			txt_name.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 			txt_all.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 			layout_group2.setBackgroundColor(getActivity().getResources().getColor(R.color.transparent_color));
 		}
-		
+
 	}
 
-//	/* (non-Javadoc)
-//	 * @see com.open.baidu.finance.widget.StickyLayout.OnGiveUpTouchEventListener#giveUpTouchEvent(android.view.MotionEvent)
-//	 */
-//	@Override
-//	public boolean giveUpTouchEvent(MotionEvent event) {
-//		// TODO Auto-generated method stub
-//		if (mPullToRefreshExpandableListView.getRefreshableView().getFirstVisiblePosition() == 0) {
-//            View view = mPullToRefreshExpandableListView.getRefreshableView().getChildAt(0);
-//            if (view != null && view.getTop() >= 0) {
-//                return true;
-//            }
-//        }
-//        return false;
-//	}
+	// /* (non-Javadoc)
+	// * @see
+	// com.open.baidu.finance.widget.StickyLayout.OnGiveUpTouchEventListener#giveUpTouchEvent(android.view.MotionEvent)
+	// */
+	// @Override
+	// public boolean giveUpTouchEvent(MotionEvent event) {
+	// // TODO Auto-generated method stub
+	// if
+	// (mPullToRefreshExpandableListView.getRefreshableView().getFirstVisiblePosition()
+	// == 0) {
+	// View view =
+	// mPullToRefreshExpandableListView.getRefreshableView().getChildAt(0);
+	// if (view != null && view.getTop() >= 0) {
+	// return true;
+	// }
+	// }
+	// return false;
+	// }
 
 }

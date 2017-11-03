@@ -231,7 +231,33 @@ public class IndexShSZFragment extends BaseV4Fragment<IndexJson, IndexShSZFragme
 							}
 							list.add(bean);
 						}
+					}else if(response.contains("var hq_str_gb_")){
+						codes = response.split("var hq_str_gb_");
+						for (int i = 1; i < codes.length; i++) {
+							//var hq_str_gb_dji="道琼斯,23516.2598,0.35,2017-11-03 05:29:01,81.2500,23463.2402,23531.3809,23350.9805,23517.7109,17883.5605,0,28940475,0,0.00,0.0,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:28PM EDT,23435.0098,0.00";
+							//var hq_str_gb_ixic="纳斯达克,6714.9429,-0.02,2017-11-03 05:40:01,-1.5903,6709.3906,6719.9695,6677.5475,6759.6602,5034.4102,1966526456,1733257097,0,0.00,--,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:16PM EDT,6716.5332,0.00";
+							//var hq_str_gb_inx="标普指数,2579.8501,0.02,2017-11-03 05:29:01,0.4900,2579.4600,2581.1101,2566.1699,2588.3999,2083.7900,0,330562995,0,0.00,0.0,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:28PM EDT,2579.3601,0.00";
+							bean = new IndexBean();
+							try {
+								String c = codes[i];
+								String stockCode = c.split("=")[0];
+								bean.setStockCode(stockCode);
+
+								String other = c.split("=")[1].replace(";", "").replace("\"", "");
+								// HSI,恒生指数,28603.510,28518.641,28655.939,28542.660,28651.990,133.350,0.470,0.000,0.000,45785732.078,0,0.000,0.000,28798.779,21488.820,2017/11/03,11:19:40,,,,,,
+								bean.setStockName(other.split(",")[0]);
+								bean.setClose(Double.parseDouble(other.split(",")[1]));
+								bean.setNetChnage(Double.parseDouble(other.split(",")[4]));
+								bean.setNetChnageRate(Double.parseDouble(other.split(",")[2]));
+//								bean.setVolume(Long.parseLong(other.split(",")[10]));
+//								bean.setVolumeMoney(Long.parseLong(other.split(",")[5].replace("\"", "")));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							list.add(bean);
+						}
 					}
+					
 					result.setList(list);
 					onCallback(result);
 				} catch (Exception e) {

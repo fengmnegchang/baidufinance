@@ -104,13 +104,15 @@ public class SZHongKongPinnedHeaderExpandableListViewFragment extends SHHongKong
 					MarketShSzBean mmbean = gson.fromJson(response, MarketShSzBean.class);
 
 					List<PlateStockBean> slist = new ArrayList<PlateStockBean>();
+					int size = mmbean.getSlist().size();
 					if (mmbean.getSlist().size() > 10) {
-						for (int i = 0; i < 10; i++) {
-							if(type==41){
-								mmbean.getSlist().get(i).setTrade(mmbean.getSlist().get(i).getLasttrade());
-							}
-							slist.add(mmbean.getSlist().get(i));
+						size = 10;
+					}
+					for (int i = 0; i < size; i++) {
+						if(type==41){
+							mmbean.getSlist().get(i).setTrade(mmbean.getSlist().get(i).getLasttrade());
 						}
+						slist.add(mmbean.getSlist().get(i));
 					}
 
 					list.get(type-40).getSlist().clear();
