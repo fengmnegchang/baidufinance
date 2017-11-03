@@ -171,33 +171,66 @@ public class IndexShSZFragment extends BaseV4Fragment<IndexJson, IndexShSZFragme
 				// hq_str_s_sh000300="沪深300,3991.1227,-18.5991,-0.46,378222,5039534";
 				// var
 				// hq_str_s_sz399006="创业板指,1864.22,8.237,0.44,3897572,625412";
+				
+				//var hq_str_rt_hkHSI="HSI,恒生指数,28603.510,28518.641,28639.529,28542.660,28638.682,120.040,0.420,0.000,0.000,43843716.153,0,0.000,0.000,28798.779,21488.820,2017/11/03,11:12:10,,,,,,";
+				//var hq_str_rt_hkHSCCI="HSCCI,恒生香港中资企业指数,4438.700,4423.060,4450.050,4427.350,4430.650,7.590,0.170,0.000,0.000,2018136.960,0,0.000,0.000,4461.320,3508.590,2017/11/03,11:12:10,,,,,,";
+				//var hq_str_rt_hkHSCEI="HSCEI,恒生中国企业指数,11623.890,11598.360,11643.330,11590.950,11642.790,44.430,0.380,0.000,0.000,5225752.064,0,0.000,0.000,11785.360,9117.270,2017/11/03,11:12:10,,,,,,";
+
 				try {
 					IndexJson result = new IndexJson();
 					List<IndexBean> list = new ArrayList<IndexBean>();
 					IndexBean bean;
-					String[] codes = response.split("var hq_str_s_");
-					for (int i = 1; i < codes.length; i++) {
-						// sh000001="上证指数,3383.1362,-7.2009,-0.21,507639,6764438";
-						// 指数名称，当前点数，当前价格，涨跌率，成交量（手），成交额（万元）；
-						bean = new IndexBean();
+					String[] codes = null;
+					if(response.contains("var hq_str_s_")){
+						codes = response.split("var hq_str_s_");
+						for (int i = 1; i < codes.length; i++) {
+							// sh000001="上证指数,3383.1362,-7.2009,-0.21,507639,6764438";
+							// 指数名称，当前点数，当前价格，涨跌率，成交量（手），成交额（万元）；
+							bean = new IndexBean();
 
-						try {
-							String c = codes[i];
-							String stockCode = c.split("=")[0];
-							bean.setStockCode(stockCode);
+							try {
+								String c = codes[i];
+								String stockCode = c.split("=")[0];
+								bean.setStockCode(stockCode);
 
-							String other = c.split("=")[1].replace(";", "").replace("\"", "");
-							// 上证指数,3383.1362,-7.2009,-0.21,507639,6764438
-							bean.setStockName(other.split(",")[0]);
-							bean.setClose(Double.parseDouble(other.split(",")[1]));
-							bean.setNetChnage(Double.parseDouble(other.split(",")[2]));
-							bean.setNetChnageRate(Double.parseDouble(other.split(",")[3]));
-							bean.setVolume(Long.parseLong(other.split(",")[4]));
-							bean.setVolumeMoney(Long.parseLong(other.split(",")[5].replace("\"", "")));
-						} catch (Exception e) {
-							e.printStackTrace();
+								String other = c.split("=")[1].replace(";", "").replace("\"", "");
+								// 上证指数,3383.1362,-7.2009,-0.21,507639,6764438
+								bean.setStockName(other.split(",")[0]);
+								bean.setClose(Double.parseDouble(other.split(",")[1]));
+								bean.setNetChnage(Double.parseDouble(other.split(",")[2]));
+								bean.setNetChnageRate(Double.parseDouble(other.split(",")[3]));
+								bean.setVolume(Long.parseLong(other.split(",")[4]));
+								bean.setVolumeMoney(Long.parseLong(other.split(",")[5].replace("\"", "")));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							list.add(bean);
 						}
-						list.add(bean);
+					}else if(response.contains("var hq_str_rt_")){
+						codes = response.split("var hq_str_rt_");
+						for (int i = 1; i < codes.length; i++) {
+							//HSI HSI,恒生指数,28603.510,28518.641,28639.529,28542.660,28638.682,120.040,0.420,0.000,0.000,43843716.153,0,0.000,0.000,28798.779,21488.820,2017/11/03,11:12:10,,,,,, 
+							// 指数名称，当前点数，当前价格，涨跌率，成交量（手），成交额（万元）；
+							bean = new IndexBean();
+
+							try {
+								String c = codes[i];
+								String stockCode = c.split("=")[0];
+								bean.setStockCode(stockCode);
+
+								String other = c.split("=")[1].replace(";", "").replace("\"", "");
+								// HSI,恒生指数,28603.510,28518.641,28655.939,28542.660,28651.990,133.350,0.470,0.000,0.000,45785732.078,0,0.000,0.000,28798.779,21488.820,2017/11/03,11:19:40,,,,,,
+								bean.setStockName(other.split(",")[1]);
+								bean.setClose(Double.parseDouble(other.split(",")[6]));
+								bean.setNetChnage(Double.parseDouble(other.split(",")[7]));
+								bean.setNetChnageRate(Double.parseDouble(other.split(",")[8]));
+//								bean.setVolume(Long.parseLong(other.split(",")[10]));
+//								bean.setVolumeMoney(Long.parseLong(other.split(",")[5].replace("\"", "")));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							list.add(bean);
+						}
 					}
 					result.setList(list);
 					onCallback(result);

@@ -23,6 +23,7 @@ import com.open.android.adapter.CommonAdapter;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.market.PlateStockPullToRefreshPinnedSectionListViewFragmentActivity;
 import com.open.baidu.finance.bean.market.PlateBean;
+import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -85,7 +86,7 @@ public class PlateGridExpandAdapter extends CommonAdapter<PlateBean> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(mContext, bean.getPlateSimpleCode(), bean.getPlateName());
+				PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(mContext, UrlUtils.GETHQNODEDATA_NODE+bean.getPlateSimpleCode(), bean.getPlateName());
 			}
 		});
 		mViewHodler.txt_stock_close.setText(String.format("%.2f", bean.getStockNetChnage()) +" "+String.format("%.2f", bean.getNetChangeRate()) + "%");

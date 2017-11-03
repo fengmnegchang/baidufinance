@@ -119,6 +119,8 @@ public class UrlUtils {
 	public static final String INDEX_SH_SZ ="http://hq.sinajs.cn/list=s_sh000001,s_sz399001,s_sz399006,s_sh000300";
 	/**基金指数**/
 	public static final String INDEX_SH_SZ_FUND ="http://hq.sinajs.cn/list=s_sh000011,s_sz399305";
+	/**港股指数**/
+	public static final String INDEX_HONG_KONG ="http://hq.sinajs.cn/?_=1509677324760&list=rt_hkHSI,rt_hkHSCCI,rt_hkHSCEI";
 	/**启明星行业**/
 	public static final String QMXINDUSTRYHQ="http://biz.finance.sina.com.cn/hq/qmxIndustryHq.php";
 	/**新浪行业**/
@@ -161,4 +163,28 @@ public class UrlUtils {
 	public static final String GETHQNODEDATASIMPLE_LOF_HQ_FUND="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeDataSimple?page=1&num=80&sort=symbol&asc=1&node=lof_hq_fund&_s_r_a=init";
 	/** 基金预测净值**/
 	public static final String GETFUNDPREVDATA="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getFundPrevData?page=1&num=80&sort=symbol&asc=1&node=jjycjz&_s_r_a=init";
+
+	//港股
+	/**蓝筹股**/
+	public static final String GETHKSTOCKDATA_LCG_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=symbol&asc=1&node=lcg_hk&_s_r_a=init";
+	/**红筹股**/
+	public static final String GETHKSTOCKDATA_HCG_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=symbol&asc=1&node=hcg_hk&_s_r_a=init";
+	/**国企股**/
+	public static final String GETHKSTOCKDATA_GQG_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=symbol&asc=1&node=gqg_hk&_s_r_a=init";
+	/**创业股**/
+	public static final String GETHKSTOCKDATA_CYB_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=symbol&asc=1&node=cyb_hk&_s_r_a=init";
+	/**ADR**/
+	public static final String GETADRDATA_ADR_HK="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getADRData?page=1&num=80&sort=symbol&asc=1&node=adr_hk&_s_r_a=init";
+	/**港股涨幅**/
+	public static final String GETHKSTOCKDATA_CHANGEPERCENT0="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=changepercent&asc=0&node=qbgg_hk&_s_r_a=init";
+	/**港股跌幅**/
+	public static final String GETHKSTOCKDATA_CHANGEPERCENT1="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=changepercent&asc=1&node=qbgg_hk&_s_r_a=init";
+	/**港股成交额**/
+	public static final String GETHKSTOCKDATA_AMOUNT="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=amount&asc=0&node=qbgg_hk&_s_r_a=init";
+	/**港股成交量**/
+	public static final String GETHKSTOCKDATA_VOLUME="http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHKStockData?page=1&num=80&sort=volume&asc=0&node=qbgg_hk&_s_r_a=init";
+
+
+
+
 }

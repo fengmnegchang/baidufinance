@@ -42,7 +42,7 @@ public class PlateStockPullToRefreshPinnedSectionListViewFragmentActivity extend
 	protected void initValue() {
 		// TODO Auto-generated method stub
 		if (getIntent().getStringExtra("URL") != null) {
-			url = UrlUtils.GETHQNODEDATA_NODE+getIntent().getStringExtra("URL");
+			url = getIntent().getStringExtra("URL");
 		} else {
 			url = UrlUtils.GETHQNODEDATA;
 		}
@@ -76,7 +76,7 @@ public class PlateStockPullToRefreshPinnedSectionListViewFragmentActivity extend
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = PlateStockPullToRefreshPinnedSectionListViewFragment.newInstance(url, true);
+		Fragment fragment = PlateStockPullToRefreshPinnedSectionListViewFragment.newInstance(url,getIntent().getStringExtra("TITLE"), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	

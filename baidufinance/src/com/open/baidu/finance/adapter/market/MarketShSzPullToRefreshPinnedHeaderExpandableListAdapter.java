@@ -30,6 +30,7 @@ import com.open.baidu.finance.bean.market.MarketShSzBean;
 import com.open.baidu.finance.bean.market.PlateBean;
 import com.open.baidu.finance.bean.market.PlateStockBean;
 import com.open.baidu.finance.json.market.MarketShSzJson;
+import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -73,6 +74,8 @@ public class MarketShSzPullToRefreshPinnedHeaderExpandableListAdapter extends Co
 					// TODO Auto-generated method stub
 					 if(bean.getGroupType()<=4){
 						 PlatePullToRefreshPinnedSectionListViewFragmentActivity.startPlatePullToRefreshPinnedSectionListViewFragmentActivity(mContext, bean.getUrl(),bean.getGroupName());
+					 }else if(bean.getGroupType()<=10){
+						 PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(mContext, UrlUtils.GETHQNODEDATA_NODE+bean.getUrl(),bean.getGroupName());
 					 }else{
 						 PlateStockPullToRefreshPinnedSectionListViewFragmentActivity.startPlateStockPullToRefreshPinnedSectionListViewFragmentActivity(mContext, bean.getUrl(),bean.getGroupName());
 					 }

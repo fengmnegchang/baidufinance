@@ -64,12 +64,14 @@ implements OnRefreshListener<ListView>{
 	public PlateStockPinnedSectionListAdapter mPlateStockPinnedSectionListAdapter;
 	private List<PlateStockBean> list = new ArrayList<PlateStockBean>();
 	public List<PlateStockBean> temptlist = new ArrayList<PlateStockBean>();
+	private String plateName;
 	
-	public static PlateStockPullToRefreshPinnedSectionListViewFragment newInstance(String url, boolean isVisibleToUser) {
+	public static PlateStockPullToRefreshPinnedSectionListViewFragment newInstance(String url, String plateName,boolean isVisibleToUser) {
 		PlateStockPullToRefreshPinnedSectionListViewFragment fragment = new PlateStockPullToRefreshPinnedSectionListViewFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
+		fragment.plateName = plateName;
 		return fragment;
 	}
 
@@ -206,6 +208,15 @@ implements OnRefreshListener<ListView>{
 					System.out.println("response=" + response.toString());
 					Gson gson = new Gson();
 					result = gson.fromJson(response, PlateStockJson.class);
+					for (int i = 0; i < result.getList().size(); i++) {
+						PlateStockBean bean = result.getList().get(i);
+						bean.setTrade(bean.getLasttrade());
+						if("ADR".equals(plateName)){
+							bean.setName(bean.getChname());
+							bean.setTrade(bean.getLast());
+							bean.setChangepercent(bean.getPchg());
+						}
+					}
 					onCallback(result);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -48,6 +48,136 @@ public class PlateStockBean extends CommonBean {
 	private int viewType;
 	private int netRatioType;
 	
+	//港股 代码	名称	最新价	涨跌额	涨跌幅	昨收	今开	最高	最低	成交量/万	成交额/万
+	private String  engname;
+	private String tradetype;
+	private double lasttrade;
+	private double prevclose;
+	private double currentvolume;
+	private double high_52week;
+	private double low_52week;
+	private double eps;
+	private double dividend;
+	private long stocks_sum;
+	
+	//adr
+	private String chname;
+	private double last;
+	private double chg;
+	private double pchg;
+	
+
+	public String getChname() {
+		return chname;
+	}
+
+	public void setChname(String chname) {
+		this.chname = chname;
+	}
+
+	public double getLast() {
+		return last;
+	}
+
+	public void setLast(double last) {
+		this.last = last;
+	}
+
+	public double getChg() {
+		return chg;
+	}
+
+	public void setChg(double chg) {
+		this.chg = chg;
+	}
+
+	public double getPchg() {
+		return pchg;
+	}
+
+	public void setPchg(double pchg) {
+		this.pchg = pchg;
+	}
+
+	public String getEngname() {
+		return engname;
+	}
+
+	public void setEngname(String engname) {
+		this.engname = engname;
+	}
+
+	public String getTradetype() {
+		return tradetype;
+	}
+
+	public void setTradetype(String tradetype) {
+		this.tradetype = tradetype;
+	}
+
+	public double getLasttrade() {
+		return lasttrade;
+	}
+
+	public void setLasttrade(double lasttrade) {
+		this.lasttrade = lasttrade;
+	}
+
+	public double getPrevclose() {
+		return prevclose;
+	}
+
+	public void setPrevclose(double prevclose) {
+		this.prevclose = prevclose;
+	}
+
+	public double getCurrentvolume() {
+		return currentvolume;
+	}
+
+	public void setCurrentvolume(double currentvolume) {
+		this.currentvolume = currentvolume;
+	}
+
+	public double getHigh_52week() {
+		return high_52week;
+	}
+
+	public void setHigh_52week(double high_52week) {
+		this.high_52week = high_52week;
+	}
+
+	public double getLow_52week() {
+		return low_52week;
+	}
+
+	public void setLow_52week(double low_52week) {
+		this.low_52week = low_52week;
+	}
+
+	public double getEps() {
+		return eps;
+	}
+
+	public void setEps(double eps) {
+		this.eps = eps;
+	}
+
+	public double getDividend() {
+		return dividend;
+	}
+
+	public void setDividend(double dividend) {
+		this.dividend = dividend;
+	}
+
+	public long getStocks_sum() {
+		return stocks_sum;
+	}
+
+	public void setStocks_sum(long stocks_sum) {
+		this.stocks_sum = stocks_sum;
+	}
 
 	public int getNetRatioType() {
 		return netRatioType;

@@ -66,14 +66,14 @@ public class PlateStockExpandListAdapter extends CommonAdapter<PlateStockBean> {
 		mViewHodler.txt_stock_code.setText(bean.getCode());
 		mViewHodler.txt_close.setText(String.format("%.2f", bean.getTrade()));
 
-		if (bean.getChangepercent() > 0) {
+		if (bean.getChangepercent()!=null && bean.getChangepercent() > 0) {
 			mViewHodler.txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.red_color));
-		} else if (bean.getChangepercent() < 0) {
+		} else if (bean.getChangepercent()!=null && bean.getChangepercent() < 0) {
 			mViewHodler.txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.green_color));
 		} else {
 			mViewHodler.txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.black_color));
 		}
-		mViewHodler.txt_netChangeRatio.setText(String.format("%.2f", bean.getChangepercent()) + "%");
+		mViewHodler.txt_netChangeRatio.setText((bean.getChangepercent()==null ? "--":String.format("%.2f", bean.getChangepercent()) + "%"));
 		return convertView;
 	}
 	

@@ -60,8 +60,12 @@ public class IndexAdapter extends CommonAdapter<IndexBean> {
 		}else{
 			mViewHodler = (ViewHodler) convertView.getTag();
 		}
+		if(bean.getStockName().length()>6){
+			mViewHodler.txt_plate_name.setText(bean.getStockName().substring(0, 6));
+		}else{
+			mViewHodler.txt_plate_name.setText(bean.getStockName());
+		}
 		
-		mViewHodler.txt_plate_name.setText(bean.getStockName());
 		if (bean.getNetChnageRate() > 0) {
 			mViewHodler.txt_plate_rate.setTextColor(mContext.getResources().getColor(R.color.red_color));
 		} else if (bean.getNetChnageRate() < 0) {
