@@ -375,6 +375,13 @@
             android:description="@string/app_market_fund_type_list_f_desp"
              >
         </activity>
+         <!--me-->
+        <activity
+            android:name=".activity.me.MeScrollFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_me_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

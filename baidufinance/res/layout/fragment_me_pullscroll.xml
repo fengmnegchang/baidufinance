@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!--
+          <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/pulltorefreshscrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" >
+    -->
+
+    <RelativeLayout
+        android:id="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/status_bar_color"
+        android:paddingBottom="10dp" >
+
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/comment_head_light" />
+
+        <TextView
+            android:id="@+id/txt_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:text="fengxian038"
+            android:textColor="@color/white_color"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_head"
+        android:orientation="horizontal" 
+        android:paddingTop="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" 
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/img_msg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/comment_nothing_text_light" />
+
+            <TextView
+                android:id="@+id/txt_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评论消息"
+                android:textSize="14dp" />
+        </LinearLayout>
+        
+         <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" 
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/img_news"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/collection_icon" />
+
+            <TextView
+                android:id="@+id/txt_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新闻收藏"
+                android:textSize="14dp" />
+        </LinearLayout>
+        
+         
+          <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" 
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/img_hot"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/attention_icon" />
+
+            <TextView
+                android:id="@+id/txt_hot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热点关注"
+                android:textSize="14dp" />
+        </LinearLayout>
+ 
+    </LinearLayout>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/pull_refresh_list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="#19000000"
+        android:dividerHeight="1dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:layout_below="@+id/layout_comment"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" />
+
+    <!-- </com.handmark.pulltorefresh.library.PullToRefreshScrollView> -->
+
+</RelativeLayout>
