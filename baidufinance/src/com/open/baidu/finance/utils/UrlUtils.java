@@ -235,4 +235,12 @@ public class UrlUtils {
 	public static final String GETGLOBALINDEX_OCEANIA_GLOBAL = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getGlobalIndex?page=1&num=80&sort=_&asc=1&node=oceania_global&_s_r_a=init";
 
 
+	//kline
+	/**个股-新闻**/
+	public static final String STOCK_ASYNCNEWSLIST_NEWS ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&code=sz000725&tab=news";
+	/**个股-公告**/
+	public static final String STOCK_ASYNCNEWSLIST_NOTICE ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&code=sz000725&tab=notice";
+	/**个股-研报**/
+	public static final String STOCK_ASYNCNEWSLIST_REPORT ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&code=sz000725&tab=report";
+
 }

@@ -382,6 +382,13 @@
             android:description="@string/app_me_f_desp"
              >
         </activity>
+         <!--个股 Indicator 列表 -->
+        <activity
+            android:name=".activity.kline.StockIndicatorFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_kline_stock_tab_f_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"  >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"

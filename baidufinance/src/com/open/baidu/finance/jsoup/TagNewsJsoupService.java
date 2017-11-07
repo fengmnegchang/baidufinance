@@ -31,6 +31,7 @@ import com.open.baidu.finance.bean.article.CommentBean;
 import com.open.baidu.finance.bean.article.NewsContainerBean;
 import com.open.baidu.finance.bean.hot.HotConceptBean;
 import com.open.baidu.finance.bean.hot.HotStockBean;
+import com.open.baidu.finance.bean.kline.NewsBean;
 import com.open.baidu.finance.bean.news.AdviserPersonBean;
 import com.open.baidu.finance.bean.news.ExpertViewBean;
 import com.open.baidu.finance.bean.news.HotTiebaTopicBean;
@@ -1150,5 +1151,96 @@ public class TagNewsJsoupService extends CommonService {
 			e.printStackTrace();
 		}
 		return mFollowJson;
+	}
+	
+	
+	public static List<NewsBean> parseStockNews(String href, int pageNo) {
+		List<NewsBean> list = new ArrayList<NewsBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+			Document doc;
+//			if (pageNo > 1) {
+				doc = Jsoup.parse(href);
+//			} else {
+//				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+//			}
+
+			Log.i(TAG, "url = " + href);
+
+			// Document doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				/**
+				 */
+//				Element globalnavElement = doc.select("ul.qa-list").first();
+				Elements moduleElements = doc.select("li.row");
+				if (moduleElements != null && moduleElements.size() > 0) {
+					for (int i = 0; i < moduleElements.size(); i++) {
+						NewsBean sbean = new NewsBean();
+						try {
+							try {
+								Element imgElement = moduleElements.get(i).select("a").first();
+								if (imgElement != null) {
+									String hrefa = UrlUtils.GUPIAO_BAIDU +imgElement.attr("href");
+									Log.i(TAG, "i==" + i + ";hrefa==" + hrefa);
+									sbean.setHref(hrefa);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							try {
+								Element imgElement = moduleElements.get(i).select("a").first();
+								if (imgElement != null) {
+									String title = imgElement.text();
+									Log.i(TAG, "i==" + i + ";title==" + title);
+									sbean.setTitle(title);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							try {
+								Element imgElement = moduleElements.get(i).select("p.desc").first();
+								if (imgElement != null) {
+									String desc = imgElement.text();
+									Log.i(TAG, "i==" + i + ";desc==" + desc);
+									sbean.setDesc(desc);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							try {
+								Element imgElement = moduleElements.get(i).select("ul.left").first();
+								if (imgElement != null) {
+									String time = imgElement.select("li").first().text();
+									Log.i(TAG, "i==" + i + ";time==" + time);
+									sbean.setTime(time);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						list.add(sbean);
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }
