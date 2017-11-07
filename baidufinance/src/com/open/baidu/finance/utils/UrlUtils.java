@@ -243,4 +243,8 @@ public class UrlUtils {
 	/**个股-研报**/
 	public static final String STOCK_ASYNCNEWSLIST_REPORT ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&code=sz000725&tab=report";
 
+	/**个股-分时图**/
+	public static final String STOCKTIMELINE ="https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&timestamp=1510040773836";
+
+	
 }
