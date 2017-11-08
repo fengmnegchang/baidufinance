@@ -33,18 +33,28 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
+import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.gson.Gson;
 import com.open.android.bean.db.OpenDBBean;
@@ -54,6 +64,8 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.kline.TimeLineBean;
 import com.open.baidu.finance.json.kline.TimeLineJson;
 import com.open.baidu.finance.utils.UrlUtils;
+import com.open.baidu.finance.widget.kline.DayAxisValueFormatter;
+import com.open.baidu.finance.widget.kline.XYMarkerView;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -66,12 +78,13 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, StockTimeLineChartFragment> implements OnChartValueSelectedListener {
-	private LineChart mChart;
+public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockMultiChartFragment> implements OnChartValueSelectedListener {
+	private LineChart mLineChart;
+	private BarChart mBarChart;
 	private List<TimeLineBean> list = new ArrayList<TimeLineBean>();
 
-	public static StockTimeLineChartFragment newInstance(String url, boolean isVisibleToUser) {
-		StockTimeLineChartFragment fragment = new StockTimeLineChartFragment();
+	public static StockMultiChartFragment newInstance(String url, boolean isVisibleToUser) {
+		StockMultiChartFragment fragment = new StockMultiChartFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
@@ -80,8 +93,9 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_stock_time_line_chart, container, false);
-		mChart = (LineChart) view.findViewById(R.id.chart1);
+		View view = inflater.inflate(R.layout.fragment_stock_multi_chart, container, false);
+		mLineChart = (LineChart) view.findViewById(R.id.linechart);
+		mBarChart = (BarChart) view.findViewById(R.id.barchart);
 		return view;
 	}
 
@@ -94,29 +108,49 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-		//
 		// // no description text
-		mChart.getDescription().setEnabled(false);
+		mLineChart.getDescription().setEnabled(false);
 
 		// enable touch gestures
-		mChart.setTouchEnabled(true);
+		mLineChart.setTouchEnabled(true);
 
-		mChart.setDragDecelerationFrictionCoef(0.9f);
+		mLineChart.setDragDecelerationFrictionCoef(0.9f);
 
 		// enable scaling and dragging
-		mChart.setDragEnabled(false);
-		mChart.setScaleEnabled(false);
-		mChart.setDrawGridBackground(false);
-		mChart.setHighlightPerDragEnabled(false);
+		mLineChart.setDragEnabled(false);
+		mLineChart.setScaleEnabled(false);
+		mLineChart.setDrawGridBackground(false);
+		mLineChart.setHighlightPerDragEnabled(false);
 
 		// if disabled, scaling can be done on x- and y-axis separately
-		mChart.setPinchZoom(false);
+		mLineChart.setPinchZoom(false);
 
 		// set an alternative background color
-		mChart.setBackgroundColor(Color.WHITE);
-		mChart.setNoDataText("");
-		mChart.setOnChartValueSelectedListener(this);
+		mLineChart.setBackgroundColor(Color.WHITE);
+		mLineChart.setNoDataText("");
+		mLineChart.setOnChartValueSelectedListener(this);
 
+		mBarChart.setOnChartValueSelectedListener(this);
+
+		mBarChart.setDrawBarShadow(false);
+		mBarChart.setDrawValueAboveBar(true);
+
+		mBarChart.getDescription().setEnabled(false);
+
+		// if more than 60 entries are displayed in the chart, no values will be
+		// drawn
+		// mBarChart.setMaxVisibleValueCount(60);
+
+		// scaling can now only be done on x- and y-axis separately
+		mBarChart.setPinchZoom(false);
+		mBarChart.setDrawGridBackground(false);
+		mBarChart.setDragEnabled(false);
+		mBarChart.setScaleEnabled(false);
+		mBarChart.setDrawGridBackground(false);
+		mBarChart.setHighlightPerDragEnabled(false);
+		mBarChart.setBackgroundColor(Color.WHITE);
+		mBarChart.setNoDataText("");
+		// mChart.setDrawYLabels(false);
 	}
 
 	/*
@@ -192,7 +226,7 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 				}
 
 			}
-		}, StockTimeLineChartFragment.this);
+		}, StockMultiChartFragment.this);
 		requestQueue.add(jsonObjectRequest);
 	}
 
@@ -209,10 +243,11 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		list.clear();
 		list.addAll(result.getTimeLine());
 
-		generateLineData();
+		linechart();
+		barchart();
 	}
 
-	private LineData generateLineData() {
+	private void linechart() {
 		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 		float maxLeftY = -10000;
@@ -279,11 +314,11 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		data.setValueTextSize(9f);
 
 		// // set data
-		mChart.setData(data);
-		// mChart.animateX(2500);
+		mLineChart.setData(data);
+		// mLineChart.animateX(2500);
 
 		// get the legend (only possible after setting data)
-		Legend l = mChart.getLegend();
+		Legend l = mLineChart.getLegend();
 		// modify the legend ...
 		l.setForm(LegendForm.LINE);
 		// l.setTypeface(mTfLight);
@@ -295,7 +330,7 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		l.setDrawInside(false);
 		l.setEnabled(false);
 
-		XAxis xAxis = mChart.getXAxis();
+		XAxis xAxis = mLineChart.getXAxis();
 		// xAxis.setTypeface(mTfLight);
 		xAxis.setTextSize(11f);
 		// xAxis.setTextColor(Color.WHITE);
@@ -310,7 +345,7 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 			}
 		});
 
-		YAxis leftAxis = mChart.getAxisLeft();
+		YAxis leftAxis = mLineChart.getAxisLeft();
 		// leftAxis.setDrawLabels(false);
 		leftAxis.setDrawGridLines(false);
 		leftAxis.setGranularityEnabled(false);
@@ -326,7 +361,7 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 			}
 		});
 
-		YAxis rightAxis = mChart.getAxisRight();
+		YAxis rightAxis = mLineChart.getAxisRight();
 		// rightAxis.setEnabled(false);
 		// rightAxis.setDrawLabels(false);
 		rightAxis.setDrawGridLines(false);
@@ -345,10 +380,106 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 			}
 		});
 
-		mChart.setDescription(null);
-		mChart.invalidate();
+		mLineChart.setDescription(null);
+		mLineChart.invalidate();
+	}
 
-		return data;
+	private void barchart() {
+		// TODO Auto-generated method stub
+		ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+		for (int i = 0; i < list.size(); i++) {
+			yVals1.add(new BarEntry(i, list.get(i).getVolume() / 100f / 10000f));
+		}
+		BarDataSet set1;
+		// if (mChart.getData() != null && mChart.getData().getDataSetCount() >
+		// 0) {
+		// set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+		// set1.setValues(yVals1);
+		// mChart.getData().notifyDataChanged();
+		// mChart.notifyDataSetChanged();
+		// } else {
+		set1 = new BarDataSet(yVals1, "交易量");
+		set1.setDrawIcons(false);
+		set1.setDrawValues(false);
+		set1.setColor(getActivity().getResources().getColor(R.color.blue_dot_color));
+		// set1.setColors(ColorTemplate.MATERIAL_COLORS);
+		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+		dataSets.add(set1);
+
+		BarData data = new BarData(dataSets);
+		data.setValueTextSize(10f);
+		// data.setValueTypeface(mTfLight);
+		data.setBarWidth(0.9f);
+		mBarChart.setData(data);
+
+		IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mBarChart, list);
+		XAxis xAxis = mBarChart.getXAxis();
+		xAxis.setPosition(XAxisPosition.BOTTOM);
+		// xAxis.setTypeface(mTfLight);
+		xAxis.setDrawGridLines(false);
+		xAxis.setDrawAxisLine(false);
+		xAxis.setGranularity(1f); // only intervals of 1 day
+		// xAxis.setLabelCount(4);
+		xAxis.setValueFormatter(xAxisFormatter);
+
+		YAxis leftAxis = mBarChart.getAxisLeft();
+		// leftAxis.setTypeface(mTfLight);
+		// leftAxis.setLabelCount(3, false);
+		leftAxis.setDrawAxisLine(false);
+		leftAxis.setDrawGridLines(false);
+		leftAxis.setValueFormatter(new IAxisValueFormatter() {
+			@Override
+			public String getFormattedValue(float value, AxisBase axis) {
+				// TODO Auto-generated method stub
+				if (value == 0) {
+					return "";
+				} else {
+					return value + "";
+				}
+			}
+		});
+		leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
+//		leftAxis.setSpaceTop(15f);
+//		leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+		YAxis rightAxis = mBarChart.getAxisRight();
+		rightAxis.setDrawGridLines(false);
+		rightAxis.setDrawAxisLine(false);
+		rightAxis.setValueFormatter(new IAxisValueFormatter() {
+			@Override
+			public String getFormattedValue(float value, AxisBase axis) {
+				// TODO Auto-generated method stub
+				return value+"万";
+			}
+		});
+		// rightAxis.setTypeface(mTfLight);
+//		rightAxis.setLabelCount(8, false);
+		// rightAxis.setValueFormatter(custom);
+//		rightAxis.setSpaceTop(15f);
+//		rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+//		rightAxis.setEnabled(false);
+
+		Legend l = mBarChart.getLegend();
+		l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+		l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+		l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+		l.setDrawInside(false);
+		l.setForm(LegendForm.SQUARE);
+		l.setFormSize(9f);
+		l.setTextSize(11f);
+		l.setXEntrySpace(4f);
+		l.setEnabled(false);
+		// l.setExtra(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
+		// "def", "ghj", "ikl", "mno" });
+		// l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
+		// "def", "ghj", "ikl", "mno" });
+
+		XYMarkerView mv = new XYMarkerView(getActivity(), xAxisFormatter);
+		mv.setChartView(mBarChart); // For bounds control
+		mBarChart.setMarker(mv); // Set the marker to the chart
+
+		mBarChart.setDescription(null);
+		mBarChart.invalidate();
 	}
 
 	/*

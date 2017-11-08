@@ -126,6 +126,17 @@ public class StockIndicatorFragment extends BaseV4Fragment<MainTabJson, StockInd
 		bean.setTitle("分时");
 		clist.add(bean);
 		
+		bean = new MainTabBean();
+		bean.setHref(UrlUtils.STOCKTIMELINE);
+		bean.setTitle("交易量");
+		clist.add(bean);
+		
+		bean = new MainTabBean();
+		bean.setHref(UrlUtils.STOCKTIMELINE);
+		bean.setTitle("组合");
+		clist.add(bean);
+		
+		
 		mMainTabJson.setList(clist);
 		return mMainTabJson;
 	}
@@ -147,13 +158,13 @@ public class StockIndicatorFragment extends BaseV4Fragment<MainTabJson, StockInd
 		for (int i=0;i< result.getList().size();i++) {
 			MainTabBean bean = result.getList().get(i);
 			titleList.add(bean.getTitle());
-//			if(i==0){
-//				fragment = StockNewsPullListFragment.newInstance(bean.getHref(),true);
-//			}else if(i==3){
+			if(i==0){
 				fragment = StockTimeLineChartFragment.newInstance(bean.getHref(),true);
-//			}else{
-//				fragment = StockNewsPullListFragment.newInstance(bean.getHref(),false);
-//			}
+			}else if(i==2){
+				fragment = StockMultiChartFragment.newInstance(bean.getHref(),false);
+			}else{
+				fragment = StockBarChartFragment.newInstance(bean.getHref(),false);
+			}
 			listRankFragment.add(fragment);
 		}
 		mRankPagerAdapter.notifyDataSetChanged();
