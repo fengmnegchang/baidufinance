@@ -245,6 +245,8 @@ public class UrlUtils {
 
 	/**个股-分时图**/
 	public static final String STOCKTIMELINE ="https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&timestamp=1510040773836";
+	/**个股-5日图**/
+	public static final String STOCKTIMELINEFIVE ="https://gupiao.baidu.com/api/stocks/stocktimelinefive?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&timestamp=1510133035727";
 
 	
 }
