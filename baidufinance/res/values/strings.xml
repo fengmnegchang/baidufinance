@@ -54,6 +54,7 @@
 	<string name="app_market_fund_type_list_f_desp">行情-基金组</string>
 	<string name="app_me_f_desp">me</string>
 	<string name="app_kline_stock_tab_f_desp">个股 Indicator 列表 </string>
+	<string name="app_kline_stock_multi_chart_f_desp">分时多控件 </string>
 	
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>

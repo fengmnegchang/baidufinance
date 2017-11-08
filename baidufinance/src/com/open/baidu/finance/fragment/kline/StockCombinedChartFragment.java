@@ -363,7 +363,8 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 	private BarData generateBarData() {
 		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
 		for (int i = 0; i < list.size(); i++) {
-			float volume = list.get(i).getVolume()  / 100f / 10000f;
+			float volume = Math.abs(preclose-minLeftY)*list.get(i).getVolume() /maxVolume/ 100f / 10000f+minLeftY;
+//			float volume =  list.get(i).getVolume() / 100f / 10000f;
 			entries1.add(new BarEntry(i, volume));
 		}
 		 
@@ -414,15 +415,17 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 //		leftAxis.setSpaceTop(15f);
 //		leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
+		
 //		YAxis rightAxis = mChart.getAxisRight();
+////		rightAxis.setEnabled(false);
+////		rightAxis.setDrawLabels(false);
 //		rightAxis.setDrawGridLines(false);
+//		rightAxis.setGranularityEnabled(false);
 //		rightAxis.setDrawAxisLine(false);
-//		// rightAxis.setTypeface(mTfLight);
-//		rightAxis.setLabelCount(8, false);
-//		// rightAxis.setValueFormatter(custom);
-//		rightAxis.setSpaceTop(15f);
-//		rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-//		rightAxis.setEnabled(false);
+//		rightAxis.setDrawTopYLabelEntry(true);
+//		rightAxis.setDrawZeroLine(true);
+//		rightAxis.setAxisMaximum(maxLeftY);
+//		rightAxis.setAxisMinimum(minLeftY);
 //
 //		Legend l = mChart.getLegend();
 //		l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
@@ -439,9 +442,9 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		// l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
 		// "def", "ghj", "ikl", "mno" });
 
-		XYMarkerView mv = new XYMarkerView(getActivity(), xAxisFormatter);
-		mv.setChartView(mChart); // For bounds control
-		mChart.setMarker(mv); // Set the marker to the chart
+//		XYMarkerView mv = new XYMarkerView(getActivity(), xAxisFormatter);
+//		mv.setChartView(mChart); // For bounds control
+//		mChart.setMarker(mv); // Set the marker to the chart
 
 		mChart.setDescription(null);
 		mChart.invalidate();

@@ -37,6 +37,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
@@ -325,6 +326,8 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 				return String.format("%.2f", value) + "";
 			}
 		});
+		
+		
 
 		YAxis rightAxis = mChart.getAxisRight();
 		// rightAxis.setEnabled(false);
@@ -344,6 +347,13 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 				return String.format("%.2f", rate * 100f) + "%";
 			}
 		});
+		
+		LimitLine ll = new LimitLine(preclose, "");
+	    ll.setLineColor(Color.RED);
+	    ll.setLineWidth(1f);
+//	    ll.setTextColor(Color.BLACK);
+//	    ll.setTextSize(12f);
+	    leftAxis.addLimitLine(ll);
 
 		mChart.setDescription(null);
 		mChart.invalidate();

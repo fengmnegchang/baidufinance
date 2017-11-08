@@ -106,36 +106,20 @@ public class StockIndicatorFragment extends BaseV4Fragment<MainTabJson, StockInd
 		// TODO Auto-generated method stub
 		MainTabJson mMainTabJson = new MainTabJson();
 		ArrayList<MainTabBean> clist = new ArrayList<MainTabBean>();
-//		MainTabBean bean = new MainTabBean();
-//		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NEWS);
-//		bean.setTitle("新闻");
-//		clist.add(bean);
-//		
-//		bean = new MainTabBean();
-//		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NOTICE);
-//		bean.setTitle("公告");
-//		clist.add(bean);
-//		
-//		bean = new MainTabBean();
-//		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_REPORT);
-//		bean.setTitle("研报");
-//		clist.add(bean);
-		
 		MainTabBean bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCKTIMELINE);
-		bean.setTitle("分时");
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NEWS);
+		bean.setTitle("新闻");
 		clist.add(bean);
 		
 		bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCKTIMELINE);
-		bean.setTitle("交易量");
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NOTICE);
+		bean.setTitle("公告");
 		clist.add(bean);
 		
 		bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCKTIMELINE);
-		bean.setTitle("组合");
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_REPORT);
+		bean.setTitle("研报");
 		clist.add(bean);
-		
 		
 		mMainTabJson.setList(clist);
 		return mMainTabJson;
@@ -159,11 +143,9 @@ public class StockIndicatorFragment extends BaseV4Fragment<MainTabJson, StockInd
 			MainTabBean bean = result.getList().get(i);
 			titleList.add(bean.getTitle());
 			if(i==0){
-				fragment = StockTimeLineChartFragment.newInstance(bean.getHref(),true);
-			}else if(i==2){
-				fragment = StockMultiChartFragment.newInstance(bean.getHref(),false);
+				fragment = StockNewsPullListFragment.newInstance(bean.getHref(),true);
 			}else{
-				fragment = StockBarChartFragment.newInstance(bean.getHref(),false);
+				fragment = StockNewsPullListFragment.newInstance(bean.getHref(),false);
 			}
 			listRankFragment.add(fragment);
 		}

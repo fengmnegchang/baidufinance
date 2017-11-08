@@ -28,12 +28,12 @@ public class TimeLineBean extends CommonBean {
 	private int date;//20171107,
 	private long time;//91500000,
 	private float  price;//6.5,
-	private long  volume;//0,
+	private float  volume;//0,
 	private float  avgPrice;//6.539999961853,
 	private int ccl;//0,
 	private float netChangeRatio;//0,
 	private float  preClose;//6.539999961853,
-	private long  amount;//0
+	private float  amount;//0
 	public int getDate() {
 		return date;
 	}
@@ -52,10 +52,10 @@ public class TimeLineBean extends CommonBean {
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	public long getVolume() {
+	public float getVolume() {
 		return volume;
 	}
-	public void setVolume(long volume) {
+	public void setVolume(float volume) {
 		this.volume = volume;
 	}
 	public float getAvgPrice() {
@@ -82,10 +82,10 @@ public class TimeLineBean extends CommonBean {
 	public void setPreClose(float preClose) {
 		this.preClose = preClose;
 	}
-	public long getAmount() {
+	public float getAmount() {
 		return amount;
 	}
-	public void setAmount(long amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 	
