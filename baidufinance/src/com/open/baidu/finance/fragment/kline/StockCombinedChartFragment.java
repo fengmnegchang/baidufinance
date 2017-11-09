@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -84,6 +85,8 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 	private float minLeftY = 10000;
 	private float maxVolume = -10000;
 	private float preclose = 0;
+	private TextView txt_time,txt_price,txt_rate,txt_volume;
+	
 	public static StockCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
 		StockCombinedChartFragment fragment = new StockCombinedChartFragment();
 		fragment.setFragment(fragment);
@@ -97,6 +100,11 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		View view = inflater.inflate(R.layout.fragment_stock_combined_chart, container, false);
 		linechart = (CombinedChart) view.findViewById(R.id.linechart);
 		barchart = (CombinedChart) view.findViewById(R.id.barchart);
+		
+		txt_time = (TextView) view.findViewById(R.id.txt_time);
+		txt_price = (TextView) view.findViewById(R.id.txt_price);
+		txt_rate = (TextView) view.findViewById(R.id.txt_rate);
+		txt_volume = (TextView) view.findViewById(R.id.txt_volume);
 		return view;
 	}
 
@@ -113,7 +121,7 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		linechart.setBackgroundColor(Color.WHITE);
 		linechart.setDrawGridBackground(false);
 		linechart.setDrawBarShadow(false);
-		linechart.setHighlightFullBarEnabled(false);
+//		linechart.setHighlightFullBarEnabled(false);
 		// draw bars behind lines
 		linechart.setDrawOrder(new DrawOrder[] { DrawOrder.LINE, DrawOrder.BAR });
 		linechart.setOnChartValueSelectedListener(this);
@@ -126,7 +134,6 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		// scaling can now only be done on x- and y-axis separately
 		linechart.setPinchZoom(false);
 		linechart.setDrawGridBackground(false);
-		linechart.setHighlightPerDragEnabled(false);
 		linechart.setNoDataText("");
 		linechart.setDrawBorders(true);//是否绘制边线
 		linechart.setBorderWidth(1);//边线宽度，单位dp
@@ -143,7 +150,7 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		barchart.setBackgroundColor(Color.WHITE);
 		barchart.setDrawGridBackground(false);
 		barchart.setDrawBarShadow(false);
-		barchart.setHighlightFullBarEnabled(false);
+//		barchart.setHighlightFullBarEnabled(false);
 		// draw bars behind lines
 		barchart.setDrawOrder(new DrawOrder[] { DrawOrder.BAR ,DrawOrder.LINE });
 		barchart.setOnChartValueSelectedListener(this);
@@ -172,10 +179,10 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
                 highlight.setDraw(h.getX(), touchY);
                 barchart.highlightValues(new Highlight[]{highlight});
                 
-//                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
-//                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
-//                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
-//                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
+                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
+                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
+                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
+                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
 			}
 			
 			@Override
@@ -193,10 +200,11 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
                 float touchY = h.getYPx() + linechart.getHeight();
                 highlight.setDraw(h.getX(), touchY);
                 linechart.highlightValues(new Highlight[]{highlight});
-//                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
-//                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
-//                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
-//                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
+                
+                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
+                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
+                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
+                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
 			}
 			@Override
 			public void onNothingSelected() {
@@ -310,6 +318,11 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		// data.setValueTypeface(mTfLight);
 		barchart.setData(bardata);
 		barchart.invalidate();
+		
+		txt_time.setText(""+list.get(0).getTime()/100000);
+        txt_price.setText("价 "+String.format("%.2f", list.get(0).getPrice()));
+        txt_rate.setText("幅 "+String.format("%.2f",list.get(0).getNetChangeRatio())+"%");
+        txt_volume.setText("量 "+String.format("%.2f",list.get(0).getVolume()/100f/10000f)+"万手");
 	}
 	
 	private BarData generateNullBarData(){
