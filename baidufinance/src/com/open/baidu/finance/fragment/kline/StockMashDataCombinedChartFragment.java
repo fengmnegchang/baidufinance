@@ -33,13 +33,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition;
 import com.github.mikephil.charting.data.BarData;
@@ -63,8 +63,8 @@ import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.kline.MashDataBean;
 import com.open.baidu.finance.json.kline.MashDataJson;
+import com.open.baidu.finance.utils.CoupleChartGestureListener;
 import com.open.baidu.finance.utils.UrlUtils;
-import com.open.baidu.finance.widget.kline.DayAxisValueFormatter;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -169,6 +169,10 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		barchart.setMinOffset(0f);
 		barchart.setExtraOffsets(0f, 0f, 0f, 3f);
 		
+		combinedchart.setOnChartGestureListener(new CoupleChartGestureListener(combinedchart, new Chart[]{barchart}));
+	        // 将交易量控件的滑动事件传递给K线控件
+		barchart.setOnChartGestureListener(new CoupleChartGestureListener(barchart, new Chart[]{combinedchart}));
+
 		combinedchart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 			@Override
 			public void onValueSelected(Entry e, Highlight h) {
