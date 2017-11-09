@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/layout_index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/txt_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="9:15"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/txt_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="价 6.51"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/txt_rate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="幅 -0.7%"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/txt_volume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="量 5.49万手"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.CombinedChart
+        android:id="@+id/combinedchart"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_below="@+id/layout_index" />
+
+    <com.github.mikephil.charting.charts.CombinedChart
+        android:id="@+id/barchart"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@+id/combinedchart" />
+
+</RelativeLayout>

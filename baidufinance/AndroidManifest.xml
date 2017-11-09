@@ -396,6 +396,13 @@
             android:description="@string/app_kline_stock_multi_chart_f_desp"
              >
         </activity>
+        <!--  日K -->
+        <activity
+            android:name=".activity.kline.StockMashDataChartFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_kline_stock_day_bar_chart_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"
