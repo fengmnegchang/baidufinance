@@ -17,7 +17,7 @@ import android.support.v4.app.Fragment;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.fragment.kline.StockMashDataCombinedChartFragment;
+import com.open.baidu.finance.fragment.kline.StockMashDataRsiCombinedChartFragment;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -70,7 +70,7 @@ public class StockMashDataChartFragmentActivity extends CommonTitleBarActivity{
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = StockMashDataCombinedChartFragment.newInstance(url, true);
+		Fragment fragment = StockMashDataRsiCombinedChartFragment.newInstance(url, true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	

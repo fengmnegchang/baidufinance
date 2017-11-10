@@ -23,8 +23,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -78,14 +80,16 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJson, StockMashDataCombinedChartFragment> {
+public class StockMashDataKdjCombinedChartFragment extends BaseV4Fragment<MashDataJson, StockMashDataKdjCombinedChartFragment> {
 	private CombinedChart combinedchart;
 	private CombinedChart barchart;
 	private List<MashDataBean> list = new ArrayList<MashDataBean>();
 	private TextView txt_time, txt_price, txt_rate, txt_volume;
+	private float maxVolume = -10000;
+	private float minVolume = 10000;
 
-	public static StockMashDataCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
-		StockMashDataCombinedChartFragment fragment = new StockMashDataCombinedChartFragment();
+	public static StockMashDataKdjCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
+		StockMashDataKdjCombinedChartFragment fragment = new StockMashDataKdjCombinedChartFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
@@ -175,7 +179,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		barchart.setScaleYEnabled(false);// 启用Y轴上的缩放
 		barchart.setMinOffset(0f);
 		barchart.setExtraOffsets(0f, 0f, 0f, 3f);
-
+ 
 		combinedchart.setOnChartGestureListener(new CoupleChartGestureListener(combinedchart, new Chart[] { barchart }));
 		// 将交易量控件的滑动事件传递给K线控件
 		barchart.setOnChartGestureListener(new CoupleChartGestureListener(barchart, new Chart[] { combinedchart }));
@@ -298,7 +302,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 				}
 
 			}
-		}, StockMashDataCombinedChartFragment.this);
+		}, StockMashDataKdjCombinedChartFragment.this);
 		requestQueue.add(jsonObjectRequest);
 	}
 
@@ -394,37 +398,22 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 	}
 
 	private BarData generateBarData() {
-		float maxVolume = -10000;
+		// 需要添加一个假的bar，才能用使用自定义的高亮
 		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
 		for (int i = 0; i < list.size(); i++) {
-			float volume = list.get(i).getKline().getVolume() / 100f / 10000f;
-			if (maxVolume < volume) {
-				maxVolume = volume;
-			}
-			entries1.add(new BarEntry(i, volume));
+			entries1.add(new BarEntry(i, 0));
 		}
+		BarDataSet set = new BarDataSet(entries1, "");
+		set.setHighlightEnabled(true);
+		set.setHighLightAlpha(255);
+		set.setHighLightColor(getResources().getColor(R.color.yellow_color));
+		set.setDrawValues(false);
+		set.setColor(getResources().getColor(R.color.transparent_color));
 
-		BarDataSet set1 = new BarDataSet(entries1, "交易量");
-		set1.setValueTextSize(10f);
-		set1.setDrawIcons(false);
-		set1.setDrawValues(false);
-		set1.setColor(getActivity().getResources().getColor(R.color.blue_dot_color));
-		// set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-		set1.setHighlightEnabled(true);
-		set1.setHighLightColor(getResources().getColor(R.color.yellow_color));
-
-		float barWidth = 0.9f;
-		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-		dataSets.add(set1);
-		BarData data = new BarData(dataSets);
-		data.setValueTextSize(10f);
-		// data.setValueTypeface(mTfLight);
-		data.setBarWidth(barWidth);
-		// make this BarData object grouped
-		// d.groupBars(0, groupSpace, barSpace); // start at x = 0
-
-		// IAxisValueFormatter xAxisFormatter = new
-		// DayAxisValueFormatter(barchart, list);
+		BarData barData = new BarData(set);
+		barData.setHighlightEnabled(true);
+		
+		
 		XAxis xAxis = barchart.getXAxis();
 		// xAxis.setPosition(XAxisPosition.BOTTOM);
 		xAxis.setEnabled(false);
@@ -442,25 +431,18 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 			@Override
 			public String getFormattedValue(float value, AxisBase axis) {
 				// TODO Auto-generated method stub
-				if (value == 0) {
-					return "万手";
-				} else {
-					return String.format("%.2f", value);
-				}
+				return String.format("%.2f", value);
 			}
 		});
 		leftAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
 		// leftAxis.setSpaceTop(15f);
-		leftAxis.setAxisMaximum(maxVolume);
-		leftAxis.setAxisMinimum(0);
 
 		YAxis rightAxis = barchart.getAxisRight();
 		rightAxis.setEnabled(false);
 
 		Legend l = barchart.getLegend();
 		l.setEnabled(false);
-
-		return data;
+		return barData;
 	}
 
 	private LineData generateNullLineData() {
@@ -468,16 +450,14 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 		ArrayList<Entry> yVals3 = new ArrayList<Entry>();
 		for (int i = 0; i < list.size(); i++) {
-			// yVals1.add(new Entry(i, list.get(i).getAvgPrice()));
-			// yVals2.add(new Entry(i, list.get(i).getPrice()));
-			yVals1.add(new Entry(i, list.get(i).getMa5().getVolume()/100f/10000f));
-			yVals2.add(new Entry(i, list.get(i).getMa10().getVolume()/100f/10000f));
-			yVals3.add(new Entry(i, list.get(i).getMa20().getVolume()/100f/10000f));
+			yVals1.add(new Entry(i, list.get(i).getKdj().getK()));
+			yVals2.add(new Entry(i, list.get(i).getKdj().getD()));
+			yVals3.add(new Entry(i, list.get(i).getKdj().getJ()));
 		}
 
 		LineDataSet set1;
 		// create a dataset and give it a type
-		set1 = new LineDataSet(yVals1, "ma5");
+		set1 = new LineDataSet(yVals1, "k");
 		set1.setAxisDependency(AxisDependency.LEFT);
 		set1.setColor(getActivity().getResources().getColor(R.color.yellow_color));
 		set1.setCircleColor(Color.WHITE);
@@ -491,8 +471,8 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		set1.setDrawCircles(false);
 
 		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals2, "ma10");
-		set2.setAxisDependency(AxisDependency.RIGHT);
+		LineDataSet set2 = new LineDataSet(yVals2, "d");
+		set2.setAxisDependency(AxisDependency.LEFT);
 		set2.setColor(getActivity().getResources().getColor(R.color.blue_color));
 		set2.setCircleColor(Color.WHITE);
 		set2.setLineWidth(2f);
@@ -506,8 +486,8 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		// set2.setDrawFilled(true);
 
 		// create a dataset and give it a type
-		LineDataSet set3 = new LineDataSet(yVals3, "ma20");
-		set3.setAxisDependency(AxisDependency.RIGHT);
+		LineDataSet set3 = new LineDataSet(yVals3, "j");
+		set3.setAxisDependency(AxisDependency.LEFT);
 		set3.setColor(getActivity().getResources().getColor(R.color.pink_color));
 		set3.setCircleColor(Color.WHITE);
 		set3.setLineWidth(2f);
@@ -516,9 +496,9 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		set3.setFillColor(getActivity().getResources().getColor(R.color.pink_color));
 		set3.setDrawCircleHole(false);
 		set3.setHighLightColor(Color.rgb(244, 117, 117));
-		set2.setDrawValues(false);
+		set3.setDrawValues(false);
 		set3.setDrawCircles(false);
-		// set3.setDrawFilled(true);
+		// set2.setDrawFilled(true);
 
 		LineData lineData = new LineData(set1, set2, set3);
 		lineData.setHighlightEnabled(true);
@@ -530,45 +510,10 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 		ArrayList<Entry> yVals3 = new ArrayList<Entry>();
-		// float maxLeftY = -10000;
-		// float minLeftY = 10000;
 		for (int i = 0; i < list.size(); i++) {
 			yVals1.add(new Entry(i, list.get(i).getMa5().getAvgPrice()));
 			yVals2.add(new Entry(i, list.get(i).getMa10().getAvgPrice()));
 			yVals3.add(new Entry(i, list.get(i).getMa20().getAvgPrice()));
-
-			// // 最大、小值
-			// if (maxLeftY < list.get(i).getMa5().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa5().getAvgPrice();
-			// }
-			// if (maxLeftY < list.get(i).getMa10().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa10().getAvgPrice();
-			// }
-			//
-			// if (maxLeftY < list.get(i).getMa20().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa20().getAvgPrice();
-			// }
-			//
-			// if (maxLeftY < list.get(i).getKline().getHigh()) {
-			// maxLeftY = list.get(i).getKline().getHigh();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa5().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa5().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa10().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa10().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa20().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa20().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getKline().getLow()) {
-			// minLeftY = list.get(i).getKline().getLow();
-			// }
-
 		}
 
 		LineDataSet set1;
