@@ -249,6 +249,13 @@ public class UrlUtils {
 	public static final String STOCKTIMELINEFIVE ="https://gupiao.baidu.com/api/stocks/stocktimelinefive?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&timestamp=1510133035727";
 	/**个股-日K**/
 	public static final String STOCKDAYBAR ="https://gupiao.baidu.com/api/stocks/stockdaybar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&start=&count=160&fq_type=no&timestamp=1510212893650";
+	/**个股-周K**/
+	public static final String STOCKWEEKBAR="https://gupiao.baidu.com/api/stocks/stockweekbar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&start=&count=160&fq_type=no&timestamp=1510304846130";
+	/**个股-月K**/
+	public static final String STOCKMONTHBAR="https://gupiao.baidu.com/api/stocks/stockmonthbar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&start=&count=160&fq_type=no&timestamp=1510304899214";
+	
+	/**股票信息**/
+	public static final String STOCK ="https://gupiao.baidu.com/stock/sz000725.html";
 
 	
 }

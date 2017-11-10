@@ -32,6 +32,7 @@ import com.open.baidu.finance.bean.article.NewsContainerBean;
 import com.open.baidu.finance.bean.hot.HotConceptBean;
 import com.open.baidu.finance.bean.hot.HotStockBean;
 import com.open.baidu.finance.bean.kline.NewsBean;
+import com.open.baidu.finance.bean.kline.StockInfoBean;
 import com.open.baidu.finance.bean.news.AdviserPersonBean;
 import com.open.baidu.finance.bean.news.ExpertViewBean;
 import com.open.baidu.finance.bean.news.HotTiebaTopicBean;
@@ -1118,42 +1119,40 @@ public class TagNewsJsoupService extends CommonService {
 	public static FollowJson parseThmemeFollow(String href, int pageNo) {
 		FollowJson mFollowJson = new FollowJson();
 		try {
-		    URL url = new URL(href);
-		    HttpURLConnection connection = (HttpURLConnection) url.openConnection();// 设置代理访问
-		    connection.setRequestProperty("User-Agent", UrlUtils.userAgent);
-		    InputStreamReader read = new InputStreamReader(connection.getInputStream(), "utf-8");// 考虑到编码格式
-            BufferedReader bufferedReader = new BufferedReader(read);
-            String lineTxt = null;
-            StringBuffer buffer = new StringBuffer();
-            while ((lineTxt = bufferedReader.readLine()) != null) {//按行读取
-                if (!"".equals(lineTxt)) {
-                	if(lineTxt.contains("{\\")  && lineTxt.contains("followIndex")){
-                		if(lineTxt.contains("__gupiao[\"login\"]")){
-                			lineTxt = lineTxt.substring(0,lineTxt.indexOf("__gupiao[\"login\"]"));
-                		}else if(lineTxt.contains("[{")){
-                			lineTxt = lineTxt.substring(lineTxt.indexOf("[{")+1,lineTxt.length());
-                		}
-                		buffer.append(lineTxt);
-                		System.out.println(lineTxt);
-                	}
-                }
-            }
-            read.close();//关闭InputStreamReader
-            bufferedReader.close();//关闭BufferedReader
-            
-            String content = buffer.toString();
-            content = content.replace("<script type=\"text/javascript\">__gupiao[\"curve\"] = \"", "")
-            		.replace("\";", "");
-            content = "{\"list\":"+content.replace("\\\"", "\"").replace("\\&quot;", "\"")+"}";
-            Gson gson = new Gson();
-            mFollowJson = gson.fromJson(content, FollowJson.class);
+			URL url = new URL(href);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();// 设置代理访问
+			connection.setRequestProperty("User-Agent", UrlUtils.userAgent);
+			InputStreamReader read = new InputStreamReader(connection.getInputStream(), "utf-8");// 考虑到编码格式
+			BufferedReader bufferedReader = new BufferedReader(read);
+			String lineTxt = null;
+			StringBuffer buffer = new StringBuffer();
+			while ((lineTxt = bufferedReader.readLine()) != null) {// 按行读取
+				if (!"".equals(lineTxt)) {
+					if (lineTxt.contains("{\\") && lineTxt.contains("followIndex")) {
+						if (lineTxt.contains("__gupiao[\"login\"]")) {
+							lineTxt = lineTxt.substring(0, lineTxt.indexOf("__gupiao[\"login\"]"));
+						} else if (lineTxt.contains("[{")) {
+							lineTxt = lineTxt.substring(lineTxt.indexOf("[{") + 1, lineTxt.length());
+						}
+						buffer.append(lineTxt);
+						System.out.println(lineTxt);
+					}
+				}
+			}
+			read.close();// 关闭InputStreamReader
+			bufferedReader.close();// 关闭BufferedReader
+
+			String content = buffer.toString();
+			content = content.replace("<script type=\"text/javascript\">__gupiao[\"curve\"] = \"", "").replace("\";", "");
+			content = "{\"list\":" + content.replace("\\\"", "\"").replace("\\&quot;", "\"") + "}";
+			Gson gson = new Gson();
+			mFollowJson = gson.fromJson(content, FollowJson.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return mFollowJson;
 	}
-	
-	
+
 	public static List<NewsBean> parseStockNews(String href, int pageNo) {
 		List<NewsBean> list = new ArrayList<NewsBean>();
 		try {
@@ -1162,11 +1161,12 @@ public class TagNewsJsoupService extends CommonService {
 			// }
 			// });
 			Document doc;
-//			if (pageNo > 1) {
-				doc = Jsoup.parse(href);
-//			} else {
-//				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
-//			}
+			// if (pageNo > 1) {
+			doc = Jsoup.parse(href);
+			// } else {
+			// doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// }
 
 			Log.i(TAG, "url = " + href);
 
@@ -1176,7 +1176,7 @@ public class TagNewsJsoupService extends CommonService {
 			try {
 				/**
 				 */
-//				Element globalnavElement = doc.select("ul.qa-list").first();
+				// Element globalnavElement = doc.select("ul.qa-list").first();
 				Elements moduleElements = doc.select("li.row");
 				if (moduleElements != null && moduleElements.size() > 0) {
 					for (int i = 0; i < moduleElements.size(); i++) {
@@ -1185,7 +1185,7 @@ public class TagNewsJsoupService extends CommonService {
 							try {
 								Element imgElement = moduleElements.get(i).select("a").first();
 								if (imgElement != null) {
-									String hrefa = UrlUtils.GUPIAO_BAIDU +imgElement.attr("href");
+									String hrefa = UrlUtils.GUPIAO_BAIDU + imgElement.attr("href");
 									Log.i(TAG, "i==" + i + ";hrefa==" + hrefa);
 									sbean.setHref(hrefa);
 								}
@@ -1242,5 +1242,183 @@ public class TagNewsJsoupService extends CommonService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public static StockInfoBean parseStockInfo(String href, int pageNo) {
+		StockInfoBean mStockInfoBean = new StockInfoBean();
+		try {
+			Document doc;
+			// if (pageNo > 1) {
+//			doc = Jsoup.parse(href);
+			// } else {
+			// doc =
+			doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// }
+			Log.i(TAG, "url = " + href);
+			// Document doc =
+			// Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				/**
+				 */
+				// Element globalnavElement = doc.select("ul.qa-list").first();
+				Elements moduleElements = doc.select("div.stock-info");
+				if (moduleElements != null && moduleElements.size() > 0) {
+					try {
+						try {
+							Element imgElement = moduleElements.get(0).select("a.bets-name").first();
+							if (imgElement != null) {
+								String hrefa = UrlUtils.GUPIAO_BAIDU + imgElement.attr("href");
+								Log.i(TAG, "hrefa==" + hrefa);
+								mStockInfoBean.setHref(hrefa);
+								
+								String time = imgElement.select("span.f-up").text();
+								Log.i(TAG, "time==" + time);
+								mStockInfoBean.setTime(time);
+								
+								mStockInfoBean.setTitle(imgElement.text().replace("</span>", "").replace("<span>", ""));
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						try {
+							Element imgElement = moduleElements.get(0).select("strong._close").first();
+							if (imgElement != null) {
+								String close =   imgElement.text();
+								Log.i(TAG, "close==" + close);
+								mStockInfoBean.setClose(Float.parseFloat(close));
+								
+								String netChange =   imgElement.nextElementSibling().text();
+								Log.i(TAG, "netChange==" + netChange);
+								mStockInfoBean.setNetChange(Float.parseFloat(netChange));
+								
+								String netChangeRatio =   imgElement.nextElementSibling().nextElementSibling().text();
+								Log.i(TAG, "netChangeRatio==" + netChangeRatio);
+								mStockInfoBean.setNetChangeRatio(netChangeRatio);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						
+						try {
+							Element imgElement = moduleElements.get(0).select("div.line1").first();
+							if (imgElement != null) {
+								String open =   imgElement.select("dd").get(0).text();
+								Log.i(TAG, "open==" + open);
+								mStockInfoBean.setOpen(Float.parseFloat(open));
+								
+								String volume =   imgElement.select("dd").get(1).text();
+								Log.i(TAG, "volume==" + volume);
+								mStockInfoBean.setVolume(volume);
+								
+								String high =   imgElement.select("dd").get(2).text();
+								Log.i(TAG, "high==" + high);
+								mStockInfoBean.setHigh(Float.parseFloat(high));
+								
+								String up =   imgElement.select("dd").get(3).text();
+								Log.i(TAG, "up==" + up);
+								mStockInfoBean.setUp(Float.parseFloat(up));
+								
+								String m915 =   imgElement.select("dd").get(4).text();
+								Log.i(TAG, "m915==" + m915);
+								mStockInfoBean.setM915(m915);
+								
+								String amount =   imgElement.select("dd").get(5).text();
+								Log.i(TAG, "amount" + amount);
+								mStockInfoBean.setAmount(amount);
+								
+								String weibi =   imgElement.select("dd").get(6).text();
+								Log.i(TAG, "weibi" + weibi);
+								mStockInfoBean.setWeibi(weibi);
+								
+								String total_exmoney =   imgElement.select("dd").get(7).text();
+								Log.i(TAG, "total_exmoney" + total_exmoney);
+								mStockInfoBean.setTotal_exmoney(total_exmoney);
+								
+								String mrq =   imgElement.select("dd").get(8).text();
+								Log.i(TAG, "mrq" + mrq);
+								mStockInfoBean.setMrq(mrq);
+								
+								String profit =   imgElement.select("dd").get(9).text();
+								Log.i(TAG, "profit" + profit);
+								mStockInfoBean.setProfit(profit);
+								
+								
+								String total_guben =   imgElement.select("dd").get(10).text();
+								Log.i(TAG, "total_guben" + total_guben);
+								mStockInfoBean.setTotal_guben(total_guben);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						try {
+							Element imgElement = moduleElements.get(0).select("div.line2").first();
+							if (imgElement != null) {
+								String preClose =   imgElement.select("dd").get(0).text();
+								Log.i(TAG, "preClose==" + preClose);
+								mStockInfoBean.setPreClose(Float.parseFloat(preClose));
+								
+								String exchangeRate =   imgElement.select("dd").get(1).text();
+								Log.i(TAG, "exchangeRate==" + exchangeRate);
+								mStockInfoBean.setExchangeRate(exchangeRate);
+								
+								String low =   imgElement.select("dd").get(2).text();
+								Log.i(TAG, "low==" + low);
+								mStockInfoBean.setLow(Float.parseFloat(low));
+								
+								String down =   imgElement.select("dd").get(3).text();
+								Log.i(TAG, "down==" + down);
+								mStockInfoBean.setDown(Float.parseFloat(down));
+								
+								String m930 =   imgElement.select("dd").get(4).text();
+								Log.i(TAG, "m930==" + m930);
+								mStockInfoBean.setM930(m930);
+								
+								String rate =   imgElement.select("dd").get(5).text();
+								Log.i(TAG, "rate" + rate);
+								mStockInfoBean.setRate(rate);
+								
+								String volumebi =   imgElement.select("dd").get(6).text();
+								Log.i(TAG, "volumebi" + volumebi);
+								mStockInfoBean.setVolumebi(volumebi);
+								
+								String total_money =   imgElement.select("dd").get(7).text();
+								Log.i(TAG, "total_money" + total_money);
+								mStockInfoBean.setTotal_money(total_money);
+								
+								String jing_rate =   imgElement.select("dd").get(8).text();
+								Log.i(TAG, "jing_rate" + jing_rate);
+								mStockInfoBean.setJing_rate(jing_rate);
+								
+								String jingmoney =   imgElement.select("dd").get(9).text();
+								Log.i(TAG, "jingmoney" + jingmoney);
+								mStockInfoBean.setJingmoney(jingmoney);
+								
+								
+								String ex_guben =   imgElement.select("dd").get(10).text();
+								Log.i(TAG, "ex_guben" + ex_guben);
+								mStockInfoBean.setEx_guben(ex_guben);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+ 
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mStockInfoBean;
 	}
 }

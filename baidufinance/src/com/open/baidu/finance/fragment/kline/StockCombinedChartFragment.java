@@ -61,6 +61,7 @@ import com.google.gson.Gson;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.widget.ScrollableHelper.ScrollableContainer;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.kline.TimeLineBean;
 import com.open.baidu.finance.json.kline.TimeLineJson;
@@ -78,7 +79,8 @@ import com.open.baidu.finance.widget.kline.DayAxisValueFormatter;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, StockCombinedChartFragment> implements OnChartValueSelectedListener {
+public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, StockCombinedChartFragment> implements OnChartValueSelectedListener,
+  ScrollableContainer{
 	private CombinedChart linechart,barchart;
 	private List<TimeLineBean> list = new ArrayList<TimeLineBean>();
 	private float maxLeftY = -10000;
@@ -86,7 +88,7 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 	private float maxVolume = -10000;
 	private float preclose = 0;
 	private TextView txt_time,txt_price,txt_rate,txt_volume;
-	
+	private View view;
 	public static StockCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
 		StockCombinedChartFragment fragment = new StockCombinedChartFragment();
 		fragment.setFragment(fragment);
@@ -108,6 +110,15 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		return view;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.open.android.widget.ScrollableHelper.ScrollableContainer#getScrollableView()
+	 */
+	@Override
+	public View getScrollableView() {
+		// TODO Auto-generated method stub
+		return view;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

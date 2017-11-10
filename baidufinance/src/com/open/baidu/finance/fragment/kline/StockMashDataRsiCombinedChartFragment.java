@@ -137,15 +137,13 @@ public class StockMashDataRsiCombinedChartFragment extends BaseV4Fragment<MashDa
 		combinedchart.setBorderWidth(1);// 边线宽度，单位dp
 		combinedchart.setBorderColor(Color.GRAY);
 		combinedchart.setDragEnabled(true);// 启用图表拖拽事件
-		// combinedchart.setScaleYEnabled(false);//启用Y轴上的缩放
+		combinedchart.setScaleYEnabled(false);//启用Y轴上的缩放
 
-		// scaling can now only be done on x- and y-axis separately
-		combinedchart.setPinchZoom(false);
 		combinedchart.setTouchEnabled(true); // enable touch gestures
 		// setting data
 		combinedchart.setHighlightPerDragEnabled(true);
 
-		combinedchart.setScaleEnabled(true);
+		combinedchart.setScaleXEnabled(true);
 		combinedchart.setAutoScaleMinMaxEnabled(true);
 
 		combinedchart.setMinOffset(0f);
@@ -173,7 +171,7 @@ public class StockMashDataRsiCombinedChartFragment extends BaseV4Fragment<MashDa
 		barchart.setHighlightPerDragEnabled(false);
 		barchart.setNoDataText("");
 		barchart.setDragEnabled(true);// 启用图表拖拽事件
-		barchart.setScaleEnabled(true);
+		barchart.setScaleXEnabled(true);
 		barchart.setScaleYEnabled(false);// 启用Y轴上的缩放
 		barchart.setMinOffset(0f);
 		barchart.setExtraOffsets(0f, 0f, 0f, 3f);
@@ -362,7 +360,7 @@ public class StockMashDataRsiCombinedChartFragment extends BaseV4Fragment<MashDa
 		rightAxis.setEnabled(false);
 		// rightAxis.setStartAtZero(false);
 		combinedchart.setDragDecelerationEnabled(true);
-		combinedchart.setDragDecelerationFrictionCoef(0.2f);
+		combinedchart.setDragDecelerationFrictionCoef(0.5f);
 
 		// if more than 40 entries are displayed in the chart, no values will be
 		// drawn
@@ -381,7 +379,7 @@ public class StockMashDataRsiCombinedChartFragment extends BaseV4Fragment<MashDa
 		barchart.setData(bardata);
 
 		barchart.setDragDecelerationEnabled(true);
-		barchart.setDragDecelerationFrictionCoef(0.2f);
+		barchart.setDragDecelerationFrictionCoef(0.5f);
 		// candlestickchart.setData(data);
 		barchart.moveViewToX(list.size() - 1);
 		// 设置最小的缩放

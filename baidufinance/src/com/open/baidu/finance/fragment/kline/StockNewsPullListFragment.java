@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,6 +32,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.android.widget.ScrollableHelper.ScrollableContainer;
 import com.open.baidu.finance.adapter.kline.StockNewsAdapter;
 import com.open.baidu.finance.bean.kline.NewsBean;
 import com.open.baidu.finance.json.kline.NewsJson;
@@ -49,7 +51,7 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class StockNewsPullListFragment extends CommonPullToRefreshListFragment<NewsBean, NewsJson>{
+public class StockNewsPullListFragment extends CommonPullToRefreshListFragment<NewsBean, NewsJson> implements ScrollableContainer{
 	private StockNewsAdapter mStockNewsAdapter;
 	
 	public static StockNewsPullListFragment newInstance(String url, boolean isVisibleToUser) {
@@ -170,5 +172,14 @@ public class StockNewsPullListFragment extends CommonPullToRefreshListFragment<N
 			// Call onRefreshComplete when the list has been refreshed.
 			mPullToRefreshListView.onRefreshComplete();
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.open.android.widget.ScrollableHelper.ScrollableContainer#getScrollableView()
+	 */
+	@Override
+	public View getScrollableView() {
+		// TODO Auto-generated method stub
+		return mPullToRefreshListView.getRefreshableView();
 	}
 }

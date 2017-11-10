@@ -403,6 +403,14 @@
             android:description="@string/app_kline_stock_day_bar_chart_f_desp"
              >
         </activity>
+         <!-- 个股信息 -->
+        <activity
+            android:name=".activity.kline.StockScrollMarketFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_kline_stock_market_f_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults" 
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"
