@@ -134,7 +134,7 @@ public class StockNewsPullListFragment extends CommonPullToRefreshListFragment<N
 					onCallback(mNewsJson);
 					
 					OpenDBBean openbean = new OpenDBBean();
-					openbean.setTitle(response.toString());
+					openbean.setTitle(gson.toJson(mNewsJson));
 					openbean.setDownloadurl("");
 					openbean.setImgsrc("");
 					openbean.setType(pageNo);
