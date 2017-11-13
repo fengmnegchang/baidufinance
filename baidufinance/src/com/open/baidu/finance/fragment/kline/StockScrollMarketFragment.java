@@ -320,7 +320,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 				clearTag();
 				txt_five_k.setTag("1");
 				txt_five_k.setTextColor(getResources().getColor(R.color.blue_color));
-				Fragment fragment = StockCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINEFIVE, true);
+				Fragment fragment = StockFiveDayCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINEFIVE, true);
 				getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 			}
 			break;

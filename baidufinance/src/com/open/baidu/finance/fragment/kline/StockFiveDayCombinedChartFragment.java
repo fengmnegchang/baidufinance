@@ -25,9 +25,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -40,8 +38,8 @@ import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
@@ -57,6 +55,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.gson.Gson;
 import com.open.android.bean.db.OpenDBBean;
@@ -64,10 +63,10 @@ import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.widget.ScrollableHelper.ScrollableContainer;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.adapter.kline.StockSallBuyAddapter;
 import com.open.baidu.finance.bean.kline.TimeLineBean;
 import com.open.baidu.finance.json.kline.TimeLineJson;
 import com.open.baidu.finance.utils.UrlUtils;
+import com.open.baidu.finance.widget.kline.DayAxisValueFormatter;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -80,8 +79,8 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, StockCombinedChartFragment> 
-implements ScrollableContainer,OnClickListener{
+public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJson, StockFiveDayCombinedChartFragment> implements OnChartValueSelectedListener,
+  ScrollableContainer{
 	private CombinedChart linechart,barchart;
 	private List<TimeLineBean> list = new ArrayList<TimeLineBean>();
 	private float maxLeftY = -10000;
@@ -90,16 +89,8 @@ implements ScrollableContainer,OnClickListener{
 	private float preclose = 0;
 	private TextView txt_time,txt_price,txt_rate,txt_volume;
 	private View view;
-	//五档
-	private TextView txt_five_sallbuy,txt_sallbuy_list;
-	private ListView listview;
-	private StockSallBuyAddapter mStockSallBuyAddapter;
-	private List<TimeLineBean> bsList = new ArrayList<TimeLineBean>();
-	private int bstype;
-	private TimeLineJson mTimeLineJson;
-	
-	public static StockCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
-		StockCombinedChartFragment fragment = new StockCombinedChartFragment();
+	public static StockFiveDayCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
+		StockFiveDayCombinedChartFragment fragment = new StockFiveDayCombinedChartFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
@@ -108,7 +99,7 @@ implements ScrollableContainer,OnClickListener{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_stock_combined_chart, container, false);
+		View view = inflater.inflate(R.layout.fragment_stock_five_day_combined_chart, container, false);
 		linechart = (CombinedChart) view.findViewById(R.id.linechart);
 		barchart = (CombinedChart) view.findViewById(R.id.barchart);
 		
@@ -116,10 +107,6 @@ implements ScrollableContainer,OnClickListener{
 		txt_price = (TextView) view.findViewById(R.id.txt_price);
 		txt_rate = (TextView) view.findViewById(R.id.txt_rate);
 		txt_volume = (TextView) view.findViewById(R.id.txt_volume);
-		
-		txt_five_sallbuy = (TextView) view.findViewById(R.id.txt_five_sallbuy);
-		txt_sallbuy_list = (TextView) view.findViewById(R.id.txt_sallbuy_list);
-		listview = (ListView) view.findViewById(R.id.listview);
 		return view;
 	}
 
@@ -132,16 +119,6 @@ implements ScrollableContainer,OnClickListener{
 		return view;
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.open.android.fragment.BaseV4Fragment#bindEvent()
-	 */
-	@Override
-	public void bindEvent() {
-		// TODO Auto-generated method stub
-		super.bindEvent();
-		txt_five_sallbuy.setOnClickListener(this);
-		txt_sallbuy_list.setOnClickListener(this);
-	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -151,9 +128,6 @@ implements ScrollableContainer,OnClickListener{
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-		mStockSallBuyAddapter = new StockSallBuyAddapter(getActivity(), bsList);
-		listview.setAdapter(mStockSallBuyAddapter);
-		
 		linechart.getDescription().setEnabled(false);
 		linechart.setBackgroundColor(Color.WHITE);
 		linechart.setDrawGridBackground(false);
@@ -161,6 +135,7 @@ implements ScrollableContainer,OnClickListener{
 //		linechart.setHighlightFullBarEnabled(false);
 		// draw bars behind lines
 		linechart.setDrawOrder(new DrawOrder[] { DrawOrder.LINE, DrawOrder.BAR });
+		linechart.setOnChartValueSelectedListener(this);
 		linechart.setDrawValueAboveBar(true);
 
 		// if more than 60 entries are displayed in the chart, no values will be
@@ -171,17 +146,17 @@ implements ScrollableContainer,OnClickListener{
 		linechart.setPinchZoom(false);
 		linechart.setDrawGridBackground(false);
 		linechart.setNoDataText("");
-//		linechart.setDrawBorders(true);//是否绘制边线
-//		linechart.setBorderWidth(1);//边线宽度，单位dp
-//		linechart.setBorderColor(Color.GRAY);
+		linechart.setDrawBorders(true);//是否绘制边线
+		linechart.setBorderWidth(1);//边线宽度，单位dp
+		linechart.setBorderColor(Color.GRAY);
 		linechart.setDragEnabled(true);//启用图表拖拽事件
 		linechart.setScaleEnabled(false);
 		linechart.setScaleYEnabled(false);//启用Y轴上的缩放
 		
 		
-//		barchart.setDrawBorders(true);//是否绘制边线
-//		barchart.setBorderWidth(1);//边线宽度，单位dp
-//		barchart.setBorderColor(Color.GRAY);
+		barchart.setDrawBorders(true);//是否绘制边线
+		barchart.setBorderWidth(1);//边线宽度，单位dp
+		barchart.setBorderColor(Color.GRAY);
 		barchart.getDescription().setEnabled(false);
 		barchart.setBackgroundColor(Color.WHITE);
 		barchart.setDrawGridBackground(false);
@@ -189,6 +164,7 @@ implements ScrollableContainer,OnClickListener{
 //		barchart.setHighlightFullBarEnabled(false);
 		// draw bars behind lines
 		barchart.setDrawOrder(new DrawOrder[] { DrawOrder.BAR ,DrawOrder.LINE });
+		barchart.setOnChartValueSelectedListener(this);
 		barchart.setDrawValueAboveBar(true);
 
 		// if more than 60 entries are displayed in the chart, no values will be
@@ -322,7 +298,7 @@ implements ScrollableContainer,OnClickListener{
 				}
 
 			}
-		}, StockCombinedChartFragment.this);
+		}, StockFiveDayCombinedChartFragment.this);
 		requestQueue.add(jsonObjectRequest);
 	}
 
@@ -336,35 +312,6 @@ implements ScrollableContainer,OnClickListener{
 	public void onCallback(TimeLineJson result) {
 		// TODO Auto-generated method stub
 		super.onCallback(result);
-		mTimeLineJson = result;
-		bsList.clear();
-		if(bstype==0){
-			for(int i=result.getAsk().size()-1;i>=0;i--){
-				TimeLineBean bean = result.getAsk().get(i);
-				bean.setType(bstype);
-				bean.setBsLevel("卖"+(result.getAsk().size()-i));
-				bsList.add(bean);
-			}
-			
-			for(int i=0;i<result.getBid().size();i++){
-				TimeLineBean bean = result.getBid().get(i);
-				bean.setType(bstype);
-				bean.setBsLevel("买"+(i+1));
-				bsList.add(bean);
-			}
-		}else{
-			int size = result.getTick().size();
-			if(result.getTick().size()>10){
-				size =10;
-			}
-			for(int i=0;i<size;i++){
-				TimeLineBean bean = result.getTick().get(i);
-				bean.setType(bstype);
-				bsList.add(bean);
-			}
-		}
-		mStockSallBuyAddapter.notifyDataSetChanged();
-		
 		list.clear();
 		list.addAll(result.getTimeLine());
         
@@ -537,7 +484,7 @@ implements ScrollableContainer,OnClickListener{
 		// xAxis.setTextColor(Color.WHITE);
 		xAxis.setDrawGridLines(false);
 		xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-		xAxis.setDrawAxisLine(true);
+		xAxis.setDrawAxisLine(false);
 		xAxis.setValueFormatter(new IAxisValueFormatter() {
 			@Override
 			public String getFormattedValue(float value, AxisBase axis) {
@@ -624,42 +571,33 @@ implements ScrollableContainer,OnClickListener{
 		
 //		IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(barchart, list);
 		XAxis xAxis = barchart.getXAxis();
-		xAxis.setPosition(XAxisPosition.BOTTOM);
-//		xAxis.setEnabled(false);
-		xAxis.setDrawAxisLine(true);
-		xAxis.setDrawGridLines(false);
+//		xAxis.setPosition(XAxisPosition.BOTTOM);
+		xAxis.setEnabled(false);
 //		xAxis.setDrawGridLines(false);
 //		xAxis.setDrawAxisLine(false);
 //		xAxis.setGranularity(1f); // only intervals of 1 day
-		xAxis.setValueFormatter(new IAxisValueFormatter() {
+//		xAxis.setValueFormatter(xAxisFormatter);
+
+		YAxis leftAxis = barchart.getAxisLeft();
+		// leftAxis.setTypeface(mTfLight);
+		leftAxis.setDrawAxisLine(false);
+		leftAxis.setDrawGridLines(false);
+		leftAxis.setLabelCount(3, true);
+		leftAxis.setValueFormatter(new IAxisValueFormatter() {
 			@Override
 			public String getFormattedValue(float value, AxisBase axis) {
 				// TODO Auto-generated method stub
-				return "";
+				if (value == 0) {
+					return "万手";
+				} else {
+					return String.format("%.2f", value);
+				}
 			}
 		});
-
-		YAxis leftAxis = barchart.getAxisLeft();
-		leftAxis.setEnabled(false);
-		// leftAxis.setTypeface(mTfLight);
-//		leftAxis.setDrawAxisLine(false);
-//		leftAxis.setDrawGridLines(false);
-//		leftAxis.setLabelCount(3, true);
-//		leftAxis.setValueFormatter(new IAxisValueFormatter() {
-//			@Override
-//			public String getFormattedValue(float value, AxisBase axis) {
-//				// TODO Auto-generated method stub
-//				if (value == 0) {
-//					return "万手";
-//				} else {
-//					return String.format("%.2f", value);
-//				}
-//			}
-//		});
-//		leftAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
-//		leftAxis.setSpaceTop(15f);
-//		leftAxis.setAxisMaximum(maxVolume);
-//		leftAxis.setAxisMinimum(0);
+		leftAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
+		leftAxis.setSpaceTop(15f);
+		leftAxis.setAxisMaximum(maxVolume);
+		leftAxis.setAxisMinimum(0);
 		
 		YAxis rightAxis = barchart.getAxisRight();
 		rightAxis.setEnabled(false);
@@ -706,65 +644,28 @@ implements ScrollableContainer,OnClickListener{
 		return data;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#
+	 * onValueSelected(com.github.mikephil.charting.data.Entry,
+	 * com.github.mikephil.charting.highlight.Highlight)
 	 */
 	@Override
-	public void onClick(View v) {
+	public void onValueSelected(Entry e, Highlight h) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.txt_five_sallbuy:
-			if(bstype==1){
-				bstype = 0;
-				updateBsData();
-				txt_five_sallbuy.setBackgroundResource(R.drawable.blue_bounds_shape);
-				txt_sallbuy_list.setBackgroundResource(R.drawable.round_bounds_shape);
-			}
-			break;
-		case R.id.txt_sallbuy_list:
-			//明细
-			if(bstype==0){
-				bstype = 1;
-				updateBsData();
-				txt_sallbuy_list.setBackgroundResource(R.drawable.blue_bounds_shape);
-				txt_five_sallbuy.setBackgroundResource(R.drawable.round_bounds_shape);
-			}
-			break;
-		default:
-			break;
-		}
+
 	}
-	
-	private void updateBsData(){
-		if(mTimeLineJson==null){
-			return;
-		}
-		bsList.clear();
-		if(bstype==0){
-			for(int i=mTimeLineJson.getAsk().size()-1;i>=0;i--){
-				TimeLineBean bean = mTimeLineJson.getAsk().get(i);
-				bean.setType(bstype);
-				bean.setBsLevel("卖"+(mTimeLineJson.getAsk().size()-i));
-				bsList.add(bean);
-			}
-			
-			for(int i=0;i<mTimeLineJson.getBid().size();i++){
-				TimeLineBean bean = mTimeLineJson.getBid().get(i);
-				bean.setType(bstype);
-				bean.setBsLevel("买"+(i+1));
-				bsList.add(bean);
-			}
-		}else{
-			int size = mTimeLineJson.getTick().size();
-			if(mTimeLineJson.getTick().size()>10){
-				size =10;
-			}
-			for(int i=0;i<size;i++){
-				TimeLineBean bean = mTimeLineJson.getTick().get(i);
-				bean.setType(bstype);
-				bsList.add(bean);
-			}
-		}
-		mStockSallBuyAddapter.notifyDataSetChanged();
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#
+	 * onNothingSelected()
+	 */
+	@Override
+	public void onNothingSelected() {
+		// TODO Auto-generated method stub
+
 	}
 }

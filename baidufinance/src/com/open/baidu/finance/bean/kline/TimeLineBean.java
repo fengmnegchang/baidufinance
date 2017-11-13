@@ -39,6 +39,34 @@ public class TimeLineBean extends CommonBean {
 	private float high;// 6.5300002098083,
 	private float low;// 6.2399997711182,
 	private float close;// 6.4899997711182,
+	private String bsflag;//S 卖；B 买
+	private int type;//0 五档；1：买卖明细
+	private String bsLevel;
+	
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getBsLevel() {
+		return bsLevel;
+	}
+
+	public void setBsLevel(String bsLevel) {
+		this.bsLevel = bsLevel;
+	}
+
+	public String getBsflag() {
+		return bsflag;
+	}
+
+	public void setBsflag(String bsflag) {
+		this.bsflag = bsflag;
+	}
 
 	public float getOpen() {
 		return open;

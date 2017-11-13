@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="9:15"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/txt_price"
@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="价 6.51"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/txt_rate"
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="幅 -0.7%"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/txt_volume"
@@ -44,59 +44,19 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="量 5.49万手"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/linechart"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_toLeftOf="@+id/layout_sall_buy"
+        android:layout_height="220dp"
         android:layout_below="@+id/layout_index" />
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/barchart"
         android:layout_width="match_parent"
-        android:layout_toLeftOf="@+id/layout_sall_buy"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:layout_below="@+id/linechart" />
-
-    <RelativeLayout
-        android:id="@+id/layout_sall_buy"
-        android:layout_width="120dp"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/layout_index"
-        android:paddingTop="8dp"
-        android:paddingRight="5dp"
-        android:layout_alignParentRight="true" >
-
-        <TextView
-            android:id="@+id/txt_five_sallbuy"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:textSize="10dp"
-            android:padding="2dp"
-            android:background="@drawable/blue_bounds_shape"
-            android:gravity="center"
-            android:text="五档" />
-
-        <TextView
-            android:id="@+id/txt_sallbuy_list"
-            android:layout_width="60dp"
-            android:layout_toRightOf="@+id/txt_five_sallbuy"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:background="@drawable/round_bounds_shape"
-            android:gravity="center"
-            android:textSize="10dp"
-            android:text="明细" />
-        
-        <ListView 
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_five_sallbuy"
-            />
-    </RelativeLayout>
 
 </RelativeLayout>
