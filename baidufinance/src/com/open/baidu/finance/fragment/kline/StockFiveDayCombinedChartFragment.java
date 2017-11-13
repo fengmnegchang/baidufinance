@@ -146,17 +146,17 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		linechart.setPinchZoom(false);
 		linechart.setDrawGridBackground(false);
 		linechart.setNoDataText("");
-		linechart.setDrawBorders(true);//是否绘制边线
-		linechart.setBorderWidth(1);//边线宽度，单位dp
-		linechart.setBorderColor(Color.GRAY);
+//		linechart.setDrawBorders(true);//是否绘制边线
+//		linechart.setBorderWidth(1);//边线宽度，单位dp
+//		linechart.setBorderColor(Color.GRAY);
 		linechart.setDragEnabled(true);//启用图表拖拽事件
 		linechart.setScaleEnabled(false);
 		linechart.setScaleYEnabled(false);//启用Y轴上的缩放
 		
 		
-		barchart.setDrawBorders(true);//是否绘制边线
-		barchart.setBorderWidth(1);//边线宽度，单位dp
-		barchart.setBorderColor(Color.GRAY);
+//		barchart.setDrawBorders(true);//是否绘制边线
+//		barchart.setBorderWidth(1);//边线宽度，单位dp
+//		barchart.setBorderColor(Color.GRAY);
 		barchart.getDescription().setEnabled(false);
 		barchart.setBackgroundColor(Color.WHITE);
 		barchart.setDrawGridBackground(false);
@@ -328,6 +328,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		bardata.setData(generateBarData());
 		// data.setValueTypeface(mTfLight);
 		barchart.setData(bardata);
+		barchart.setScaleMinima(2.5f, 1f);
 		barchart.invalidate();
 		
 		txt_time.setText(""+list.get(0).getTime()/100000);
@@ -480,7 +481,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		XAxis xAxis = linechart.getXAxis();
 		// xAxis.setTypeface(mTfLight);
 		xAxis.setTextSize(11f);
-		xAxis.setLabelCount(3, true);
+		xAxis.setLabelCount(5, true);
 		// xAxis.setTextColor(Color.WHITE);
 		xAxis.setDrawGridLines(false);
 		xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -500,7 +501,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawTopYLabelEntry(true);
 		leftAxis.setDrawZeroLine(true);
-		leftAxis.setLabelCount(3, true);
+		leftAxis.setLabelCount(2, true);
 		leftAxis.setAxisMaximum(maxLeftY);
 		leftAxis.setAxisMinimum(minLeftY);
 		leftAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
@@ -524,7 +525,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		// rightAxis.setDrawLabels(false);
 		rightAxis.setDrawGridLines(false);
 		rightAxis.setGranularityEnabled(false);
-		rightAxis.setLabelCount(3, true);
+		rightAxis.setLabelCount(2, true);
 		rightAxis.setDrawAxisLine(false);
 		rightAxis.setDrawTopYLabelEntry(true);
 		rightAxis.setDrawZeroLine(true);
@@ -579,6 +580,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 //		xAxis.setValueFormatter(xAxisFormatter);
 
 		YAxis leftAxis = barchart.getAxisLeft();
+//		leftAxis.setEnabled(false);
 		// leftAxis.setTypeface(mTfLight);
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawGridLines(false);
@@ -587,11 +589,12 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 			@Override
 			public String getFormattedValue(float value, AxisBase axis) {
 				// TODO Auto-generated method stub
-				if (value == 0) {
-					return "万手";
-				} else {
-					return String.format("%.2f", value);
-				}
+//				if (value == 0) {
+//					return "万手";
+//				} else {
+//					return String.format("%.2f", value);
+//				}
+				return "";
 			}
 		});
 		leftAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);

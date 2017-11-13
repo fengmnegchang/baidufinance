@@ -11,22 +11,48 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/txt_time"
+            android:id="@+id/txt_open"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
-            android:text="9:15"
-            android:textSize="12dp" />
+            android:text="开 4.00"
+            android:textSize="10dp" />
 
         <TextView
-            android:id="@+id/txt_price"
+            android:id="@+id/txt_high"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
-            android:text="价 6.51"
-            android:textSize="12dp" />
+            android:text="高 4.04"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/txt_low"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="低 3.97"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/txt_close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="收 4.01"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_index2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_index"
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/txt_rate"
@@ -34,8 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
-            android:text="幅 -0.7%"
-            android:textSize="12dp" />
+            android:text="幅 ---"
+            android:textSize="10dp" />
 
         <TextView
             android:id="@+id/txt_volume"
@@ -44,18 +70,38 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="量 5.49万手"
-            android:textSize="12dp" />
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="09-19"
+            android:textSize="10dp" />
+         <TextView
+            android:id="@+id/txt_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="类型"
+            android:textColor="@color/blue_color"
+            android:textSize="10dp" />
+        
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/combinedchart"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_below="@+id/layout_index" />
+        android:layout_height="180dp"
+        android:layout_below="@+id/layout_index2" />
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/barchart"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_below="@+id/combinedchart" />
+
 </RelativeLayout>

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONObject;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,7 +25,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -33,7 +32,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -63,8 +62,8 @@ import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.bean.kline.MashDataBean;
-import com.open.baidu.finance.json.kline.MashDataJson;
+import com.open.baidu.finance.bean.kline.TimeLineBean;
+import com.open.baidu.finance.json.kline.KLineDataJson;
 import com.open.baidu.finance.utils.CoupleChartGestureListener;
 import com.open.baidu.finance.utils.UrlUtils;
 
@@ -79,15 +78,14 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJson, StockMashDataCombinedChartFragment> {
+public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJson, StockSinaMinCombinedChartFragment> {
 	private CombinedChart combinedchart;
 	private CombinedChart barchart;
-	private List<MashDataBean> list = new ArrayList<MashDataBean>();
+	private List<TimeLineBean> list = new ArrayList<TimeLineBean>();
 	private TextView txt_time, txt_rate, txt_volume, txt_open, txt_high, txt_low, txt_close, txt_type;
-	private int type;
 
-	public static StockMashDataCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
-		StockMashDataCombinedChartFragment fragment = new StockMashDataCombinedChartFragment();
+	public static StockSinaMinCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
+		StockSinaMinCombinedChartFragment fragment = new StockSinaMinCombinedChartFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
@@ -112,54 +110,6 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		return view;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.open.android.fragment.BaseV4Fragment#bindEvent()
-	 */
-	@Override
-	public void bindEvent() {
-		// TODO Auto-generated method stub
-		super.bindEvent();
-		txt_type.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(type==3){
-					type=0;
-				}else{
-					type = type+1;
-				}
-
-				CombinedData bardata = new CombinedData();
-				switch (type) {
-				case 0:
-					bardata.setData(generateNullLineData());
-					bardata.setData(generateBarData());
-					break;
-				case 1:
-					//kdj
-					bardata.setData(generateKdjLineData());
-					bardata.setData(generateKdjBarData());
-					break;
-				case 2:
-					//macd
-					bardata.setData(generateMacdLineData());
-					bardata.setData(generateMacdBarData());
-					break;
-				case 3:
-					//rsi
-					bardata.setData(generateRsiLineData());
-					bardata.setData(generateRsiBarData());
-					break;
-				default:
-					break;
-				}
-				// data.setValueTypeface(mTfLight);
-				barchart.setData(bardata);
-				barchart.invalidate();
-			}
-		});
-	}
 	
 	/*
 	 * (non-Javadoc)
@@ -170,6 +120,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
+		txt_type.setVisibility(View.GONE);
 		combinedchart.getDescription().setEnabled(false);
 		combinedchart.setBackgroundColor(Color.WHITE);
 		combinedchart.setDrawGridBackground(false);
@@ -245,13 +196,13 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 				highlight.setDraw(h.getX(), touchY);
 				barchart.highlightValues(new Highlight[] { highlight });
 
-				txt_time.setText("" + list.get((int) e.getX()).getDate());
-				txt_rate.setText("幅 " + String.format("%.2f", list.get((int) e.getX()).getKline().getNetChangeRatio()) + "%");
-				txt_volume.setText("量 " + String.format("%.2f", list.get((int) e.getX()).getKline().getVolume() / 100f / 10000f) + "万手");
-				txt_close.setText("收 " + String.format("%.2f", list.get((int) e.getX()).getKline().getClose()));
-				txt_open.setText("开 " + String.format("%.2f", list.get((int) e.getX()).getKline().getOpen()));
-				txt_high.setText("高 " + String.format("%.2f", list.get((int) e.getX()).getKline().getHigh()));
-				txt_low.setText("低 " + String.format("%.2f", list.get((int) e.getX()).getKline().getLow()));
+				txt_time.setText("" + list.get((int) e.getX()).getDay());
+//				txt_rate.setText("幅 " + String.format("%.2f", list.get((int) e.getX()).getKline().getNetChangeRatio()) + "%");
+				txt_volume.setText("量 " + String.format("%.2f", list.get((int) e.getX()).getVolume() / 100f / 10000f) + "万手");
+				txt_close.setText("收 " + String.format("%.2f", list.get((int) e.getX()).getClose()));
+				txt_open.setText("开 " + String.format("%.2f", list.get((int) e.getX()).getOpen()));
+				txt_high.setText("高 " + String.format("%.2f", list.get((int) e.getX()).getHigh()));
+				txt_low.setText("低 " + String.format("%.2f", list.get((int) e.getX()).getLow()));
 
 			}
 
@@ -271,14 +222,13 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 				highlight.setDraw(h.getX(), touchY);
 				combinedchart.highlightValues(new Highlight[] { highlight });
 
-				txt_time.setText("" + list.get((int) e.getX()).getDate());
-				txt_rate.setText("幅 " + String.format("%.2f", list.get((int) e.getX()).getKline().getNetChangeRatio()) + "%");
-				txt_volume.setText("量 " + String.format("%.2f", list.get((int) e.getX()).getKline().getVolume() / 100f / 10000f) + "万手");
-
-				txt_close.setText("收 " + String.format("%.2f", list.get((int) e.getX()).getKline().getClose()));
-				txt_open.setText("开 " + String.format("%.2f", list.get((int) e.getX()).getKline().getOpen()));
-				txt_high.setText("高 " + String.format("%.2f", list.get((int) e.getX()).getKline().getHigh()));
-				txt_low.setText("低 " + String.format("%.2f", list.get((int) e.getX()).getKline().getLow()));
+				txt_time.setText("" + list.get((int) e.getX()).getDay());
+//				txt_rate.setText("幅 " + String.format("%.2f", list.get((int) e.getX()).getKline().getNetChangeRatio()) + "%");
+				txt_volume.setText("量 " + String.format("%.2f", list.get((int) e.getX()).getVolume() / 100f / 10000f) + "万手");
+				txt_close.setText("收 " + String.format("%.2f", list.get((int) e.getX()).getClose()));
+				txt_open.setText("开 " + String.format("%.2f", list.get((int) e.getX()).getOpen()));
+				txt_high.setText("高 " + String.format("%.2f", list.get((int) e.getX()).getHigh()));
+				txt_low.setText("低 " + String.format("%.2f", list.get((int) e.getX()).getLow()));
 			}
 
 			@Override
@@ -321,7 +271,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		System.out.println(error);
 		List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), url, pageNo + "");
 		Gson gson = new Gson();
-		MashDataJson mMashDataJson = gson.fromJson(dblist.get(0).getTitle(), MashDataJson.class);
+		KLineDataJson mMashDataJson = gson.fromJson(dblist.get(0).getTitle(), KLineDataJson.class);
 		onCallback(mMashDataJson);
 	}
 
@@ -339,14 +289,26 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		params.put("User-Agent", UrlUtils.userAgent);
 		// params.put("Referer","https://gupiao.baidu.com/my/");
 		params.put("Cookie", UrlUtils.COOKIE);
-		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, href, params, null, new Response.Listener<JSONObject>() {
+		StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, href, params, null, new Response.Listener<String>() {
 			@Override
-			public void onResponse(JSONObject response) {
+			public void onResponse(String response) {
 				System.out.println("href=" + href);
 				System.out.println("response=" + response.toString());
 				try {
+					//var _sz000725_5_1510555547326=([{day:"
+					response = response.split("=")[1].replace("(", "").replace(")", "");
+					Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+					Matcher matcher = p.matcher(response);
+					while(matcher.find()){
+						String s = matcher.group().replace(":", "-");
+						response = response.replace(matcher.group(), s);
+					}
+					response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
+					response = "{\"list\":"+response+"}";
+					System.out.println("response=" + response.toString());
+					
 					Gson gson = new Gson();
-					MashDataJson result = gson.fromJson(response.toString(), MashDataJson.class);
+					KLineDataJson result = gson.fromJson(response.toString(), KLineDataJson.class);
 					onCallback(result);
 
 					OpenDBBean openbean = new OpenDBBean();
@@ -362,7 +324,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 				}
 
 			}
-		}, StockMashDataCombinedChartFragment.this);
+		}, StockSinaMinCombinedChartFragment.this);
 		requestQueue.add(jsonObjectRequest);
 	}
 
@@ -373,13 +335,11 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 	 * com.open.android.fragment.BaseV4Fragment#onCallback(java.lang.Object)
 	 */
 	@Override
-	public void onCallback(MashDataJson result) {
+	public void onCallback(KLineDataJson result) {
 		// TODO Auto-generated method stub
 		super.onCallback(result);
 		list.clear();
-		for (int i = result.getMashData().size() - 1; i >= 0; i--) {
-			list.add(result.getMashData().get(i));
-		}
+		list.addAll(result.getList());
 		CombinedData data = new CombinedData();
 		data.setData(generateLineData());
 		data.setData(generateCandleData());
@@ -392,7 +352,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 			@Override
 			public String getFormattedValue(float value, AxisBase axis) {
 				// TODO Auto-generated method stub
-				return (list.get((int) value).getDate()) + "";
+				return (list.get((int) value).getDay()).substring(10) + "";
 			}
 		});
 		xAxis.setDrawLabels(true); // 是否显示X坐标轴上的刻度，默认是true
@@ -463,14 +423,14 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		barchart.setMaxVisibleValueCount(40);
 		barchart.invalidate();
 
-		txt_time.setText("" + list.get(0).getDate());
-		txt_rate.setText("幅 " + String.format("%.2f", list.get(0).getKline().getNetChangeRatio()) + "%");
-		txt_volume.setText("量 " + String.format("%.2f", list.get(0).getKline().getVolume() / 100f / 10000f) + "万手");
+		txt_time.setText("" + list.get(0).getDay());
+//		txt_rate.setText("幅 " + String.format("%.2f", list.get(0).getKline().getNetChangeRatio()) + "%");
+		txt_volume.setText("量 " + String.format("%.2f", list.get(0).getVolume() / 100f / 10000f) + "万手");
 
-		txt_close.setText("收 " + String.format("%.2f", list.get(0).getKline().getClose()));
-		txt_open.setText("开 " + String.format("%.2f", list.get(0).getKline().getOpen()));
-		txt_high.setText("高 " + String.format("%.2f", list.get(0).getKline().getHigh()));
-		txt_low.setText("低 " + String.format("%.2f", list.get(0).getKline().getLow()));
+		txt_close.setText("收 " + String.format("%.2f", list.get(0).getClose()));
+		txt_open.setText("开 " + String.format("%.2f", list.get(0).getOpen()));
+		txt_high.setText("高 " + String.format("%.2f", list.get(0).getHigh()));
+		txt_low.setText("低 " + String.format("%.2f", list.get(0).getLow()));
 	}
 
 	private void barchart() {
@@ -517,7 +477,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		float maxVolume = -10000;
 		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
 		for (int i = 0; i < list.size(); i++) {
-			float volume = list.get(i).getKline().getVolume() / 100f / 10000f;
+			float volume = list.get(i).getVolume() / 100f / 10000f;
 			if (maxVolume < volume) {
 				maxVolume = volume;
 			}
@@ -547,62 +507,26 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 
 	private LineData generateNullLineData() {
 		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals3 = new ArrayList<Entry>();
 		for (int i = 0; i < list.size(); i++) {
-			// yVals1.add(new Entry(i, list.get(i).getAvgPrice()));
-			// yVals2.add(new Entry(i, list.get(i).getPrice()));
-			yVals1.add(new Entry(i, list.get(i).getMa5().getVolume() / 100f / 10000f));
-			yVals2.add(new Entry(i, list.get(i).getMa10().getVolume() / 100f / 10000f));
-			yVals3.add(new Entry(i, list.get(i).getMa20().getVolume() / 100f / 10000f));
+			yVals1.add(new Entry(i, 0));
 		}
 
 		LineDataSet set1;
 		// create a dataset and give it a type
-		set1 = new LineDataSet(yVals1, "ma5");
+		set1 = new LineDataSet(yVals1, "");
 		set1.setAxisDependency(AxisDependency.LEFT);
-		set1.setColor(getActivity().getResources().getColor(R.color.yellow_color));
+		set1.setColor(getActivity().getResources().getColor(R.color.transparent_color));
 		set1.setCircleColor(Color.WHITE);
 		set1.setLineWidth(2f);
 		set1.setCircleRadius(3f);
 		set1.setFillAlpha(65);
-		set1.setFillColor(getActivity().getResources().getColor(R.color.yellow_color));
+		set1.setFillColor(getActivity().getResources().getColor(R.color.transparent_color));
 		set1.setHighLightColor(Color.rgb(244, 117, 117));
 		set1.setDrawCircleHole(false);
 		set1.setDrawValues(false);
 		set1.setDrawCircles(false);
 
-		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals2, "ma10");
-		set2.setAxisDependency(AxisDependency.RIGHT);
-		set2.setColor(getActivity().getResources().getColor(R.color.blue_color));
-		set2.setCircleColor(Color.WHITE);
-		set2.setLineWidth(2f);
-		set2.setCircleRadius(3f);
-		set2.setFillAlpha(65);
-		set2.setFillColor(getActivity().getResources().getColor(R.color.blue_color));
-		set2.setDrawCircleHole(false);
-		set2.setHighLightColor(Color.rgb(244, 117, 117));
-		set2.setDrawValues(false);
-		set2.setDrawCircles(false);
-		// set2.setDrawFilled(true);
-
-		// create a dataset and give it a type
-		LineDataSet set3 = new LineDataSet(yVals3, "ma20");
-		set3.setAxisDependency(AxisDependency.RIGHT);
-		set3.setColor(getActivity().getResources().getColor(R.color.pink_color));
-		set3.setCircleColor(Color.WHITE);
-		set3.setLineWidth(2f);
-		set3.setCircleRadius(3f);
-		set3.setFillAlpha(65);
-		set3.setFillColor(getActivity().getResources().getColor(R.color.pink_color));
-		set3.setDrawCircleHole(false);
-		set3.setHighLightColor(Color.rgb(244, 117, 117));
-		set2.setDrawValues(false);
-		set3.setDrawCircles(false);
-		// set3.setDrawFilled(true);
-
-		LineData lineData = new LineData(set1, set2, set3);
+		LineData lineData = new LineData(set1);
 		lineData.setHighlightEnabled(true);
 
 		return lineData;
@@ -610,59 +534,20 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 
 	private LineData generateLineData() {
 		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals3 = new ArrayList<Entry>();
-		// float maxLeftY = -10000;
-		// float minLeftY = 10000;
 		for (int i = 0; i < list.size(); i++) {
-			yVals1.add(new Entry(i, list.get(i).getMa5().getAvgPrice()));
-			yVals2.add(new Entry(i, list.get(i).getMa10().getAvgPrice()));
-			yVals3.add(new Entry(i, list.get(i).getMa20().getAvgPrice()));
-
-			// // 最大、小值
-			// if (maxLeftY < list.get(i).getMa5().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa5().getAvgPrice();
-			// }
-			// if (maxLeftY < list.get(i).getMa10().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa10().getAvgPrice();
-			// }
-			//
-			// if (maxLeftY < list.get(i).getMa20().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa20().getAvgPrice();
-			// }
-			//
-			// if (maxLeftY < list.get(i).getKline().getHigh()) {
-			// maxLeftY = list.get(i).getKline().getHigh();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa5().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa5().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa10().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa10().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa20().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa20().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getKline().getLow()) {
-			// minLeftY = list.get(i).getKline().getLow();
-			// }
-
+			yVals1.add(new Entry(i, list.get(i).getClose()));
 		}
 
 		LineDataSet set1;
 		// create a dataset and give it a type
 		set1 = new LineDataSet(yVals1, "ma5");
 		set1.setAxisDependency(AxisDependency.LEFT);
-		set1.setColor(getActivity().getResources().getColor(R.color.yellow_color));
+		set1.setColor(getActivity().getResources().getColor(R.color.transparent_color));
 		set1.setCircleColor(Color.WHITE);
 		set1.setLineWidth(2f);
 		set1.setCircleRadius(3f);
 		set1.setFillAlpha(65);
-		set1.setFillColor(getActivity().getResources().getColor(R.color.yellow_color));
+		set1.setFillColor(getActivity().getResources().getColor(R.color.transparent_color));
 		set1.setHighLightColor(Color.rgb(244, 117, 117));
 		set1.setDrawCircleHole(false);
 		set1.setDrawValues(false);
@@ -673,38 +558,9 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		// set1.setVisible(false);
 		// set1.setCircleHoleColor(Color.WHITE);
 
-		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals2, "ma10");
-		set2.setAxisDependency(AxisDependency.LEFT);
-		set2.setColor(getActivity().getResources().getColor(R.color.blue_dot_color));
-		set2.setCircleColor(Color.WHITE);
-		set2.setLineWidth(2f);
-		set2.setCircleRadius(3f);
-		set2.setFillAlpha(65);
-		set2.setFillColor(getActivity().getResources().getColor(R.color.blue_dot_color));
-		set2.setDrawCircleHole(false);
-		set2.setHighLightColor(Color.rgb(244, 117, 117));
-		set2.setDrawValues(false);
-		set2.setDrawCircles(false);
-		set2.setDrawFilled(false);
-
-		// create a dataset and give it a type
-		LineDataSet set3 = new LineDataSet(yVals3, "ma20");
-		set3.setAxisDependency(AxisDependency.LEFT);
-		set3.setColor(getActivity().getResources().getColor(R.color.pink_color));
-		set3.setCircleColor(Color.WHITE);
-		set3.setLineWidth(2f);
-		set3.setCircleRadius(3f);
-		set3.setFillAlpha(65);
-		set3.setFillColor(getActivity().getResources().getColor(R.color.pink_color));
-		set3.setDrawCircleHole(false);
-		set3.setHighLightColor(Color.rgb(244, 117, 117));
-		set3.setDrawValues(false);
-		set3.setDrawCircles(false);
-		set3.setDrawFilled(false);
-
+		 
 		// create a data object with the datasets
-		LineData data = new LineData(set1, set2, set3);
+		LineData data = new LineData(set1);
 		data.setValueTextColor(Color.WHITE);
 		data.setValueTextSize(9f);
 
@@ -714,11 +570,11 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 	private CandleData generateCandleData() {
 		ArrayList<CandleEntry> yVals1 = new ArrayList<CandleEntry>();
 		for (int i = 0; i < list.size(); i++) {
-			float high = list.get(i).getKline().getHigh();
-			float low = list.get(i).getKline().getLow();
+			float high = list.get(i).getHigh();
+			float low = list.get(i).getLow();
 
-			float open = list.get(i).getKline().getOpen();
-			float close = list.get(i).getKline().getClose();
+			float open = list.get(i).getOpen();
+			float close = list.get(i).getClose();
 
 			yVals1.add(new CandleEntry(i, high, low, open, close, null));
 		}
@@ -750,243 +606,5 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 
 		return data;
 	}
-	
-	
-	private LineData generateKdjLineData() {
-		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals3 = new ArrayList<Entry>();
-		for (int i = 0; i < list.size(); i++) {
-			yVals1.add(new Entry(i, list.get(i).getKdj().getK()));
-			yVals2.add(new Entry(i, list.get(i).getKdj().getD()));
-			yVals3.add(new Entry(i, list.get(i).getKdj().getJ()));
-		}
-
-		LineDataSet set1;
-		// create a dataset and give it a type
-		set1 = new LineDataSet(yVals1, "k");
-		set1.setAxisDependency(AxisDependency.LEFT);
-		set1.setColor(getActivity().getResources().getColor(R.color.yellow_color));
-		set1.setCircleColor(Color.WHITE);
-		set1.setLineWidth(2f);
-		set1.setCircleRadius(3f);
-		set1.setFillAlpha(65);
-		set1.setFillColor(getActivity().getResources().getColor(R.color.yellow_color));
-		set1.setHighLightColor(Color.rgb(244, 117, 117));
-		set1.setDrawCircleHole(false);
-		set1.setDrawValues(false);
-		set1.setDrawCircles(false);
-
-		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals2, "d");
-		set2.setAxisDependency(AxisDependency.LEFT);
-		set2.setColor(getActivity().getResources().getColor(R.color.blue_color));
-		set2.setCircleColor(Color.WHITE);
-		set2.setLineWidth(2f);
-		set2.setCircleRadius(3f);
-		set2.setFillAlpha(65);
-		set2.setFillColor(getActivity().getResources().getColor(R.color.blue_color));
-		set2.setDrawCircleHole(false);
-		set2.setHighLightColor(Color.rgb(244, 117, 117));
-		set2.setDrawValues(false);
-		set2.setDrawCircles(false);
-		// set2.setDrawFilled(true);
-
-		// create a dataset and give it a type
-		LineDataSet set3 = new LineDataSet(yVals3, "j");
-		set3.setAxisDependency(AxisDependency.LEFT);
-		set3.setColor(getActivity().getResources().getColor(R.color.pink_color));
-		set3.setCircleColor(Color.WHITE);
-		set3.setLineWidth(2f);
-		set3.setCircleRadius(3f);
-		set3.setFillAlpha(65);
-		set3.setFillColor(getActivity().getResources().getColor(R.color.pink_color));
-		set3.setDrawCircleHole(false);
-		set3.setHighLightColor(Color.rgb(244, 117, 117));
-		set3.setDrawValues(false);
-		set3.setDrawCircles(false);
-		// set2.setDrawFilled(true);
-
-		LineData lineData = new LineData(set1, set2, set3);
-		lineData.setHighlightEnabled(true);
-
-		return lineData;
-	}
-	
-	private BarData generateKdjBarData() {
-		// 需要添加一个假的bar，才能用使用自定义的高亮
-		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
-		for (int i = 0; i < list.size(); i++) {
-			entries1.add(new BarEntry(i, 0));
-		}
-		BarDataSet set = new BarDataSet(entries1, "");
-		set.setHighlightEnabled(true);
-		set.setHighLightAlpha(255);
-		set.setHighLightColor(getResources().getColor(R.color.yellow_color));
-		set.setDrawValues(false);
-		set.setColor(getResources().getColor(R.color.transparent_color));
-
-		BarData barData = new BarData(set);
-		barData.setHighlightEnabled(true);
-		return barData;
-	}
-	
-	private LineData generateMacdLineData() {
-		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-		for (int i = 0; i < list.size(); i++) {
-			// yVals1.add(new Entry(i, list.get(i).getAvgPrice()));
-			// yVals2.add(new Entry(i, list.get(i).getPrice()));
-			yVals1.add(new Entry(i, list.get(i).getMacd().getDiff()));
-			yVals2.add(new Entry(i, list.get(i).getMacd().getDea()));
-		}
-
-		LineDataSet set1;
-		// create a dataset and give it a type
-		set1 = new LineDataSet(yVals1, "diff");
-		set1.setAxisDependency(AxisDependency.LEFT);
-		set1.setColor(getActivity().getResources().getColor(R.color.yellow_color));
-		set1.setCircleColor(Color.WHITE);
-		set1.setLineWidth(2f);
-		set1.setCircleRadius(3f);
-		set1.setFillAlpha(65);
-		set1.setFillColor(getActivity().getResources().getColor(R.color.yellow_color));
-		set1.setHighLightColor(Color.rgb(244, 117, 117));
-		set1.setDrawCircleHole(false);
-		set1.setDrawValues(false);
-		set1.setDrawCircles(false);
-
-		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals2, "dea");
-		set2.setAxisDependency(AxisDependency.LEFT);
-		set2.setColor(getActivity().getResources().getColor(R.color.blue_color));
-		set2.setCircleColor(Color.WHITE);
-		set2.setLineWidth(2f);
-		set2.setCircleRadius(3f);
-		set2.setFillAlpha(65);
-		set2.setFillColor(getActivity().getResources().getColor(R.color.blue_color));
-		set2.setDrawCircleHole(false);
-		set2.setHighLightColor(Color.rgb(244, 117, 117));
-		set2.setDrawValues(false);
-		set2.setDrawCircles(false);
-		// set2.setDrawFilled(true);
-
-		 
-		LineData lineData = new LineData(set1, set2);
-		lineData.setHighlightEnabled(true);
-
-		return lineData;
-	}
-	
-	private BarData generateMacdBarData() {
-		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
-		for (int i = 0; i < list.size(); i++) {
-			float volume = list.get(i).getMacd().getMacd();
-			entries1.add(new BarEntry(i, volume));
-		}
-
-		BarDataSet set1 = new BarDataSet(entries1, "Macd");
-		
-		List<Integer> list = new ArrayList<Integer>();
-        list.add(getResources().getColor(R.color.red_color));
-        list.add(getResources().getColor(R.color.green_color));
-        set1.setColors(list);
-		
-		set1.setValueTextSize(10f);
-		set1.setDrawIcons(false);
-		set1.setDrawValues(false);
-		// set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-		set1.setHighlightEnabled(true);
-		set1.setHighLightColor(getResources().getColor(R.color.yellow_color));
-
-		float barWidth = 0.9f;
-		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-		dataSets.add(set1);
-		BarData data = new BarData(dataSets);
-		data.setValueTextSize(10f);
-		// data.setValueTypeface(mTfLight);
-		data.setBarWidth(barWidth);
-		return data;
-	}
-	
-	
-	private LineData generateRsiLineData() {
-		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-		ArrayList<Entry> yVals3 = new ArrayList<Entry>();
-		for (int i = 0; i < list.size(); i++) {
-			yVals1.add(new Entry(i, list.get(i).getRsi().getRsi1()));
-			yVals2.add(new Entry(i, list.get(i).getRsi().getRsi2()));
-			yVals3.add(new Entry(i, list.get(i).getRsi().getRsi3()));
-		}
-
-		LineDataSet set1;
-		// create a dataset and give it a type
-		set1 = new LineDataSet(yVals1, "r1");
-		set1.setAxisDependency(AxisDependency.LEFT);
-		set1.setColor(getActivity().getResources().getColor(R.color.yellow_color));
-		set1.setCircleColor(Color.WHITE);
-		set1.setLineWidth(2f);
-		set1.setCircleRadius(3f);
-		set1.setFillAlpha(65);
-		set1.setFillColor(getActivity().getResources().getColor(R.color.yellow_color));
-		set1.setHighLightColor(Color.rgb(244, 117, 117));
-		set1.setDrawCircleHole(false);
-		set1.setDrawValues(false);
-		set1.setDrawCircles(false);
-
-		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals2, "r2");
-		set2.setAxisDependency(AxisDependency.LEFT);
-		set2.setColor(getActivity().getResources().getColor(R.color.blue_color));
-		set2.setCircleColor(Color.WHITE);
-		set2.setLineWidth(2f);
-		set2.setCircleRadius(3f);
-		set2.setFillAlpha(65);
-		set2.setFillColor(getActivity().getResources().getColor(R.color.blue_color));
-		set2.setDrawCircleHole(false);
-		set2.setHighLightColor(Color.rgb(244, 117, 117));
-		set2.setDrawValues(false);
-		set2.setDrawCircles(false);
-		// set2.setDrawFilled(true);
-
-		// create a dataset and give it a type
-		LineDataSet set3 = new LineDataSet(yVals3, "r3");
-		set3.setAxisDependency(AxisDependency.LEFT);
-		set3.setColor(getActivity().getResources().getColor(R.color.pink_color));
-		set3.setCircleColor(Color.WHITE);
-		set3.setLineWidth(2f);
-		set3.setCircleRadius(3f);
-		set3.setFillAlpha(65);
-		set3.setFillColor(getActivity().getResources().getColor(R.color.pink_color));
-		set3.setDrawCircleHole(false);
-		set3.setHighLightColor(Color.rgb(244, 117, 117));
-		set3.setDrawValues(false);
-		set3.setDrawCircles(false);
-		// set2.setDrawFilled(true);
-
-		LineData lineData = new LineData(set1, set2, set3);
-		lineData.setHighlightEnabled(true);
-
-		return lineData;
-	}
-
-	
-	private BarData generateRsiBarData() {
-		// 需要添加一个假的bar，才能用使用自定义的高亮
-		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
-		for (int i = 0; i < list.size(); i++) {
-			entries1.add(new BarEntry(i, 0));
-		}
-		BarDataSet set = new BarDataSet(entries1, "");
-		set.setHighlightEnabled(true);
-		set.setHighLightAlpha(255);
-		set.setHighLightColor(getResources().getColor(R.color.yellow_color));
-		set.setDrawValues(false);
-		set.setColor(getResources().getColor(R.color.transparent_color));
-
-		BarData barData = new BarData(set);
-		barData.setHighlightEnabled(true);
-		return barData;
-	}
+	 
 }

@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="9:15"
-            android:textSize="12dp" />
+            android:textSize="10dp" />
 
         <TextView
             android:id="@+id/txt_price"
@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="价 6.51"
-            android:textSize="12dp" />
+            android:textSize="10dp" />
 
         <TextView
             android:id="@+id/txt_rate"
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="幅 -0.7%"
-            android:textSize="12dp" />
+            android:textSize="10dp" />
 
         <TextView
             android:id="@+id/txt_volume"
@@ -44,13 +44,13 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="量 5.49万手"
-            android:textSize="12dp" />
+            android:textSize="10dp" />
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/linechart"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="180dp"
         android:layout_below="@+id/layout_index" />
 
     <com.github.mikephil.charting.charts.CombinedChart

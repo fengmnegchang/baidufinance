@@ -58,7 +58,7 @@
         android:id="@+id/barchart"
         android:layout_width="match_parent"
         android:layout_toLeftOf="@+id/layout_sall_buy"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:layout_below="@+id/linechart" />
 
     <RelativeLayout

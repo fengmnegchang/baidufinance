@@ -256,6 +256,14 @@ public class UrlUtils {
 	
 	/**股票信息**/
 	public static final String STOCK ="https://gupiao.baidu.com/stock/sz000725.html";
+	/**新浪60分**/
+	public static final String GETKLINEDATA_60="http://money.finance.sina.com.cn/quotes_service/api/jsonp_v2.php/var%20_sz000725_60_1510555547326=/CN_MarketData.getKLineData?symbol=sz000725&scale=60&ma=no&datalen=1023";
+	/**新浪5分**/
+	public static final String GETKLINEDATA_5="http://money.finance.sina.com.cn/quotes_service/api/jsonp_v2.php/var%20_sz000725_5_1510555547326=/CN_MarketData.getKLineData?symbol=sz000725&scale=5&ma=no&datalen=1023";
+	/**新浪15分**/
+	public static final String GETKLINEDATA_15="http://money.finance.sina.com.cn/quotes_service/api/jsonp_v2.php/var%20_sz000725_15_1510555547326=/CN_MarketData.getKLineData?symbol=sz000725&scale=15&ma=no&datalen=1023";
+	/**新浪30分**/
+	public static final String GETKLINEDATA_30="http://money.finance.sina.com.cn/quotes_service/api/jsonp_v2.php/var%20_sz000725_30_1510555547326=/CN_MarketData.getKLineData?symbol=sz000725&scale=30&ma=no&datalen=1023";
 
 	
 }

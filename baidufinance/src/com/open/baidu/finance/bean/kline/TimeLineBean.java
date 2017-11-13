@@ -43,6 +43,15 @@ public class TimeLineBean extends CommonBean {
 	private int type;//0 五档；1：买卖明细
 	private String bsLevel;
 	
+	private String day;
+
+	public String getDay() {
+		return day;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
+	}
 
 	public int getType() {
 		return type;

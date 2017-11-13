@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txt_min5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="5分"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/div_view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_min5"
+        android:layout_centerHorizontal="true"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_min15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="15分"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/div_view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_min5"
+        android:layout_centerHorizontal="true"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_min30"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="30分"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/div_view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_min30"
+        android:layout_centerHorizontal="true"
+        android:background="@color/div_color" />
+
+    <TextView
+        android:id="@+id/txt_min60"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="60分"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/div_view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/txt_min60"
+        android:layout_centerHorizontal="true"
+        android:background="@color/div_color" />
+
+</LinearLayout>

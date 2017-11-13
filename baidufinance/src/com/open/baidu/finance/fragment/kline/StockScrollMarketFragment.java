@@ -353,6 +353,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 			break;
 		case R.id.txt_minby_k:
 			clearTag();
+			showMinPopupWindow();
 			txt_minby_k.setTag("1");
 			txt_minby_k.setTextColor(getResources().getColor(R.color.blue_color));
 			break;
@@ -375,6 +376,71 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 		txt_day_k.setTextColor(getResources().getColor(R.color.black_color));
 		txt_month_k.setTextColor(getResources().getColor(R.color.black_color));
 		txt_minby_k.setTextColor(getResources().getColor(R.color.black_color));
+	}
+	
+	public void showMinPopupWindow() {
+		// 加载布局
+		View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_stock_min_k_window, null);
+		WindowManager manager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+		// 找到布局的控件
+		// 实例化popupWindow
+		popupWindow = new PopupWindow(view, (int) ScreenUtils.getIntToDip(getActivity(), 100), (int) ScreenUtils.getIntToDip(getActivity(), 180));
+		// 控制键盘是否可以获得焦点
+		popupWindow.setFocusable(true);
+		setBackgroundAlpha(0.5f);// 设置屏幕透明度
+		// 设置popupWindow弹出窗体的背景
+		popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.gray_popup_drag_shape));
+		popupWindow.showAsDropDown(txt_minby_k, 0, (int) ScreenUtils.getIntToDip(getActivity(), 5));
+
+		TextView txt_min5 = (TextView) view.findViewById(R.id.txt_min5);
+		TextView txt_min15 = (TextView) view.findViewById(R.id.txt_min15);
+		TextView txt_min30 = (TextView) view.findViewById(R.id.txt_min30);
+		TextView txt_min60 = (TextView) view.findViewById(R.id.txt_min60);
+		txt_min5.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sinaMinChart(UrlUtils.GETKLINEDATA_5);
+				popupWindow.dismiss();
+			}
+		});
+		txt_min15.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sinaMinChart(UrlUtils.GETKLINEDATA_15);
+				popupWindow.dismiss();
+			}
+		});
+		txt_min30.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sinaMinChart(UrlUtils.GETKLINEDATA_30);
+				popupWindow.dismiss();
+			}
+		});
+		txt_min60.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sinaMinChart(UrlUtils.GETKLINEDATA_60);
+				popupWindow.dismiss();
+			}
+		});
+
+		popupWindow.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss() {
+				// popupWindow隐藏时恢复屏幕正常透明度
+				setBackgroundAlpha(1.0f);
+			}
+		});
+	}
+	
+	private void sinaMinChart(String url){
+		StockSinaMinCombinedChartFragment fragment = StockSinaMinCombinedChartFragment.newInstance(url, true);
+		getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 	}
 
 	public void showPopupWindow() {

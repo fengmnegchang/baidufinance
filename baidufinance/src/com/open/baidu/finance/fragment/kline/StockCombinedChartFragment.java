@@ -381,6 +381,7 @@ implements ScrollableContainer,OnClickListener{
 		bardata.setData(generateBarData());
 		// data.setValueTypeface(mTfLight);
 		barchart.setData(bardata);
+		barchart.setScaleMinima(2.5f, 1f);
 		barchart.invalidate();
 		
 		txt_time.setText(""+list.get(0).getTime()/100000);
