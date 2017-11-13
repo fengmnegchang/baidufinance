@@ -24,6 +24,7 @@ import com.handmark.pulltorefresh.library.PinnedSectionListView.PinnedSectionLis
 import com.open.android.adapter.CommonAdapter;
 import com.open.android.weak.WeakReferenceHandler;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.market.PlateStockBean;
 
 /**
@@ -78,6 +79,7 @@ public class PlateStockPinnedSectionListAdapter extends CommonAdapter<PlateStock
 					weakReferenceHandler.sendMessage(msg);
 				}
 			});
+			convertView.setOnClickListener(null);
 		}else{
 			convertView = mInflater.inflate(R.layout.adapter_plate_stock, parent, false);
 			TextView txt_stock_name = (TextView) convertView.findViewById(R.id.txt_stock_name); 
@@ -97,6 +99,13 @@ public class PlateStockPinnedSectionListAdapter extends CommonAdapter<PlateStock
 				txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.black_color));
 			}
 			txt_netChangeRatio.setText((bean.getChangepercent()==null?"--":String.format("%.2f", bean.getChangepercent())+"%"));
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					StockScrollMarketFragmentActivity.startStockScrollMarketFragmentActivity(mContext, bean.getSymbol(), bean.getName(), bean.getCode());
+				}
+			});
 		}
 		return convertView;
 	}

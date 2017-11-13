@@ -253,6 +253,7 @@ public class HongKongPinnedHeaderExpandableListViewFragment extends BaseV4Fragme
 					if (mmbean.getSlist().size() > 10) {
 						for (int i = 0; i < 10; i++) {
 							mmbean.getSlist().get(i).setTrade(mmbean.getSlist().get(i).getLasttrade());
+							mmbean.getSlist().get(i).setSymbol("hk"+mmbean.getSlist().get(i).getSymbol());
 							if("ADR".equals(groupName)){
 								mmbean.getSlist().get(i).setName(mmbean.getSlist().get(i).getChname());
 								mmbean.getSlist().get(i).setTrade(mmbean.getSlist().get(i).getLast());

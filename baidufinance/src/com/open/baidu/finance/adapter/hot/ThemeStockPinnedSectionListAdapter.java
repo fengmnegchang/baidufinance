@@ -16,12 +16,15 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PinnedSectionListView.PinnedSectionListAdapter;
 import com.open.android.adapter.CommonAdapter;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.hot.ThemeStockDetailListFragmentActivity;
+import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.hot.ThemeStockBean;
 
 /**
@@ -51,7 +54,7 @@ public class ThemeStockPinnedSectionListAdapter extends CommonAdapter<ThemeStock
 	@SuppressLint("ResourceAsColor")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ThemeStockBean bean = (ThemeStockBean) getItem(position);
+		final ThemeStockBean bean = (ThemeStockBean) getItem(position);
 		if (getItemViewType(position) == ITEM_VIEW_TYPE_HEADER) {
 			convertView = mInflater.inflate(R.layout.adapter_theme_itemtype, parent, false);
 			TextView txt_name = (TextView) convertView.findViewById(R.id.txt_name);
@@ -60,6 +63,13 @@ public class ThemeStockPinnedSectionListAdapter extends CommonAdapter<ThemeStock
 			txt_name.setText(bean.getName());
 			txt_time.setText(bean.getTime());
 			txt_subject.setText(bean.getSubject()+bean.getEvent());
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					ThemeStockDetailListFragmentActivity.startThemeStockDetailListFragmentActivity(mContext, bean.getHref(),bean.getEvent(),bean.getName());
+				}
+			});
 		} else {
 			convertView = mInflater.inflate(R.layout.adapter_theme_stock, parent, false);
 			TextView txt_stock_name = (TextView) convertView.findViewById(R.id.txt_stock_name);
@@ -73,6 +83,13 @@ public class ThemeStockPinnedSectionListAdapter extends CommonAdapter<ThemeStock
 				txt_close.setText(bean.getClose());
 				txt_time.setText(bean.getTime());
 				txt_rate.setText(bean.getRate());
+				convertView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						StockScrollMarketFragmentActivity.startStockScrollMarketFragmentActivity(mContext, bean.getStockCode(), bean.getStockName(), bean.getStockCode());
+					}
+				});
 			}
 		}
 		return convertView;

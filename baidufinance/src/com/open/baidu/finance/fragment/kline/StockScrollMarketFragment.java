@@ -135,6 +135,13 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
+		if(stockExCode.startsWith("sh") || stockExCode.startsWith("sz")){
+			txt_min_k.setVisibility(View.VISIBLE);
+		}else if(stockExCode.startsWith("us")){
+			txt_min_k.setVisibility(View.VISIBLE);
+		} else{
+			txt_min_k.setVisibility(View.GONE);
+		}
 		mPullToRefreshScrollableLayout.setMode(Mode.PULL_FROM_START);
 		txt_min_k.setTextColor(getResources().getColor(R.color.blue_color));
 		Fragment fragment = StockCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINE+stockExCode, true);
@@ -443,7 +450,12 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 	}
 	
 	private void sinaMinChart(String type){
-		String href = UrlUtils.GETKLINEDATA_LEFT+stockExCode+"_"+type+UrlUtils.GETKLINEDATA_RIGHT+stockExCode;
+		String href = "";
+		if(stockExCode.startsWith("sh") || stockExCode.startsWith("sz")){
+			href = UrlUtils.GETKLINEDATA_LEFT+stockExCode+"_"+type+UrlUtils.GETKLINEDATA_RIGHT+stockExCode;
+		}else if(stockExCode.startsWith("us")){
+			href = UrlUtils.US_GETMINK_LEFT+stockExCode.replace("us", "")+"_"+type+UrlUtils.US_GETMINK_RIGHT+stockExCode.replace("us", "")+"&type="+type+"&___qn=3";
+		} 
 		StockSinaMinCombinedChartFragment fragment = StockSinaMinCombinedChartFragment.newInstance(href, true);
 		getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 	}

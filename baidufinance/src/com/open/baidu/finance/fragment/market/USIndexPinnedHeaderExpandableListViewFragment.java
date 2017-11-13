@@ -234,7 +234,7 @@ public class USIndexPinnedHeaderExpandableListViewFragment extends SHHongKongPin
 							try {
 								String c = codes[i];
 								String stockCode = c.split("=")[0];
-								bean.setSymbol(stockCode);
+								bean.setSymbol("us"+stockCode.toUpperCase());
 								String other = c.split("=")[1].replace(";", "").replace("\"", "");
 
 								//AS30="澳交所普通股指数 ,6030.32,28.17,0.47,2:34,14:34:00";

@@ -239,7 +239,7 @@ public class USPinnedHeaderExpandableListViewFragment extends SHHongKongPinnedHe
 							try {
 								String c = codes[i];
 								String stockCode = c.split("=")[0];
-								bean.setSymbol(stockCode);
+								bean.setSymbol("us"+stockCode.toUpperCase());
 								String other = c.split("=")[1].replace(";", "").replace("\"", "");
 
 								// ati=阿利根尼,25.6700,2.19,2017-11-03

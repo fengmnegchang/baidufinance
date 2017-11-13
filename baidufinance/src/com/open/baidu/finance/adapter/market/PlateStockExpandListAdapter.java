@@ -16,10 +16,12 @@ import java.util.List;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.open.android.adapter.CommonAdapter;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.market.PlateStockBean;
 
 /**
@@ -74,6 +76,14 @@ public class PlateStockExpandListAdapter extends CommonAdapter<PlateStockBean> {
 			mViewHodler.txt_netChangeRatio.setTextColor(mContext.getResources().getColor(R.color.black_color));
 		}
 		mViewHodler.txt_netChangeRatio.setText((bean.getChangepercent()==null ? "--":String.format("%.2f", bean.getChangepercent()) + "%"));
+		convertView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String stockExCode  = bean.getSymbol();
+				StockScrollMarketFragmentActivity.startStockScrollMarketFragmentActivity(mContext, stockExCode, bean.getName(), bean.getCode());
+			}
+		});
 		return convertView;
 	}
 	

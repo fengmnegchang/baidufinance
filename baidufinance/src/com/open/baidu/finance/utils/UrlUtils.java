@@ -269,4 +269,9 @@ public class UrlUtils {
 	//sz000725_30
 	public static final String GETKLINEDATA_RIGHT="_1510555547326=/CN_MarketData.getKLineData?scale=30&ma=no&datalen=1023&symbol=";//sz000725
 
+	public static final String US_GETMINK_LEFT="http://stock.finance.sina.com.cn/usstock/api/jsonp_v2.php/var%20_";
+	//NVDA_5
+	public static final String US_GETMINK_RIGHT="_1510564210285=/US_MinKService.getMinK?symbol=";//NVDA&type=5&___qn=3
+
+
 }

@@ -227,6 +227,9 @@ implements OnRefreshListener<ListView>{
 						if(bean.getLasttrade()!=0){
 							bean.setTrade(bean.getLasttrade());
 						}
+						if(!bean.getSymbol().contains("sh") && !bean.getSymbol().contains("sz")){
+							bean.setSymbol("hk"+bean.getSymbol());
+						}
 						if("ADR".equals(plateName)){
 							bean.setName(bean.getChname());
 							bean.setTrade(bean.getLast());
@@ -428,7 +431,7 @@ implements OnRefreshListener<ListView>{
 							try {
 								String c = codes[i];
 								String stockCode = c.split("=")[0];
-								bean.setSymbol(stockCode);
+								bean.setSymbol("us"+stockCode.toUpperCase());
 								String other = c.split("=")[1].replace(";", "").replace("\"", "");
 								
 								//AS30="澳交所普通股指数 ,6030.32,28.17,0.47,2:34,14:34:00";
@@ -442,7 +445,39 @@ implements OnRefreshListener<ListView>{
 							}
 							plist.add(bean);
 						}
-					}else  if (response.contains("var hq_str_")) {
+					}else if (response.contains("var hq_str_gb_")) {
+						codes = response.split("var hq_str_gb_");
+						for (int i = 1; i < codes.length; i++) {
+							// var
+							// hq_str_gb_dji="道琼斯,23516.2598,0.35,2017-11-03 05:29:01,81.2500,23463.2402,23531.3809,23350.9805,23517.7109,17883.5605,0,28940475,0,0.00,0.0,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:28PM EDT,23435.0098,0.00";
+							// var
+							// hq_str_gb_ixic="纳斯达克,6714.9429,-0.02,2017-11-03 05:40:01,-1.5903,6709.3906,6719.9695,6677.5475,6759.6602,5034.4102,1966526456,1733257097,0,0.00,--,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:16PM EDT,6716.5332,0.00";
+							// var
+							// hq_str_gb_inx="标普指数,2579.8501,0.02,2017-11-03 05:29:01,0.4900,2579.4600,2581.1101,2566.1699,2588.3999,2083.7900,0,330562995,0,0.00,0.0,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:28PM EDT,2579.3601,0.00";
+							bean = new PlateStockBean();
+							try {
+								String c = codes[i];
+								String stockCode = c.split("=")[0];
+								bean.setSymbol("us"+stockCode.toUpperCase());
+								String other = c.split("=")[1].replace(";", "").replace("\"", "");
+
+								// ati=阿利根尼,25.6700,2.19,2017-11-03
+								// 08:16:52,0.5500,26.0000,26.5900,25.5600,26.5900,13.2900,2057988,1962884,2794949600,-5.97,--,0.00,0.00,0.00,0.00,108880000,114.00,25.6000,-0.27,-0.07,Nov
+								// 02 08:00PM EDT,Nov 02 04:02PM
+								// EDT,25.1200,13977.00
+								bean.setName(other.split(",")[0]);
+								bean.setTrade(Double.parseDouble(other.split(",")[1]));
+								bean.setPricechange(other.split(",")[4]);
+								bean.setChangepercent(Double.parseDouble(other.split(",")[2]));
+								// bean.setVolume(Long.parseLong(other.split(",")[10]));
+								// bean.setVolumeMoney(Long.parseLong(other.split(",")[5].replace("\"",
+								// "")));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							plist.add(bean);
+						}
+					} else  if (response.contains("var hq_str_")) {
 						codes = response.split("var hq_str_");
 						for (int i = 1; i < codes.length; i++) {
 							//var hq_str_sh600011="华能国际,6.740,6.740,6.670,6.750,6.650,6.660,6.680,6994301,46801632.000,147800,6.660,190199,6.650,68300,6.640,37000,6.630,37300,6.620,4700,6.680,26200,6.690,69400,6.700,78300,6.710,84500,6.720,2017-11-03,15:00:00,00";
@@ -473,39 +508,7 @@ implements OnRefreshListener<ListView>{
 							}
 							plist.add(bean);
 						}
-					}else if (response.contains("var hq_str_gb_")) {
-						codes = response.split("var hq_str_gb_");
-						for (int i = 1; i < codes.length; i++) {
-							// var
-							// hq_str_gb_dji="道琼斯,23516.2598,0.35,2017-11-03 05:29:01,81.2500,23463.2402,23531.3809,23350.9805,23517.7109,17883.5605,0,28940475,0,0.00,0.0,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:28PM EDT,23435.0098,0.00";
-							// var
-							// hq_str_gb_ixic="纳斯达克,6714.9429,-0.02,2017-11-03 05:40:01,-1.5903,6709.3906,6719.9695,6677.5475,6759.6602,5034.4102,1966526456,1733257097,0,0.00,--,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:16PM EDT,6716.5332,0.00";
-							// var
-							// hq_str_gb_inx="标普指数,2579.8501,0.02,2017-11-03 05:29:01,0.4900,2579.4600,2581.1101,2566.1699,2588.3999,2083.7900,0,330562995,0,0.00,0.0,0.00,0.00,0.00,0.00,0,0.00,0.0000,0.00,0.00,,Nov 02 05:28PM EDT,2579.3601,0.00";
-							bean = new PlateStockBean();
-							try {
-								String c = codes[i];
-								String stockCode = c.split("=")[0];
-								bean.setSymbol(stockCode);
-								String other = c.split("=")[1].replace(";", "").replace("\"", "");
-
-								// ati=阿利根尼,25.6700,2.19,2017-11-03
-								// 08:16:52,0.5500,26.0000,26.5900,25.5600,26.5900,13.2900,2057988,1962884,2794949600,-5.97,--,0.00,0.00,0.00,0.00,108880000,114.00,25.6000,-0.27,-0.07,Nov
-								// 02 08:00PM EDT,Nov 02 04:02PM
-								// EDT,25.1200,13977.00
-								bean.setName(other.split(",")[0]);
-								bean.setTrade(Double.parseDouble(other.split(",")[1]));
-								bean.setPricechange(other.split(",")[4]);
-								bean.setChangepercent(Double.parseDouble(other.split(",")[2]));
-								// bean.setVolume(Long.parseLong(other.split(",")[10]));
-								// bean.setVolumeMoney(Long.parseLong(other.split(",")[5].replace("\"",
-								// "")));
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							plist.add(bean);
-						}
-					}  
+					} 
 					result.setList(plist);
 					onCallback(result);
 					

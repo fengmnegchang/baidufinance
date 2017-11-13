@@ -295,17 +295,32 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 				System.out.println("href=" + href);
 				System.out.println("response=" + response.toString());
 				try {
-					//var _sz000725_5_1510555547326=([{day:"
-					response = response.split("=")[1].replace("(", "").replace(")", "");
-					Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
-					Matcher matcher = p.matcher(response);
-					while(matcher.find()){
-						String s = matcher.group().replace(":", "-");
-						response = response.replace(matcher.group(), s);
+					if(url.contains("getMinK")){
+						//var _sz000725_5_1510555547326=([{day:"
+						response = response.split("=")[1].replace("(", "").replace(")", "").replace(";", "");
+//						Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+//						Matcher matcher = p.matcher(response);
+//						while(matcher.find()){
+//							String s = matcher.group().replace(":", "-");
+//							response = response.replace(matcher.group(), s);
+//						}
+//						response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
+						response = "{\"list\":"+response+"}";
+						System.out.println("response=" + response.toString());
+					}else{
+						//var _sz000725_5_1510555547326=([{day:"
+						response = response.split("=")[1].replace("(", "").replace(")", "");
+						Pattern p = Pattern.compile("([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])");
+						Matcher matcher = p.matcher(response);
+						while(matcher.find()){
+							String s = matcher.group().replace(":", "-");
+							response = response.replace(matcher.group(), s);
+						}
+						response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
+						response = "{\"list\":"+response+"}";
+						System.out.println("response=" + response.toString());
 					}
-					response = response.replace("{", "{\"").replace(",", ",\"").replace(":", "\":").replace("},\"{", "},{");
-					response = "{\"list\":"+response+"}";
-					System.out.println("response=" + response.toString());
+					
 					
 					Gson gson = new Gson();
 					KLineDataJson result = gson.fromJson(response.toString(), KLineDataJson.class);
@@ -339,7 +354,19 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 		// TODO Auto-generated method stub
 		super.onCallback(result);
 		list.clear();
-		list.addAll(result.getList());
+		if(url.contains("getMinK")){
+			for(TimeLineBean bean :result.getList()){
+				bean.setDay(bean.getD());
+				bean.setHigh(bean.getH());
+				bean.setOpen(bean.getO());
+				bean.setLow(bean.getL());
+				bean.setClose(bean.getC());
+				bean.setVolume(bean.getV());
+				list.add(bean);
+			}
+		}else{
+			list.addAll(result.getList());
+		}
 		CombinedData data = new CombinedData();
 		data.setData(generateLineData());
 		data.setData(generateCandleData());

@@ -59,7 +59,7 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class ThemeStockPinnedSectionListFragment extends BaseV4Fragment<HotConceptJson, ThemeStockPinnedSectionListFragment> implements OnRefreshListener<ListView>,OnItemClickListener {
+public class ThemeStockPinnedSectionListFragment extends BaseV4Fragment<HotConceptJson, ThemeStockPinnedSectionListFragment> implements OnRefreshListener<ListView> {
 	public PullToRefreshPinnedSectionListView mPullToRefreshPinnedSectionListView;
 	private ThemeStockPinnedSectionListAdapter mThemeStockPinnedSectionListAdapter;
 	private List<ThemeStockBean> list = new ArrayList<ThemeStockBean>();
@@ -104,7 +104,7 @@ public class ThemeStockPinnedSectionListFragment extends BaseV4Fragment<HotConce
 		// TODO Auto-generated method stub
 		super.bindEvent();
 		mPullToRefreshPinnedSectionListView.setOnRefreshListener(this);
-		mPullToRefreshPinnedSectionListView.setOnItemClickListener(this);
+//		mPullToRefreshPinnedSectionListView.setOnItemClickListener(this);
 	}
 
 	/*
@@ -269,15 +269,15 @@ public class ThemeStockPinnedSectionListFragment extends BaseV4Fragment<HotConce
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
-	 */
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		// TODO Auto-generated method stub
-		if(id!=-1&& list!=null && list.get((int)id)!=null){
-			ThemeStockDetailListFragmentActivity.startThemeStockDetailListFragmentActivity(getActivity(), list.get((int)id).getHref(),list.get((int)id).getEvent(),list.get((int)id).getName());
-		}
-	}
+//	/* (non-Javadoc)
+//	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+//	 */
+//	@Override
+//	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//		// TODO Auto-generated method stub
+//		if(id!=-1&& list!=null && list.get((int)id)!=null){
+//			ThemeStockDetailListFragmentActivity.startThemeStockDetailListFragmentActivity(getActivity(), list.get((int)id).getHref(),list.get((int)id).getEvent(),list.get((int)id).getName());
+//		}
+//	}
 
 }
