@@ -43,7 +43,7 @@ public class StockMultiChartFragmentActivity extends CommonTitleBarActivity{
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.STOCKTIMELINE;
+			url = UrlUtils.STOCKTIMELINE+"sz000725";
 		}
 		setCenterTextValue("分时多控件");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));

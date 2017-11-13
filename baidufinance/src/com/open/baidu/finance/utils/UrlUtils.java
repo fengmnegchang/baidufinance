@@ -237,25 +237,25 @@ public class UrlUtils {
 
 	//kline
 	/**个股-新闻**/
-	public static final String STOCK_ASYNCNEWSLIST_NEWS ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&code=sz000725&tab=news";
+	public static final String STOCK_ASYNCNEWSLIST_NEWS ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&tab=news&code=";
 	/**个股-公告**/
-	public static final String STOCK_ASYNCNEWSLIST_NOTICE ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&code=sz000725&tab=notice";
+	public static final String STOCK_ASYNCNEWSLIST_NOTICE ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&tab=notice&code=";
 	/**个股-研报**/
-	public static final String STOCK_ASYNCNEWSLIST_REPORT ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&code=sz000725&tab=report";
+	public static final String STOCK_ASYNCNEWSLIST_REPORT ="https://gupiao.baidu.com/stock/asyncnewslist?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510022811084&tab=report&code=";
 
 	/**个股-分时图**/
-	public static final String STOCKTIMELINE ="https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&timestamp=1510040773836";
+	public static final String STOCKTIMELINE ="https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&timestamp=1510040773836&stock_code=";
 	/**个股-5日图**/
-	public static final String STOCKTIMELINEFIVE ="https://gupiao.baidu.com/api/stocks/stocktimelinefive?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&timestamp=1510133035727";
+	public static final String STOCKTIMELINEFIVE ="https://gupiao.baidu.com/api/stocks/stocktimelinefive?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&step=3&timestamp=1510133035727&stock_code=";
 	/**个股-日K**/
-	public static final String STOCKDAYBAR ="https://gupiao.baidu.com/api/stocks/stockdaybar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&start=&count=160&fq_type=no&timestamp=1510212893650";
+	public static final String STOCKDAYBAR ="https://gupiao.baidu.com/api/stocks/stockdaybar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&step=3&start=&count=160&fq_type=no&timestamp=1510212893650&stock_code=";
 	/**个股-周K**/
-	public static final String STOCKWEEKBAR="https://gupiao.baidu.com/api/stocks/stockweekbar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&start=&count=160&fq_type=no&timestamp=1510304846130";
+	public static final String STOCKWEEKBAR="https://gupiao.baidu.com/api/stocks/stockweekbar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&step=3&start=&count=160&fq_type=no&timestamp=1510304846130&stock_code=";
 	/**个股-月K**/
-	public static final String STOCKMONTHBAR="https://gupiao.baidu.com/api/stocks/stockmonthbar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sz000725&step=3&start=&count=160&fq_type=no&timestamp=1510304899214";
+	public static final String STOCKMONTHBAR="https://gupiao.baidu.com/api/stocks/stockmonthbar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&step=3&start=&count=160&fq_type=no&timestamp=1510304899214&stock_code=";
 	
 	/**股票信息**/
-	public static final String STOCK ="https://gupiao.baidu.com/stock/sz000725.html";
+	public static final String STOCK ="https://gupiao.baidu.com/stock/";
 	/**新浪60分**/
 	public static final String GETKLINEDATA_60="http://money.finance.sina.com.cn/quotes_service/api/jsonp_v2.php/var%20_sz000725_60_1510555547326=/CN_MarketData.getKLineData?symbol=sz000725&scale=60&ma=no&datalen=1023";
 	/**新浪5分**/
@@ -265,5 +265,8 @@ public class UrlUtils {
 	/**新浪30分**/
 	public static final String GETKLINEDATA_30="http://money.finance.sina.com.cn/quotes_service/api/jsonp_v2.php/var%20_sz000725_30_1510555547326=/CN_MarketData.getKLineData?symbol=sz000725&scale=30&ma=no&datalen=1023";
 
-	
+	public static final String GETKLINEDATA_LEFT="http://money.finance.sina.com.cn/quotes_service/api/jsonp_v2.php/var%20_";
+	//sz000725_30
+	public static final String GETKLINEDATA_RIGHT="_1510555547326=/CN_MarketData.getKLineData?scale=30&ma=no&datalen=1023&symbol=";//sz000725
+
 }

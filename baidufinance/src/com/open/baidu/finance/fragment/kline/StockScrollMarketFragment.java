@@ -86,12 +86,16 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 	public List<Fragment> listRankFragment = new ArrayList<Fragment>();// view数组
 	public CommonFragmentPagerAdapter mRankPagerAdapter;
 	public ArrayList<MainTabBean> clist = new ArrayList<MainTabBean>();
+	private String stockCode;//000725
+	private String stockExCode;//sz000725
 
-	public static StockScrollMarketFragment newInstance(String url, boolean isVisibleToUser) {
+	public static StockScrollMarketFragment newInstance(String url,String stockExCode,String stockCode, boolean isVisibleToUser) {
 		StockScrollMarketFragment fragment = new StockScrollMarketFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
+		fragment.stockExCode = stockExCode;
+		fragment.stockExCode = stockExCode;
 		return fragment;
 	}
 
@@ -133,21 +137,21 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 		super.initValues();
 		mPullToRefreshScrollableLayout.setMode(Mode.PULL_FROM_START);
 		txt_min_k.setTextColor(getResources().getColor(R.color.blue_color));
-		Fragment fragment = StockCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINE, true);
+		Fragment fragment = StockCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINE+stockExCode, true);
 		getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 
 		MainTabBean bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NEWS);
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NEWS+stockExCode);
 		bean.setTitle("新闻");
 		clist.add(bean);
 
 		bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NOTICE);
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NOTICE+stockExCode);
 		bean.setTitle("公告");
 		clist.add(bean);
 
 		bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_REPORT);
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_REPORT+stockExCode);
 		bean.setTitle("研报");
 		clist.add(bean);
 		titleList.clear();
@@ -311,7 +315,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 				clearTag();
 				txt_min_k.setTag("1");
 				txt_min_k.setTextColor(getResources().getColor(R.color.blue_color));
-				Fragment fragment = StockCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINE, true);
+				Fragment fragment = StockCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINE+stockExCode, true);
 				getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 			}
 			break;
@@ -320,7 +324,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 				clearTag();
 				txt_five_k.setTag("1");
 				txt_five_k.setTextColor(getResources().getColor(R.color.blue_color));
-				Fragment fragment = StockFiveDayCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINEFIVE, true);
+				Fragment fragment = StockFiveDayCombinedChartFragment.newInstance(UrlUtils.STOCKTIMELINEFIVE+stockExCode, true);
 				getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 			}
 			break;
@@ -329,7 +333,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 				clearTag();
 				txt_day_k.setTag("1");
 				txt_day_k.setTextColor(getResources().getColor(R.color.blue_color));
-				Fragment fragment = StockMashDataCombinedChartFragment.newInstance(UrlUtils.STOCKDAYBAR, true);
+				Fragment fragment = StockMashDataCombinedChartFragment.newInstance(UrlUtils.STOCKDAYBAR+stockExCode, true);
 				getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 			}
 			break;
@@ -338,7 +342,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 				clearTag();
 				txt_week_k.setTag("1");
 				txt_week_k.setTextColor(getResources().getColor(R.color.blue_color));
-				Fragment fragment = StockMashDataCombinedChartFragment.newInstance(UrlUtils.STOCKWEEKBAR, true);
+				Fragment fragment = StockMashDataCombinedChartFragment.newInstance(UrlUtils.STOCKWEEKBAR+stockExCode, true);
 				getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 			}
 			break;
@@ -347,7 +351,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 				clearTag();
 				txt_month_k.setTag("1");
 				txt_month_k.setTextColor(getResources().getColor(R.color.blue_color));
-				Fragment fragment = StockMashDataCombinedChartFragment.newInstance(UrlUtils.STOCKMONTHBAR, true);
+				Fragment fragment = StockMashDataCombinedChartFragment.newInstance(UrlUtils.STOCKMONTHBAR+stockExCode, true);
 				getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 			}
 			break;
@@ -400,7 +404,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				sinaMinChart(UrlUtils.GETKLINEDATA_5);
+				sinaMinChart("5");
 				popupWindow.dismiss();
 			}
 		});
@@ -408,7 +412,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				sinaMinChart(UrlUtils.GETKLINEDATA_15);
+				sinaMinChart("15");
 				popupWindow.dismiss();
 			}
 		});
@@ -416,7 +420,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				sinaMinChart(UrlUtils.GETKLINEDATA_30);
+				sinaMinChart("30");
 				popupWindow.dismiss();
 			}
 		});
@@ -424,7 +428,7 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				sinaMinChart(UrlUtils.GETKLINEDATA_60);
+				sinaMinChart("60");
 				popupWindow.dismiss();
 			}
 		});
@@ -438,8 +442,9 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 		});
 	}
 	
-	private void sinaMinChart(String url){
-		StockSinaMinCombinedChartFragment fragment = StockSinaMinCombinedChartFragment.newInstance(url, true);
+	private void sinaMinChart(String type){
+		String href = UrlUtils.GETKLINEDATA_LEFT+stockExCode+"_"+type+UrlUtils.GETKLINEDATA_RIGHT+stockExCode;
+		StockSinaMinCombinedChartFragment fragment = StockSinaMinCombinedChartFragment.newInstance(href, true);
 		getChildFragmentManager().beginTransaction().replace(R.id.layout_k, fragment).commit();
 	}
 
@@ -480,33 +485,38 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 		TextView txt_total_guben = (TextView) view.findViewById(R.id.txt_total_guben);
 		TextView txt_ex_guben = (TextView) view.findViewById(R.id.txt_ex_guben);
 		if (stock != null) {
-			txt_high.setText(String.format("%.2f", stock.getHigh()));
-			txt_low.setText(String.format("%.2f", stock.getLow()));
-			txt_up.setText(String.format("%.2f", stock.getUp()));
-			txt_down.setText(String.format("%.2f", stock.getDown()));
+			try {
+				txt_high.setText(String.format("%.2f", stock.getHigh()));
+				txt_low.setText(String.format("%.2f", stock.getLow()));
+				txt_up.setText(String.format("%.2f", stock.getUp()));
+				txt_down.setText(String.format("%.2f", stock.getDown()));
 
-			txt_m915.setText(stock.getM915());
-			txt_m930.setText(stock.getM930());
-			txt_amount.setText(stock.getAmount());
-			txt_rate.setText(stock.getRate());
+				txt_m915.setText(stock.getM915());
+				txt_m930.setText(stock.getM930());
+				txt_amount.setText(stock.getAmount());
+				txt_rate.setText(stock.getRate());
 
-			if (stock.getWeibi().contains("-")) {
-				txt_weibi.setTextColor(getResources().getColor(R.color.green_color));
-			} else {
-				txt_weibi.setTextColor(getResources().getColor(R.color.red_color));
+				if (stock.getWeibi().contains("-")) {
+					txt_weibi.setTextColor(getResources().getColor(R.color.green_color));
+				} else {
+					txt_weibi.setTextColor(getResources().getColor(R.color.red_color));
+				}
+				txt_weibi.setText(stock.getWeibi());
+				txt_volumebi.setText(stock.getVolumebi());
+				txt_total_exmoney.setText(stock.getTotal_exmoney());
+				txt_total_money.setText(stock.getTotal_money());
+
+				txt_mrq.setText(stock.getMrq());
+				txt_jing_rate.setText(stock.getJing_rate());
+				txt_profit.setText(stock.getProfit());
+				txt_jingmoney.setText(stock.getJingmoney());
+
+				txt_total_guben.setText(stock.getTotal_guben());
+				txt_ex_guben.setText(stock.getEx_guben());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			txt_weibi.setText(stock.getWeibi());
-			txt_volumebi.setText(stock.getVolumebi());
-			txt_total_exmoney.setText(stock.getTotal_exmoney());
-			txt_total_money.setText(stock.getTotal_money());
-
-			txt_mrq.setText(stock.getMrq());
-			txt_jing_rate.setText(stock.getJing_rate());
-			txt_profit.setText(stock.getProfit());
-			txt_jingmoney.setText(stock.getJingmoney());
-
-			txt_total_guben.setText(stock.getTotal_guben());
-			txt_ex_guben.setText(stock.getEx_guben());
+			
 		}
 
 		popupWindow.setOnDismissListener(new OnDismissListener() {

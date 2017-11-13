@@ -48,12 +48,13 @@ public class StockIndicatorFragment extends BaseV4Fragment<MainTabJson, StockInd
 	public List<Fragment> listRankFragment = new ArrayList<Fragment>();// view数组
 	public CommonFragmentPagerAdapter mRankPagerAdapter;
 	public ArrayList<MainTabBean> list = new ArrayList<MainTabBean>();
-	
-	public static StockIndicatorFragment newInstance(String url, boolean isVisibleToUser) {
+	public String stockExCode;
+	public static StockIndicatorFragment newInstance(String url, String stockExCode,boolean isVisibleToUser) {
 		StockIndicatorFragment fragment = new StockIndicatorFragment();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
+		fragment.stockExCode = stockExCode;
 		return fragment;
 	}
 	
@@ -107,17 +108,17 @@ public class StockIndicatorFragment extends BaseV4Fragment<MainTabJson, StockInd
 		MainTabJson mMainTabJson = new MainTabJson();
 		ArrayList<MainTabBean> clist = new ArrayList<MainTabBean>();
 		MainTabBean bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NEWS);
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NEWS+stockExCode);
 		bean.setTitle("新闻");
 		clist.add(bean);
 		
 		bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NOTICE);
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_NOTICE+stockExCode);
 		bean.setTitle("公告");
 		clist.add(bean);
 		
 		bean = new MainTabBean();
-		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_REPORT);
+		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_REPORT+stockExCode);
 		bean.setTitle("研报");
 		clist.add(bean);
 		

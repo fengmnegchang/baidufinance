@@ -43,7 +43,7 @@ public class StockMashDataChartFragmentActivity extends CommonTitleBarActivity{
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.STOCKDAYBAR;
+			url = UrlUtils.STOCKDAYBAR+"sz000725";
 		}
 		setCenterTextValue("日K");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));

@@ -25,7 +25,9 @@ import com.handmark.pulltorefresh.library.PinnedSectionListView.PinnedSectionLis
 import com.open.android.adapter.CommonAdapter;
 import com.open.android.weak.WeakReferenceHandler;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.mystock.StockBean;
+import com.open.baidu.finance.utils.UrlUtils;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -53,7 +55,7 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 	 * android.view.View, android.view.ViewGroup)
 	 */
 	@SuppressLint("ResourceAsColor") @Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		final StockBean bean = (StockBean) getItem(position);
 		if(getItemViewType(position)==ITEM_VIEW_TYPE_HEADER){
@@ -129,7 +131,7 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 						weakReferenceHandler.sendMessage(msg);
 					}
 				});
-			
+				convertView.setOnClickListener(null);
 		}else{
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.adapter_my_stock, parent, false);
@@ -182,6 +184,12 @@ public class MyStockAdapter extends CommonAdapter<StockBean> implements PinnedSe
 						}
 					}
 					notifyDataSetChanged();
+				}
+			});
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					StockScrollMarketFragmentActivity.startStockScrollMarketFragmentActivity(mContext,list.get(position).getExchange()+list.get(position).getStockCode(),list.get(position).getStockName(),list.get(position).getStockCode());
 				}
 			});
 		}

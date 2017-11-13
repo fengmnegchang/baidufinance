@@ -41,11 +41,12 @@ public class StockScrollMarketFragmentActivity extends CommonTitleBarActivity{
 	protected void initValue() {
 		// TODO Auto-generated method stub
 		if (getIntent().getStringExtra("URL") != null) {
-			url = getIntent().getStringExtra("URL");
+			url = UrlUtils.STOCK+ getIntent().getStringExtra("URL")+".html";
+			setCenterTextValue(getIntent().getStringExtra("STOCKNAME")+"("+getIntent().getStringExtra("STOCKCODE")+")");
 		} else {
-			url = UrlUtils.STOCK;
+			url = UrlUtils.STOCK+"sz000725.html";
+			setCenterTextValue("京东方A(000725)");
 		}
-		setCenterTextValue("京东方A(000725)");
 		setCenterTimeTextValue("交易中 11-10 14:00:33");
 		setStatusBarColor(getResources().getColor(R.color.red_color));
 		
@@ -72,15 +73,17 @@ public class StockScrollMarketFragmentActivity extends CommonTitleBarActivity{
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = StockScrollMarketFragment.newInstance(url, true);
+		Fragment fragment = StockScrollMarketFragment.newInstance(url,getIntent().getStringExtra("URL"),getIntent().getStringExtra("STOCKCODE"), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
  
 
-	public static void startStockScrollMarketFragmentActivity(Context context, String url) {
+	public static void startStockScrollMarketFragmentActivity(Context context, String url,String stockName,String stockCode) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
+		intent.putExtra("STOCKNAME", stockName);
+		intent.putExtra("STOCKCODE", stockCode);
 		intent.setClass(context, StockScrollMarketFragmentActivity.class);
 		context.startActivity(intent);
 	}

@@ -43,7 +43,7 @@ public class StockIndicatorFragmentActivity extends CommonTitleBarActivity{
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.STOCK_ASYNCNEWSLIST_NEWS;
+			url = UrlUtils.STOCK_ASYNCNEWSLIST_NEWS+"sz000725";
 		}
 		setCenterTextValue("个股");
 		setStatusBarColor(getResources().getColor(R.color.status_bar_color));
@@ -70,7 +70,7 @@ public class StockIndicatorFragmentActivity extends CommonTitleBarActivity{
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = StockIndicatorFragment.newInstance(url, true);
+		Fragment fragment = StockIndicatorFragment.newInstance(url,"sz000725" ,true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
