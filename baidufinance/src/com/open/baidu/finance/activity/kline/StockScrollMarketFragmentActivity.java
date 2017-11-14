@@ -73,7 +73,7 @@ public class StockScrollMarketFragmentActivity extends CommonTitleBarActivity{
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = StockScrollMarketFragment.newInstance(url,getIntent().getStringExtra("URL"),getIntent().getStringExtra("STOCKCODE"), true);
+		Fragment fragment = StockScrollMarketFragment.newInstance(url,(getIntent().getStringExtra("URL")==null?"sz000725":getIntent().getStringExtra("URL")),getIntent().getStringExtra("STOCKCODE"), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	

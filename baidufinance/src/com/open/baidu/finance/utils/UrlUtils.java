@@ -272,6 +272,14 @@ public class UrlUtils {
 	public static final String US_GETMINK_LEFT="http://stock.finance.sina.com.cn/usstock/api/jsonp_v2.php/var%20_";
 	//NVDA_5
 	public static final String US_GETMINK_RIGHT="_1510564210285=/US_MinKService.getMinK?symbol=";//NVDA&type=5&___qn=3
-
-
+	/**个股评论**/
+	public static final String STOCK_COMMENT="https://gupiao.baidu.com/api/comment/getcommentlist?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=h5&datetime=1494471046833&type=lt&stype=3&count=20&sid=";
+	/**个股基本面**/
+	public static final String STOCKBASICINFO ="https://gupiao.baidu.com/api/stocks/stockbasicinfo?from=h5&os_ver=0&cuid=xxx&vv=3.2&format=json&stock_code=";
+	/**个股基研报**/
+	public static final String STOCKREPORT ="https://gupiao.baidu.com/api/stocks/stockreport?from=h5&os_ver=0&cuid=xxx&vv=2.2&format=json&page_index=1&page_size=15&stock_code=";
+	/**公司简介**/
+	public static final String COMPANYPROFILES="https://gupiao.baidu.com/api/stocks/companyprofiles?from=h5&os_ver=0&cuid=xxx&vv=3.2&format=json&stock_code=";
+	/**股东信息**/
+	public static final String SHAREHOLDER ="https://gupiao.baidu.com/api/stocks/shareholder?from=h5&os_ver=0&cuid=xxx&vv=3.2&format=json&stock_code=";
 }

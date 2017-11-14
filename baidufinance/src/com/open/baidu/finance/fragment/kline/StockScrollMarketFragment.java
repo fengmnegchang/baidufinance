@@ -44,10 +44,11 @@ import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.utils.NetWorkUtils;
 import com.open.android.utils.ScreenUtils;
-import com.open.android.widget.ScrollableLayout;
 import com.open.android.widget.ScrollableHelper.ScrollableContainer;
+import com.open.android.widget.ScrollableLayout;
 import com.open.android.widget.ScrollableLayout.ScrollLayoutListener;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.article.MNewsCommentPullListFragmentActivity;
 import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.MainTabBean;
 import com.open.baidu.finance.bean.kline.StockInfoBean;
@@ -72,9 +73,10 @@ public class StockScrollMarketFragment extends BaseV4Fragment<StockInfoJson, Sto
 OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 	private ImageView img_expand;
 	public PopupWindow popupWindow;
-	private TextView txt_net_rate, txt_close, txt_open, txt_pre_close, txt_volume, txt_ex_rate;
+	private TextView txt_net_rate, txt_close, txt_open, txt_pre_close, txt_volume, txt_ex_rate,txt_msg;
+	private ImageView img_msg;
 	private StockInfoBean stock;
-	private RelativeLayout layout_top;
+	private RelativeLayout layout_top,layout_bottom;
 	private TextView txt_min_k, txt_five_k, txt_day_k, txt_week_k, txt_month_k, txt_minby_k;
 	private FrameLayout layout_k;
 
@@ -123,6 +125,10 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 		viewpager = (ViewPager) view.findViewById(R.id.viewpager);
 		indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
 		mPullToRefreshScrollableLayout = (PullToRefreshScrollableLayout) view.findViewById(R.id.pulltorefreshscrollablelayout);
+		
+		img_msg  = (ImageView) view.findViewById(R.id.img_msg);
+		txt_msg = (TextView) view.findViewById(R.id.txt_msg);
+		layout_bottom = (RelativeLayout) view.findViewById(R.id.layout_bottom);
 		return view;
 	}
 
@@ -161,16 +167,30 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 		bean.setHref(UrlUtils.STOCK_ASYNCNEWSLIST_REPORT+stockExCode);
 		bean.setTitle("研报");
 		clist.add(bean);
+		
+		bean = new MainTabBean();
+		bean.setHref(UrlUtils.STOCKREPORT+stockExCode);
+		bean.setTitle("m研报");
+		clist.add(bean);
+		
+		bean = new MainTabBean();
+		bean.setHref(stockExCode);
+		bean.setTitle("基本面");
+		clist.add(bean);
+		
 		titleList.clear();
-
 		Fragment fragment2;
 		for (int i = 0; i < clist.size(); i++) {
 			bean = clist.get(i);
 			titleList.add(bean.getTitle());
-			if (i == 0) {
-				fragment2 = StockNewsPullListFragment.newInstance(bean.getHref(), true);
-			} else {
-				fragment2 = StockNewsPullListFragment.newInstance(bean.getHref(), false);
+			if(i==0){
+				fragment2 = StockNewsPullListFragment.newInstance(bean.getHref(),true);
+			}else if(i==3){
+				fragment2 = StockReportDataPullListFragment.newInstance(bean.getHref(), false);
+			}else if(i==4){
+				fragment2 = StockBasicInfoPullScrollFragment.newInstance(bean.getHref(), false);
+			}else{
+				fragment2 = StockNewsPullListFragment.newInstance(bean.getHref(),false);
 			}
 			listRankFragment.add(fragment2);
 		}
@@ -201,6 +221,9 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 		txt_week_k.setOnClickListener(this);
 		txt_month_k.setOnClickListener(this);
 		txt_minby_k.setOnClickListener(this);
+		txt_msg.setOnClickListener(this);
+		img_msg.setOnClickListener(this);
+		layout_bottom.setOnClickListener(this);
 	}
 
 	/*
@@ -367,6 +390,12 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 			showMinPopupWindow();
 			txt_minby_k.setTag("1");
 			txt_minby_k.setTextColor(getResources().getColor(R.color.blue_color));
+			break;
+		case R.id.img_msg:
+		case R.id.txt_msg:
+			MNewsCommentPullListFragmentActivity.startMNewsCommentPullListFragmentActivity(getActivity(), UrlUtils.STOCK_COMMENT+stockExCode);
+			break;
+		case R.id.layout_bottom:
 			break;
 		default:
 			break;

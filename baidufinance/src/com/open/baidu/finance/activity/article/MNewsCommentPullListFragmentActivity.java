@@ -42,7 +42,7 @@ public class MNewsCommentPullListFragmentActivity extends CommonTitleBarActivity
 	protected void initValue() {
 		// TODO Auto-generated method stub
 		if (getIntent().getStringExtra("URL") != null) {
-			url = UrlUtils.M_GETCOMMENTLIST+getIntent().getStringExtra("URL");
+			url = getIntent().getStringExtra("URL");
 		} else {
 			url = UrlUtils.M_GETCOMMENTLIST+"TT1049581";
 		}

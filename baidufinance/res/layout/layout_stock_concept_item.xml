@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content"
+    android:padding="5dp" 
+    android:background="@drawable/selector_gray_grid_divider"
+    >
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="转融券"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/txt_ratio"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_name"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="-0.63%"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/txt_stockname"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_ratio"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="中国神华"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/txt_price"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_stockname"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="23.53"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/txt_netchange"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txt_price"
+        android:layout_below="@+id/txt_stockname"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="5.33%"
+        android:textSize="15dp" />
+
+</RelativeLayout>

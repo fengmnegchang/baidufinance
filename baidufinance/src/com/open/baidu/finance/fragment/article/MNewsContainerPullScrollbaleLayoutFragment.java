@@ -276,7 +276,7 @@ implements OnRefreshListener<ScrollableLayout>,OnClickListener,ScrollLayoutListe
 		case R.id.img_msg:
 		case R.id.txt_msg:
 			//留言
-			MNewsCommentPullListFragmentActivity.startMNewsCommentPullListFragmentActivity(getActivity(), url.replace(UrlUtils.ARTICLE_URL, ""));
+			MNewsCommentPullListFragmentActivity.startMNewsCommentPullListFragmentActivity(getActivity(), UrlUtils.M_GETCOMMENTLIST+url.replace(UrlUtils.ARTICLE_URL, ""));
 			break;
 		case R.id.img_share:
 			//分享
