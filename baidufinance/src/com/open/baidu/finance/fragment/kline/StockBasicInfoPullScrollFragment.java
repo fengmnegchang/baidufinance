@@ -39,6 +39,7 @@ import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.json.CommonJson;
+import com.open.android.widget.ScrollableHelper.ScrollableContainer;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.kline.CompanyProfilesBean;
@@ -59,12 +60,13 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson, StockBasicInfoPullScrollFragment> implements OnClickListener {
+public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson, StockBasicInfoPullScrollFragment> implements OnClickListener,  ScrollableContainer {
 	private LinearLayout layout_all, layout_event,layout_concept,layout_income;
 	private TextView txt_profit, txt_income, txt_pershare;
 	private int type;
 	private StockBasicInfoBean mStockBasicInfoBean;
-
+	private CompanyProfilesBean mCompanyProfilesBean;
+	private View view;
 	public static StockBasicInfoPullScrollFragment newInstance(String url, boolean isVisibleToUser) {
 		StockBasicInfoPullScrollFragment fragment = new StockBasicInfoPullScrollFragment();
 		fragment.setFragment(fragment);
@@ -75,7 +77,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_stock_basic_info_scrollable_layout, container, false);
+		view = inflater.inflate(R.layout.fragment_stock_basic_info_scrollable_layout, container, false);
 		layout_all = (LinearLayout) view.findViewById(R.id.layout_all);
 		layout_event = (LinearLayout) view.findViewById(R.id.layout_event);
 		layout_concept = (LinearLayout) view.findViewById(R.id.layout_concept);
@@ -84,6 +86,15 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 		txt_profit = (TextView) view.findViewById(R.id.txt_profit);
 		txt_income = (TextView) view.findViewById(R.id.txt_income);
 		txt_pershare = (TextView) view.findViewById(R.id.txt_pershare);
+		return view;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.open.android.widget.ScrollableHelper.ScrollableContainer#getScrollableView()
+	 */
+	@Override
+	public View getScrollableView() {
+		// TODO Auto-generated method stub
 		return view;
 	}
 
@@ -130,6 +141,23 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 			break;
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onResume()
+	 */
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if(mCompanyProfilesBean !=null){
+			setCompany(mCompanyProfilesBean);
+			setIncome(mCompanyProfilesBean);
+		}
+		
+		if(mStockBasicInfoBean!=null){
+			setStockBasicInfo(mStockBasicInfoBean);
+		}
+	}
 
 	private void stockbasicinfo(final String href) {
 		// TODO Auto-generated method stub
@@ -154,7 +182,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 					openbean.setImgsrc("");
 					openbean.setType(pageNo);
 					openbean.setTypename(pageNo + "");
-					openbean.setUrl(url);
+					openbean.setUrl(UrlUtils.STOCKBASICINFO+url);
 					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -166,7 +194,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 			public void onErrorResponse(VolleyError error) {
 				// TODO Auto-generated method stub
 				System.out.println(error);
-				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), url, pageNo + "");
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), UrlUtils.STOCKBASICINFO+url, pageNo + "");
 				Gson gson = new Gson();
 				StockBasicInfoBean result = gson.fromJson(dblist.get(0).getTitle(), StockBasicInfoBean.class);
 				setStockBasicInfo(result);
@@ -252,6 +280,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 				try {
 					Gson gson = new Gson();
 					CompanyProfilesBean result = gson.fromJson(response.toString(), CompanyProfilesBean.class);
+					mCompanyProfilesBean = result;
 					setCompany(result);
 					setIncome(result);
 					 
@@ -261,7 +290,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 					openbean.setImgsrc("");
 					openbean.setType(pageNo);
 					openbean.setTypename(pageNo + "");
-					openbean.setUrl(url);
+					openbean.setUrl(UrlUtils.COMPANYPROFILES + url);
 					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -273,9 +302,10 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 			public void onErrorResponse(VolleyError error) {
 				// TODO Auto-generated method stub
 				System.out.println(error);
-				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), url, pageNo + "");
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), UrlUtils.COMPANYPROFILES + url, pageNo + "");
 				Gson gson = new Gson();
 				CompanyProfilesBean result = gson.fromJson(dblist.get(0).getTitle(), CompanyProfilesBean.class);
+				mCompanyProfilesBean = result;
 				setCompany(result);
 				setIncome(result);
 			}
