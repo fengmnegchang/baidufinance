@@ -174,7 +174,7 @@ implements ScrollableContainer,OnClickListener{
 //		linechart.setDrawBorders(true);//是否绘制边线
 //		linechart.setBorderWidth(1);//边线宽度，单位dp
 //		linechart.setBorderColor(Color.GRAY);
-		linechart.setDragEnabled(true);//启用图表拖拽事件
+//		linechart.setDragEnabled(true);//启用图表拖拽事件
 		linechart.setScaleEnabled(false);
 		linechart.setScaleYEnabled(false);//启用Y轴上的缩放
 		
@@ -200,7 +200,7 @@ implements ScrollableContainer,OnClickListener{
 		barchart.setDrawGridBackground(false);
 		barchart.setHighlightPerDragEnabled(false);
 		barchart.setNoDataText("");
-		barchart.setDragEnabled(true);//启用图表拖拽事件
+//		barchart.setDragEnabled(true);//启用图表拖拽事件
 		barchart.setScaleEnabled(false);
 		barchart.setScaleYEnabled(false);//启用Y轴上的缩放
 		
@@ -381,7 +381,7 @@ implements ScrollableContainer,OnClickListener{
 		bardata.setData(generateBarData());
 		// data.setValueTypeface(mTfLight);
 		barchart.setData(bardata);
-		barchart.setScaleMinima(2.5f, 1f);
+//		barchart.setScaleMinima(2.5f, 1f);
 		barchart.invalidate();
 		
 		txt_time.setText(""+list.get(0).getTime()/100000);

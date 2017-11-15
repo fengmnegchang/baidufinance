@@ -176,7 +176,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		barchart.setDrawGridBackground(false);
 		barchart.setHighlightPerDragEnabled(false);
 		barchart.setNoDataText("");
-		barchart.setDragEnabled(true);//启用图表拖拽事件
+//		barchart.setDragEnabled(true);//启用图表拖拽事件
 		barchart.setScaleEnabled(false);
 		barchart.setScaleYEnabled(false);//启用Y轴上的缩放
 		
@@ -328,7 +328,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		bardata.setData(generateBarData());
 		// data.setValueTypeface(mTfLight);
 		barchart.setData(bardata);
-		barchart.setScaleMinima(2.5f, 1f);
+//		barchart.setScaleMinima(2.5f, 1f);
 		barchart.invalidate();
 		
 		txt_time.setText(""+list.get(0).getTime()/100000);

@@ -191,7 +191,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		// combinedchart.setBorderWidth(1);// 边线宽度，单位dp
 		// combinedchart.setBorderColor(Color.GRAY);
 		combinedchart.setDragEnabled(true);// 启用图表拖拽事件
-		// combinedchart.setScaleYEnabled(false);//启用Y轴上的缩放
+		 combinedchart.setScaleYEnabled(false);//启用Y轴上的缩放
 
 		// scaling can now only be done on x- and y-axis separately
 		combinedchart.setPinchZoom(false);
