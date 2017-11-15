@@ -43,6 +43,7 @@ import com.open.android.widget.ScrollableHelper.ScrollableContainer;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.kline.CompanyProfilesBean;
+import com.open.baidu.finance.bean.kline.ShareHolderBean;
 import com.open.baidu.finance.bean.kline.StockBasicInfoBean;
 import com.open.baidu.finance.bean.kline.StockBasicInfoBean.RelatedConcept;
 import com.open.baidu.finance.bean.kline.StockBasicInfoBean.StockBasicInfoExt30.Events;
@@ -60,13 +61,14 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson, StockBasicInfoPullScrollFragment> implements OnClickListener,  ScrollableContainer {
-	private LinearLayout layout_all, layout_event,layout_concept,layout_income;
+public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson, StockBasicInfoPullScrollFragment> implements OnClickListener, ScrollableContainer {
+	private LinearLayout layout_all, layout_event, layout_concept, layout_income, layout_shareholder;
 	private TextView txt_profit, txt_income, txt_pershare;
 	private int type;
 	private StockBasicInfoBean mStockBasicInfoBean;
 	private CompanyProfilesBean mCompanyProfilesBean;
 	private View view;
+
 	public static StockBasicInfoPullScrollFragment newInstance(String url, boolean isVisibleToUser) {
 		StockBasicInfoPullScrollFragment fragment = new StockBasicInfoPullScrollFragment();
 		fragment.setFragment(fragment);
@@ -82,15 +84,19 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 		layout_event = (LinearLayout) view.findViewById(R.id.layout_event);
 		layout_concept = (LinearLayout) view.findViewById(R.id.layout_concept);
 		layout_income = (LinearLayout) view.findViewById(R.id.layout_income);
+		layout_shareholder = (LinearLayout) view.findViewById(R.id.layout_shareholder);
 
 		txt_profit = (TextView) view.findViewById(R.id.txt_profit);
 		txt_income = (TextView) view.findViewById(R.id.txt_income);
 		txt_pershare = (TextView) view.findViewById(R.id.txt_pershare);
 		return view;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.open.android.widget.ScrollableHelper.ScrollableContainer#getScrollableView()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.open.android.widget.ScrollableHelper.ScrollableContainer#
+	 * getScrollableView()
 	 */
 	@Override
 	public View getScrollableView() {
@@ -138,24 +144,88 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 		case MESSAGE_HANDLER:
 			companyprofiles(UrlUtils.COMPANYPROFILES + url);
 			stockbasicinfo(UrlUtils.STOCKBASICINFO + url);
+			shareholder(UrlUtils.SHAREHOLDER + url);
 			break;
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.Fragment#onResume()
-	 */
-	@Override
-	public void onResume() {
+
+	// /* (non-Javadoc)
+	// * @see android.support.v4.app.Fragment#onResume()
+	// */
+	// @Override
+	// public void onResume() {
+	// // TODO Auto-generated method stub
+	// super.onResume();
+	// if(mCompanyProfilesBean !=null){
+	// setCompany(mCompanyProfilesBean);
+	// setIncome(mCompanyProfilesBean);
+	// }
+	//
+	// if(mStockBasicInfoBean!=null){
+	// setStockBasicInfo(mStockBasicInfoBean);
+	// }
+	// }
+
+	private void shareholder(final String href) {
 		// TODO Auto-generated method stub
-		super.onResume();
-		if(mCompanyProfilesBean !=null){
-			setCompany(mCompanyProfilesBean);
-			setIncome(mCompanyProfilesBean);
-		}
-		
-		if(mStockBasicInfoBean!=null){
-			setStockBasicInfo(mStockBasicInfoBean);
+		RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("User-Agent", UrlUtils.userAgent);
+		// params.put("Referer","https://gupiao.baidu.com/my/");
+		params.put("Cookie", UrlUtils.COOKIE);
+		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, href, params, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				System.out.println("href=" + href);
+				System.out.println("response=" + response.toString());
+				try {
+					Gson gson = new Gson();
+					ShareHolderBean result = gson.fromJson(response.toString(), ShareHolderBean.class);
+					setShareHolder(result);
+
+					OpenDBBean openbean = new OpenDBBean();
+					openbean.setTitle(response.toString());
+					openbean.setDownloadurl("");
+					openbean.setImgsrc("");
+					openbean.setType(pageNo);
+					openbean.setTypename(pageNo + "");
+					openbean.setUrl(UrlUtils.SHAREHOLDER + url);
+					OpenDBService.insert(getActivity(), openbean);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}, new ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				System.out.println(error);
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), UrlUtils.SHAREHOLDER + url, pageNo + "");
+				Gson gson = new Gson();
+				ShareHolderBean result = gson.fromJson(dblist.get(0).getTitle(), ShareHolderBean.class);
+				setShareHolder(result);
+			}
+		});
+		requestQueue.add(jsonObjectRequest);
+	}
+
+	private void setShareHolder(ShareHolderBean result) {
+		if (result != null && result.getAdata() != null) {
+			for (int i = 0; i < result.getAdata().getLtsh().size(); i++) {
+				View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_stock_income_item, null);
+				TextView txt_name = (TextView) view.findViewById(R.id.txt_name);
+				TextView txt_money = (TextView) view.findViewById(R.id.txt_money);
+				TextView txt_changeRatio = (TextView) view.findViewById(R.id.txt_changeRatio);
+
+				txt_name.setText(result.getAdata().getLtsh().get(i).getName());
+				txt_money.setText(String.format("%.2f", result.getAdata().getLtsh().get(i).getPercent()));
+				txt_changeRatio.setText(String.format("%.2f", result.getAdata().getLtsh().get(i).getChangeCount()));
+				if (i % 2 == 0) {
+					view.setBackgroundColor(getResources().getColor(R.color.round_solid_color));
+				}
+				layout_shareholder.addView(view);
+			}
 		}
 	}
 
@@ -182,7 +252,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 					openbean.setImgsrc("");
 					openbean.setType(pageNo);
 					openbean.setTypename(pageNo + "");
-					openbean.setUrl(UrlUtils.STOCKBASICINFO+url);
+					openbean.setUrl(UrlUtils.STOCKBASICINFO + url);
 					OpenDBService.insert(getActivity(), openbean);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -194,7 +264,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 			public void onErrorResponse(VolleyError error) {
 				// TODO Auto-generated method stub
 				System.out.println(error);
-				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), UrlUtils.STOCKBASICINFO+url, pageNo + "");
+				List<OpenDBBean> dblist = OpenDBService.queryListType(getActivity(), UrlUtils.STOCKBASICINFO + url, pageNo + "");
 				Gson gson = new Gson();
 				StockBasicInfoBean result = gson.fromJson(dblist.get(0).getTitle(), StockBasicInfoBean.class);
 				setStockBasicInfo(result);
@@ -205,9 +275,9 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 
 	private void setStockBasicInfo(StockBasicInfoBean result) {
 		mStockBasicInfoBean = result;
-		if(mStockBasicInfoBean!=null){
-			setChart(mStockBasicInfoBean.getStockBasicInfoExt30().getNetProfit(),"净利润");
-			setConcept(mStockBasicInfoBean.getRelatedConcept());
+		if (result != null) {
+			setChart(result.getStockBasicInfoExt30().getNetProfit(), "净利润");
+			setConcept(result.getRelatedConcept());
 		}
 		if (result != null && result.getStockBasicInfoExt30() != null && result.getStockBasicInfoExt30().getEvents() != null) {
 			for (int i = 0; i < result.getStockBasicInfoExt30().getEvents().size(); i++) {
@@ -223,7 +293,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 			}
 		}
 	}
-	
+
 	private void setConcept(final List<RelatedConcept> list) {
 		if (list != null) {
 			for (int i = 0; i < list.size(); i++) {
@@ -233,25 +303,25 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 				final TextView txt_stockname = (TextView) view.findViewById(R.id.txt_stockname);
 				TextView txt_price = (TextView) view.findViewById(R.id.txt_price);
 				TextView txt_netchange = (TextView) view.findViewById(R.id.txt_netchange);
-				
+
 				txt_name.setText(list.get(i).getConceptName());
 				txt_ratio.setText(String.format("%.2f", list.get(i).getChangeRatio()));
 				txt_stockname.setText(list.get(i).getRiseMaxStock().getStockName());
 				txt_price.setText(String.format("%.2f", list.get(i).getPrice()));
 				txt_netchange.setText(String.format("%.2f", list.get(i).getNetChange()));
-				if(list.get(i).getChangeRatio()>0){
+				if (list.get(i).getChangeRatio() > 0) {
 					txt_ratio.setTextColor(getResources().getColor(R.color.red_color));
-				}else if(list.get(i).getChangeRatio()<0){
+				} else if (list.get(i).getChangeRatio() < 0) {
 					txt_ratio.setTextColor(getResources().getColor(R.color.green_color));
-				}else{
+				} else {
 					txt_ratio.setTextColor(getResources().getColor(R.color.gray_53_color));
 				}
-				final String stockcode = list.get(i).getRiseMaxStock().getExchange()+list.get(i).getRiseMaxStock().getStockCode();
+				final String stockcode = list.get(i).getRiseMaxStock().getExchange() + list.get(i).getRiseMaxStock().getStockCode();
 				txt_stockname.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						StockScrollMarketFragmentActivity.startStockScrollMarketFragmentActivity(getActivity(),stockcode , txt_stockname.getText().toString(), "");
+						StockScrollMarketFragmentActivity.startStockScrollMarketFragmentActivity(getActivity(), stockcode, txt_stockname.getText().toString(), "");
 					}
 				});
 				layout_concept.addView(view);
@@ -283,7 +353,7 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 					mCompanyProfilesBean = result;
 					setCompany(result);
 					setIncome(result);
-					 
+
 					OpenDBBean openbean = new OpenDBBean();
 					openbean.setTitle(response.toString());
 					openbean.setDownloadurl("");
@@ -328,19 +398,18 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 			}
 		}
 	}
-	
-	
+
 	private void setIncome(CompanyProfilesBean result) {
-		if (result != null && result.getDescription() != null && result.getStockIncome().getIncome()!=null) {
+		if (result != null && result.getDescription() != null && result.getStockIncome().getIncome() != null) {
 			for (int i = 0; i < result.getStockIncome().getIncome().size(); i++) {
 				View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_stock_income_item, null);
 				TextView txt_name = (TextView) view.findViewById(R.id.txt_name);
 				TextView txt_money = (TextView) view.findViewById(R.id.txt_money);
 				TextView txt_changeRatio = (TextView) view.findViewById(R.id.txt_changeRatio);
-				
+
 				txt_name.setText(result.getStockIncome().getIncome().get(i).getName());
-				txt_money.setText(String.format("%.2f",  result.getStockIncome().getIncome().get(i).getMoney()));
-				txt_changeRatio.setText(String.format("%.2f",  result.getStockIncome().getIncome().get(i).getChangeRatio()));
+				txt_money.setText(String.format("%.2f", result.getStockIncome().getIncome().get(i).getMoney()));
+				txt_changeRatio.setText(String.format("%.2f", result.getStockIncome().getIncome().get(i).getChangeRatio()));
 				if (i % 2 == 0) {
 					view.setBackgroundColor(getResources().getColor(R.color.round_solid_color));
 				}
@@ -359,38 +428,38 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.txt_profit:
-			//0
-			if(type!=0){
-				type=0;
+			// 0
+			if (type != 0) {
+				type = 0;
 				txt_profit.setBackgroundResource(R.drawable.blue_bounds_shape);
 				txt_income.setBackgroundResource(R.drawable.round_bounds_shape);
 				txt_pershare.setBackgroundResource(R.drawable.round_bounds_shape);
-				if(mStockBasicInfoBean!=null){
-					setChart(mStockBasicInfoBean.getStockBasicInfoExt30().getNetProfit(),"净利润");
+				if (mStockBasicInfoBean != null) {
+					setChart(mStockBasicInfoBean.getStockBasicInfoExt30().getNetProfit(), "净利润");
 				}
 			}
 			break;
 		case R.id.txt_income:
-			//1
-			if(type!=1){
-				type=1;
+			// 1
+			if (type != 1) {
+				type = 1;
 				txt_profit.setBackgroundResource(R.drawable.round_bounds_shape);
 				txt_income.setBackgroundResource(R.drawable.blue_bounds_shape);
 				txt_pershare.setBackgroundResource(R.drawable.round_bounds_shape);
-				if(mStockBasicInfoBean!=null){
-					setChart(mStockBasicInfoBean.getStockBasicInfoExt30().getBusinessIncome(),"营业收入");
+				if (mStockBasicInfoBean != null) {
+					setChart(mStockBasicInfoBean.getStockBasicInfoExt30().getBusinessIncome(), "营业收入");
 				}
 			}
 			break;
 		case R.id.txt_pershare:
-			//2
-			if(type!=2){
-				type=2;
+			// 2
+			if (type != 2) {
+				type = 2;
 				txt_profit.setBackgroundResource(R.drawable.round_bounds_shape);
 				txt_income.setBackgroundResource(R.drawable.round_bounds_shape);
 				txt_pershare.setBackgroundResource(R.drawable.blue_bounds_shape);
-				if(mStockBasicInfoBean!=null){
-					setChart(mStockBasicInfoBean.getStockBasicInfoExt30().getEarningsPerShare(),"每股收益");
+				if (mStockBasicInfoBean != null) {
+					setChart(mStockBasicInfoBean.getStockBasicInfoExt30().getEarningsPerShare(), "每股收益");
 				}
 			}
 			break;
@@ -398,9 +467,9 @@ public class StockBasicInfoPullScrollFragment extends BaseV4Fragment<CommonJson,
 			break;
 		}
 	}
-	
-	private void setChart(NetProfit mNetProfit,String chartName){
-		StockBasicInfoChartFragment fragment = StockBasicInfoChartFragment.newInstance(url,mNetProfit,type,chartName, true);
+
+	private void setChart(NetProfit mNetProfit, String chartName) {
+		StockBasicInfoChartFragment fragment = StockBasicInfoChartFragment.newInstance(url, mNetProfit, type, chartName, true);
 		getChildFragmentManager().beginTransaction().replace(R.id.layout_combined_chart, fragment).commit();
 	}
 }

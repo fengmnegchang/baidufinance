@@ -16,6 +16,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -79,6 +80,7 @@ public class StockIndicatorFragment extends BaseV4Fragment<MainTabJson, StockInd
 		viewpager.setAdapter(mRankPagerAdapter);
 		indicator.setViewPager(viewpager);
 	}
+	
 	
 	/*
 	 * (non-Javadoc)

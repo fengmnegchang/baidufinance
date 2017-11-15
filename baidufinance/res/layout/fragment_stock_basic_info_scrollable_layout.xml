@@ -182,6 +182,33 @@
             android:layout_below="@+id/txt_income2"
             android:orientation="vertical"
             android:padding="10dp" />
+        
+        
+        <TextView
+            android:id="@+id/div_view5"
+            android:layout_width="5dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/layout_income"
+            android:background="@color/blue_color" />
+
+        <TextView
+            android:id="@+id/txt_shareholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/div_view5"
+            android:layout_below="@+id/layout_income"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/div_view5"
+            android:text="十大流通股东"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/layout_shareholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_shareholder"
+            android:orientation="vertical"
+            android:padding="10dp" />
         <!-- </com.open.baidu.finance.widget.PullToRefreshScrollableLayout> -->
 
     </RelativeLayout>
