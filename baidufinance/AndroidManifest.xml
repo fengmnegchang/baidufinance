@@ -411,6 +411,13 @@
             android:theme="@style/Theme.PageIndicatorDefaults" 
              >
         </activity>
+         <!-- marketview -->
+        <activity
+            android:name=".activity.kline.StockMarketViewCombinedFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/app_kline_stock_marketview_f_desp"
+             >
+        </activity>
         <!-- 所有类列表 -->
         <activity
             android:name="com.open.android.activity.common.CommonALLActivity"
