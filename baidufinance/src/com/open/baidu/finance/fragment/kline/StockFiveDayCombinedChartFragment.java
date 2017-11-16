@@ -90,6 +90,8 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 	private float preclose = 0;
 	private TextView txt_time,txt_price,txt_rate,txt_volume;
 	private View view;
+	private List<String> xlist = new ArrayList<String>();
+	
 	public static StockFiveDayCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
 		StockFiveDayCombinedChartFragment fragment = new StockFiveDayCombinedChartFragment();
 		fragment.setFragment(fragment);
@@ -129,7 +131,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-//		linechart.getDescription().setEnabled(false);
+		linechart.setDescription("");//.setEnabled(false);
 		linechart.setBackgroundColor(Color.WHITE);
 		linechart.setDrawGridBackground(false);
 		linechart.setDrawBarShadow(false);
@@ -157,7 +159,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 //		barchart.setDrawBorders(true);//是否绘制边线
 //		barchart.setBorderWidth(1);//边线宽度，单位dp
 //		barchart.setBorderColor(Color.GRAY);
-//		barchart.getDescription().setEnabled(false);
+		barchart.setDescription("");//.setEnabled(false);
 		barchart.setBackgroundColor(Color.WHITE);
 		barchart.setDrawGridBackground(false);
 		barchart.setDrawBarShadow(false);
@@ -345,7 +347,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		list.clear();
 		list.addAll(result.getTimeLine());
         
-		CombinedData data = new CombinedData();
+		CombinedData data = new CombinedData(xlist);
 		data.setData(generateLineData());
 		data.setData(generateNullBarData());
 		// data.setValueTypeface(mTfLight);
@@ -353,7 +355,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		linechart.invalidate();
 		
 		
-		CombinedData bardata = new CombinedData();
+		CombinedData bardata = new CombinedData(xlist);
 		bardata.setData(generateNullLineData());
 		bardata.setData(generateBarData());
 		// data.setValueTypeface(mTfLight);
@@ -444,6 +446,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 			yVals1.add(new Entry(list.get(i).getAvgPrice(),i));
 			yVals2.add(new Entry( list.get(i).getPrice(),i));
 			preclose = list.get(i).getPreClose();
+			xlist.add(list.get(i).getTime()+"");
 			// 最大、小值
 			if (maxLeftY < list.get(i).getPrice()) {
 				maxLeftY = list.get(i).getPrice();
@@ -520,6 +523,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		XAxis xAxis = linechart.getXAxis();
 		// xAxis.setTypeface(mTfLight);
 		xAxis.setTextSize(11f);
+		xAxis.setValues(xlist);
 //		xAxis.setLabelCount(5, true);
 		// xAxis.setTextColor(Color.WHITE);
 		xAxis.setDrawGridLines(false);

@@ -85,7 +85,8 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 	private CombinedChart barchart;
 	private List<TimeLineBean> list = new ArrayList<TimeLineBean>();
 	private TextView txt_time, txt_rate, txt_volume, txt_open, txt_high, txt_low, txt_close, txt_type;
-
+	private List<String> xlist = new ArrayList<String>();
+	
 	public static StockSinaMinCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
 		StockSinaMinCombinedChartFragment fragment = new StockSinaMinCombinedChartFragment();
 		fragment.setFragment(fragment);
@@ -123,6 +124,8 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 		// TODO Auto-generated method stub
 		super.initValues();
 		txt_type.setVisibility(View.GONE);
+		
+		combinedchart.setDescription("");
 		combinedchart.setBackgroundColor(Color.WHITE);
 		combinedchart.setDrawGridBackground(false);
 		combinedchart.setDrawBarShadow(false);
@@ -160,6 +163,7 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 		// barchart.setDrawBorders(true);// 是否绘制边线
 		// barchart.setBorderWidth(1);// 边线宽度，单位dp
 		// barchart.setBorderColor(Color.GRAY);
+		barchart.setDescription("");
 		barchart.setBackgroundColor(Color.WHITE);
 		barchart.setDrawGridBackground(false);
 		barchart.setDrawBarShadow(false);
@@ -375,6 +379,7 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 		// TODO Auto-generated method stub
 		super.onCallback(result);
 		list.clear();
+		xlist.clear();
 		if(url.contains("getMinK")){
 			for(TimeLineBean bean :result.getList()){
 				bean.setDay(bean.getD());
@@ -383,18 +388,23 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 				bean.setLow(bean.getL());
 				bean.setClose(bean.getC());
 				bean.setVolume(bean.getV());
+				xlist.add(bean.getDay());
 				list.add(bean);
 			}
 		}else{
-			list.addAll(result.getList());
+			for(int i=0;i<result.getList().size();i++){
+				xlist.add(result.getList().get(i).getDay());
+				list.add(result.getList().get(i));
+			}
 		}
-		CombinedData data = new CombinedData();
+		CombinedData data = new CombinedData(xlist);
 		data.setData(generateLineData());
 		data.setData(generateCandleData());
 		// data.setValueTypeface(mTfLight);
 		combinedchart.setData(data);
 
 		XAxis xAxis = combinedchart.getXAxis();
+		xAxis.setValues(xlist);
 //		xAxis.setLabelCount(4, true);
 		xAxis.setValueFormatter(new XAxisValueFormatter() {
 			@Override
@@ -455,7 +465,7 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 		combinedchart.setMaxVisibleValueCount(40);
 		combinedchart.invalidate();
 
-		CombinedData bardata = new CombinedData();
+		CombinedData bardata = new CombinedData(xlist);
 		bardata.setData(generateNullLineData());
 		bardata.setData(generateBarData());
 		// data.setValueTypeface(mTfLight);
@@ -487,6 +497,7 @@ public class StockSinaMinCombinedChartFragment extends BaseV4Fragment<KLineDataJ
 		XAxis xAxis = barchart.getXAxis();
 		// xAxis.setPosition(XAxisPosition.BOTTOM);
 		xAxis.setEnabled(false);
+		xAxis.setValues(xlist);
 		// xAxis.setDrawGridLines(false);
 		// xAxis.setDrawAxisLine(false);
 		// xAxis.setGranularity(1f); // only intervals of 1 day

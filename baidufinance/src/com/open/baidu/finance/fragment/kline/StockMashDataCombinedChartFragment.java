@@ -88,7 +88,8 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 	private List<MashDataBean> list = new ArrayList<MashDataBean>();
 	private TextView txt_time, txt_rate, txt_volume, txt_open, txt_high, txt_low, txt_close, txt_type;
 	private int type;
-
+	private List<String> xlist = new ArrayList<String>();
+	
 	public static StockMashDataCombinedChartFragment newInstance(String url, boolean isVisibleToUser) {
 		StockMashDataCombinedChartFragment fragment = new StockMashDataCombinedChartFragment();
 		fragment.setFragment(fragment);
@@ -133,7 +134,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 					type = type+1;
 				}
 
-				CombinedData bardata = new CombinedData();
+				CombinedData bardata = new CombinedData(xlist);
 				switch (type) {
 				case 0:
 					bardata.setData(generateNullLineData());
@@ -173,6 +174,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
+		combinedchart.setDescription("");
 		combinedchart.setBackgroundColor(Color.WHITE);
 		combinedchart.setDrawGridBackground(false);
 		combinedchart.setDrawBarShadow(false);
@@ -210,6 +212,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		// barchart.setDrawBorders(true);// 是否绘制边线
 		// barchart.setBorderWidth(1);// 边线宽度，单位dp
 		// barchart.setBorderColor(Color.GRAY);
+		barchart.setDescription("");
 		barchart.setBackgroundColor(Color.WHITE);
 		barchart.setDrawGridBackground(false);
 		barchart.setDrawBarShadow(false);
@@ -400,13 +403,14 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		for (int i = result.getMashData().size() - 1; i >= 0; i--) {
 			list.add(result.getMashData().get(i));
 		}
-		CombinedData data = new CombinedData();
+		CombinedData data = new CombinedData(xlist);
 		data.setData(generateLineData());
 		data.setData(generateCandleData());
 		// data.setValueTypeface(mTfLight);
 		combinedchart.setData(data);
 
 		XAxis xAxis = combinedchart.getXAxis();
+		xAxis.setValues(xlist);
 //		xAxis.setLabelCount(4, true);
 		xAxis.setValueFormatter(new XAxisValueFormatter() {
 			@Override
@@ -467,7 +471,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		combinedchart.setMaxVisibleValueCount(40);
 		combinedchart.invalidate();
 
-		CombinedData bardata = new CombinedData();
+		CombinedData bardata = new CombinedData(xlist);
 		bardata.setData(generateNullLineData());
 		bardata.setData(generateBarData());
 		// data.setValueTypeface(mTfLight);
@@ -555,7 +559,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		float barWidth = 0.9f;
 		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
 		dataSets.add(set1);
-		BarData data = new BarData(new String[list.size()],dataSets);
+		BarData data = new BarData(xlist,dataSets);
 		data.setValueTextSize(10f);
 		// data.setValueTypeface(mTfLight);
 //		data.setBarWidth(barWidth);
@@ -625,7 +629,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		 sets.add(set2);
 		 sets.add(set3);
 		 
-		LineData lineData = new LineData(new String[list.size()],sets);
+		LineData lineData = new LineData(xlist,sets);
 //		LineData lineData = new LineData(set1, set2, set3);
 		lineData.setHighlightEnabled(true);
 
@@ -636,45 +640,12 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 		ArrayList<Entry> yVals3 = new ArrayList<Entry>();
-		// float maxLeftY = -10000;
-		// float minLeftY = 10000;
+		xlist.clear();
 		for (int i = 0; i < list.size(); i++) {
 			yVals1.add(new Entry(  list.get(i).getMa5().getAvgPrice(),i));
 			yVals2.add(new Entry(  list.get(i).getMa10().getAvgPrice(),i));
 			yVals3.add(new Entry(  list.get(i).getMa20().getAvgPrice(),i));
-
-			// // 最大、小值
-			// if (maxLeftY < list.get(i).getMa5().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa5().getAvgPrice();
-			// }
-			// if (maxLeftY < list.get(i).getMa10().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa10().getAvgPrice();
-			// }
-			//
-			// if (maxLeftY < list.get(i).getMa20().getAvgPrice()) {
-			// maxLeftY = list.get(i).getMa20().getAvgPrice();
-			// }
-			//
-			// if (maxLeftY < list.get(i).getKline().getHigh()) {
-			// maxLeftY = list.get(i).getKline().getHigh();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa5().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa5().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa10().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa10().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getMa20().getAvgPrice()) {
-			// minLeftY = list.get(i).getMa20().getAvgPrice();
-			// }
-			//
-			// if (minLeftY > list.get(i).getKline().getLow()) {
-			// minLeftY = list.get(i).getKline().getLow();
-			// }
-
+			xlist.add(list.get(i).getDate()+"");
 		}
 
 		LineDataSet set1;
@@ -733,7 +704,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		 sets.add(set2);
 		 sets.add(set3);
 		 
-		LineData data = new LineData(new String[list.size()],sets);
+		LineData data = new LineData(xlist,sets);
 //		LineData data = new LineData(set1, set2, set3);
 		data.setValueTextColor(Color.WHITE);
 		data.setValueTextSize(9f);
@@ -775,7 +746,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		set1.setDrawValues(false);
 		set1.setValueTextColor(getResources().getColor(R.color.gray_53_color));
 
-		CandleData data = new CandleData(new String[list.size()],set1);
+		CandleData data = new CandleData(xlist,set1);
 
 		return data;
 	}
@@ -841,7 +812,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		 sets.add(set2);
 		 sets.add(set3);
 		 
-		LineData lineData = new LineData(new String[list.size()],sets);
+		LineData lineData = new LineData(xlist,sets);
 //		LineData lineData = new LineData(set1, set2, set3);
 		lineData.setHighlightEnabled(true);
 
@@ -861,7 +832,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		set.setDrawValues(false);
 		set.setColor(getResources().getColor(R.color.transparent_color));
 
-		BarData barData = new BarData(new String[list.size()],set);
+		BarData barData = new BarData(xlist,set);
 		barData.setHighlightEnabled(true);
 		return barData;
 	}
@@ -910,7 +881,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		 sets.add(set1);
 		 sets.add(set2);
 		 
-		LineData lineData = new LineData(new String[list.size()],sets);
+		LineData lineData = new LineData(xlist,sets);
 		lineData.setHighlightEnabled(true);
 
 		return lineData;
@@ -939,7 +910,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		float barWidth = 0.9f;
 		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
 		dataSets.add(set1);
-		BarData data = new BarData(new String[list.size()],dataSets);
+		BarData data = new BarData(xlist,dataSets);
 		data.setValueTextSize(10f);
 		// data.setValueTypeface(mTfLight);
 //		data.setBarWidth(barWidth);
@@ -1005,7 +976,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		 sets.add(set1);
 		 sets.add(set2);
 		 sets.add(set3);
-		LineData lineData = new LineData(new String[list.size()],sets);
+		LineData lineData = new LineData(xlist,sets);
 //		LineData lineData = new LineData(set1, set2, set3);
 		lineData.setHighlightEnabled(true);
 
@@ -1026,7 +997,7 @@ public class StockMashDataCombinedChartFragment extends BaseV4Fragment<MashDataJ
 		set.setDrawValues(false);
 		set.setColor(getResources().getColor(R.color.transparent_color));
 
-		BarData barData = new BarData(new String[list.size()],set);
+		BarData barData = new BarData(xlist,set);
 		barData.setHighlightEnabled(true);
 		return barData;
 	}
