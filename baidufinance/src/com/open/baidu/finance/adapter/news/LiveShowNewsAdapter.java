@@ -61,7 +61,7 @@ public class LiveShowNewsAdapter extends CommonPagerAdapter<LiveShowBean> {
 		if (bean != null) {
 			viewHolder.txt_title.setText(bean.getDesc());
 			if (bean.getSrc() != null && bean.getSrc().length() > 0) {
-				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.common_v4).showImageForEmptyUri(R.drawable.common_v4).showImageOnFail(R.drawable.common_v4)
+				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.default_error).showImageForEmptyUri(R.drawable.default_error).showImageOnFail(R.drawable.default_error)
 						.cacheInMemory().cacheOnDisc().build();
 				ImageLoader.getInstance().displayImage(bean.getSrc(), viewHolder.img_show, options, getImageLoadingListener());
 			}

@@ -66,11 +66,11 @@
             android:name=".activity.SplashActivity"
             android:description="@string/app_name"
             >
-            <!-- <intent-filter>
+             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> -->
+            </intent-filter> 
         </activity>
          <!-- dot viewpager  -->
         <activity
@@ -423,11 +423,11 @@
             android:name="com.open.android.activity.common.CommonALLActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/app_all_desp" >
-               <intent-filter>
+              <!--  <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>  
+            </intent-filter>   -->
         </activity>
     </application>
 

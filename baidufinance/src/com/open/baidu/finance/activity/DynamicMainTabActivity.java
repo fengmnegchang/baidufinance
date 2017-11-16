@@ -13,6 +13,7 @@ package com.open.baidu.finance.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.hot.AutoStockIndicatorFragmentActivity;
 import com.open.baidu.finance.activity.market.MarketIndicatorFragmentActivity;
 import com.open.baidu.finance.activity.me.MeScrollFragmentActivity;
+import com.open.baidu.finance.activity.mystock.MyStockPullToRefreshPinnedSectionListViewActivity;
 import com.open.baidu.finance.activity.mystock.MyStockViewPagerFragmentActivity;
 import com.open.baidu.finance.activity.news.TagNewsIndicatorFragmentActivity;
 import com.open.baidu.finance.bean.MainTabBean;
@@ -164,4 +166,10 @@ public class DynamicMainTabActivity extends CommonTabActivity<MainTabJson>{
         }
     }
  
+	public static void startDynamicMainTabActivity(Context context, String url) {
+		Intent intent = new Intent();
+		intent.putExtra("URL", url);
+		intent.setClass(context, DynamicMainTabActivity.class);
+		context.startActivity(intent);
+	}
 }

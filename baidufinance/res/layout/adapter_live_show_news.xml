@@ -9,7 +9,7 @@
         android:id="@+id/img_show"
         android:layout_width="match_parent"
         android:layout_height="180dp" 
-        android:src="@drawable/common_v4"
+        android:src="@drawable/default_error"
         android:scaleType="fitXY"
         />
 

@@ -94,7 +94,7 @@ public class ExpertViewQuestionIndicatorFragment extends BaseV4Fragment<MainTabJ
 		
 		if(mAdviserPersonBean!=null){
 			if (mAdviserPersonBean.getSrc() != null && mAdviserPersonBean.getSrc().length() > 0) {
-				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.common_v4).showImageForEmptyUri(R.drawable.common_v4).showImageOnFail(R.drawable.common_v4)
+				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.default_error).showImageForEmptyUri(R.drawable.default_error).showImageOnFail(R.drawable.default_error)
 						.cacheInMemory().cacheOnDisc().build();
 				ImageLoader.getInstance().displayImage(mAdviserPersonBean.getSrc(), img_logo, options, getImageLoadingListener());
 			}

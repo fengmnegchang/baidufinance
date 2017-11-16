@@ -20,10 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.open.android.activity.common.CommonALLActivity;
 import com.open.android.fragment.BaseV4MVPPFragment;
 import com.open.android.json.CommonJson;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.CommonDotPagerFragmentFragmentActivity;
 import com.open.baidu.finance.presenter.SplashPresenter;
 import com.open.baidu.finance.viewmodel.SplashViewModel;
 /**
@@ -108,7 +108,7 @@ public class SplashFragment extends BaseV4MVPPFragment<CommonJson, SplashFragmen
 	@Override
 	public void goToStart() {
 		// TODO Auto-generated method stub
-		getActivity().startActivity(new Intent(getActivity(), CommonALLActivity.class));
+		getActivity().startActivity(new Intent(getActivity(), CommonDotPagerFragmentFragmentActivity.class));
 		getActivity().finish();
 	}
 
