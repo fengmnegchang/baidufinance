@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.open.android.adapter.CommonAdapter;
 import com.open.android.weak.WeakReferenceHandler;
 import com.open.baidu.finance.R;
+import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.mystock.SearchStockData;
 
 /**
@@ -85,6 +86,12 @@ public class SearchStockAdapter extends CommonAdapter<SearchStockData> {
 				@Override
 				public void onClick(View v) {
 					weakReferenceHandler.sendMessage(weakReferenceHandler.obtainMessage(10000, position,0, bean));
+				}
+			});
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					StockScrollMarketFragmentActivity.startStockScrollMarketFragmentActivity(mContext,bean.getF_exchange()+ bean.getF_symbol(), bean.getF_symbolName(), "");
 				}
 			});
 		}

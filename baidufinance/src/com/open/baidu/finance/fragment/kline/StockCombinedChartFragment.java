@@ -234,11 +234,11 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 				}
 				barchart.highlightValues(new Highlight[] { highlight });
 
-				// txt_time.setText(""+list.get((int)e.getXIndex()).getTime()/100000);
-				// txt_price.setText("价 "+String.format("%.2f",
-				// list.get((int)e.getXIndex()).getPrice()));
-				// txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getXIndex()).getNetChangeRatio())+"%");
-				// txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getXIndex()).getVolume()/100f/10000f)+"万手");
+				 txt_time.setText(""+list.get((int)e.getXIndex()).getTime()/100000);
+				 txt_price.setText("价 "+String.format("%.2f",
+				 list.get((int)e.getXIndex()).getPrice()));
+				 txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getXIndex()).getNetChangeRatio())+"%");
+				 txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getXIndex()).getVolume()/100f/10000f)+"万手");
 			}
 
 			@Override
@@ -275,11 +275,11 @@ public class StockCombinedChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 				}
 				linechart.highlightValues(new Highlight[] { highlight });
 
-				// txt_time.setText(""+list.get((int)e.getXIndex()).getTime()/100000);
-				// txt_price.setText("价 "+String.format("%.2f",
-				// list.get((int)e.getXIndex()).getPrice()));
-				// txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getXIndex()).getNetChangeRatio())+"%");
-				// txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getXIndex()).getVolume()/100f/10000f)+"万手");
+				 txt_time.setText(""+list.get((int)e.getXIndex()).getTime()/100000);
+				 txt_price.setText("价 "+String.format("%.2f",
+				 list.get((int)e.getXIndex()).getPrice()));
+				 txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getXIndex()).getNetChangeRatio())+"%");
+				 txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getXIndex()).getVolume()/100f/10000f)+"万手");
 			}
 
 			@Override
