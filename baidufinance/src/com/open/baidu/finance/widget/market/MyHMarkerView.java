@@ -43,13 +43,13 @@ public class MyHMarkerView extends MarkerView {
         markerTv.setLayoutParams(params);
     }
 
-//    @Override
-//    public int getXOffset(float xpos) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public int getYOffset(float ypos) {
-//        return 0;
-//    }
+    @Override
+    public int getXOffset(float xpos) {
+        return 0;
+    }
+
+    @Override
+    public int getYOffset(float ypos) {
+        return 0;
+    }
 }

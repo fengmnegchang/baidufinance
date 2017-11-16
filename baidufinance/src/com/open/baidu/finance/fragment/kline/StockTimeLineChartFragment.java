@@ -44,9 +44,12 @@ import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.XAxisValueFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
@@ -97,7 +100,7 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		super.initValues();
 		//
 		// // no description text
-		mChart.getDescription().setEnabled(false);
+//		mChart.getDescription().setEnabled(false);
 
 		// enable touch gestures
 		mChart.setTouchEnabled(true);
@@ -220,8 +223,8 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		float minLeftY = 10000;
 		float preclose = 0;
 		for (int i = 0; i < list.size(); i++) {
-			yVals1.add(new Entry(i, list.get(i).getAvgPrice()));
-			yVals2.add(new Entry(i, list.get(i).getPrice()));
+			yVals1.add(new Entry(list.get(i).getAvgPrice(),i));
+			yVals2.add(new Entry(list.get(i).getPrice(),i));
 			preclose = list.get(i).getPreClose();
 			// 最大、小值
 			if (maxLeftY < list.get(i).getPrice()) {
@@ -275,7 +278,12 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		set2.setDrawFilled(true);
 
 		// create a data object with the datasets
-		LineData data = new LineData(set1, set2);
+		ArrayList<ILineDataSet> sets = new ArrayList<ILineDataSet>();
+		 sets.add(set1);
+		 sets.add(set2);
+		 
+		LineData data = new LineData(new String[list.size()],sets);
+//		LineData data = new LineData(set1, set2);
 		data.setValueTextColor(Color.WHITE);
 		data.setValueTextSize(9f);
 
@@ -303,11 +311,11 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		xAxis.setDrawGridLines(false);
 		xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 		xAxis.setDrawAxisLine(false);
-		xAxis.setValueFormatter(new IAxisValueFormatter() {
+		xAxis.setValueFormatter(new XAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getXValue(String original, int index, ViewPortHandler viewPortHandler) {
 				// TODO Auto-generated method stub
-				return (list.get((int) value).getTime() / 100000) + "";
+				return (list.get(index).getTime() / 100000) + "";
 			}
 		});
 
@@ -318,11 +326,11 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawTopYLabelEntry(true);
 		leftAxis.setDrawZeroLine(true);
-		leftAxis.setAxisMaximum(maxLeftY);
-		leftAxis.setAxisMinimum(minLeftY);
-		leftAxis.setValueFormatter(new IAxisValueFormatter() {
+		leftAxis.setAxisMaxValue(maxLeftY);
+		leftAxis.setAxisMinValue(minLeftY);
+		leftAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				return String.format("%.2f", value) + "";
 			}
 		});
@@ -337,11 +345,11 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 		rightAxis.setDrawAxisLine(false);
 		rightAxis.setDrawTopYLabelEntry(true);
 		rightAxis.setDrawZeroLine(true);
-		rightAxis.setAxisMaximum(maxLeftY);
-		rightAxis.setAxisMinimum(minLeftY);
-		rightAxis.setValueFormatter(new IAxisValueFormatter() {
+		rightAxis.setAxisMaxValue(maxLeftY);
+		rightAxis.setAxisMinValue(minLeftY);
+		rightAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				float rate = (value - list.get((int) value).getPreClose()) / list.get((int) value).getPreClose() * 1f;
 				Log.d(TAG, value + "====" + ";" + list.get((int) value).getPreClose() + ";rate=" + rate);
 				return String.format("%.2f", rate * 100f) + "%";
@@ -369,7 +377,7 @@ public class StockTimeLineChartFragment extends BaseV4Fragment<TimeLineJson, Sto
 	 * com.github.mikephil.charting.highlight.Highlight)
 	 */
 	@Override
-	public void onValueSelected(Entry e, Highlight h) {
+	public void onValueSelected(Entry e,int dataSetIndex, Highlight h) {
 		// TODO Auto-generated method stub
 
 	}

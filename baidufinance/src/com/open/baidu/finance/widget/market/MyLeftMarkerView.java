@@ -39,13 +39,13 @@ public class MyLeftMarkerView extends MarkerView {
         markerTv.setText(mFormat.format(num));
     }
 
-//    @Override
-//    public int getXOffset(float xpos) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public int getYOffset(float ypos) {
-//        return 0;
-//    }
+    @Override
+    public int getXOffset(float xpos) {
+        return 0;
+    }
+
+    @Override
+    public int getYOffset(float ypos) {
+        return 0;
+    }
 }

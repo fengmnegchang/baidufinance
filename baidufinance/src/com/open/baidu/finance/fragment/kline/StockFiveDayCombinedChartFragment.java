@@ -52,11 +52,13 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.XAxisValueFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
@@ -66,7 +68,6 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.kline.TimeLineBean;
 import com.open.baidu.finance.json.kline.TimeLineJson;
 import com.open.baidu.finance.utils.UrlUtils;
-import com.open.baidu.finance.widget.kline.DayAxisValueFormatter;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -79,7 +80,7 @@ import com.open.baidu.finance.widget.kline.DayAxisValueFormatter;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJson, StockFiveDayCombinedChartFragment> implements OnChartValueSelectedListener,
+public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJson, StockFiveDayCombinedChartFragment> implements 
   ScrollableContainer{
 	private CombinedChart linechart,barchart;
 	private List<TimeLineBean> list = new ArrayList<TimeLineBean>();
@@ -128,14 +129,13 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-		linechart.getDescription().setEnabled(false);
+//		linechart.getDescription().setEnabled(false);
 		linechart.setBackgroundColor(Color.WHITE);
 		linechart.setDrawGridBackground(false);
 		linechart.setDrawBarShadow(false);
 //		linechart.setHighlightFullBarEnabled(false);
 		// draw bars behind lines
 		linechart.setDrawOrder(new DrawOrder[] { DrawOrder.LINE, DrawOrder.BAR });
-		linechart.setOnChartValueSelectedListener(this);
 		linechart.setDrawValueAboveBar(true);
 
 		// if more than 60 entries are displayed in the chart, no values will be
@@ -157,14 +157,13 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 //		barchart.setDrawBorders(true);//是否绘制边线
 //		barchart.setBorderWidth(1);//边线宽度，单位dp
 //		barchart.setBorderColor(Color.GRAY);
-		barchart.getDescription().setEnabled(false);
+//		barchart.getDescription().setEnabled(false);
 		barchart.setBackgroundColor(Color.WHITE);
 		barchart.setDrawGridBackground(false);
 		barchart.setDrawBarShadow(false);
 //		barchart.setHighlightFullBarEnabled(false);
 		// draw bars behind lines
 		barchart.setDrawOrder(new DrawOrder[] { DrawOrder.BAR ,DrawOrder.LINE });
-		barchart.setOnChartValueSelectedListener(this);
 		barchart.setDrawValueAboveBar(true);
 
 		// if more than 60 entries are displayed in the chart, no values will be
@@ -183,17 +182,33 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		
 		linechart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 			@Override
-			public void onValueSelected(Entry e, Highlight h) {
+			public void onValueSelected(Entry e,int dataSetIndex,  Highlight h) {
 				// TODO Auto-generated method stub
-				Highlight highlight = new Highlight(h.getX(), h.getY(), h.getDataSetIndex());
-				float touchY = h.getYPx() - linechart.getHeight();
-                highlight.setDraw(h.getX(), touchY);
-                barchart.highlightValues(new Highlight[]{highlight});
+//				Highlight highlight = new Highlight(h.getX(), h.getY(), h.getDataSetIndex());
+//				float touchY = h.getYPx() - linechart.getHeight();
+//                highlight.setDraw(h.getX(), touchY);
+//                barchart.highlightValues(new Highlight[]{highlight});
+//                
+//                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
+//                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
+//                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
+//                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
+				
+				 Highlight highlight = new Highlight(h.getXIndex(), h.getValue(), h.getDataIndex(), h.getDataSetIndex());
+				 float touchY = h.getTouchY() - linechart.getHeight();
+	                Highlight h1 = barchart.getHighlightByTouchPoint(h.getXIndex(), touchY);
+	                highlight.setTouchY(touchY);
+	                if (null == h1) {
+	                    highlight.setTouchYValue(0);
+	                } else {
+	                    highlight.setTouchYValue(h1.getTouchYValue());
+	                }
+	                barchart.highlightValues(new Highlight[]{highlight});
                 
-                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
-                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
-                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
-                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
+                txt_time.setText(""+list.get((int)e.getXIndex()).getTime()/100000);
+                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getXIndex()).getPrice()));
+                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getXIndex()).getNetChangeRatio())+"%");
+                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getXIndex()).getVolume()/100f/10000f)+"万手");
 			}
 			
 			@Override
@@ -205,17 +220,32 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 
 		barchart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 			@Override
-			public void onValueSelected(Entry e, Highlight h) {
+			public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
 				// TODO Auto-generated method stub
-				Highlight highlight = new Highlight(h.getX(), h.getY(), h.getDataSetIndex());
-                float touchY = h.getYPx() + linechart.getHeight();
-                highlight.setDraw(h.getX(), touchY);
-                linechart.highlightValues(new Highlight[]{highlight});
+//				Highlight highlight = new Highlight(h.getX(), h.getY(), h.getDataSetIndex());
+//                float touchY = h.getYPx() + linechart.getHeight();
+//                highlight.setDraw(h.getX(), touchY);
+//                linechart.highlightValues(new Highlight[]{highlight});
+//                
+//                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
+//                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
+//                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
+//                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
+				 Highlight highlight = new Highlight(h.getXIndex(), h.getValue(), h.getDataIndex(), h.getDataSetIndex());
+				 float touchY = h.getTouchY() - linechart.getHeight();
+	                Highlight h1 = linechart.getHighlightByTouchPoint(h.getXIndex(), touchY);
+	                highlight.setTouchY(touchY);
+	                if (null == h1) {
+	                    highlight.setTouchYValue(0);
+	                } else {
+	                    highlight.setTouchYValue(h1.getTouchYValue());
+	                }
+	                linechart.highlightValues(new Highlight[]{highlight});
                 
-                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
-                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
-                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
-                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
+                txt_time.setText(""+list.get((int)e.getXIndex()).getTime()/100000);
+                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getXIndex()).getPrice()));
+                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getXIndex()).getNetChangeRatio())+"%");
+                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getXIndex()).getVolume()/100f/10000f)+"万手");
 			}
 			@Override
 			public void onNothingSelected() {
@@ -342,7 +372,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
 		for (int i = 0; i < list.size(); i++) {
 			float volume =  list.get(i).getVolume() / 100f / 10000f;
-			entries1.add(new BarEntry(i, volume));
+			entries1.add(new BarEntry(volume,i));
 		}
         BarDataSet set = new BarDataSet(entries1, "");
         set.setHighlightEnabled(true);
@@ -351,7 +381,7 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
         set.setDrawValues(false);
         set.setColor(getResources().getColor(R.color.transparent_color));
 
-        BarData barData = new BarData(set);
+        BarData barData = new BarData(new String[list.size()] ,set);
         barData.setHighlightEnabled(true);
         return barData;
 	}
@@ -362,8 +392,8 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		for (int i = 0; i < list.size(); i++) {
 //			yVals1.add(new Entry(i, list.get(i).getAvgPrice()));
 //			yVals2.add(new Entry(i, list.get(i).getPrice()));
-			yVals1.add(new Entry(i, 0));
-			yVals2.add(new Entry(i, 0));
+			yVals1.add(new Entry( 0,i));
+			yVals2.add(new Entry( 0,i));
 		}
         
         LineDataSet set1;
@@ -396,7 +426,11 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		set2.setDrawCircles(false);
 //		set2.setDrawFilled(true);
 		
-		LineData lineData = new LineData(set1, set2);
+		ArrayList<ILineDataSet> sets = new ArrayList<ILineDataSet>();
+		 sets.add(set1);
+		 sets.add(set2);
+		 
+		LineData lineData = new LineData(new String[list.size()],sets);
 	    lineData.setHighlightEnabled(true);
 	        
         return lineData;
@@ -407,8 +441,8 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 		
 		for (int i = 0; i < list.size(); i++) {
-			yVals1.add(new Entry(i, list.get(i).getAvgPrice()));
-			yVals2.add(new Entry(i, list.get(i).getPrice()));
+			yVals1.add(new Entry(list.get(i).getAvgPrice(),i));
+			yVals2.add(new Entry( list.get(i).getPrice(),i));
 			preclose = list.get(i).getPreClose();
 			// 最大、小值
 			if (maxLeftY < list.get(i).getPrice()) {
@@ -461,7 +495,12 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		set2.setDrawFilled(true);
 
 		// create a data object with the datasets
-		LineData data = new LineData(set1, set2);
+		ArrayList<ILineDataSet> sets = new ArrayList<ILineDataSet>();
+		 sets.add(set1);
+		 sets.add(set2);
+		 
+		LineData data = new LineData(new String[list.size()],sets);
+//		LineData data = new LineData(set1, set2);
 		data.setValueTextColor(Color.WHITE);
 		data.setValueTextSize(9f);
 
@@ -481,16 +520,16 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		XAxis xAxis = linechart.getXAxis();
 		// xAxis.setTypeface(mTfLight);
 		xAxis.setTextSize(11f);
-		xAxis.setLabelCount(5, true);
+//		xAxis.setLabelCount(5, true);
 		// xAxis.setTextColor(Color.WHITE);
 		xAxis.setDrawGridLines(false);
 		xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 		xAxis.setDrawAxisLine(false);
-		xAxis.setValueFormatter(new IAxisValueFormatter() {
+		xAxis.setValueFormatter(new XAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getXValue(String original, int index, ViewPortHandler viewPortHandler) {
 				// TODO Auto-generated method stub
-				return (list.get((int) value).getTime() / 100000) + "";
+				return (list.get( index).getTime() / 100000) + "";
 			}
 		});
 
@@ -502,12 +541,12 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		leftAxis.setDrawTopYLabelEntry(true);
 		leftAxis.setDrawZeroLine(true);
 		leftAxis.setLabelCount(2, true);
-		leftAxis.setAxisMaximum(maxLeftY);
-		leftAxis.setAxisMinimum(minLeftY);
+		leftAxis.setAxisMaxValue(maxLeftY);
+		leftAxis.setAxisMinValue(minLeftY);
 		leftAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
-		leftAxis.setValueFormatter(new IAxisValueFormatter() {
+		leftAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				return String.format("%.2f", value) + "";
 			}
 		});
@@ -529,12 +568,12 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		rightAxis.setDrawAxisLine(false);
 		rightAxis.setDrawTopYLabelEntry(true);
 		rightAxis.setDrawZeroLine(true);
-		rightAxis.setAxisMaximum(maxLeftY);
-		rightAxis.setAxisMinimum(minLeftY);
+		rightAxis.setAxisMaxValue(maxLeftY);
+		rightAxis.setAxisMinValue(minLeftY);
 		rightAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
-		rightAxis.setValueFormatter(new IAxisValueFormatter() {
+		rightAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				float rate = (value - list.get((int) value).getPreClose()) / list.get((int) value).getPreClose() * 1f;
 				Log.d(TAG, value + "====" + ";" + list.get((int) value).getPreClose() + ";rate=" + rate);
 				return String.format("%.2f", rate * 100f) + "%";
@@ -548,12 +587,12 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
 		for (int i = 0; i < list.size(); i++) {
 			float volume =  list.get(i).getVolume() / 100f / 10000f;
-			entries1.add(new BarEntry(i, volume));
+			entries1.add(new BarEntry( volume,i));
 		}
 		 
 		BarDataSet set1 = new BarDataSet(entries1, "交易量");
 		set1.setValueTextSize(10f);
-		set1.setDrawIcons(false);
+//		set1.setDrawIcons(false);
 		set1.setDrawValues(false);
 		set1.setColor(getActivity().getResources().getColor(R.color.blue_dot_color));
 //		set1.setAxisDependency(YAxis.AxisDependency.LEFT);
@@ -563,10 +602,10 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		float barWidth = 0.9f;
 		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
 		dataSets.add(set1);
-		BarData data = new BarData(dataSets);
+		BarData data = new BarData(new String[list.size()],dataSets);
 		data.setValueTextSize(10f);
 		// data.setValueTypeface(mTfLight);
-		data.setBarWidth(barWidth);
+//		data.setBarWidth(barWidth);
 		// make this BarData object grouped
 		// d.groupBars(0, groupSpace, barSpace); // start at x = 0
 		
@@ -585,9 +624,9 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawGridLines(false);
 		leftAxis.setLabelCount(3, true);
-		leftAxis.setValueFormatter(new IAxisValueFormatter() {
+		leftAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				// TODO Auto-generated method stub
 //				if (value == 0) {
 //					return "万手";
@@ -599,8 +638,8 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		});
 		leftAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
 		leftAxis.setSpaceTop(15f);
-		leftAxis.setAxisMaximum(maxVolume);
-		leftAxis.setAxisMinimum(0);
+		leftAxis.setAxisMaxValue(maxVolume);
+		leftAxis.setAxisMinValue(0);
 		
 		YAxis rightAxis = barchart.getAxisRight();
 		rightAxis.setEnabled(false);
@@ -647,28 +686,5 @@ public class StockFiveDayCombinedChartFragment extends BaseV4Fragment<TimeLineJs
 		return data;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#
-	 * onValueSelected(com.github.mikephil.charting.data.Entry,
-	 * com.github.mikephil.charting.highlight.Highlight)
-	 */
-	@Override
-	public void onValueSelected(Entry e, Highlight h) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#
-	 * onNothingSelected()
-	 */
-	@Override
-	public void onNothingSelected() {
-		// TODO Auto-generated method stub
-
-	}
+ 
 }

@@ -35,8 +35,10 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.XAxisValueFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.open.android.fragment.BaseV4Fragment;
 import com.open.android.json.CommonJson;
 import com.open.baidu.finance.R;
@@ -86,7 +88,7 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-		mChart.getDescription().setEnabled(false);
+//		mChart.getDescription().setEnabled(false);
 		mChart.setBackgroundColor(Color.WHITE);
 		mChart.setDrawGridBackground(false);
 		mChart.setDrawBarShadow(false);
@@ -117,21 +119,21 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 		leftAxis.setDrawGridLines(false);
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setPosition(YAxisLabelPosition.INSIDE_CHART);
-		leftAxis.setValueFormatter(new IAxisValueFormatter() {
+		leftAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				return String.format("%.2f", value);
 			}
 		});
 
 		XAxis xAxis = mChart.getXAxis();
 		xAxis.setPosition(XAxisPosition.BOTTOM_INSIDE);
-		xAxis.setGranularity(1f);
+//		xAxis.setGranularity(1f);
 		xAxis.setDrawGridLines(false);
-		xAxis.setValueFormatter(new IAxisValueFormatter() {
+		xAxis.setValueFormatter(new XAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
-				return mNetProfit.getYear().get((int)value);
+			public String getXValue(String original, int index, ViewPortHandler viewPortHandler) {
+				return mNetProfit.getYear().get((int)index);
 			}
 		});
 
@@ -149,9 +151,9 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 		ArrayList<Entry> entries = new ArrayList<Entry>();
 		for (int index = 0; index < mNetProfit.getIndustryAvg().size(); index++) {
 			if(type<2){
-				entries.add(new Entry(index, mNetProfit.getIndustryAvg().get(index)/10000f/10000f));
+				entries.add(new Entry( (mNetProfit.getIndustryAvg().get(index)/10000f/10000f),index));
 			}else{
-				entries.add(new Entry(index, mNetProfit.getIndustryAvg().get(index)));
+				entries.add(new Entry(mNetProfit.getIndustryAvg().get(index),index));
 			}
 		}
 		LineDataSet set = new LineDataSet(entries, "行业平均值");
@@ -174,9 +176,9 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 		ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
 		for (int index = 0; index < mNetProfit.getFianceData().size(); index++) {
 			if(type<2){
-				entries1.add(new BarEntry(index, mNetProfit.getFianceData().get(index)/10000f/10000f));
+				entries1.add(new BarEntry(mNetProfit.getFianceData().get(index)/10000f/10000f,index));
 			}else{
-				entries1.add(new BarEntry(index, mNetProfit.getFianceData().get(index)));
+				entries1.add(new BarEntry( mNetProfit.getFianceData().get(index),index));
 			}
 		}
 		BarDataSet set1 = new BarDataSet(entries1, chartName);
@@ -185,7 +187,7 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 		set1.setValueTextSize(10f);
 		set1.setAxisDependency(YAxis.AxisDependency.LEFT);
 		set1.setValueTextSize(10f);
-		set1.setDrawIcons(false);
+//		set1.setDrawIcons(false);
 		set1.setDrawValues(false);
 		set1.setColor(getActivity().getResources().getColor(R.color.red_color));
 //		set1.setAxisDependency(YAxis.AxisDependency.LEFT);
@@ -199,8 +201,8 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 		
 		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
 		dataSets.add(set1);
-		BarData d = new BarData(dataSets);
-		d.setBarWidth(barWidth);
+		BarData d = new BarData(new String[mNetProfit.getFianceData().size()],dataSets);
+//		d.setBarWidth(barWidth);
 		d.setValueTextSize(10f);
 		// data.setValueTypeface(mTfLight);
 		// make this BarData object grouped

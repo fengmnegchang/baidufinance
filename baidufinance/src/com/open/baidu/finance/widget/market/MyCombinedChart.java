@@ -3,6 +3,7 @@ package com.open.baidu.finance.widget.market;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.View.MeasureSpec;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.data.Entry;
@@ -28,17 +29,17 @@ public class MyCombinedChart extends CombinedChart {
         super(context, attrs, defStyle);
     }
 
-    public void setMarker(MyLeftMarkerView markerLeft, MyHMarkerView markerH ) {
+    public void setMarker(MyLeftMarkerView markerLeft, MyHMarkerView markerH) {
         this.myMarkerViewLeft = markerLeft;
         this.myMarkerViewH = markerH;
     }
 
-    public void setMarker(MyLeftMarkerView markerLeft, MyBottomMarkerView markerBottom ) {
+    public void setMarker(MyLeftMarkerView markerLeft, MyBottomMarkerView markerBottomr) {
         this.myMarkerViewLeft = markerLeft;
-        this.myBottomMarkerView = markerBottom;
+        this.myBottomMarkerView = markerBottomr;
     }
 
-    public void setMarker(MyLeftMarkerView markerLeft, MyBottomMarkerView markerBottom, MyHMarkerView markerH ) {
+    public void setMarker(MyLeftMarkerView markerLeft, MyBottomMarkerView markerBottom, MyHMarkerView markerH) {
         this.myMarkerViewLeft = markerLeft;
         this.myBottomMarkerView = markerBottom;
         this.myMarkerViewH = markerH;
@@ -46,21 +47,21 @@ public class MyCombinedChart extends CombinedChart {
 
     @Override
     protected void drawMarkers(Canvas canvas) {
-        if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
+        if (!mDrawMarkerViews || !valuesToHighlight())
             return;
         for (int i = 0; i < mIndicesToHighlight.length; i++) {
             Highlight highlight = mIndicesToHighlight[i];
-            int xIndex = (int) mIndicesToHighlight[i].getX();
+            int xIndex = mIndicesToHighlight[i].getXIndex();
             int dataSetIndex = mIndicesToHighlight[i].getDataSetIndex();
             float deltaX = mXAxis != null
                     ? mXAxis.mAxisRange
-                    : ((mData == null ? 0.f : mData.getEntryCount()) - 1.f);
+                    : ((mData == null ? 0.f : mData.getXValCount()) - 1.f);
             if (xIndex <= deltaX && xIndex <= deltaX * mAnimator.getPhaseX()) {
                 Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
                 // make sure entry not null
-                if (e == null || e.getX() != mIndicesToHighlight[i].getX())
+                if (e == null || e.getXIndex() != mIndicesToHighlight[i].getXIndex())
                     continue;
-                float[] pos = getMarkerPosition( highlight);
+                float[] pos = getMarkerPosition(e, highlight);
                 // check bounds
                 if (!mViewPortHandler.isInBounds(pos[0], pos[1]))
                     continue;
@@ -73,12 +74,12 @@ public class MyCombinedChart extends CombinedChart {
                             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
                     myMarkerViewH.layout(0, 0, width,
                             myMarkerViewH.getMeasuredHeight());
-                    myMarkerViewH.draw(canvas, mViewPortHandler.contentLeft(), mIndicesToHighlight[i].getYPx() - myMarkerViewH.getHeight() / 2);
+                    myMarkerViewH.draw(canvas, mViewPortHandler.contentLeft(), mIndicesToHighlight[i].getTouchY() - myMarkerViewH.getHeight() / 2);
                 }
 
                 if (null != myMarkerViewLeft) {
                     //修改标记值
-                    float yValForHighlight = mIndicesToHighlight[i].getYPx();
+                    float yValForHighlight = mIndicesToHighlight[i].getTouchYValue();
                     myMarkerViewLeft.setData(yValForHighlight);
 
                     myMarkerViewLeft.refreshContent(e, mIndicesToHighlight[i]);
@@ -88,13 +89,13 @@ public class MyCombinedChart extends CombinedChart {
                     myMarkerViewLeft.layout(0, 0, myMarkerViewLeft.getMeasuredWidth(),
                             myMarkerViewLeft.getMeasuredHeight());
 
-                    myMarkerViewLeft.draw(canvas, mViewPortHandler.contentLeft(), mIndicesToHighlight[i].getYPx() - myMarkerViewLeft.getHeight() / 2);
+                    myMarkerViewLeft.draw(canvas, mViewPortHandler.contentLeft(), mIndicesToHighlight[i].getTouchY() - myMarkerViewLeft.getHeight() / 2);
 
                 }
 
                 if (null != myBottomMarkerView) {
 //                    String time = minuteHelper.getKLineDatas().get(mIndicesToHighlight[i].getXIndex()).date;
-                    myBottomMarkerView.setData("");
+                    myBottomMarkerView.setData("11");
                     myBottomMarkerView.refreshContent(e, mIndicesToHighlight[i]);
 
                     myBottomMarkerView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),

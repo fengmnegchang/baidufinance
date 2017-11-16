@@ -36,7 +36,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.LimitLine;
@@ -50,10 +49,13 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.XAxisValueFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
@@ -62,7 +64,6 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.kline.TimeLineBean;
 import com.open.baidu.finance.json.kline.TimeLineJson;
 import com.open.baidu.finance.utils.UrlUtils;
-import com.open.baidu.finance.widget.kline.DayAxisValueFormatter;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -112,7 +113,6 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		// TODO Auto-generated method stub
 		super.initValues();
 		// // no description text
-		mLineChart.getDescription().setEnabled(false);
 
 		// enable touch gestures
 //		mLineChart.setTouchEnabled(true);
@@ -142,7 +142,6 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		mBarChart.setDrawBorders(true);//是否绘制边线
 		mBarChart.setBorderWidth(1);//边线宽度，单位dp
 		mBarChart.setBorderColor(Color.GRAY);
-		mBarChart.getDescription().setEnabled(false);
 
 		// if more than 60 entries are displayed in the chart, no values will be
 		// drawn
@@ -165,17 +164,28 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 
 		mLineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 			@Override
-			public void onValueSelected(Entry e, Highlight h) {
+			public void onValueSelected(Entry e, int dataSetIndex,Highlight h) {
 				// TODO Auto-generated method stub
-				Highlight highlight = new Highlight(h.getX(), h.getY(), h.getDataSetIndex());
-				float touchY = h.getYPx() - mLineChart.getHeight();
-                highlight.setDraw(h.getX(), touchY);
-                mBarChart.highlightValues(new Highlight[]{highlight});
-                
-                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
-                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
-                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
-                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
+//				Highlight highlight = new Highlight(h.getX(), h.getY(), h.getDataSetIndex());
+//				float touchY = h.getYPx() - mLineChart.getHeight();
+//                highlight.setDraw(h.getX(), touchY);
+//                mBarChart.highlightValues(new Highlight[]{highlight});
+				
+				 Highlight highlight = new Highlight(h.getXIndex(), h.getValue(), h.getDataIndex(), h.getDataSetIndex());
+				 float touchY = h.getTouchY() - mLineChart.getHeight();
+	                Highlight h1 = mBarChart.getHighlightByTouchPoint(h.getXIndex(), touchY);
+	                highlight.setTouchY(touchY);
+	                if (null == h1) {
+	                    highlight.setTouchYValue(0);
+	                } else {
+	                    highlight.setTouchYValue(h1.getTouchYValue());
+	                }
+	                mBarChart.highlightValues(new Highlight[]{highlight});
+//                
+                txt_time.setText(""+list.get((int)e.getXIndex()).getTime()/100000);
+                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getXIndex()).getPrice()));
+                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getXIndex()).getNetChangeRatio())+"%");
+                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getXIndex()).getVolume()/100f/10000f)+"万手");
 			}
 			
 			@Override
@@ -187,16 +197,27 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 
 		mBarChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 			@Override
-			public void onValueSelected(Entry e, Highlight h) {
+			public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
 				// TODO Auto-generated method stub
-				Highlight highlight = new Highlight(h.getX(), h.getY(), h.getDataSetIndex());
-                float touchY = h.getYPx() + mLineChart.getHeight();
-                highlight.setDraw(h.getX(), touchY);
-                mLineChart.highlightValues(new Highlight[]{highlight});
-                txt_time.setText(""+list.get((int)e.getX()).getTime()/100000);
-                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getX()).getPrice()));
-                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getX()).getNetChangeRatio())+"%");
-                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getX()).getVolume()/100f/10000f)+"万手");
+//				Highlight highlight = new Highlight(h.getX(), h.getY(), h.getDataSetIndex());
+//                float touchY = h.getYPx() + mLineChart.getHeight();
+//                highlight.setDraw(h.getX(), touchY);
+//                mLineChart.highlightValues(new Highlight[]{highlight});
+				 Highlight highlight = new Highlight(h.getXIndex(), h.getValue(), h.getDataIndex(), h.getDataSetIndex());
+				 float touchY = h.getTouchY() - mLineChart.getHeight();
+	                Highlight h1 = mLineChart.getHighlightByTouchPoint(h.getXIndex(), touchY);
+	                highlight.setTouchY(touchY);
+	                if (null == h1) {
+	                    highlight.setTouchYValue(0);
+	                } else {
+	                    highlight.setTouchYValue(h1.getTouchYValue());
+	                }
+	                mLineChart.highlightValues(new Highlight[]{highlight});
+                
+                txt_time.setText(""+list.get((int)e.getXIndex()).getTime()/100000);
+                txt_price.setText("价 "+String.format("%.2f", list.get((int)e.getXIndex()).getPrice()));
+                txt_rate.setText("幅 "+String.format("%.2f",list.get((int)e.getXIndex()).getNetChangeRatio())+"%");
+                txt_volume.setText("量 "+String.format("%.2f",list.get((int)e.getXIndex()).getVolume()/100f/10000f)+"万手");
 			}
 			@Override
 			public void onNothingSelected() {
@@ -312,8 +333,8 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		float minLeftY = 10000;
 		float preclose = 0;
 		for (int i = 0; i < list.size(); i++) {
-			yVals1.add(new Entry(i, list.get(i).getAvgPrice()));
-			yVals2.add(new Entry(i, list.get(i).getPrice()));
+			yVals1.add(new Entry( list.get(i).getAvgPrice(),i));
+			yVals2.add(new Entry(  list.get(i).getPrice(),i));
 			preclose = list.get(i).getPreClose();
 			// 最大、小值
 			if (maxLeftY < list.get(i).getPrice()) {
@@ -367,7 +388,12 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		set2.setDrawFilled(true);
 
 		// create a data object with the datasets
-		LineData data = new LineData(set1, set2);
+		 ArrayList<ILineDataSet> sets = new ArrayList<ILineDataSet>();
+		 sets.add(set1);
+		 sets.add(set2);
+		 
+		LineData data = new LineData(new String[list.size()],sets);
+//		LineData data = new LineData(set1, set2);
 		data.setValueTextColor(Color.WHITE);
 		data.setValueTextSize(9f);
 
@@ -391,16 +417,16 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		XAxis xAxis = mLineChart.getXAxis();
 		// xAxis.setTypeface(mTfLight);
 		xAxis.setTextSize(11f);
-		xAxis.setLabelCount(3, true);
+//		xAxis.setLabelCount(3, true);
 		// xAxis.setTextColor(Color.WHITE);
 		xAxis.setDrawGridLines(false);
 		xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 		xAxis.setDrawAxisLine(false);
-		xAxis.setValueFormatter(new IAxisValueFormatter() {
+		xAxis.setValueFormatter(new XAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getXValue(String original, int index, ViewPortHandler viewPortHandler) {
 				// TODO Auto-generated method stub
-				return (list.get((int) value).getTime() / 100000) + "";
+				return (list.get(index).getTime() / 100000) + "";
 			}
 		});
 
@@ -413,11 +439,11 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		leftAxis.setLabelCount(3, true);
 		leftAxis.setDrawTopYLabelEntry(true);
 		leftAxis.setDrawZeroLine(true);
-		leftAxis.setAxisMaximum(maxLeftY);
-		leftAxis.setAxisMinimum(minLeftY);
-		leftAxis.setValueFormatter(new IAxisValueFormatter() {
+		leftAxis.setAxisMaxValue(maxLeftY);
+		leftAxis.setAxisMinValue(minLeftY);
+		leftAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				return String.format("%.2f", value) + "";
 			}
 		});
@@ -432,11 +458,11 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		rightAxis.setDrawAxisLine(false);
 		rightAxis.setDrawTopYLabelEntry(true);
 		rightAxis.setDrawZeroLine(true);
-		rightAxis.setAxisMaximum(maxLeftY);
-		rightAxis.setAxisMinimum(minLeftY);
-		rightAxis.setValueFormatter(new IAxisValueFormatter() {
+		rightAxis.setAxisMaxValue(maxLeftY);
+		rightAxis.setAxisMinValue(minLeftY);
+		rightAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				float rate = (value - list.get((int) value).getPreClose()) / list.get((int) value).getPreClose() * 1f;
 				Log.d(TAG, value + "====" + ";" + list.get((int) value).getPreClose() + ";rate=" + rate);
 				return String.format("%.2f", rate * 100f) + "%";
@@ -459,7 +485,7 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		// TODO Auto-generated method stub
 		ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 		for (int i = 0; i < list.size(); i++) {
-			yVals1.add(new BarEntry(i, list.get(i).getVolume() / 100f / 10000f));
+			yVals1.add(new BarEntry( list.get(i).getVolume() / 100f / 10000f,i));
 		}
 		BarDataSet set1;
 		// if (mChart.getData() != null && mChart.getData().getDataSetCount() >
@@ -470,7 +496,6 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		// mChart.notifyDataSetChanged();
 		// } else {
 		set1 = new BarDataSet(yVals1, "交易量");
-		set1.setDrawIcons(false);
 		set1.setDrawValues(false);
 		set1.setColor(getActivity().getResources().getColor(R.color.blue_dot_color));
 		set1.setHighlightEnabled(true);
@@ -480,23 +505,23 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
 		dataSets.add(set1);
 
-		BarData data = new BarData(dataSets);
+		BarData data = new BarData(new String[list.size()],dataSets);
 		data.setValueTextSize(10f);
 		// data.setValueTypeface(mTfLight);
-		data.setBarWidth(0.8f);
+//		data.setBarWidth(0.8f);
 		mBarChart.setData(data);
 		
 
-		IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mBarChart, list);
+//		IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mBarChart, list);
 		XAxis xAxis = mBarChart.getXAxis();
 		xAxis.setEnabled(false);
 		xAxis.setPosition(XAxisPosition.BOTTOM);
 		// xAxis.setTypeface(mTfLight);
 		xAxis.setDrawGridLines(false);
 		xAxis.setDrawAxisLine(false);
-		xAxis.setGranularity(1f); // only intervals of 1 day
+//		xAxis.setGranularity(1f); // only intervals of 1 day
 		// xAxis.setLabelCount(4);
-		xAxis.setValueFormatter(xAxisFormatter);
+//		xAxis.setValueFormatter(xAxisFormatter);
 
 		YAxis leftAxis = mBarChart.getAxisLeft();
 //		leftAxis.setEnabled(false);
@@ -505,9 +530,9 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		leftAxis.setLabelCount(2, true);
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawGridLines(false);
-		leftAxis.setValueFormatter(new IAxisValueFormatter() {
+		leftAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				// TODO Auto-generated method stub
 				if (value <= 0) {
 					return "万手";
@@ -524,9 +549,9 @@ public class StockMultiChartFragment extends BaseV4Fragment<TimeLineJson, StockM
 		rightAxis.setEnabled(false);
 		rightAxis.setDrawGridLines(false);
 		rightAxis.setDrawAxisLine(false);
-		rightAxis.setValueFormatter(new IAxisValueFormatter() {
+		rightAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				// TODO Auto-generated method stub
 				return value+"万";
 			}

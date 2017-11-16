@@ -35,13 +35,13 @@ public class MyBottomMarkerView extends MarkerView {
         markerTv.setText(time);
     }
 
-//    @Override
-//    public int getXOffset(float xpos) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public int getYOffset(float ypos) {
-//        return 0;
-//    }
+    @Override
+    public int getXOffset(float xpos) {
+        return 0;
+    }
+
+    @Override
+    public int getYOffset(float ypos) {
+        return 0;
+    }
 }

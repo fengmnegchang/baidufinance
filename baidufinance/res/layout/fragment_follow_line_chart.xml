@@ -44,7 +44,13 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart1"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="100dp"
         android:layout_below="@+id/txt_hotcount" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart2"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@+id/chart1" />
 
 </RelativeLayout>

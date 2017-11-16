@@ -47,11 +47,10 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.MPPointF;
 import com.google.gson.Gson;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
@@ -60,8 +59,6 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.bean.kline.TimeLineBean;
 import com.open.baidu.finance.json.kline.TimeLineJson;
 import com.open.baidu.finance.utils.UrlUtils;
-import com.open.baidu.finance.widget.kline.DayAxisValueFormatter;
-import com.open.baidu.finance.widget.kline.XYMarkerView;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -107,7 +104,7 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 		mChart.setDrawBarShadow(false);
 		mChart.setDrawValueAboveBar(true);
 
-		mChart.getDescription().setEnabled(false);
+//		mChart.getDescription().setEnabled(false);
 
 		// if more than 60 entries are displayed in the chart, no values will be
 		// drawn
@@ -217,7 +214,7 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 		list.addAll(result.getTimeLine());
 		ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 		for (int i = 0; i < list.size(); i++) {
-			yVals1.add(new BarEntry(i, list.get(i).getVolume() / 100f / 10000f));
+			yVals1.add(new BarEntry(list.get(i).getVolume() / 100f / 10000f,i));
 		}
 		BarDataSet set1;
 		// if (mChart.getData() != null && mChart.getData().getDataSetCount() >
@@ -228,28 +225,28 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 		// mChart.notifyDataSetChanged();
 		// } else {
 		set1 = new BarDataSet(yVals1, "交易量");
-		set1.setDrawIcons(false);
+//		set1.setDrawIcons(false);
 		set1.setDrawValues(false);
 		set1.setColor(getActivity().getResources().getColor(R.color.blue_dot_color));
 		// set1.setColors(ColorTemplate.MATERIAL_COLORS);
 		ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
 		dataSets.add(set1);
 
-		BarData data = new BarData(dataSets);
+		BarData data = new BarData(new String[list.size()],dataSets);
 		data.setValueTextSize(10f);
 		// data.setValueTypeface(mTfLight);
-		data.setBarWidth(0.9f);
+//		data.setBarWidth(0.9f);
 		mChart.setData(data);
 
-		IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart,list);
+//		IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart,list);
 		XAxis xAxis = mChart.getXAxis();
 		xAxis.setPosition(XAxisPosition.BOTTOM);
 		// xAxis.setTypeface(mTfLight);
 		xAxis.setDrawGridLines(false);
 		xAxis.setDrawAxisLine(false);
-		xAxis.setGranularity(1f); // only intervals of 1 day
+//		xAxis.setGranularity(1f); // only intervals of 1 day
 //		xAxis.setLabelCount(4);
-		xAxis.setValueFormatter(xAxisFormatter);
+//		xAxis.setValueFormatter(xAxisFormatter);
 
 		
 		YAxis leftAxis = mChart.getAxisLeft();
@@ -257,9 +254,9 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 //		leftAxis.setLabelCount(3, false);
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawGridLines(false);
-		 leftAxis.setValueFormatter(new IAxisValueFormatter() {
+		 leftAxis.setValueFormatter(new YAxisValueFormatter() {
 			@Override
-			public String getFormattedValue(float value, AxisBase axis) {
+			public String getFormattedValue(float value, YAxis axis) {
 				// TODO Auto-generated method stub
 				if(value==0){
 					return "万手";
@@ -270,7 +267,7 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 		});
 		leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
 		leftAxis.setSpaceTop(15f);
-		leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+		leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
 
 		YAxis rightAxis = mChart.getAxisRight();
 		rightAxis.setDrawGridLines(false);
@@ -279,7 +276,7 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 		rightAxis.setLabelCount(8, false);
 		// rightAxis.setValueFormatter(custom);
 		rightAxis.setSpaceTop(15f);
-		rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+		rightAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
 		rightAxis.setEnabled(false);
 
 		Legend l = mChart.getLegend();
@@ -297,9 +294,9 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 		// l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
 		// "def", "ghj", "ikl", "mno" });
 
-		XYMarkerView mv = new XYMarkerView(getActivity(), xAxisFormatter);
-		mv.setChartView(mChart); // For bounds control
-		mChart.setMarker(mv); // Set the marker to the chart
+//		XYMarkerView mv = new XYMarkerView(getActivity(), xAxisFormatter);
+//		mv.setChartView(mChart); // For bounds control
+//		mChart.setMarker(mv); // Set the marker to the chart
 
 		mChart.setDescription(null);
 		mChart.invalidate();
@@ -315,23 +312,25 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 	 * onValueSelected(com.github.mikephil.charting.data.Entry,
 	 * com.github.mikephil.charting.highlight.Highlight)
 	 */
-	@Override
-	public void onValueSelected(Entry e, Highlight h) {
-		// TODO Auto-generated method stub
-		if (e == null)
-			return;
-
-		RectF bounds = mOnValueSelectedRectF;
-		mChart.getBarBounds((BarEntry) e, bounds);
-		MPPointF position = mChart.getPosition(e, AxisDependency.LEFT);
-
-		Log.i("bounds", bounds.toString());
-		Log.i("position", position.toString());
-
-		Log.i("x-index", "low: " + mChart.getLowestVisibleX() + ", high: " + mChart.getHighestVisibleX());
-
-		MPPointF.recycleInstance(position);
-	}
+//	@Override
+//	public void onValueSelected(Entry e, Highlight h) {
+//		// TODO Auto-generated method stub
+//		if (e == null)
+//			return;
+//
+//		RectF bounds = mOnValueSelectedRectF;
+//		mChart.getBarBounds((BarEntry) e, bounds);
+//		MPPointF position = mChart.getPosition(e, AxisDependency.LEFT);
+//
+//		Log.i("bounds", bounds.toString());
+//		Log.i("position", position.toString());
+//
+//		Log.i("x-index", "low: " + mChart.getLowestVisibleX() + ", high: " + mChart.getHighestVisibleX());
+//
+//		MPPointF.recycleInstance(position);
+//	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -343,5 +342,14 @@ public class StockBarChartFragment extends BaseV4Fragment<TimeLineJson, StockBar
 	public void onNothingSelected() {
 		// TODO Auto-generated method stub
 
+	}
+
+	/* (non-Javadoc)
+	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#onValueSelected(com.github.mikephil.charting.data.Entry, int, com.github.mikephil.charting.highlight.Highlight)
+	 */
+	@Override
+	public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+		// TODO Auto-generated method stub
+		
 	}
 }
