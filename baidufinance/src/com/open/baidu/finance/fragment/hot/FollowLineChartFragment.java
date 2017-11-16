@@ -65,7 +65,7 @@ import com.open.baidu.finance.jsoup.TagNewsJsoupService;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLineChartFragment> implements OnChartValueSelectedListener {
+public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLineChartFragment>  {
 	private LineChart mChart, mChart2;
 	private TextView txt_time, txt_close, txt_hotcount;
 	private List<FollowBean> list = new ArrayList<FollowBean>();
@@ -103,15 +103,15 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		mChart.setDescription("");
 
 		// enable touch gestures
-		mChart.setTouchEnabled(true);
+//		mChart.setTouchEnabled(true);
 
-		mChart.setDragDecelerationFrictionCoef(0.9f);
+//		mChart.setDragDecelerationFrictionCoef(0.9f);
 
 		// enable scaling and dragging
-		mChart.setDragEnabled(false);
+//		mChart.setDragEnabled(false);
 		mChart.setScaleEnabled(false);
 		mChart.setDrawGridBackground(false);
-		mChart.setHighlightPerDragEnabled(false);
+//		mChart.setHighlightPerDragEnabled(true);
 
 		// if disabled, scaling can be done on x- and y-axis separately
 		mChart.setPinchZoom(false);
@@ -119,21 +119,53 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		// set an alternative background color
 		mChart.setBackgroundColor(Color.WHITE);
 		mChart.setNoDataText("");
-		mChart.setOnChartValueSelectedListener(this);
+		mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+			
+			@Override
+			public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+				// TODO Auto-generated method stub
+				Highlight highlight = new Highlight(h.getXIndex(), h.getValue(), h.getDataIndex(), h.getDataSetIndex());
+				float touchY = h.getTouchY() - mChart.getHeight();
+				Highlight h1 = mChart2.getHighlightByTouchPoint(h.getXIndex(), touchY);
+				highlight.setTouchY(touchY);
+				if (null == h1) {
+					highlight.setTouchYValue(0);
+				} else {
+					highlight.setTouchYValue(h1.getTouchYValue());
+				}
+				mChart2.highlightValues(new Highlight[] { highlight });
+				try {
+					FollowBean bean = list.get(e.getXIndex());
+					if (bean != null) {
+						txt_time.setText("时间 " + bean.getFollowTime());
+						txt_close.setText(Html.fromHtml(" 价格趋势 <font color='#17ABEF'>" + String.format("%.2f", bean.getFollowPrice()) + "</font>"));
+						txt_hotcount.setText(Html.fromHtml(" 热搜指数 <font color='#FC4A87'>" + bean.getFollowIndex() + "</font>"));
+					}
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onNothingSelected() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		// no description text
 		mChart2.setDescription("");
 
 		// enable touch gestures
-		mChart2.setTouchEnabled(true);
+//		mChart2.setTouchEnabled(true);
 
-		mChart2.setDragDecelerationFrictionCoef(0.9f);
+//		mChart2.setDragDecelerationFrictionCoef(0.9f);
 
 		// enable scaling and dragging
-		mChart2.setDragEnabled(false);
+//		mChart2.setDragEnabled(false);
 		mChart2.setScaleEnabled(false);
 		mChart2.setDrawGridBackground(false);
-		mChart2.setHighlightPerDragEnabled(false);
+//		mChart2.setHighlightPerDragEnabled(true);
 
 		// if disabled, scaling can be done on x- and y-axis separately
 		mChart2.setPinchZoom(false);
@@ -141,7 +173,39 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		// set an alternative background color
 		mChart2.setBackgroundColor(Color.WHITE);
 		mChart2.setNoDataText("");
-		mChart2.setOnChartValueSelectedListener(this);
+		mChart2.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+			
+			@Override
+			public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+				// TODO Auto-generated method stub
+				Highlight highlight = new Highlight(h.getXIndex(), h.getValue(), h.getDataIndex(), h.getDataSetIndex());
+				float touchY = h.getTouchY() - mChart.getHeight();
+				Highlight h1 = mChart.getHighlightByTouchPoint(h.getXIndex(), touchY);
+				highlight.setTouchY(touchY);
+				if (null == h1) {
+					highlight.setTouchYValue(0);
+				} else {
+					highlight.setTouchYValue(h1.getTouchYValue());
+				}
+				mChart.highlightValues(new Highlight[] { highlight });
+				try {
+					FollowBean bean = list.get(e.getXIndex());
+					if (bean != null) {
+						txt_time.setText("时间 " + bean.getFollowTime());
+						txt_close.setText(Html.fromHtml(" 价格趋势 <font color='#17ABEF'>" + String.format("%.2f", bean.getFollowPrice()) + "</font>"));
+						txt_hotcount.setText(Html.fromHtml(" 热搜指数 <font color='#FC4A87'>" + bean.getFollowIndex() + "</font>"));
+					}
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onNothingSelected() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	/*
@@ -271,6 +335,7 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		LineData data = new LineData(new String[list.size()], set1);
 		data.setValueTextColor(Color.WHITE);
 		data.setValueTextSize(9f);
+		data.setHighlightEnabled(true);
 
 		// set data
 		mChart.setData(data);
@@ -317,7 +382,7 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		leftAxis.setDrawZeroLine(true);
 		// leftAxis.setAxisMaximum(maxX);
 		// leftAxis.setAxisMinimum(minX*2/3);
-
+		leftAxis.setLabelCount(2, true);
 		leftAxis.setAxisMaxValue(maxX);
 		leftAxis.setAxisMinValue(minX);
 		leftAxis.setValueFormatter(new YAxisValueFormatter() {
@@ -368,7 +433,7 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		LineData data = new LineData(new String[list.size()], set2);
 		data.setValueTextColor(Color.WHITE);
 		data.setValueTextSize(9f);
-
+		data.setHighlightEnabled(true);
 		// set data
 		mChart2.setData(data);
 		// mChart.animateX(2500);
@@ -408,6 +473,7 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 		YAxis leftAxis = mChart2.getAxisLeft();
 		// leftAxis.setDrawLabels(false);
 		leftAxis.setDrawGridLines(false);
+		leftAxis.setLabelCount(2, true);
 		leftAxis.setGranularityEnabled(false);
 		leftAxis.setDrawAxisLine(false);
 		leftAxis.setDrawTopYLabelEntry(true);
@@ -460,38 +526,5 @@ public class FollowLineChartFragment extends BaseV4Fragment<FollowJson, FollowLi
 	// }
 	// }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#
-	 * onNothingSelected()
-	 */
-	@Override
-	public void onNothingSelected() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.github.mikephil.charting.listener.OnChartValueSelectedListener#
-	 * onValueSelected(com.github.mikephil.charting.data.Entry, int,
-	 * com.github.mikephil.charting.highlight.Highlight)
-	 */
-	@Override
-	public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-		// TODO Auto-generated method stub
-		try {
-			FollowBean bean = list.get(dataSetIndex);
-			if (bean != null) {
-				txt_time.setText("时间 " + bean.getFollowTime());
-				txt_close.setText(Html.fromHtml(" 价格趋势 <font color='#17ABEF'>" + String.format("%.2f", bean.getFollowPrice()) + "</font>"));
-				txt_hotcount.setText(Html.fromHtml(" 热搜指数 <font color='#FC4A87'>" + bean.getFollowIndex() + "</font>"));
-			}
-		} catch (Exception e2) {
-			e2.printStackTrace();
-		}
-	}
 
 }

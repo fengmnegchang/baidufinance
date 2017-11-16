@@ -12,6 +12,7 @@
 package com.open.baidu.finance.fragment.kline;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 	private CombinedChart mChart;
 	private int type;
 	private String chartName;
-	
+	private List<String> xlist = new ArrayList<String>();
 	public static StockBasicInfoChartFragment newInstance(String url, NetProfit mNetProfit,int type,String chartName, boolean isVisibleToUser) {
 		StockBasicInfoChartFragment fragment = new StockBasicInfoChartFragment();
 		fragment.setFragment(fragment);
@@ -88,7 +89,11 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 	public void initValues() {
 		// TODO Auto-generated method stub
 		super.initValues();
-//		mChart.getDescription().setEnabled(false);
+		xlist.clear();
+		for (int index = 0; index < mNetProfit.getIndustryAvg().size(); index++) {
+			xlist.add("");
+		}
+		mChart.setDescription("");//.setEnabled(false);
 		mChart.setBackgroundColor(Color.WHITE);
 		mChart.setDrawGridBackground(false);
 		mChart.setDrawBarShadow(false);
@@ -127,6 +132,7 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 		});
 
 		XAxis xAxis = mChart.getXAxis();
+		xAxis.setValues(xlist);
 		xAxis.setPosition(XAxisPosition.BOTTOM_INSIDE);
 //		xAxis.setGranularity(1f);
 		xAxis.setDrawGridLines(false);
@@ -137,7 +143,7 @@ public class StockBasicInfoChartFragment extends BaseV4Fragment<CommonJson, Stoc
 			}
 		});
 
-		CombinedData data = new CombinedData();
+		CombinedData data = new CombinedData(xlist);
 		data.setData(generateLineData());
 		data.setData(generateBarData());
 		mChart.setScaleMinima(0.8f, 1f);
