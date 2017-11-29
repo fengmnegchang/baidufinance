@@ -58,6 +58,7 @@
 	<string name="app_kline_stock_day_bar_chart_f_desp">日K</string>
 	<string name="app_kline_stock_market_f_desp">个股信息</string>
 	<string name="app_kline_stock_marketview_f_desp">marketview</string>
+	<string name="app_kline_stock_market_land_f_desp">个股信息横屏</string>
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
         <item>Joshua Redman</item>

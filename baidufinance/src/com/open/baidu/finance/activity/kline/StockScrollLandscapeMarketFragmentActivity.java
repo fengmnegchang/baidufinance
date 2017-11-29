@@ -14,11 +14,10 @@ package com.open.baidu.finance.activity.kline;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.view.View;
 
 import com.open.android.activity.common.CommonTitleBarActivity;
 import com.open.baidu.finance.R;
-import com.open.baidu.finance.fragment.kline.StockScrollMarketFragment;
+import com.open.baidu.finance.fragment.kline.StockScrollLandscapeMarketFragment;
 import com.open.baidu.finance.utils.UrlUtils;
 
 /**
@@ -32,7 +31,7 @@ import com.open.baidu.finance.utils.UrlUtils;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class StockScrollMarketFragmentActivity extends CommonTitleBarActivity{
+public class StockScrollLandscapeMarketFragmentActivity extends CommonTitleBarActivity{
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -64,15 +63,6 @@ public class StockScrollMarketFragmentActivity extends CommonTitleBarActivity{
 	public void setCenterTitle(String title){
 		setCenterTextValue(title+"  ");
 	}
-	
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		super.onClick(v);
-		if (v.getId()==R.id.id_iv_right) {
-			StockScrollLandscapeMarketFragmentActivity.startStockScrollLandscapeMarketFragmentActivity(this, getIntent().getStringExtra("URL"),(getIntent().getStringExtra("URL")==null?"sz000725":getIntent().getStringExtra("URL")),getIntent().getStringExtra("STOCKCODE"));
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -83,18 +73,18 @@ public class StockScrollMarketFragmentActivity extends CommonTitleBarActivity{
 	public void addfragment() {
 		// TODO Auto-generated method stub
 		super.addfragment();
-		Fragment fragment = StockScrollMarketFragment.newInstance(url,(getIntent().getStringExtra("URL")==null?"sz000725":getIntent().getStringExtra("URL")),getIntent().getStringExtra("STOCKCODE"), true);
+		Fragment fragment = StockScrollLandscapeMarketFragment.newInstance(url,(getIntent().getStringExtra("URL")==null?"sz000725":getIntent().getStringExtra("URL")),getIntent().getStringExtra("STOCKCODE"), true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
 	}
 	
  
 
-	public static void startStockScrollMarketFragmentActivity(Context context, String url,String stockName,String stockCode) {
+	public static void startStockScrollLandscapeMarketFragmentActivity(Context context, String url,String stockName,String stockCode) {
 		Intent intent = new Intent();
 		intent.putExtra("URL", url);
 		intent.putExtra("STOCKNAME", stockName);
 		intent.putExtra("STOCKCODE", stockCode);
-		intent.setClass(context, StockScrollMarketFragmentActivity.class);
+		intent.setClass(context, StockScrollLandscapeMarketFragmentActivity.class);
 		context.startActivity(intent);
 	}
 }

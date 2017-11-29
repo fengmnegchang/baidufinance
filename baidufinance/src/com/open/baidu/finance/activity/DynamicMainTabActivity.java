@@ -30,7 +30,6 @@ import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.hot.AutoStockIndicatorFragmentActivity;
 import com.open.baidu.finance.activity.market.MarketIndicatorFragmentActivity;
 import com.open.baidu.finance.activity.me.MeScrollFragmentActivity;
-import com.open.baidu.finance.activity.mystock.MyStockPullToRefreshPinnedSectionListViewActivity;
 import com.open.baidu.finance.activity.mystock.MyStockViewPagerFragmentActivity;
 import com.open.baidu.finance.activity.news.TagNewsIndicatorFragmentActivity;
 import com.open.baidu.finance.bean.MainTabBean;
@@ -147,7 +146,7 @@ public class DynamicMainTabActivity extends CommonTabActivity<MainTabJson>{
                 }
             });
             
-            LayoutParams params = new LayoutParams((int) ScreenUtils.getIntToDip(this, 72), LayoutParams.WRAP_CONTENT);
+            LayoutParams params = new LayoutParams(ScreenUtils.getScreenWidth(this)/result.getList().size(), LayoutParams.WRAP_CONTENT);
             mRadioGroup.addView(viewRadio,params);
         }
     }

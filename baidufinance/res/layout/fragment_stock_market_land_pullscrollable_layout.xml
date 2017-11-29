@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_color"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:id="@+id/txt_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="6.52"
+            android:textColor="@color/white_color"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_net_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/txt_pre_close"
+            android:layout_marginLeft="5dp"
+            android:text="0.00 0.00%"
+            android:textColor="@color/white_color"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/label_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/txt_open"
+            android:layout_toLeftOf="@+id/txt_volume"
+            android:text="今开"
+            android:textColor="@color/white_color"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/txt_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_open"
+            android:layout_marginTop="1dp"
+            android:layout_toLeftOf="@+id/txt_volume"
+            android:text="6.50"
+            android:textColor="@color/white_color"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/label_pre_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_open"
+            android:layout_below="@+id/txt_volume"
+            android:layout_marginTop="1dp"
+            android:layout_toLeftOf="@+id/txt_volume"
+            android:text="昨收"
+            android:textColor="@color/white_color"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/txt_pre_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_open"
+            android:layout_below="@+id/label_pre_close"
+            android:layout_marginTop="1dp"
+            android:layout_toLeftOf="@+id/txt_volume"
+            android:text="6.52"
+            android:textColor="@color/white_color"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/label_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/txt_volume"
+            android:layout_toLeftOf="@+id/img_expand"
+            android:text="成交量"
+            android:textColor="@color/white_color"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/txt_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_volume"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="1dp"
+            android:layout_toLeftOf="@+id/img_expand"
+            android:text="1272.04万手"
+            android:textColor="@color/white_color"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/label_ex_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/txt_volume"
+            android:layout_below="@+id/txt_volume"
+            android:layout_marginTop="1dp"
+            android:layout_toLeftOf="@+id/img_expand"
+            android:text="换手率"
+            android:textColor="@color/white_color"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/txt_ex_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/txt_volume"
+            android:layout_below="@+id/label_ex_rate"
+            android:layout_marginTop="1dp"
+            android:layout_toLeftOf="@+id/img_expand"
+            android:text="3.78%"
+            android:textColor="@color/white_color"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_expand"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/title_bar3_down" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_k_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_top"
+        android:background="@color/round_solid_color"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/txt_min_k"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:tag="1"
+            android:text="分时"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/txt_five_k"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:tag="0"
+            android:text="五日"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/txt_day_k"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:tag="0"
+            android:text="日K"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/txt_week_k"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:tag="0"
+            android:text="周K"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/txt_month_k"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:tag="0"
+            android:text="月K"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/txt_minby_k"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/portfolio_market"
+            android:gravity="right"
+            android:tag="0"
+            android:text="分钟"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_k"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/layout_k_title" />
+
+</RelativeLayout>

@@ -49,6 +49,7 @@ import com.open.android.widget.ScrollableLayout;
 import com.open.android.widget.ScrollableLayout.ScrollLayoutListener;
 import com.open.baidu.finance.R;
 import com.open.baidu.finance.activity.article.MNewsCommentPullListFragmentActivity;
+import com.open.baidu.finance.activity.kline.StockScrollLandscapeMarketFragmentActivity;
 import com.open.baidu.finance.activity.kline.StockScrollMarketFragmentActivity;
 import com.open.baidu.finance.bean.MainTabBean;
 import com.open.baidu.finance.bean.kline.StockInfoBean;
@@ -71,14 +72,14 @@ import com.open.indicator.TabPageIndicator;
  */
 public class StockScrollMarketFragment extends BaseV4Fragment<StockInfoJson, StockScrollMarketFragment> implements OnClickListener,
 OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
-	private ImageView img_expand;
+	public ImageView img_expand;
 	public PopupWindow popupWindow;
-	private TextView txt_net_rate, txt_close, txt_open, txt_pre_close, txt_volume, txt_ex_rate,txt_msg;
-	private ImageView img_msg;
-	private StockInfoBean stock;
-	private RelativeLayout layout_top,layout_bottom;
-	private TextView txt_min_k, txt_five_k, txt_day_k, txt_week_k, txt_month_k, txt_minby_k;
-	private FrameLayout layout_k;
+	public TextView txt_net_rate, txt_close, txt_open, txt_pre_close, txt_volume, txt_ex_rate,txt_msg;
+	public ImageView img_msg;
+	public StockInfoBean stock;
+	public RelativeLayout layout_top,layout_bottom;
+	public TextView txt_min_k, txt_five_k, txt_day_k, txt_week_k, txt_month_k, txt_minby_k;
+	public FrameLayout layout_k;
 
 	// viewpager
 	public PullToRefreshScrollableLayout mPullToRefreshScrollableLayout;
@@ -88,8 +89,8 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 	public List<Fragment> listRankFragment = new ArrayList<Fragment>();// view数组
 	public CommonFragmentPagerAdapter mRankPagerAdapter;
 	public ArrayList<MainTabBean> clist = new ArrayList<MainTabBean>();
-	private String stockCode;//000725
-	private String stockExCode;//sz000725
+	public String stockCode;//000725
+	public String stockExCode;//sz000725
 
 	public static StockScrollMarketFragment newInstance(String url,String stockExCode,String stockCode, boolean isVisibleToUser) {
 		StockScrollMarketFragment fragment = new StockScrollMarketFragment();
@@ -293,20 +294,37 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 			txt_volume.setText(result.getStock().getVolume());
 			txt_ex_rate.setText(result.getStock().getExchangeRate());
 
-			if (result.getStock().getNetChange() > 0) {
-				((StockScrollMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.red_color));
-				layout_top.setBackgroundColor(getResources().getColor(R.color.red_color));
-			} else if (result.getStock().getNetChange() < 0) {
-				((StockScrollMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.green_color));
-				layout_top.setBackgroundColor(getResources().getColor(R.color.green_color));
-			} else {
-				((StockScrollMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.gray_53_color));
-				layout_top.setBackgroundColor(getResources().getColor(R.color.gray_53_color));
+			if(getActivity() instanceof StockScrollMarketFragmentActivity){
+				if (result.getStock().getNetChange() > 0) {
+					((StockScrollMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.red_color));
+					layout_top.setBackgroundColor(getResources().getColor(R.color.red_color));
+				} else if (result.getStock().getNetChange() < 0) {
+					((StockScrollMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.green_color));
+					layout_top.setBackgroundColor(getResources().getColor(R.color.green_color));
+				} else {
+					((StockScrollMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.gray_53_color));
+					layout_top.setBackgroundColor(getResources().getColor(R.color.gray_53_color));
+				}
+				((StockScrollMarketFragmentActivity) getActivity()).setCenterTitle(result.getStock().getTitle());
+				((StockScrollMarketFragmentActivity) getActivity()).setCenterTimeTextValue(result.getStock().getTime());
+			}else if(getActivity() instanceof StockScrollLandscapeMarketFragmentActivity){
+				if (result.getStock().getNetChange() > 0) {
+					((StockScrollLandscapeMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.red_color));
+					layout_top.setBackgroundColor(getResources().getColor(R.color.red_color));
+				} else if (result.getStock().getNetChange() < 0) {
+					((StockScrollLandscapeMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.green_color));
+					layout_top.setBackgroundColor(getResources().getColor(R.color.green_color));
+				} else {
+					((StockScrollLandscapeMarketFragmentActivity) getActivity()).setStatusBarColor(getResources().getColor(R.color.gray_53_color));
+					layout_top.setBackgroundColor(getResources().getColor(R.color.gray_53_color));
+				}
+				((StockScrollLandscapeMarketFragmentActivity) getActivity()).setCenterTitle(result.getStock().getTitle());
+				((StockScrollLandscapeMarketFragmentActivity) getActivity()).setCenterTimeTextValue(result.getStock().getTime());
 			}
-			((StockScrollMarketFragmentActivity) getActivity()).setCenterTitle(result.getStock().getTitle());
-			((StockScrollMarketFragmentActivity) getActivity()).setCenterTimeTextValue(result.getStock().getTime());
 		}
-		mPullToRefreshScrollableLayout.onRefreshComplete();
+		if(mPullToRefreshScrollableLayout!=null){
+			mPullToRefreshScrollableLayout.onRefreshComplete();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -394,8 +412,6 @@ OnRefreshListener<ScrollableLayout>,ScrollLayoutListener,OnPageChangeListener{
 		case R.id.img_msg:
 		case R.id.txt_msg:
 			MNewsCommentPullListFragmentActivity.startMNewsCommentPullListFragmentActivity(getActivity(), UrlUtils.STOCK_COMMENT+stockExCode);
-			break;
-		case R.id.layout_bottom:
 			break;
 		default:
 			break;
